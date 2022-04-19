@@ -21,30 +21,25 @@
   },
   "homepage": "https://github.com/threedots-yandex-praktikum/three-dots-game#readme",
   "dependencies": {
-    "@babel/core": "7.17.9",
     "@babel/plugin-transform-runtime": "7.17.0",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-react": "7.16.7",
     "@babel/preset-typescript": "7.16.7",
     "@babel/runtime": "7.17.9",
-    "@types/react": "18.0.5",
+    "@types/react": "17.0.0",
     "@types/webpack": "5.28.0",
-    "babel-loader": "8.2.4",
     "css-loader": "6.7.1",
     "html-webpack-plugin": "5.5.0",
     "node-sass": "7.0.1",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "react": "17.0.0",
+    "react-dom": "17.0.0",
     "redux": "4.1.2",
     "sass": "1.50.0",
     "sass-loader": "12.6.0",
     "style-loader": "3.3.1",
-    "typescript": "4.6.3",
     "webpack": "5.72.0",
     "webpack-cli": "4.9.2"
   },
   "devDependencies": {
-    "@types/react-dom": "18.0.1",
+    "@types/react-dom": "17.0.0",
     "@typescript-eslint/eslint-plugin": "5.20.0",
     "@typescript-eslint/parser": "5.20.0",
     "autoprefixer": "10.4.4",
@@ -58,6 +53,8 @@
     "stylelint": "14.7.1",
     "stylelint-config-prettier-scss": "0.0.1",
     "stylelint-config-standard-scss": "3.0.0",
+    "ts-loader": "9.2.8",
+    "typescript": "4.6.3",
     "webpack-dev-server": "4.8.1"
   }
 }

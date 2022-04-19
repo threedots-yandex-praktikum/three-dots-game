@@ -14,14 +14,7 @@ module.exports = {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
+          loader: "ts-loader",
         },
       },
       {
@@ -32,7 +25,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    static: path.join(__dirname, "build"),
+    static: path.join(__dirname, "dist"),
     compress: true,
     hot: true,
     open: true,
@@ -41,10 +34,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "index.html"),
