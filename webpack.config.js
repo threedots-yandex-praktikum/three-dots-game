@@ -31,6 +31,7 @@ module.exports = {
     ],
   },
   devServer: {
+    historyApiFallback: true,
     static: path.join(__dirname, "build"),
     compress: true,
     hot: true,
