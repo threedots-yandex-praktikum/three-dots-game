@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 
-// @ts-ignore
 import bg from "static/img/bg.png";
 import {Flex} from "@chakra-ui/react";
 
