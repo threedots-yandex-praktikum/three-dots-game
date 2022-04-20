@@ -76,7 +76,7 @@ export const Login: FC<TLoginProps> = () => {
       >
         <Box>
           <Flex align="center" justify="center">
-            <Logo mb={2} />
+            <Logo/>
           </Flex>
           <Box mt={8} bg="white" p={6} rounded="md" w={400}>
             {getFormLogin(

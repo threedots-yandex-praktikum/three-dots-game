@@ -1,3 +1,3 @@
 export type TLogo = {
-  size: 's' | 'l' | 'm'
+  size?: 's' | 'l' | 'm'
 };
