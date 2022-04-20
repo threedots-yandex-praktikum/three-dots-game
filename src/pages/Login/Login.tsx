@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from "react";
+import React, { FC, useState } from "react";
 import "./style.scss";
 import bg from "static/img/bg.png";
 import { Logo } from "components/Logo/Logo";
@@ -59,9 +59,9 @@ function getFormLogin(initialValues: TInitialValues, onSubmit: TOnSubmit) {
 export const Login: FC<TLoginProps> = () => {
   const [login] = useState("");
   const [password] = useState("");
-  const onSubmit = useCallback((values: TInitialValues) => {
+  const onSubmit = (values: TInitialValues) => {
     alert(JSON.stringify(values, null, 2));
-  });
+  };
   return (
     <div>
       <Flex
