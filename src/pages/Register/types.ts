@@ -3,9 +3,11 @@ import {ChangeEventHandler} from "react";
 export type TRegisterProps = Record<string, unknown>;
 
 export type TInputProps = {
-  id: string | undefined,
+  key: string,
   label: string,
   error?: string,
+  validate: (value: string) => string | undefined,
+  touched: boolean | undefined,
   placeholder?: string,
   value: string,
   onChange: ChangeEventHandler<HTMLInputElement>,
