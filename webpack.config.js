@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.bundle.js",
+    publicPath: '/',
   },
   // mode: "development",
   module: {
@@ -24,6 +25,7 @@ module.exports = {
     ],
   },
   devServer: {
+    historyApiFallback: true,
     static: path.join(__dirname, "dist"),
     compress: true,
     hot: true,

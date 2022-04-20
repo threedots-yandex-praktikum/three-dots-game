@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './styles/main.scss'
+import {Root} from "./components/Root/Root";
 
-const App = () => <h1>Three dots game</h1>;
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Root />, document.getElementById("root"));
