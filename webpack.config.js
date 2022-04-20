@@ -22,6 +22,14 @@ module.exports = {
         test: /\.scss$/i,
         use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ]
+      },
     ],
   },
   devServer: {
@@ -34,6 +42,11 @@ module.exports = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    alias: {
+      static: path.resolve(__dirname, 'static/'),
+      components: path.resolve(__dirname, 'src/components/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
+    },
   },
 
   plugins: [
