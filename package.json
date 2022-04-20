@@ -1,0 +1,60 @@
+{
+  "name": "three-dots-game",
+  "version": "1.0.0",
+  "description": "проект игры для второго модуля",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "clean": "rimraf dist/*",
+    "stylelint": "npx stylelint \"**/*.scss\" --fix",
+    "lint": "eslint --fix ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/threedots-yandex-praktikum/three-dots-game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/threedots-yandex-praktikum/three-dots-game/issues"
+  },
+  "homepage": "https://github.com/threedots-yandex-praktikum/three-dots-game#readme",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "7.17.0",
+    "@babel/preset-typescript": "7.16.7",
+    "@babel/runtime": "7.17.9",
+    "@types/react": "17.0.0",
+    "@types/webpack": "5.28.0",
+    "css-loader": "6.7.1",
+    "html-webpack-plugin": "5.5.0",
+    "node-sass": "7.0.1",
+    "react": "17.0.0",
+    "react-dom": "17.0.0",
+    "redux": "4.1.2",
+    "sass": "1.50.0",
+    "sass-loader": "12.6.0",
+    "style-loader": "3.3.1",
+    "webpack": "5.72.0",
+    "webpack-cli": "4.9.2"
+  },
+  "devDependencies": {
+    "@types/react-dom": "17.0.0",
+    "@typescript-eslint/eslint-plugin": "5.20.0",
+    "@typescript-eslint/parser": "5.20.0",
+    "autoprefixer": "10.4.4",
+    "eslint": "8.13.0",
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-react-hooks": "4.4.0",
+    "postcss": "8.4.12",
+    "postcss-loader": "6.2.1",
+    "postcss-preset-env": "7.4.3",
+    "rimraf": "3.0.2",
+    "stylelint": "14.7.1",
+    "stylelint-config-prettier-scss": "0.0.1",
+    "stylelint-config-standard-scss": "3.0.0",
+    "ts-loader": "9.2.8",
+    "typescript": "4.6.3",
+    "webpack-dev-server": "4.8.1"
+  }
+}
