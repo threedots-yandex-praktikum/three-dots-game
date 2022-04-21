@@ -57,8 +57,10 @@ function getFormLogin(initialValues: TInitialValues, onSubmit: TOnSubmit) {
 }
 
 export const Login: FC<TLoginProps> = () => {
-  const [login] = useState("");
-  const [password] = useState("");
+  const INITIAL_LOGIN = {
+    login: '',
+    password: '',
+  }
   const onSubmit = (values: TInitialValues) => {
     alert(JSON.stringify(values, null, 2));
   };
@@ -80,10 +82,7 @@ export const Login: FC<TLoginProps> = () => {
           </Flex>
           <Box mt={8} bg="white" p={6} rounded="md" w={400}>
             {getFormLogin(
-              {
-                login,
-                password,
-              },
+              INITIAL_LOGIN,
               onSubmit
             )}
           </Box>
