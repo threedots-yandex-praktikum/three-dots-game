@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react";
 import "./style.scss";
-import bg from "static/img/bg.png";
 import { Logo } from "components/Logo/Logo";
 import { Formik, Field } from "formik";
 import {
@@ -14,6 +13,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { TLoginProps, TInitialValues, TOnSubmit } from "./types";
+import {Background} from "components/Background/Background";
 
 function getFormLogin(initialValues: TInitialValues, onSubmit: TOnSubmit) {
   return (
@@ -66,28 +66,19 @@ export const Login: FC<TLoginProps> = () => {
   };
   return (
     <div>
-      <Flex
-        bg="gray.100"
-        bgImage={`url('${bg}')`}
-        bgPosition="center"
-        bgRepeat="no-repeat"
-        bgSize="cover"
-        align="center"
-        justify="center"
-        h="100vh"
-      >
+      <Background>
         <Box>
           <Flex align="center" justify="center">
             <Logo/>
           </Flex>
-          <Box mt={8} bg="white" p={6} rounded="md" w={400}>
+          <Box mt={8} bg="white" p={6} rounded="md" w={400} boxShadow="lg">
             {getFormLogin(
               INITIAL_LOGIN,
               onSubmit
             )}
           </Box>
         </Box>
-      </Flex>
+      </Background>
     </div>
   );
 };
