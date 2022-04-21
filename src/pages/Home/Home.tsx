@@ -1,5 +1,4 @@
 import React, { FC, useCallback } from 'react';
-import './style.scss';
 import bg from "static/img/bg.png";
 import {
   Box,
@@ -32,8 +31,8 @@ import {
 export const Home: FC<THomeProps> = () => {
   const history = useHistory();
 
-  //TODO  появятся реальные данные
-  const isUserAuthenticated = true;
+  //TODO скорректировать когда появятся реальные данные
+  const isUserAuthenticated = false;
 
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),
@@ -253,7 +252,7 @@ const _renderReviewSection = (props: THomeRenderProps) => {
 
 const _renderReviewItem = (rowSpan: number, reviewText: string, reviewerName: string, rating = 1) => (
   <GridItem
-    bg="green.100"
+    bg="blue.300"
     p={8}
     rowSpan={rowSpan}
     rounded="lg"
@@ -294,6 +293,7 @@ const _renderGameStartSection = ({ goToGameStartPage }: THomeRenderProps) => {
       w="100%"
       py={20}
       px={30}
+      boxShadow="inner"
     >
       <Button
         colorScheme="purple"

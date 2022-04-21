@@ -74,8 +74,20 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
   {
-    title: 'Игра',
+    title: 'Запуск игры',
     route: GAME_START_ROUTE,
+    isVisible: isVisibleForAuthenticatedUser,
+    icon: null,
+  },
+  {
+    title: 'Игра',
+    route: GAME_PLAY_ROUTE,
+    isVisible: isVisibleForAuthenticatedUser,
+    icon: null,
+  },
+  {
+    title: 'Конец игры',
+    route: GAME_OVER_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
