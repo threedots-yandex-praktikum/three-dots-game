@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import {
   TRegisterProps,
-} from "pages/Register/types";
+} from "./types";
 import {
   Box, Button,
   Flex,

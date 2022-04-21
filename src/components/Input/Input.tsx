@@ -21,6 +21,8 @@ export const renderInput = ({
   value,
   onChange,
   type = 'text',
+  variant='filled',
+  isReadOnly=false
 }: TInputProps) => {
 
   return (
@@ -38,7 +40,8 @@ export const renderInput = ({
         value={value}
         onChange={onChange}
         validate={validate}
-        variant="filled"
+        variant={variant}
+        isReadOnly={isReadOnly}
       />
       {
         error ?

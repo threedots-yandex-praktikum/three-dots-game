@@ -10,4 +10,6 @@ export type TInputProps = {
   value: string,
   onChange: ChangeEventHandler<HTMLInputElement>,
   type?: string,
+  variant?: 'outline' | 'filled' | 'flushed' | 'unstyled',
+  isReadOnly?: boolean 
 };
