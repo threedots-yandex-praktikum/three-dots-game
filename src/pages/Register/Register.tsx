@@ -1,26 +1,20 @@
 import React, { FC, useCallback, useMemo } from 'react';
 import {
-  TInputProps,
   TRegisterProps,
 } from "pages/Register/types";
 import {
   Box, Button,
   Flex,
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  FormLabel,
   Grid,
   GridItem,
-  Input,
 } from "@chakra-ui/react";
-import {Logo} from "components/Logo/Logo";
+import { Logo } from "components/Logo/Logo";
 import { Background } from 'components/Background/Background';
-import {LOGIN_ROUTE} from "../../constants/routes";
+import {LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router";
-import {Field, FormikProvider, useFormik} from "formik";
-import { VALIDATION } from '../../constants/validation';
-
+import { FormikProvider, useFormik } from "formik";
+import { VALIDATION } from 'constants/validation';
+import { renderInput } from 'components/Input/Input'
 
 const EMPTY_STRING = '';
 
@@ -181,7 +175,7 @@ export const Register: FC<TRegisterProps> = () => {
                         return (
                           <GridItem key={key} {...gridProps}>
                             {
-                              _renderInput({
+                              renderInput({
                                 key,
                                 label,
                                 type,
@@ -225,51 +219,3 @@ export const Register: FC<TRegisterProps> = () => {
     </Background>
   )
 }
-
-const _renderInput = ({
-  key,
-  label,
-  error,
-  validate,
-  touched,
-  placeholder,
-  value,
-  onChange,
-  type = 'text',
-}: TInputProps) => {
-
-  return (
-    <FormControl
-      isInvalid={touched && !!error}
-      key={key}
-      pb={touched && error ? 0 : 6}
-    >
-      <FormLabel htmlFor={key}>{label}</FormLabel>
-      <Field
-        as={Input}
-        key={key}
-        name={key}
-        type={type}
-        value={value}
-        onChange={onChange}
-        validate={validate}
-        variant="filled"
-      />
-      {
-        error ?
-          <FormErrorMessage>
-            {error}
-          </FormErrorMessage> :
-          null
-      }
-      {
-        placeholder ?
-          <FormHelperText>
-            {placeholder}
-          </FormHelperText> :
-          null
-      }
-    </FormControl>
-  );
-}
-
