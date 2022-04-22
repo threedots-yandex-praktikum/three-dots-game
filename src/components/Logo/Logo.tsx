@@ -13,7 +13,3 @@ export const Logo: FC<TLogo> = (props: TLogo) => {
     </div>
   )
 }
-
-Logo.propTypes = {
-
-};
