@@ -5,13 +5,13 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-  Input,
+  Input as ChakraInput,
 } from "@chakra-ui/react";
 import {
   TInputProps,
 } from "./types";
 
-export const renderInput = ({
+export const Input = ({
   key,
   label,
   error,
@@ -31,7 +31,7 @@ export const renderInput = ({
     >
       <FormLabel htmlFor={key}>{label}</FormLabel>
       <Field
-        as={Input}
+        as={ChakraInput}
         key={key}
         name={key}
         type={type}

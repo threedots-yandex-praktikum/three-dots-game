@@ -14,7 +14,7 @@ import {LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router";
 import { FormikProvider, useFormik} from "formik";
 import { EMPTY_STRING, REGISTER_FORM_SCHEMA } from './constants';
-import { renderInput } from 'components/Input/Input'
+import { Input } from 'components/Input/Input'
 
 
 const INITIAL_STATE = {
@@ -96,7 +96,7 @@ export const Register: FC<TRegisterProps> = () => {
                         return (
                           <GridItem key={key} {...gridProps}>
                             {
-                              renderInput({
+                              Input({
                                 key,
                                 label,
                                 type,
