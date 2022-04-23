@@ -30,12 +30,19 @@ import {GameOver} from "../../pages/GameOver/GameOver";
 
 
 /*
-* TODO вынести навигацию в отдельный компонент и проработать логику и визуальную часть
+* TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
+*   будут линки на требуемые страницы
 * */
 const defaultIsVisible = (isUserAuthenticated: boolean) => true;
 const isVisibleForAuthenticatedUser = (isUserAuthenticated: boolean) => isUserAuthenticated;
 
 const NAVIGATION_SCHEMA = [
+  {
+    title: 'Лендинг',
+    route: HOME_ROUTE,
+    isVisible: defaultIsVisible,
+    icon: null,
+  },
   {
     title: 'Вход',
     route: LOGIN_ROUTE,
@@ -67,8 +74,20 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
   {
-    title: 'Игра',
+    title: 'Запуск игры',
     route: GAME_START_ROUTE,
+    isVisible: isVisibleForAuthenticatedUser,
+    icon: null,
+  },
+  {
+    title: 'Игра',
+    route: GAME_PLAY_ROUTE,
+    isVisible: isVisibleForAuthenticatedUser,
+    icon: null,
+  },
+  {
+    title: 'Конец игры',
+    route: GAME_OVER_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
