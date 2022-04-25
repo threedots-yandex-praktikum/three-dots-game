@@ -3,7 +3,7 @@ import "./style.scss";
 import { Logo } from "components/Logo/Logo";
 import { FormikProvider, useFormik } from "formik";
 import { VALIDATION } from "constants/validation";
-import { renderInput } from "components/Input/Input";
+import { Input } from "components/Input/Input";
 
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { TLoginProps, TInitialValues } from "./types";
@@ -76,7 +76,7 @@ export const Login: FC<TLoginProps> = () => {
               <form onSubmit={handleSubmit}>
                 {REGISTER_FORM_SCHEMA.map(
                   ({ key, label, type, placeholder, validate }) => {
-                    return renderInput({
+                    return Input({
                       key,
                       label,
                       type,
