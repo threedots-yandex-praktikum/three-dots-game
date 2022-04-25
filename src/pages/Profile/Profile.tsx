@@ -156,6 +156,7 @@ export const Profile: FC<ProfileProps> = () => {
       },
     };
     if (isEdit) {
+      // принимает src. по этому загрузка файла будет в отдельной ветке
       return (
         <Upload {...propsUpload} className="profile__upload" accept="image/jpeg,image/png,image/gif">
           <Icon as={EditIcon} w={8} h={8} color="grey" />
