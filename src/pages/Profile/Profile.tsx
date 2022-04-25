@@ -12,10 +12,11 @@ import {
 } from "@chakra-ui/react";
 import { VALIDATION } from "constants/validation";
 import { FormikProvider, useFormik } from "formik";
-import { renderInput } from "components/Input/Input";
+import { Input } from 'components/Input/Input'
 import Upload, { UploadProps } from "rc-upload";
-import { EditIcon } from "@chakra-ui/icons";
-
+import {
+  FiEdit
+} from 'react-icons/fi';
 type ProfileProps = Record<string, unknown>;
 const EMPTY_STRING = "";
 
@@ -159,7 +160,7 @@ export const Profile: FC<ProfileProps> = () => {
       // принимает src. по этому загрузка файла будет в отдельной ветке
       return (
         <Upload {...propsUpload} className="profile__upload" accept="image/jpeg,image/png,image/gif">
-          <Icon as={EditIcon} w={8} h={8} color="grey" />
+          <Icon as={FiEdit} w={8} h={8} color="grey" />
         </Upload>
       );
     }
@@ -192,7 +193,7 @@ export const Profile: FC<ProfileProps> = () => {
                   ({ key, label, placeholder, validate, gridProps = {} }) => {
                     return (
                       <GridItem key={key} {...gridProps}>
-                        {renderInput({
+                        {Input({
                           variant: isEdit ? "outline" : "unstyled",
                           key,
                           label,
