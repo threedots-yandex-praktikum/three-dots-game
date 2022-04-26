@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Switch,
   Route,
@@ -101,28 +101,29 @@ const NAVIGATION_SCHEMA = [
 export const App = () => {
   const { userData, setUserData } = useContext(UserContext);
 
+  const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
+
     useEffect(
     () => {
-      if(!userData) {
-        UserController
-          .fetchAndSetSignedUserData()
-          .then(setUserData)
-          .catch(error => {
-            sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
-            return console.log('Пользователь не авторизован в системе', error);
-          });
-      }
-
+      UserController
+        .fetchAndSetSignedUserData()
+        .then(setUserData)
+        .catch(error => {
+          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
+          return console.log('Пользователь не авторизован в системе', error);
+        })
+        .finally(() => setIsUserDataRequestInProgress(false));
     },
-    [userData, setUserData],
+    [setUserData],
   )
+
+  if(isUserDataRequestInProgress) {
+    return null;
+  }
 
   return (
     <div className="app">
-      <h1>Three dots game</h1>
-
       {_renderNavigation(!!userData)}
-
       {
         userData ?
           _renderAppContent() :

@@ -17,7 +17,7 @@ import { FiEdit } from "react-icons/fi";
 import { PROFILE_FORM_SCHEMA } from "./constans";
 import {TInitialFormState, TProfileProps} from "./types";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
+import {LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router-dom";
 import {ProfileController} from "../../controllers/ProfileController";
 import {TChangeProfileData} from "modules/api/profileAPI";
@@ -100,12 +100,12 @@ export const Profile: FC<TProfileProps> = () => {
       return ProfileController
         .changeProfile(values as TChangeProfileData)
         .then(response => {
-          setUserData(response)
-          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS)
-          return history.push(HOME_ROUTE);
+          setUserData(response);
+          setIsEdit(false);
+          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
         });
     },
-    [history],
+    [setUserData, setIsEdit],
   );
 
   const logout = useCallback(
@@ -113,7 +113,7 @@ export const Profile: FC<TProfileProps> = () => {
       .logOut()
       .then(() => {
         setUserData(null);
-        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO)
+        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
         return history.push(LOGIN_ROUTE);
       }),
     [setUserData, history],
