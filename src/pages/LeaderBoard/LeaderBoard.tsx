@@ -3,7 +3,7 @@ import './style.scss';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { LeaderBoardProps } from './types';
 import { Background } from 'components/Background/Background';
-import { BALL_SIZE, colors } from 'constants/leaderBoard';
+import { chooseSize, getRandomColor } from './constants';
 
 
 const mockData = [
@@ -32,22 +32,14 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         centerContent={true}
         maxW="100%"
       >
-        {_renderTittle()}
+        {_renderTitle()}
         {_renderList()}
       </Container>
     </Background>
   )
 }
 
-const _chooseSize = (index: number): BALL_SIZE => {
-  if (index < 3) {
-    return BALL_SIZE.LARGE
-  } else if (index < 6) {
-    return BALL_SIZE.MEDIUM
-  } else {
-    return BALL_SIZE.SMALL
-  }
-}
+
 
 const _renderHead = () => {
   return (
@@ -74,10 +66,6 @@ const _renderHead = () => {
   )
 }
 
-const _getRandomColor = (colorArr: Array<string>) => {
-  return colorArr[Math.floor(Math.random() * colorArr.length)]
-}
-
 const _renderList = () => {
   return (
     <Flex
@@ -94,15 +82,16 @@ const _renderList = () => {
         //TODO реализовать в utils свою сортировку (по заданию)
         .sort((a, b) => b.score - a.score)
         .map((row, index) => {
+          const size = chooseSize(index)
           return (
             <React.Fragment key={row.id}>
               <Flex w="100%" h="40px" px="10px" alignItems="center">
                 <Flex w="40px" alignItems="center" justifyContent="center">
                   <Box
                     borderRadius="50%"
-                    bgColor={_getRandomColor(colors)}
-                    w={_chooseSize(index)}
-                    h={_chooseSize(index)}
+                    bgColor={getRandomColor()}
+                    w={size}
+                    h={size}
                   />
                 </Flex>
                 <Box flexGrow={1} ml="10px">
@@ -128,7 +117,7 @@ const _renderList = () => {
   );
 };
 
-const _renderTittle = () => {
+const _renderTitle = () => {
   return (
     <Heading>
       Таблица рекордов
