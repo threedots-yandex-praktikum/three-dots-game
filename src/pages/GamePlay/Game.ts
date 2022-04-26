@@ -1,12 +1,10 @@
 import { TDot } from "./types";
-import { getRadians } from "./utils";
 import { sizeCanvas } from "./settingsGame";
 import { Dot } from "./Dot";
-
-const radians = getRadians(360);
+const REDRAW_BOTS = 10;
 export class Game {
   ctx: CanvasRenderingContext2D;
-  dots: TDot[] = [];
+  dotsBots: TDot[] = [];
   countDots = 20;
 
   constructor(ctx: CanvasRenderingContext2D) {
@@ -14,71 +12,76 @@ export class Game {
   }
 
   start() {
-    this.initDots();
-    this.drawDots();
+    this.initDotsBots();
+    this.drawGame();
+    setInterval(() => {
+      this.reInitDotsBots();
+    }, 5000);
   }
 
-  initDots() {
+  initDotsBots() {
     for (let index = 0; index < this.countDots; index++) {
       const dot = new Dot();
-      this.dots.push(dot);
+      dot.init();
+      this.dotsBots.push(dot);
     }
   }
 
-  private drawDots() {
+  reInitDotsBots() {
+    let countInitBoots = 0;
+
+    for (let i = 0; i < this.dotsBots.length; i++) {
+      if (countInitBoots === REDRAW_BOTS) {
+        continue;
+      }
+      const dot = this.dotsBots[i];
+      if (dot.isActive) {
+        continue;
+      }
+      dot.reInit();
+      countInitBoots++;
+    }
+  }
+
+  private drawGame() {
     this.ctx.clearRect(0, 0, sizeCanvas, sizeCanvas);
-    this.dots.forEach((dot) => {
+    this.drawDotsBots();
+    requestAnimationFrame(this.drawGame.bind(this));
+  }
+
+  private drawDotsBots() {
+    this.dotsBots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }
-      dot.updateCoordinates();
+      dot.move();
       this.handleIntersection(dot);
-
-      this.ctx.beginPath();
-      this.ctx.arc(dot.x, dot.y, dot.radius, 0, radians);
-      this.ctx.fillStyle = dot.color;
-      this.ctx.fill();
+      dot.draw(this.ctx);
     });
-    requestAnimationFrame(this.drawDots.bind(this));
   }
 
   handleIntersection(dot: TDot) {
-    const dotIntersection = this.getIntersectionDot(dot);
+    const dangerousDot = this.getDangerousDot(dot);
 
-    if (dotIntersection) {
-      this.handleInteractionPhase(dot, dotIntersection);
+    if (dangerousDot) {
+      this.handleInteractionPhase(dot, dangerousDot);
     }
 
     if (dot.transitionRadius) {
-      dot.increaseRadius();
+      dot.scaleRadius();
     }
   }
 
-  private getIntersectionDot(dot: TDot) {
-    const dotIntersection = this.dots.find((dot2) => {
+  private getDangerousDot(dot: TDot) {
+    const dotIntersection = this.dotsBots.find((dot2) => {
       if (dot2 === dot || !dot2.isActive) {
         return false;
       }
-      const borderDot1 = {
-        r: dot.x + dot.radius,
-        l: dot.x - dot.radius,
-        t: dot.y - dot.radius,
-        b: dot.y + dot.radius,
-      };
+      const x = dot.x - dot2.x;
+      const y = dot.y - dot2.y;
+      const distance = Math.sqrt(x * x + y * y);
 
-      const borderDot2 = {
-        r: dot2.x + dot2.radius,
-        l: dot2.x - dot2.radius,
-        t: dot2.y - dot2.radius,
-        b: dot2.y + dot2.radius,
-      };
-       // TODO условие квадрата... нужен круг.
-      return (
-        ((borderDot1.r > borderDot2.l && borderDot1.r < borderDot2.r) ||
-          (borderDot1.l < borderDot2.r && borderDot1.l > borderDot2.l)) &&
-        ((borderDot1.t < borderDot2.b && borderDot1.t > borderDot2.t) ||
-          (borderDot1.b < borderDot2.t && borderDot1.b > borderDot2.b))
-      );
+      return distance < dot.radius + dot2.radius;
     });
     return dotIntersection;
   }
