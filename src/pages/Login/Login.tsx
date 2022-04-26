@@ -1,17 +1,18 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, {FC, useCallback, useMemo} from "react";
 import "./style.scss";
-import { Logo } from "components/Logo/Logo";
-import { FormikProvider, useFormik } from "formik";
-import { VALIDATION } from "constants/validation";
-import { Input } from "components/Input/Input";
+import {Logo} from "components/Logo/Logo";
+import {FormikProvider, useFormik} from "formik";
+import {VALIDATION} from "constants/validation";
+import {Input} from "components/Input/Input";
 
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { TLoginProps } from "./types";
-import { Background } from "components/Background/Background";
+import {Box, Button, Flex} from "@chakra-ui/react";
+import {TLoginProps} from "./types";
+import {Background} from "components/Background/Background";
 import {UserController} from "../../controllers/UserController";
 import {TSignInData} from "../../modules/api/authAPI";
 import {useHistory} from "react-router";
 import {HOME_ROUTE} from "../../constants/routes";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 
 const EMPTY_STRING = "";
 
@@ -56,7 +57,10 @@ export const Login: FC<TLoginProps> = () => {
       console.log(values);
       return UserController
         .signIn(values)
-        .then(() => history.push(HOME_ROUTE));
+        .then(() => {
+          sendNotification('Успешный вход', NOTIFICATION_LEVEL.SUCCESS);
+          return history.push(HOME_ROUTE)
+        });
     },
     [history],
   );

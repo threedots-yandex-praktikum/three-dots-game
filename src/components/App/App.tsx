@@ -28,6 +28,7 @@ import {GameStart} from "../../pages/GameStart/GameStart";
 import {GamePlay} from "../../pages/GamePlay/GamePlay";
 import {GameOver} from "../../pages/GameOver/GameOver";
 import {LOCALSTORAGE_USER_KEY, UserController} from "../../controllers/UserController";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 
 
 /*
@@ -97,13 +98,16 @@ const NAVIGATION_SCHEMA = [
 
 
 export const App = () => {
-  const isUserAuthenticated = !!localStorage.getItem(LOCALSTORAGE_USER_KEY);
+  const isUserAuthenticated = localStorage.getItem(LOCALSTORAGE_USER_KEY) === 'true';
 
   useEffect(
     () => {
       UserController.fetchAndSetSignedUserData()
         // eslint-disable-next-line no-console
-        .catch(error => console.log('Пользователь не авторизован в системе', error));
+        .catch(error => {
+          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
+          return console.log('Пользователь не авторизован в системе', error);
+        });
     },
     [isUserAuthenticated],
   )
@@ -165,6 +169,7 @@ const _renderNotAuthenticatedContent = () => {
     <Switch>
       <Route path={LOGIN_ROUTE} component={Login}/>
       <Route path={REGISTER_ROUTE} component={Register}/>
+      <Route path={HOME_ROUTE} component={Home}/>
       <Redirect to={LOGIN_ROUTE}/>
     </Switch>
   );

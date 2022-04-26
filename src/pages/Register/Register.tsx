@@ -16,6 +16,7 @@ import { FormikProvider, useFormik} from "formik";
 import { EMPTY_STRING, REGISTER_FORM_SCHEMA } from './constants';
 import { Input } from 'components/Input/Input'
 import {UserController} from "../../controllers/UserController";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 
 
 const INITIAL_STATE = {
@@ -36,7 +37,10 @@ export const Register: FC<TRegisterProps> = () => {
       console.log(values)
       return UserController
         .signUp(values)
-        .then(() => history.push(HOME_ROUTE));
+        .then(() => {
+          sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS)
+          return history.push(HOME_ROUTE);
+        });
     },
     [history],
   );
