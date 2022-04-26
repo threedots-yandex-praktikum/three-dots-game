@@ -24,7 +24,7 @@ export const Login: FC<TLoginProps> = () => {
       .signIn(values)
       .then(response => {
         setUserData(response);
-        sendNotification('Успешный вход', NOTIFICATION_LEVEL.SUCCESS);
+        sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE)
       }),
     [setUserData, history],

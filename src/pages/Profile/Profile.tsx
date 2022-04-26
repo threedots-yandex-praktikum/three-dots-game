@@ -146,6 +146,7 @@ export const Profile: FC<TProfileProps> = () => {
             avatar: avatarSrc,
           });
           setIsEdit(false);
+          sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
 
           return avatarSrc;
         });
@@ -199,7 +200,7 @@ export const Profile: FC<TProfileProps> = () => {
                     );
                   }
                 )}
-                <GridItem colStart={2}>
+                <GridItem colStart={2} className="profile__buttons-section">
                   {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled, logout)}
                 </GridItem>
               </Grid>
