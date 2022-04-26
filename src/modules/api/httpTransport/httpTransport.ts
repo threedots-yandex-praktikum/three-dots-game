@@ -64,11 +64,9 @@ export class HTTPTransport {
         return Promise.resolve(response);
       }
       case HTTP_REQUEST_STATUS.UNAUTHORIZED: {
-        console.log('Неизвестный пользователь');
         return Promise.reject({ errorText: 'Неизвестный пользователь', response, status });
       }
       case HTTP_REQUEST_STATUS.FORBIDDEN: {
-        console.log('Недостаточно прав для выполнения действия');
         return Promise.reject({ errorText: 'Недостаточно прав для выполнения действия', response, status });
       }
       case HTTP_REQUEST_STATUS.CONFLICT: {
@@ -78,7 +76,6 @@ export class HTTPTransport {
         return Promise.reject({ errorText: 'Ошибка запроса', response, status });
       }
       default: {
-        console.log('При выполнении запроса возникла неизвестная ошибка');
         return Promise.reject({ errorText: 'При выполнении запроса возникла неизвестная ошибка', response, status });
       }
     }

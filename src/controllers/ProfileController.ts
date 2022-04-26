@@ -7,8 +7,6 @@ class ProfileControllerClass {
     try {
       const response = await ProfileAPI.changeProfile(data);
 
-      console.log('updated user data', response);
-
       UserControllerClass.setError(null);
 
       return response;
@@ -31,7 +29,6 @@ class ProfileControllerClass {
     try {
       const { avatar } = await ProfileAPI.changeAvatar(data);
 
-      console.log('user avatar', avatar);
       UserControllerClass.setError(null);
 
       return avatar;

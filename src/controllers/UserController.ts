@@ -8,17 +8,16 @@ export type TUserControllerClassError = { reason: string, response: unknown, sta
 export class UserControllerClass {
   public static setError(error: TUserControllerClassError | null) {
     if(error === null) {
-      return console.log('drop error')
+      return null;
     }
 
-    console.log('set error', error)
+    return error;
   }
 
   public async getUserData() {
     try {
-      const userData = await AuthAPI.getUserData();
+      await AuthAPI.getUserData();
 
-      console.log('userData: ', userData);
       UserControllerClass.setError(null);
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
@@ -30,7 +29,6 @@ export class UserControllerClass {
     try {
       await AuthAPI.logOut();
 
-      console.log('user logged out')
       UserControllerClass.setError(null);
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
@@ -50,13 +48,10 @@ export class UserControllerClass {
         id,
       };
 
-      console.log('signed user data: ', userData);
-
       UserControllerClass.setError(null);
 
       return userData;
     } catch (error) {
-      console.log('registerError', error);
       return Promise.reject();
     }
   }
@@ -72,8 +67,7 @@ export class UserControllerClass {
         return Promise.resolve();
       }
 
-      console.log('loginError', error);
-      return Promise.reject();
+      return Promise.reject(error);
     }
   }
 
@@ -108,7 +102,7 @@ export class UserControllerClass {
       return userData;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
-      return Promise.reject();
+      return Promise.reject(error);
     }
   }
 }
