@@ -15,14 +15,14 @@ import { Input } from "components/Input/Input";
 import Upload, { UploadProps } from "rc-upload";
 import { FiEdit } from "react-icons/fi";
 import { PROFILE_FORM_SCHEMA } from "./constans";
-import {TInitialFormState, TProfileProps} from "./types";
+import {TProfileProps} from "./types";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 import {LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router-dom";
 import {ProfileController} from "../../controllers/ProfileController";
 import {TChangeProfileData} from "modules/api/profileAPI";
 import {UserController} from "../../controllers/UserController";
-import {UserContext} from "components/Root/context";
+import {TUserData, UserContext} from "components/Root/context";
 
 
 const renderButtons = (
@@ -122,7 +122,7 @@ export const Profile: FC<TProfileProps> = () => {
   const toggleEdit = () => setIsEdit(!isEdit);
 
   const formik = useFormik({
-    initialValues: userData as unknown as TInitialFormState,
+    initialValues: userData as TUserData,
     onSubmit,
   });
 
@@ -157,8 +157,7 @@ export const Profile: FC<TProfileProps> = () => {
     ? "profile__avatar profile__avatar--opacity"
     : "profile__avatar";
 
-  // @ts-ignore
-  const avatarLink = userData ? `https://ya-praktikum.tech/api/v2/resources/${userData.avatar}` : '';
+  const avatarLink = userData ? `https://ya-praktikum.tech/api/v2/resources/${(userData as TUserData).avatar}` : '';
 
   return (
     <Background>
