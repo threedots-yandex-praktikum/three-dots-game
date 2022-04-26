@@ -1,52 +1,17 @@
-import React, {FC, useCallback, useMemo} from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import "./style.scss";
-import {Logo} from "components/Logo/Logo";
-import {FormikProvider, useFormik} from "formik";
-import {VALIDATION} from "constants/validation";
-import {Input} from "components/Input/Input";
-
-import {Box, Button, Flex} from "@chakra-ui/react";
-import {TLoginProps} from "./types";
-import {Background} from "components/Background/Background";
+import { Logo } from "components/Logo/Logo";
+import { FormikProvider, useFormik } from "formik";
+import { Input } from "components/Input/Input";
+import { Box, Button, Flex } from "@chakra-ui/react";
+import { TLoginProps } from "./types";
+import { Background } from "components/Background/Background";
+import {LOGIN_FORM_SCHEMA, INITIAL_STATE} from './constants'
 import {UserController} from "../../controllers/UserController";
 import {TSignInData} from "../../modules/api/authAPI";
 import {useHistory} from "react-router";
 import {HOME_ROUTE} from "../../constants/routes";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-
-const EMPTY_STRING = "";
-
-const REGISTER_FORM_SCHEMA = [
-  {
-    key: "login",
-    label: "Логин",
-    placeholder: EMPTY_STRING,
-    gridProps: {
-      colSpan: 2,
-    },
-    validate: (value: string) => {
-      if (value.match(VALIDATION.LOGIN.pattern) == null) {
-        return VALIDATION.LOGIN.message;
-      }
-    },
-  },
-  {
-    key: "password",
-    label: "Пароль",
-    type: "password",
-    placeholder: EMPTY_STRING,
-    validate: (value: string) => {
-      if (value.match(VALIDATION.PASSWORD.pattern) == null) {
-        return VALIDATION.PASSWORD.message;
-      }
-    },
-  },
-];
-
-const INITIAL_STATE = {
-  login: "",
-  password: "",
-};
 
 
 export const Login: FC<TLoginProps> = () => {
@@ -89,7 +54,7 @@ export const Login: FC<TLoginProps> = () => {
           <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white">
             <FormikProvider value={formik}>
               <form onSubmit={handleSubmit}>
-                {REGISTER_FORM_SCHEMA.map(
+                {LOGIN_FORM_SCHEMA.map(
                   ({ key, label, type, placeholder, validate }) => {
                     return Input({
                       key,

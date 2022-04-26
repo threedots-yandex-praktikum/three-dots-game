@@ -1,13 +1,6 @@
-import React, { FC, useCallback, useMemo } from 'react';
-import {
-  TRegisterProps,
-} from "./types";
-import {
-  Box, Button,
-  Flex,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import React, { FC, useCallback, useMemo } from "react";
+import { TRegisterProps } from "./types";
+import { Box, Button, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { Logo } from "components/Logo/Logo";
 import { Background } from 'components/Background/Background';
 import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
@@ -18,6 +11,7 @@ import { Input } from 'components/Input/Input'
 import {UserController} from "../../controllers/UserController";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 
+import { Input } from "components/Input/Input";
 
 const INITIAL_STATE = {
   login: EMPTY_STRING,
@@ -32,6 +26,9 @@ const INITIAL_STATE = {
 export const Register: FC<TRegisterProps> = () => {
   const history = useHistory();
 
+  const onSubmit = useCallback((values) => {
+    console.log(values);
+  }, []);
   const onSubmit = useCallback(
     values => {
       console.log(values)
@@ -45,36 +42,28 @@ export const Register: FC<TRegisterProps> = () => {
     [history],
   );
 
-  const onClose = useCallback(
-    () => history.push(LOGIN_ROUTE),
-    [history],
-  );
+  const onClose = useCallback(() => history.push(LOGIN_ROUTE), [history]);
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     onSubmit,
-  })
+  });
 
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    values,
-  } = formik;
+  const { errors, touched, handleSubmit, handleChange, values } = formik;
 
   const isSubmitBtnDisabled = useMemo(
-    () => values === INITIAL_STATE ||
-      Object.values(errors).some(item => !!item) ||
+    () =>
+      values === INITIAL_STATE ||
+      Object.values(errors).some((item) => !!item) ||
       values.password.trim() !== values.password_repeat.trim(),
-    [values, errors],
+    [values, errors]
   );
 
   return (
     <Background>
       <Box>
         <Flex align="center" justify="center">
-          <Logo/>
+          <Logo />
         </Flex>
         <Box
           w={1000}
@@ -86,48 +75,36 @@ export const Register: FC<TRegisterProps> = () => {
         >
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
-              <Grid
-                templateColumns='repeat(2, 1fr)'
-                gap={3}
-              >
-                {
-                  REGISTER_FORM_SCHEMA
-                    .map(
-                      ({
-                         key ,
-                         label,
-                         type,
-                         placeholder,
-                          validate,
-                         gridProps = {},
-                       }) => {
-                        return (
-                          <GridItem key={key} {...gridProps}>
-                            {
-                              Input({
-                                key,
-                                label,
-                                type,
-                                validate,
-                                placeholder,
-                                error: errors[key as keyof typeof errors],
-                                touched: touched[key as keyof typeof touched],
-                                value: values[key as keyof typeof values],
-                                onChange: handleChange,
-                              })
-                            }
-                          </GridItem>
-                        );
-                      },
-                    )
-                }
+              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                {REGISTER_FORM_SCHEMA.map(
+                  ({
+                    key,
+                    label,
+                    type,
+                    placeholder,
+                    validate,
+                    gridProps = {},
+                  }) => {
+                    return (
+                      <GridItem key={key} {...gridProps}>
+                        <Input
+                          key={key}
+                          label={label}
+                          type={type}
+                          validate={validate}
+                          placeholder={placeholder}
+                          error={errors[key as keyof typeof errors]}
+                          touched={touched[key as keyof typeof touched]}
+                          value={values[key as keyof typeof values]}
+                          onChange={handleChange}
+                        />
+                      </GridItem>
+                    );
+                  }
+                )}
                 <GridItem colStart={2}>
                   <Flex align="center" justify="center">
-                    <Button
-                      w="50%"
-                      mr={3}
-                      onClick={onClose}
-                    >
+                    <Button w="50%" mr={3} onClick={onClose}>
                       Назад
                     </Button>
                     <Button
@@ -146,5 +123,5 @@ export const Register: FC<TRegisterProps> = () => {
         </Box>
       </Box>
     </Background>
-  )
-}
+  );
+};
