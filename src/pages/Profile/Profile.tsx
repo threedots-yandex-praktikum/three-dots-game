@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, {FC, useCallback, useContext, useMemo, useState} from "react";
 import "./style.scss";
 import { Background } from "components/Background/Background";
 import {
@@ -10,22 +10,35 @@ import {
   GridItem,
   Icon,
 } from "@chakra-ui/react";
-import { FormikProvider, useFormik } from "formik";
+import {FormikProvider, useFormik} from "formik";
 import { Input } from "components/Input/Input";
 import Upload, { UploadProps } from "rc-upload";
 import { FiEdit } from "react-icons/fi";
-import { PROFILE_FORM_SCHEMA, INITIAL_STATE } from "./constans";
-import { TProfileProps } from "./types";
+import { PROFILE_FORM_SCHEMA } from "./constans";
+import {TInitialFormState, TProfileProps} from "./types";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
+import {useHistory} from "react-router-dom";
+import {ProfileController} from "../../controllers/ProfileController";
+import {TChangeProfileData} from "modules/api/profileAPI";
+import {UserController} from "../../controllers/UserController";
+import {UserContext} from "components/Root/context";
+
 
 const renderButtons = (
   isEdit: boolean,
   toggleEdit: React.MouseEventHandler,
-  isSubmitBtnDisabled: boolean
+  isSubmitBtnDisabled: boolean,
+  logout: React.MouseEventHandler,
 ) => {
   if (isEdit) {
     return (
       <Flex align="center" justify="center">
-        <Button w="50%" mr={3} onClick={toggleEdit}>
+        <Button
+          w="50%"
+          mr={3}
+          onClick={toggleEdit}
+        >
           Отмена
         </Button>
         <Button
@@ -41,7 +54,19 @@ const renderButtons = (
   }
   return (
     <Flex align="center" justify="flex-end">
-      <Button variant="outline" w="50%" mr={3} onClick={toggleEdit}>
+      <Button
+        w="50%"
+        mr={3}
+        onClick={logout}
+      >
+        Выйти
+      </Button>
+      <Button
+        variant="outline"
+        w="50%"
+        mr={3}
+        onClick={toggleEdit}
+      >
         Редактировать
       </Button>
     </Flex>
@@ -61,20 +86,43 @@ const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
       </Upload>
     );
   }
-  return "";
+  return null;
 };
 
 export const Profile: FC<TProfileProps> = () => {
+  const history = useHistory();
+  const { userData, setUserData } = useContext(UserContext);
+
   const [isEdit, setIsEdit] = useState(false);
 
-  const onSubmit = useCallback((values) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    values => {
+      return ProfileController
+        .changeProfile(values as TChangeProfileData)
+        .then(response => {
+          setUserData(response)
+          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS)
+          return history.push(HOME_ROUTE);
+        });
+    },
+    [history],
+  );
+
+  const logout = useCallback(
+    () => UserController
+      .logOut()
+      .then(() => {
+        setUserData(null);
+        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO)
+        return history.push(LOGIN_ROUTE);
+      }),
+    [setUserData, history],
+  );
 
   const toggleEdit = () => setIsEdit(!isEdit);
 
   const formik = useFormik({
-    initialValues: INITIAL_STATE,
+    initialValues: userData as unknown as TInitialFormState,
     onSubmit,
   });
 
@@ -82,8 +130,8 @@ export const Profile: FC<TProfileProps> = () => {
 
   const isSubmitBtnDisabled = useMemo(
     () =>
-      values === INITIAL_STATE || Object.values(errors).some((item) => !!item),
-    [values, errors]
+      values === userData || Object.values(errors).some((item) => !!item),
+    [userData, values, errors]
   );
   const propsUpload: UploadProps = {
     action: () => {
@@ -130,7 +178,7 @@ export const Profile: FC<TProfileProps> = () => {
                       <GridItem key={key} {...gridProps}>
                         <Input
                           variant={isEdit ? "outline" : "unstyled"}
-                          key={key}
+                          id={key}
                           label={label}
                           validate={validate}
                           placeholder={placeholder}
@@ -145,7 +193,7 @@ export const Profile: FC<TProfileProps> = () => {
                   }
                 )}
                 <GridItem colStart={2}>
-                  {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled)}
+                  {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled, logout)}
                 </GridItem>
               </Grid>
             </form>

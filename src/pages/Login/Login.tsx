@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, {FC, useCallback, useContext, useMemo} from "react";
 import "./style.scss";
 import { Logo } from "components/Logo/Logo";
 import { FormikProvider, useFormik } from "formik";
@@ -12,22 +12,22 @@ import {TSignInData} from "../../modules/api/authAPI";
 import {useHistory} from "react-router";
 import {HOME_ROUTE} from "../../constants/routes";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {UserContext} from "components/Root/context";
 
 
 export const Login: FC<TLoginProps> = () => {
   const history = useHistory();
+  const { setUserData } = useContext(UserContext);
 
   const onSubmit = useCallback(
-    (values: TSignInData) => {
-      console.log(values);
-      return UserController
-        .signIn(values)
-        .then(() => {
-          sendNotification('Успешный вход', NOTIFICATION_LEVEL.SUCCESS);
-          return history.push(HOME_ROUTE)
-        });
-    },
-    [history],
+    (values: TSignInData) => UserController
+      .signIn(values)
+      .then(response => {
+        setUserData(response);
+        sendNotification('Успешный вход', NOTIFICATION_LEVEL.SUCCESS);
+        return history.push(HOME_ROUTE)
+      }),
+    [setUserData, history],
   );
 
 
@@ -55,19 +55,20 @@ export const Login: FC<TLoginProps> = () => {
             <FormikProvider value={formik}>
               <form onSubmit={handleSubmit}>
                 {LOGIN_FORM_SCHEMA.map(
-                  ({ key, label, type, placeholder, validate }) => {
-                    return Input({
-                      key,
-                      label,
-                      type,
-                      validate,
-                      placeholder,
-                      error: errors[key as keyof typeof errors],
-                      touched: touched[key as keyof typeof touched],
-                      value: values[key as keyof typeof values],
-                      onChange: handleChange,
-                    });
-                  }
+                  ({ key, label, type, placeholder, validate }) => (
+                    <Input
+                      id={key}
+                      key={key}
+                      label={label}
+                      type={type}
+                      validate={validate}
+                      placeholder={placeholder}
+                      error={errors[key as keyof typeof errors]}
+                      touched={touched[key as keyof typeof touched]}
+                      value={values[key as keyof typeof values]}
+                      onChange={handleChange}
+                    />
+                  )
                 )}
 
                 <Flex align="center" justify="center">

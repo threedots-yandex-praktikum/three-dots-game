@@ -5,6 +5,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { ErrorBoundary } from "components/ErrorBoundary/ErrorBoundary";
 import { HOME_ROUTE } from "constants/routes";
 import {NotificationSystem} from "components/NotificationSystem/NotificationSystem";
+import {UserContextProvider} from "components/Root/context";
 
 export const Root = () => {
   return (
@@ -18,10 +19,12 @@ const ComponentTreeWithRouter = () => {
   const history = useHistory()
   return (
     <ChakraProvider>
-      <ErrorBoundary onClick={() => history.push(HOME_ROUTE)}>
-        <App />
-        <NotificationSystem/>
-      </ErrorBoundary>
+      <UserContextProvider>
+        <ErrorBoundary onClick={() => history.push(HOME_ROUTE)}>
+          <App />
+          <NotificationSystem/>
+        </ErrorBoundary>
+      </UserContextProvider>
     </ChakraProvider>
 
   )

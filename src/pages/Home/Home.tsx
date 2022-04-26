@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react';
+import React, {FC, useCallback, useContext} from 'react';
 import bg from "static/img/bg.png";
 import {
   Box,
@@ -26,13 +26,13 @@ import {
   THomeProps,
   THomeRenderProps,
 } from "./types";
-import {LOCALSTORAGE_USER_KEY} from "../../controllers/UserController";
+import {UserContext} from "components/Root/context";
 
 
 export const Home: FC<THomeProps> = () => {
   const history = useHistory();
 
-  const isUserAuthenticated = localStorage.getItem(LOCALSTORAGE_USER_KEY) === 'true';
+  const { userData } = useContext(UserContext);
 
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),
@@ -52,7 +52,7 @@ export const Home: FC<THomeProps> = () => {
   )
 
   const renderProps: THomeRenderProps = {
-    isUserAuthenticated,
+    isUserAuthenticated: !!userData,
     goToLoginPage,
     goToRegisterPage,
     goToProfilePage,

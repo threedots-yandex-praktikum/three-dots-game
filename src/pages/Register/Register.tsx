@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, {FC, useCallback, useContext, useMemo} from "react";
 import { TRegisterProps } from "./types";
 import { Box, Button, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { Logo } from "components/Logo/Logo";
@@ -6,12 +6,13 @@ import { Background } from 'components/Background/Background';
 import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router";
 import { FormikProvider, useFormik} from "formik";
-import { EMPTY_STRING, REGISTER_FORM_SCHEMA } from './constants';
-import { Input } from 'components/Input/Input'
+import { REGISTER_FORM_SCHEMA } from './constants';
 import {UserController} from "../../controllers/UserController";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-
 import { Input } from "components/Input/Input";
+import {EMPTY_STRING} from "constants/generalConst";
+import {UserContext} from "components/Root/context";
+
 
 const INITIAL_STATE = {
   login: EMPTY_STRING,
@@ -25,21 +26,18 @@ const INITIAL_STATE = {
 
 export const Register: FC<TRegisterProps> = () => {
   const history = useHistory();
+  const { setUserData } = useContext(UserContext);
 
-  const onSubmit = useCallback((values) => {
-    console.log(values);
-  }, []);
   const onSubmit = useCallback(
-    values => {
-      console.log(values)
-      return UserController
-        .signUp(values)
-        .then(() => {
-          sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS)
-          return history.push(HOME_ROUTE);
-        });
-    },
-    [history],
+    values => UserController
+      .signUp(values)
+      .then(response => {
+        setUserData(response);
+
+        sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS)
+        return history.push(HOME_ROUTE);
+      }),
+    [setUserData, history],
   );
 
   const onClose = useCallback(() => history.push(LOGIN_ROUTE), [history]);
@@ -88,7 +86,7 @@ export const Register: FC<TRegisterProps> = () => {
                     return (
                       <GridItem key={key} {...gridProps}>
                         <Input
-                          key={key}
+                          id={key}
                           label={label}
                           type={type}
                           validate={validate}

@@ -2,9 +2,8 @@ import { AuthAPI, TSignInData, TSignUpData } from '../modules/api/authAPI';
 import {HTTP_REQUEST_STATUS} from "modules/api/httpTransport/constants";
 
 
-type TUserControllerClassError = { reason: string, response: unknown, status: HTTP_REQUEST_STATUS };
+export type TUserControllerClassError = { reason: string, response: unknown, status: HTTP_REQUEST_STATUS };
 
-export const LOCALSTORAGE_USER_KEY = 'isUserAuthenticated';
 
 export class UserControllerClass {
   public static setError(error: TUserControllerClassError | null) {
@@ -33,7 +32,6 @@ export class UserControllerClass {
 
       console.log('user logged out')
       UserControllerClass.setError(null);
-      localStorage.setItem(LOCALSTORAGE_USER_KEY, 'false');
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();
@@ -47,16 +45,16 @@ export class UserControllerClass {
         id,
       } = response;
 
-      console.log(
-        'signed user data: ',
-        {
-          ...formData,
-          id,
-          firstName: formData.first_name,
-          secondName: formData.second_name,
-        },
-        );
+      const userData = {
+        ...formData,
+        id,
+      };
+
+      console.log('signed user data: ', userData);
+
       UserControllerClass.setError(null);
+
+      return userData;
     } catch (error) {
       console.log('registerError', error);
       return Promise.reject();
@@ -67,7 +65,7 @@ export class UserControllerClass {
     try {
       await AuthAPI.signIn(formData);
 
-      await this.fetchAndSetSignedUserData();
+      return this.fetchAndSetSignedUserData();
     } catch(error) {
       if((error as TUserControllerClassError).reason === 'User already in system') {
         await this.fetchAndSetSignedUserData();
@@ -94,22 +92,20 @@ export class UserControllerClass {
         avatar,
       } = signedUserResponse;
 
-      console.log(
-        'user.data',
-        {
-          id,
-          firstName: first_name,
-          secondName: second_name,
-          displayName: display_name,
-          login,
-          email,
-          phone,
-          avatar,
-        },
-      );
-      localStorage.setItem(LOCALSTORAGE_USER_KEY, 'true');
+      const userData = {
+        id,
+        first_name,
+        second_name,
+        display_name,
+        login,
+        email,
+        phone,
+        avatar,
+      };
+
       UserControllerClass.setError(null);
 
+      return userData;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();

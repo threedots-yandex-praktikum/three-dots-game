@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   Switch,
   Route,
@@ -27,8 +27,9 @@ import {Forum} from "../../pages/Forum/Forum";
 import {GameStart} from "../../pages/GameStart/GameStart";
 import {GamePlay} from "../../pages/GamePlay/GamePlay";
 import {GameOver} from "../../pages/GameOver/GameOver";
-import {LOCALSTORAGE_USER_KEY, UserController} from "../../controllers/UserController";
+import {UserController} from "../../controllers/UserController";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {UserContext} from "components/Root/context";
 
 
 /*
@@ -98,28 +99,32 @@ const NAVIGATION_SCHEMA = [
 
 
 export const App = () => {
-  const isUserAuthenticated = localStorage.getItem(LOCALSTORAGE_USER_KEY) === 'true';
+  const { userData, setUserData } = useContext(UserContext);
 
-  useEffect(
+    useEffect(
     () => {
-      UserController.fetchAndSetSignedUserData()
-        // eslint-disable-next-line no-console
-        .catch(error => {
-          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
-          return console.log('Пользователь не авторизован в системе', error);
-        });
+      if(!userData) {
+        UserController
+          .fetchAndSetSignedUserData()
+          .then(setUserData)
+          .catch(error => {
+            sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
+            return console.log('Пользователь не авторизован в системе', error);
+          });
+      }
+
     },
-    [isUserAuthenticated],
+    [userData, setUserData],
   )
 
   return (
     <div className="app">
       <h1>Three dots game</h1>
 
-      {_renderNavigation(isUserAuthenticated)}
+      {_renderNavigation(!!userData)}
 
       {
-        isUserAuthenticated ?
+        userData ?
           _renderAppContent() :
           _renderNotAuthenticatedContent()
       }
