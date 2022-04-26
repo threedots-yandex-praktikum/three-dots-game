@@ -65,21 +65,21 @@ export class HTTPTransport {
       }
       case HTTP_REQUEST_STATUS.UNAUTHORIZED: {
         console.log('Неизвестный пользователь');
-        return Promise.reject({ reason: 'Неизвестный пользователь', response, status });
+        return Promise.reject({ errorText: 'Неизвестный пользователь', response, status });
       }
       case HTTP_REQUEST_STATUS.FORBIDDEN: {
         console.log('Недостаточно прав для выполнения действия');
-        return Promise.reject({ reason: 'Недостаточно прав для выполнения действия', response, status });
+        return Promise.reject({ errorText: 'Недостаточно прав для выполнения действия', response, status });
       }
       case HTTP_REQUEST_STATUS.CONFLICT: {
-        return Promise.reject({ reason: `Пользователь с такими данными уже существует: ${response.reason.split(' ')[0]}`, response, status });
+        return Promise.reject({ errorText: `Пользователь с такими данными уже существует: ${response.reason.split(' ')[0]}`, response, status });
       }
       case HTTP_REQUEST_STATUS.FAILED: {
-        return Promise.reject({ reason: 'Ошибка запроса', response, status });
+        return Promise.reject({ errorText: 'Ошибка запроса', response, status });
       }
       default: {
         console.log('При выполнении запроса возникла неизвестная ошибка');
-        return Promise.reject({ reason: 'При выполнении запроса возникла неизвестная ошибка', response, status });
+        return Promise.reject({ errorText: 'При выполнении запроса возникла неизвестная ошибка', response, status });
       }
     }
   }
@@ -113,21 +113,31 @@ export class HTTPTransport {
       ({
         method,
         headers,
-        credentials: 'same-origin',
+        credentials: 'include',
       }) :
       ({
         method,
         headers,
-        credentials: 'same-origin',
+        credentials: 'include',
         body: isFile ? data as XMLHttpRequestBodyInit : JSON.stringify(data as Record<string, unknown>),
       })
 
     return fetch(urlToRequest, fetchParams)
-      .then(response => Promise.all([response.json(), response.status]))
-      .then(([jsonResponse, status]) => ({
-        status: HTTPTransport.getRequestStatus(status),
-        response: jsonResponse,
-      }))
+      .then(response => {
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('text/plain') && response.status === 200) {
+          return ({
+            status: HTTP_REQUEST_STATUS.SUCCESS,
+            response: null,
+          });
+        }
+
+        return Promise.all([response.json(), response.status])
+          .then(([jsonResponse, status]) => ({
+            status: HTTPTransport.getRequestStatus(status),
+            response: jsonResponse,
+          }));
+      })
       .catch(() => ({ status: HTTP_REQUEST_STATUS.CONNECTION_ERROR }));
   }
 }

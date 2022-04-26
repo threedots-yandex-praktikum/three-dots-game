@@ -26,13 +26,13 @@ import {
   THomeProps,
   THomeRenderProps,
 } from "./types";
+import {LOCALSTORAGE_USER_KEY} from "../../controllers/UserController";
 
 
 export const Home: FC<THomeProps> = () => {
   const history = useHistory();
 
-  //TODO скорректировать когда появятся реальные данные
-  const isUserAuthenticated = false;
+  const isUserAuthenticated = !!localStorage.getItem(LOCALSTORAGE_USER_KEY);
 
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),

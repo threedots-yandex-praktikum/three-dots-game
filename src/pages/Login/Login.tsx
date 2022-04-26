@@ -6,8 +6,12 @@ import { VALIDATION } from "constants/validation";
 import { Input } from "components/Input/Input";
 
 import { Box, Button, Flex } from "@chakra-ui/react";
-import { TLoginProps, TInitialValues } from "./types";
+import { TLoginProps } from "./types";
 import { Background } from "components/Background/Background";
+import {UserController} from "../../controllers/UserController";
+import {TSignInData} from "../../modules/api/authAPI";
+import {useHistory} from "react-router";
+import {HOME_ROUTE} from "../../constants/routes";
 
 const EMPTY_STRING = "";
 
@@ -44,11 +48,18 @@ const INITIAL_STATE = {
 };
 
 
-
 export const Login: FC<TLoginProps> = () => {
-  const onSubmit = useCallback((values: TInitialValues) => {
-    alert(JSON.stringify(values, null, 2));
-  }, []);
+  const history = useHistory();
+
+  const onSubmit = useCallback(
+    (values: TSignInData) => {
+      console.log(values);
+      return UserController
+        .signIn(values)
+        .then(() => history.push(HOME_ROUTE));
+    },
+    [history],
+  );
 
 
   const formik = useFormik({

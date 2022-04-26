@@ -10,11 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { Logo } from "components/Logo/Logo";
 import { Background } from 'components/Background/Background';
-import {LOGIN_ROUTE} from "constants/routes";
+import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router";
 import { FormikProvider, useFormik} from "formik";
 import { EMPTY_STRING, REGISTER_FORM_SCHEMA } from './constants';
 import { Input } from 'components/Input/Input'
+import {UserController} from "../../controllers/UserController";
 
 
 const INITIAL_STATE = {
@@ -33,8 +34,11 @@ export const Register: FC<TRegisterProps> = () => {
   const onSubmit = useCallback(
     values => {
       console.log(values)
+      return UserController
+        .signUp(values)
+        .then(() => history.push(HOME_ROUTE));
     },
-    [],
+    [history],
   );
 
   const onClose = useCallback(

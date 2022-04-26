@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Switch,
   Route,
@@ -27,6 +27,7 @@ import {Forum} from "../../pages/Forum/Forum";
 import {GameStart} from "../../pages/GameStart/GameStart";
 import {GamePlay} from "../../pages/GamePlay/GamePlay";
 import {GameOver} from "../../pages/GameOver/GameOver";
+import {LOCALSTORAGE_USER_KEY, UserController} from "../../controllers/UserController";
 
 
 /*
@@ -96,9 +97,16 @@ const NAVIGATION_SCHEMA = [
 
 
 export const App = () => {
+  const isUserAuthenticated = !!localStorage.getItem(LOCALSTORAGE_USER_KEY);
 
-  // TODO в будущем убрать эту заглушку, когда появятся данные о пользователе
-  const isUserAuthenticated = true;
+  useEffect(
+    () => {
+      UserController.fetchAndSetSignedUserData()
+        // eslint-disable-next-line no-console
+        .catch(error => console.log('Пользователь не авторизован в системе', error));
+    },
+    [isUserAuthenticated],
+  )
 
   return (
     <div className="app">
