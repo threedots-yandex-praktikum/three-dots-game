@@ -134,27 +134,30 @@ export const Profile: FC<TProfileProps> = () => {
     [userData, values, errors]
   );
   const propsUpload: UploadProps = {
-    action: () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("/upload.do");
-        }, 2000);
-      });
+    action: (file: File) => {
+      const formData = new FormData();
+      formData.append('avatar', file as Blob);
+
+      return ProfileController
+        .changeAvatar(formData)
+        .then(avatarSrc => {
+          setUserData({
+            ...userData || {},
+            avatar: avatarSrc,
+          });
+          setIsEdit(false);
+
+          return avatarSrc;
+        });
     },
-    multiple: true,
-    onStart(file: File) {
-      console.log("onStart", file, file.name);
-    },
-    onSuccess() {
-      console.log("onSuccess");
-    },
-    onError() {
-      console.log("onError");
-    },
+    multiple: false,
   };
   const classAvatar = isEdit
     ? "profile__avatar profile__avatar--opacity"
     : "profile__avatar";
+
+  // @ts-ignore
+  const avatarLink = userData ? `https://ya-praktikum.tech/api/v2/resources/${userData.avatar}` : '';
 
   return (
     <Background>
@@ -162,10 +165,14 @@ export const Profile: FC<TProfileProps> = () => {
         <Flex align="center" justify="center">
           <div className="dot-avatar"></div>
           <Box className="profile__avatar-wrap">
-            <Avatar className={classAvatar} bg="red.500" size="lg" />
+            <Avatar
+              className={classAvatar}
+              bg={avatarLink ? "transparent" : "red.500"}
+              size="lg"
+              src={avatarLink}
+            />
             {renderUpload(propsUpload, isEdit)}
           </Box>
-
           <div className="dot-avatar"></div>
         </Flex>
         <Box w={1000} mt={8} p={6} rounded="lg" bg="white">

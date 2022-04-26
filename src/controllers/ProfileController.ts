@@ -33,6 +33,8 @@ class ProfileControllerClass {
 
       console.log('user avatar', avatar);
       UserControllerClass.setError(null);
+
+      return avatar;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();
