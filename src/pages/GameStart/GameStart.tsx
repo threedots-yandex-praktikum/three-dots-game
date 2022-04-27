@@ -17,7 +17,7 @@ import {
 import { Background } from 'components/Background';
 import { HowToPlay } from 'components/HowToPlay';
 import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'constants/routes';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 
@@ -40,11 +40,29 @@ export const GameStart = () => {
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-
+  const buttonSchema = useMemo(
+    () => [
+      {
+        id: 'start',
+        title: 'Старт',
+        onClick: goToGamePlayPage,
+      },
+      {
+        id: 'howToPlay',
+        title: 'Как играть',
+        onClick: onOpen,
+      },
+      {
+        id: 'forum',
+        title: 'На форум',
+        onClick: goToForumPage,
+      },
+    ],
+    [goToGamePlayPage, onOpen, goToForumPage],
+  );
 
   return (
     <Box>
-
       <Background>
         <IconButton
           pos="absolute"
@@ -66,32 +84,21 @@ export const GameStart = () => {
             justify="center"
             direction="column"
           >
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={goToGamePlayPage}
-            >
-              Старт
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={onOpen}
-            >
-              Как играть
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              boxShadow="dark-lg"
-              onClick={goToForumPage}
-            >
-              На форум
-            </Button>
+            {
+              buttonSchema
+                .map(({ id, title, onClick }) => (
+                  <Button
+                    key={id}
+                    w={300}
+                    colorScheme="purple"
+                    mb={3}
+                    boxShadow="dark-lg"
+                    onClick={onClick}
+                  >
+                    {title}
+                  </Button>
+                ))
+            }
           </Flex>
         </div>
         <Modal isOpen={isOpen} onClose={onClose} size="6xl">

@@ -1,6 +1,12 @@
-import {VALIDATION} from "../../constants/validation";
-import {EMPTY_STRING} from 'constants/generalConst'
+import { VALIDATION } from 'constants/validation';
+import { EMPTY_STRING } from 'constants/generalConst';
 
+
+export const EDIT_PASSWORD_INITIAL_STATE = {
+  old_password: EMPTY_STRING,
+  new_password: EMPTY_STRING,
+  password_repeat: EMPTY_STRING,
+};
 
 export const EDIT_PASSWORD_FORM_SCHEMA = [
   {
