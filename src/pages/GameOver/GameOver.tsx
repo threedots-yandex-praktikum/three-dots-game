@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Icon, IconButton } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE } from 'constants/routes';

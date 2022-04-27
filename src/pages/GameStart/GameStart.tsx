@@ -14,8 +14,8 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
-import { HowToPlay } from 'components/HowToPlay/HowToPlay';
+import { Background } from 'components/Background';
+import { HowToPlay } from 'components/HowToPlay';
 import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'constants/routes';
 import React, { useCallback } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';

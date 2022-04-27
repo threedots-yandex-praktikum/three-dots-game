@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState, MouseEvent, MouseEventHandler } from 'react';
 import './style.scss';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import {
   Box,
   Flex,
@@ -11,7 +11,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
-import { Input } from 'components/Input/Input';
+import { Input } from 'components/Input';
 import Upload, { UploadProps } from 'rc-upload';
 import { FiEdit } from 'react-icons/fi';
 import { PROFILE_FORM_SCHEMA } from './constans';

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import { chooseSize, getRandomColor } from './constants';
 
 

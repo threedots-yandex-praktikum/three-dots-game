@@ -1,14 +1,14 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import { Box, Button, Flex, Grid, GridItem } from '@chakra-ui/react';
-import { Logo } from 'components/Logo/Logo';
-import { Background } from 'components/Background/Background';
+import { Logo } from 'components/Logo';
+import { Background } from 'components/Background';
 import { HOME_ROUTE, LOGIN_ROUTE } from 'constants/routes';
 import { useHistory } from 'react-router';
 import { FormikProvider, useFormik } from 'formik';
 import {REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE} from './constants';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { Input } from 'components/Input/Input';
+import { Input } from 'components/Input';
 import { UserContext } from 'components/Root/context';
 
 

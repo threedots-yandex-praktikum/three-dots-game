@@ -21,7 +21,7 @@ import {
 } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 import { GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from 'constants/routes';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import {
   THomeRenderProps,
 } from './types';

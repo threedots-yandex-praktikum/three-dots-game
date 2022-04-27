@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import { Logo } from 'components/Logo/Logo';
+import { Logo } from 'components/Logo';
 import { FormikProvider, useFormik } from 'formik';
-import { Input } from 'components/Input/Input';
+import { Input } from 'components/Input';
 import { Box, Button, Flex } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import { LOGIN_FORM_SCHEMA, INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { TSignInData } from 'modules/api/authAPI';

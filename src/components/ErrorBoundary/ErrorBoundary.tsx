@@ -1,5 +1,5 @@
 import { Button, Container, Flex, Text } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import React from 'react';
 import { TErrorBoundaryProps, TErrorBoundaryState } from './types';
 
