@@ -30,7 +30,7 @@ import _isEqual from 'lodash/isEqual';
 
 const renderButtons = (
   isEdit: boolean,
-  toggleEdit: React.MouseEventHandler,
+  toggleEdit: any,
   isSubmitBtnDisabled: boolean,
   logout: React.MouseEventHandler,
 ) => {
@@ -121,7 +121,10 @@ export const Profile: FC<TProfileProps> = () => {
     [setUserData, history],
   );
 
-  const toggleEdit = () => setIsEdit(!isEdit);
+  const toggleEdit = (e: MouseEvent) => {
+    e.preventDefault();
+    return setIsEdit(!isEdit);
+  };
 
   const preparedUserDataValues = _mapValues(
     userData,
@@ -138,8 +141,9 @@ export const Profile: FC<TProfileProps> = () => {
   const isSubmitBtnDisabled = useMemo(
     () =>
       _isEqual(values, userData) || Object.values(errors).some((item) => !!item),
-    [userData, values, errors]
+    [userData, values, errors],
   );
+
   const propsUpload: UploadProps = {
     action: (file: File) => {
       const formData = new FormData();
