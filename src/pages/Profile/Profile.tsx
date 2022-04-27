@@ -121,6 +121,11 @@ export const Profile = () => {
     [setUserData, history],
   );
 
+  const goEditPassword = useCallback(
+    () => history.push(EDIT_PASSWORD_ROUTE),
+    [history]
+  );
+
   const preparedUserDataValues = _mapValues(
     userData,
     (value: string) => _isNil(value) ? '' : value,
@@ -172,6 +177,7 @@ export const Profile = () => {
     },
     multiple: false,
   };
+
   const classAvatar = isEdit
     ? 'profile__avatar profile__avatar--opacity'
     : 'profile__avatar';
@@ -220,6 +226,11 @@ export const Profile = () => {
                     );
                   },
                 )}
+                <GridItem m={4} colStart={1}>
+                  <Button onClick={goEditPassword} variant="link">
+                    Изменить пароль
+                  </Button>
+                </GridItem>
                 <GridItem colStart={2} className="profile__buttons-section">
                   {renderButtons(isEdit, startEditing, cancelEditing, isSubmitBtnDisabled, logout)}
                 </GridItem>
