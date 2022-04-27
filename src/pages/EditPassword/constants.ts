@@ -1,5 +1,7 @@
 import {VALIDATION} from "../../constants/validation";
 import {EMPTY_STRING} from 'constants/generalConst'
+
+
 export const EDIT_PASSWORD_FORM_SCHEMA = [
   {
     key: 'old_password',

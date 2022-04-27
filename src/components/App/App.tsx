@@ -98,7 +98,7 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
   {
-    title: "Смена паролья",
+    title: "Смена пароля",
     route: EDIT_PASSWORD_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,

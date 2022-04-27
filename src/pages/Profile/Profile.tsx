@@ -17,7 +17,7 @@ import { FiEdit } from "react-icons/fi";
 import { PROFILE_FORM_SCHEMA } from "./constans";
 import {TProfileProps} from "./types";
 import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {LOGIN_ROUTE} from "constants/routes";
+import {EDIT_PASSWORD_ROUTE, LOGIN_ROUTE} from "constants/routes";
 import {useHistory} from "react-router-dom";
 import {ProfileController} from "../../controllers/ProfileController";
 import {TChangeProfileData} from "modules/api/profileAPI";
