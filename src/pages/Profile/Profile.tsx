@@ -16,6 +16,8 @@ import Upload, { UploadProps } from "rc-upload";
 import { FiEdit } from "react-icons/fi";
 import { PROFILE_FORM_SCHEMA, INITIAL_STATE } from "./constans";
 import { TProfileProps } from "./types";
+import { EDIT_PASSWORD_ROUTE } from "constants/routes";
+import { useHistory } from "react-router";
 
 const renderButtons = (
   isEdit: boolean,
@@ -104,9 +106,16 @@ export const Profile: FC<TProfileProps> = () => {
       console.log("onError");
     },
   };
+
   const classAvatar = isEdit
     ? "profile__avatar profile__avatar--opacity"
     : "profile__avatar";
+
+  const history = useHistory();
+  const goEditPassword = useCallback(
+    () => history.push(EDIT_PASSWORD_ROUTE),
+    [history]
+  );
 
   return (
     <Background>
@@ -144,6 +153,11 @@ export const Profile: FC<TProfileProps> = () => {
                     );
                   }
                 )}
+                <GridItem m={4} colStart={1}>
+                  <Button onClick={goEditPassword} variant="link">
+                    Изменить пароль
+                  </Button>
+                </GridItem>
                 <GridItem colStart={2}>
                   {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled)}
                 </GridItem>
