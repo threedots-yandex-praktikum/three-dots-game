@@ -3,6 +3,7 @@ import { Background } from 'components/Background/Background';
 import React from 'react';
 import { TErrorBoundaryProps, TErrorBoundaryState } from './types';
 
+
 export class ErrorBoundary extends React.Component<TErrorBoundaryProps> {
   state: TErrorBoundaryState = {
     hasError: false,
@@ -17,7 +18,6 @@ export class ErrorBoundary extends React.Component<TErrorBoundaryProps> {
   componentDidCatch(error: Error) {
     //TODO логирование ошибки
     console.log(error);
-
   }
 
   render() {

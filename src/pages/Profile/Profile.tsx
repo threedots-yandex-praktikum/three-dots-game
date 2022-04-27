@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useContext, useMemo, useState, MouseEvent, MouseEventHandler } from 'react';
+import React, { useCallback, useContext, useMemo, useState, MouseEvent, MouseEventHandler } from 'react';
 import './style.scss';
 import { Background } from 'components/Background/Background';
 import {
@@ -15,13 +15,12 @@ import { Input } from 'components/Input/Input';
 import Upload, { UploadProps } from 'rc-upload';
 import { FiEdit } from 'react-icons/fi';
 import { PROFILE_FORM_SCHEMA } from './constans';
-import { TProfileProps } from './types';
-import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { LOGIN_ROUTE } from 'constants/routes';
 import { useHistory } from 'react-router-dom';
-import { ProfileController } from '../../controllers/ProfileController';
+import { ProfileController } from 'controllers/ProfileController';
 import { TChangeProfileData } from 'modules/api/profileAPI';
-import { UserController } from '../../controllers/UserController';
+import { UserController } from 'controllers/UserController';
 import { TUserData, UserContext } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
@@ -92,7 +91,7 @@ const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
   return null;
 };
 
-export const Profile: FC<TProfileProps> = () => {
+export const Profile = () => {
   const history = useHistory();
   const { userData, setUserData } = useContext(UserContext);
 

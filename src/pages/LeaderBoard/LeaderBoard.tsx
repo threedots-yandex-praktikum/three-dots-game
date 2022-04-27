@@ -1,7 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import './style.scss';
+import React, { useEffect } from 'react';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import { LeaderBoardProps } from './types';
 import { Background } from 'components/Background/Background';
 import { chooseSize, getRandomColor } from './constants';
 
@@ -18,7 +16,7 @@ const mockData = [
 ];
 
 
-export const LeaderBoard: FC<LeaderBoardProps> = () => {
+export const LeaderBoard = () => {
 
   useEffect(() => {
     // лоадер ON

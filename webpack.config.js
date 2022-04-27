@@ -45,8 +45,10 @@ module.exports = {
     alias: {
       static: path.resolve(__dirname, 'static/'),
       components: path.resolve(__dirname, 'src/components/'),
-      pages: path.resolve(__dirname, 'src/pages/'),
       constants: path.resolve(__dirname, 'src/constants/'),
+      controllers: path.resolve(__dirname, 'src/controllers/'),
+      modules: path.resolve(__dirname, 'src/modules/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
       styles: path.resolve(__dirname, 'src/styles/'),
     },
   },

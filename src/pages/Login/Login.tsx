@@ -1,21 +1,19 @@
-import React, { FC, useCallback, useContext, useMemo } from 'react';
-import './style.scss';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { Logo } from 'components/Logo/Logo';
 import { FormikProvider, useFormik } from 'formik';
 import { Input } from 'components/Input/Input';
 import { Box, Button, Flex } from '@chakra-ui/react';
-import { TLoginProps } from './types';
 import { Background } from 'components/Background/Background';
 import { LOGIN_FORM_SCHEMA, INITIAL_STATE } from './constants';
-import { UserController } from '../../controllers/UserController';
-import { TSignInData } from '../../modules/api/authAPI';
+import { UserController } from 'controllers/UserController';
+import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
-import { HOME_ROUTE } from '../../constants/routes';
-import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { HOME_ROUTE } from 'constants/routes';
+import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { UserContext } from 'components/Root/context';
 
 
-export const Login: FC<TLoginProps> = () => {
+export const Login = () => {
   const history = useHistory();
   const { setUserData } = useContext(UserContext);
 

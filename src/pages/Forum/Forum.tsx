@@ -1,11 +1,8 @@
-import React, { FC, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './style.scss';
 
 
-type ForumProps = Record<string, unknown>;
-
-
-export const Forum: FC<ForumProps> = () => {
+export const Forum = () => {
   useEffect(() => {
     // эмуляция ошибки
     throw new Error('error');

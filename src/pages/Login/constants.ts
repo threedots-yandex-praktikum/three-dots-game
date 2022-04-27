@@ -1,5 +1,7 @@
 import { EMPTY_STRING } from 'constants/generalConst';
 import { VALIDATION } from 'constants/validation';
+
+
 export const LOGIN_FORM_SCHEMA = [
   {
     key: 'login',

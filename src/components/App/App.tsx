@@ -6,7 +6,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import './style.scss';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -17,18 +16,18 @@ import {
   LOGIN_ROUTE,
   PROFILE_ROUTE,
   REGISTER_ROUTE,
-} from '../../constants/routes';
-import { Home } from '../../pages/Home/Home';
-import { Login } from '../../pages/Login/Login';
-import { Register } from '../../pages/Register/Register';
-import { Profile } from '../../pages/Profile/Profile';
-import { LeaderBoard } from '../../pages/LeaderBoard/LeaderBoard';
-import { Forum } from '../../pages/Forum/Forum';
-import { GameStart } from '../../pages/GameStart/GameStart';
-import { GamePlay } from '../../pages/GamePlay/GamePlay';
-import { GameOver } from '../../pages/GameOver/GameOver';
-import { UserController } from '../../controllers/UserController';
-import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+} from 'constants/routes';
+import { Home } from 'pages/Home/Home';
+import { Login } from 'pages/Login/Login';
+import { Register } from 'pages/Register/Register';
+import { Profile } from 'pages/Profile/Profile';
+import { LeaderBoard } from 'pages/LeaderBoard/LeaderBoard';
+import { Forum } from 'pages/Forum/Forum';
+import { GameStart } from 'pages/GameStart/GameStart';
+import { GamePlay } from 'pages/GamePlay/GamePlay';
+import { GameOver } from 'pages/GameOver/GameOver';
+import { UserController } from 'controllers/UserController';
+import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
 

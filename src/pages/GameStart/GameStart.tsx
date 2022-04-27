@@ -17,16 +17,12 @@ import {
 import { Background } from 'components/Background/Background';
 import { HowToPlay } from 'components/HowToPlay/HowToPlay';
 import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'constants/routes';
-import React, { FC, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-import './style.scss';
 
 
-type GameStartProps = Record<string, unknown>;
-
-
-export const GameStart: FC<GameStartProps> = () => {
+export const GameStart = () => {
   const history = useHistory();
 
   const goToGamePlayPage = useCallback(
