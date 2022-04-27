@@ -23,6 +23,9 @@ import {ProfileController} from "../../controllers/ProfileController";
 import {TChangeProfileData} from "modules/api/profileAPI";
 import {UserController} from "../../controllers/UserController";
 import {TUserData, UserContext} from "components/Root/context";
+import _mapValues from 'lodash/mapValues';
+import _isNil from 'lodash/isNil';
+import _isEqual from 'lodash/isEqual';
 
 
 const renderButtons = (
@@ -75,7 +78,6 @@ const renderButtons = (
 
 const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
   if (isEdit) {
-    // принимает src. по этому загрузка файла будет в отдельной ветке
     return (
       <Upload
         {...propsUpload}
@@ -121,8 +123,13 @@ export const Profile: FC<TProfileProps> = () => {
 
   const toggleEdit = () => setIsEdit(!isEdit);
 
+  const preparedUserDataValues = _mapValues(
+    userData,
+    (value: string) => _isNil(value) ? '' : value,
+  );
+
   const formik = useFormik({
-    initialValues: userData as TUserData,
+    initialValues: preparedUserDataValues as TUserData,
     onSubmit,
   });
 
@@ -130,7 +137,7 @@ export const Profile: FC<TProfileProps> = () => {
 
   const isSubmitBtnDisabled = useMemo(
     () =>
-      values === userData || Object.values(errors).some((item) => !!item),
+      _isEqual(values, userData) || Object.values(errors).some((item) => !!item),
     [userData, values, errors]
   );
   const propsUpload: UploadProps = {
@@ -157,7 +164,9 @@ export const Profile: FC<TProfileProps> = () => {
     ? "profile__avatar profile__avatar--opacity"
     : "profile__avatar";
 
-  const avatarLink = userData ? `https://ya-praktikum.tech/api/v2/resources/${(userData as TUserData).avatar}` : '';
+  const avatarLink = values.avatar ?
+    `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
+    undefined;
 
   return (
     <Background>
@@ -210,5 +219,3 @@ export const Profile: FC<TProfileProps> = () => {
     </Background>
   );
 };
-
-Profile.propTypes = {};

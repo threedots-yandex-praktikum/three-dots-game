@@ -49,11 +49,7 @@ export const PROFILE_FORM_SCHEMA = [
     key: "display_name",
     label: "Никнейм",
     placeholder: EMPTY_STRING,
-    validate: (value: string) => {
-      if (value.match(VALIDATION.REQUIRED.pattern) == null) {
-        return VALIDATION.REQUIRED.message;
-      }
-    },
+    validate: () => undefined,
   },
   {
     key: "phone",

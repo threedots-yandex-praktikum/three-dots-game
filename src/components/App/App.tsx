@@ -108,9 +108,8 @@ export const App = () => {
       UserController
         .fetchAndSetSignedUserData()
         .then(setUserData)
-        .catch(error => {
+        .catch(() => {
           sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
-          return console.log('Пользователь не авторизован в системе', error);
         })
         .finally(() => setIsUserDataRequestInProgress(false));
     },
