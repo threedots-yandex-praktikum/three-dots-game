@@ -28,7 +28,13 @@
   }
 
   .form-control--is-read-only {
-    margin: 8px 0;
+    margin-bottom: 8px;
+    margin-top: 0;
+
+    input {
+      padding-left: 17px;
+      margin-top: 8px;
+    }
   }
 
   &__buttons-section,
