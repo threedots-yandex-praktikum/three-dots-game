@@ -28,6 +28,7 @@ export const Input = ({
 
   return (
     <FormControl
+      className={isReadOnly ? 'form-control--is-read-only' : undefined}
       isInvalid={touched && !!error}
       key={id}
       pb={touched && error ? 0 : 6}

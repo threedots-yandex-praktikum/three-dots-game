@@ -31,6 +31,7 @@ import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
+import { EditPassword } from 'pages/EditPassword';
 
 
 /*
@@ -43,61 +44,61 @@ const isVisibleForNotAuthenticatedUser = (isUserAuthenticated: boolean) => !isUs
 
 const NAVIGATION_SCHEMA = [
   {
-    title: "Лендинг",
+    title: 'Лендинг',
     route: HOME_ROUTE,
     isVisible: defaultIsVisible,
     icon: null,
   },
   {
-    title: "Вход",
+    title: 'Вход',
     route: LOGIN_ROUTE,
     isVisible: isVisibleForNotAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Регистрация",
+    title: 'Регистрация',
     route: REGISTER_ROUTE,
     isVisible: isVisibleForNotAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Профиль",
+    title: 'Профиль',
     route: PROFILE_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Форум",
+    title: 'Форум',
     route: FORUM_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Таблица рекордов",
+    title: 'Таблица рекордов',
     route: LEADERBOARD_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Запуск игры",
+    title: 'Запуск игры',
     route: GAME_START_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Игра",
+    title: 'Игра',
     route: GAME_PLAY_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Конец игры",
+    title: 'Конец игры',
     route: GAME_OVER_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
-    title: "Смена пароля",
+    title: 'Смена пароля',
     route: EDIT_PASSWORD_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
@@ -163,10 +164,10 @@ const _renderNavigation = (isUserAuthenticated: boolean) => {
   return (
     <div className="app__navigation">
       {NAVIGATION_SCHEMA.filter(({ isVisible }) =>
-        isVisible(isUserAuthenticated)
+        isVisible(isUserAuthenticated),
       ).map(({ title, route }) => (
         <Link key={route} to={route}>
-          {title}{" "}
+          {title}{' '}
         </Link>
       ))}
     </div>

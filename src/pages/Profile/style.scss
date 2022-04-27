@@ -27,7 +27,12 @@
     border-radius: 50%;
   }
 
-  &__buttons-section {
+  .form-control--is-read-only {
+    margin: 8px 0;
+  }
+
+  &__buttons-section,
+  &__change-password-btn-section {
     margin-top: 9px;
     align-self: center;
   }

@@ -6,9 +6,6 @@ export const PROFILE_FORM_SCHEMA = [
     key: 'login',
     label: 'Логин',
     placeholder: EMPTY_STRING,
-    gridProps: {
-      colSpan: 2,
-    },
     validate: (value: string) => {
       if (value.match(VALIDATION.LOGIN.pattern) == null) {
         return VALIDATION.LOGIN.message;
