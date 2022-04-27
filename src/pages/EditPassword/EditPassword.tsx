@@ -46,7 +46,7 @@ export const EditPassword = (props: TRegisterProps) => {
         <Flex align="center" justify="center">
           <Logo />
         </Flex>
-        <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white">
+        <Box w={600} mt={8} p={6} rounded="lg" bg="white">
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
              
