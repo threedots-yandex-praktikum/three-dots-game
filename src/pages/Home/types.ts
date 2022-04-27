@@ -1,5 +1,3 @@
-export type THomeProps = Record<string, unknown>;
-
 type TRouteChangeCallback = () => void;
 
 export type THomeRenderProps = {

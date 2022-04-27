@@ -1,17 +1,17 @@
-import React, {FC, useCallback, useContext, useMemo} from "react";
-import { TRegisterProps } from "./types";
-import { Box, Button, Flex, Grid, GridItem } from "@chakra-ui/react";
-import { Logo } from "components/Logo/Logo";
+import React, { FC, useCallback, useContext, useMemo } from 'react';
+import { TRegisterProps } from './types';
+import { Box, Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Logo } from 'components/Logo/Logo';
 import { Background } from 'components/Background/Background';
-import {HOME_ROUTE, LOGIN_ROUTE} from "constants/routes";
-import {useHistory} from "react-router";
-import { FormikProvider, useFormik} from "formik";
+import { HOME_ROUTE, LOGIN_ROUTE } from 'constants/routes';
+import { useHistory } from 'react-router';
+import { FormikProvider, useFormik } from 'formik';
 import { REGISTER_FORM_SCHEMA } from './constants';
-import {UserController} from "../../controllers/UserController";
-import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import { Input } from "components/Input/Input";
-import {EMPTY_STRING} from "constants/generalConst";
-import {UserContext} from "components/Root/context";
+import { UserController } from '../../controllers/UserController';
+import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { Input } from 'components/Input/Input';
+import { EMPTY_STRING } from 'constants/generalConst';
+import { UserContext } from 'components/Root/context';
 
 
 const INITIAL_STATE = {
@@ -34,7 +34,7 @@ export const Register: FC<TRegisterProps> = () => {
       .then(response => {
         setUserData(response);
 
-        sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS)
+        sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
       }),
     [setUserData, history],
@@ -54,7 +54,7 @@ export const Register: FC<TRegisterProps> = () => {
       values === INITIAL_STATE ||
       Object.values(errors).some((item) => !!item) ||
       values.password.trim() !== values.password_repeat.trim(),
-    [values, errors]
+    [values, errors],
   );
 
   return (
@@ -98,7 +98,7 @@ export const Register: FC<TRegisterProps> = () => {
                         />
                       </GridItem>
                     );
-                  }
+                  },
                 )}
                 <GridItem colStart={2}>
                   <Flex align="center" justify="center">

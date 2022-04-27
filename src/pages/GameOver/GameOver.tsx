@@ -1,33 +1,33 @@
-import {Box, Button, Flex, Heading, Icon, IconButton} from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Icon, IconButton } from '@chakra-ui/react';
 import { Background } from 'components/Background/Background';
-import React, {FC, useCallback} from 'react';
+import React, { FC, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import {FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE} from "../../constants/routes";
-import {FaRegUserCircle} from "react-icons/fa";
+import { FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE } from '../../constants/routes';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 
 type GameOverProps = Record<string, unknown>;
 
 
 export const GameOver: FC<GameOverProps> = () => {
-const history = useHistory();
+  const history = useHistory();
 
   const goToLeaderBoardPage = useCallback(
     () => history.push(LEADERBOARD_ROUTE),
     [history],
-  )
+  );
   const goToGameStartPage = useCallback(
     () => history.push(GAME_START_ROUTE),
     [history],
-  )
+  );
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
     [history],
-  )
+  );
   const goToForumPage = useCallback(
     () => history.push(FORUM_ROUTE),
     [history],
-  )
+  );
 
   return (
     <Box>
@@ -82,5 +82,5 @@ const history = useHistory();
         </div>
       </Background>
     </Box>
-  )
-}
+  );
+};

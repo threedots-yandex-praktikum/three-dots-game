@@ -1,6 +1,6 @@
-import React, {FC, useCallback, useContext, useMemo, useState} from "react";
-import "./style.scss";
-import { Background } from "components/Background/Background";
+import React, { FC, useCallback, useContext, useMemo, useState, MouseEvent, MouseEventHandler } from 'react';
+import './style.scss';
+import { Background } from 'components/Background/Background';
 import {
   Box,
   Flex,
@@ -9,20 +9,20 @@ import {
   Grid,
   GridItem,
   Icon,
-} from "@chakra-ui/react";
-import {FormikProvider, useFormik} from "formik";
-import { Input } from "components/Input/Input";
-import Upload, { UploadProps } from "rc-upload";
-import { FiEdit } from "react-icons/fi";
-import { PROFILE_FORM_SCHEMA } from "./constans";
-import {TProfileProps} from "./types";
-import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {LOGIN_ROUTE} from "constants/routes";
-import {useHistory} from "react-router-dom";
-import {ProfileController} from "../../controllers/ProfileController";
-import {TChangeProfileData} from "modules/api/profileAPI";
-import {UserController} from "../../controllers/UserController";
-import {TUserData, UserContext} from "components/Root/context";
+} from '@chakra-ui/react';
+import { FormikProvider, useFormik } from 'formik';
+import { Input } from 'components/Input/Input';
+import Upload, { UploadProps } from 'rc-upload';
+import { FiEdit } from 'react-icons/fi';
+import { PROFILE_FORM_SCHEMA } from './constans';
+import { TProfileProps } from './types';
+import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { LOGIN_ROUTE } from 'constants/routes';
+import { useHistory } from 'react-router-dom';
+import { ProfileController } from '../../controllers/ProfileController';
+import { TChangeProfileData } from 'modules/api/profileAPI';
+import { UserController } from '../../controllers/UserController';
+import { TUserData, UserContext } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
@@ -30,10 +30,10 @@ import _isEqual from 'lodash/isEqual';
 
 const renderButtons = (
   isEdit: boolean,
-  startEditing: any,
-  cancelEditing: any,
+  startEditing: MouseEventHandler<HTMLButtonElement>,
+  cancelEditing: MouseEventHandler<HTMLButtonElement>,
   isSubmitBtnDisabled: boolean,
-  logout: React.MouseEventHandler,
+  logout: MouseEventHandler<HTMLButtonElement>,
 ) => {
   if (isEdit) {
     return (
@@ -144,7 +144,7 @@ export const Profile: FC<TProfileProps> = () => {
       handleReset(e);
       setIsEdit(false);
     },
-    [],
+    [handleReset],
   );
 
   const isSubmitBtnDisabled = useMemo(
@@ -174,8 +174,8 @@ export const Profile: FC<TProfileProps> = () => {
     multiple: false,
   };
   const classAvatar = isEdit
-    ? "profile__avatar profile__avatar--opacity"
-    : "profile__avatar";
+    ? 'profile__avatar profile__avatar--opacity'
+    : 'profile__avatar';
 
   const avatarLink = values.avatar ?
     `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
@@ -189,7 +189,7 @@ export const Profile: FC<TProfileProps> = () => {
           <Box className="profile__avatar-wrap">
             <Avatar
               className={classAvatar}
-              bg={avatarLink ? "transparent" : "red.500"}
+              bg={avatarLink ? 'transparent' : 'red.500'}
               size="lg"
               src={avatarLink}
             />
@@ -206,7 +206,7 @@ export const Profile: FC<TProfileProps> = () => {
                     return (
                       <GridItem key={key} {...gridProps}>
                         <Input
-                          variant={isEdit ? "outline" : "unstyled"}
+                          variant={isEdit ? 'outline' : 'unstyled'}
                           id={key}
                           label={label}
                           validate={validate}
@@ -219,7 +219,7 @@ export const Profile: FC<TProfileProps> = () => {
                         />
                       </GridItem>
                     );
-                  }
+                  },
                 )}
                 <GridItem colStart={2} className="profile__buttons-section">
                   {renderButtons(isEdit, startEditing, cancelEditing, isSubmitBtnDisabled, logout)}

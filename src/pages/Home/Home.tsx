@@ -1,5 +1,5 @@
-import React, {FC, useCallback, useContext} from 'react';
-import bg from "static/img/bg.png";
+import React, { useCallback, useContext } from 'react';
+import bg from 'static/img/bg.png';
 import {
   Box,
   Button,
@@ -12,24 +12,23 @@ import {
   Grid,
   GridItem,
   Text,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 import {
   FaQuoteLeft,
   FaRegStar,
   FaRegUserCircle,
 } from 'react-icons/fa';
-import {useHistory} from "react-router";
-import {GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE} from "../../constants/routes";
-import {Background} from "components/Background/Background";
+import { useHistory } from 'react-router';
+import { GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from '../../constants/routes';
+import { Background } from 'components/Background/Background';
 import {
-  THomeProps,
   THomeRenderProps,
-} from "./types";
-import {UserContext} from "components/Root/context";
+} from './types';
+import { UserContext } from 'components/Root/context';
 
 
-export const Home: FC<THomeProps> = () => {
+export const Home = () => {
   const history = useHistory();
 
   const { userData } = useContext(UserContext);
@@ -37,19 +36,19 @@ export const Home: FC<THomeProps> = () => {
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),
     [history],
-  )
+  );
   const goToRegisterPage = useCallback(
     () => history.push(REGISTER_ROUTE),
     [history],
-  )
+  );
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
     [history],
-  )
+  );
   const goToGameStartPage = useCallback(
     () => history.push(GAME_START_ROUTE),
     [history],
-  )
+  );
 
   const renderProps: THomeRenderProps = {
     isUserAuthenticated: !!userData,
@@ -63,13 +62,13 @@ export const Home: FC<THomeProps> = () => {
     <Container maxW="100%" p="0" bg="gray.200">
       {_renderTopPanel(renderProps)}
       {_renderTitleSection(renderProps)}
-      {_renderInfoSection(renderProps)}
+      {_renderInfoSection()}
       {_renderGameStartSection(renderProps)}
-      {_renderReviewSection(renderProps)}
-      {_renderBottomPanel(renderProps)}
+      {_renderReviewSection()}
+      {_renderBottomPanel()}
     </Container>
-  )
-}
+  );
+};
 
 const _renderTopPanel = (renderProps: THomeRenderProps) => {
   return (
@@ -119,8 +118,8 @@ const _renderAuthenticationLinks = ({ goToLoginPage, goToRegisterPage }: THomeRe
         Вход
       </Button>
     </Box>
-  )
-}
+  );
+};
 
 const _renderTitleSection = ({ goToGameStartPage }: THomeRenderProps) => {
   return (
@@ -156,7 +155,9 @@ const _renderTitleSection = ({ goToGameStartPage }: THomeRenderProps) => {
 
 
 //TODO придумать и описать нормальный текст и вставить скриншоты из реальной игры
-const _renderInfoSection = (props: THomeRenderProps) => {
+const _renderInfoSection = () => {
+  const bgSrc = `url('${bg}')`;
+
   return (
     <Grid
       margin="5rem 10rem"
@@ -172,10 +173,10 @@ const _renderInfoSection = (props: THomeRenderProps) => {
         )
       }
       {
-        _renderScreenShotGridItem('')
+        _renderScreenShotGridItem(bgSrc)
       }
       {
-        _renderScreenShotGridItem('')
+        _renderScreenShotGridItem(bgSrc)
       }
       {
         _renderTextGridItem(
@@ -190,7 +191,7 @@ const _renderInfoSection = (props: THomeRenderProps) => {
         )
       }
       {
-        _renderScreenShotGridItem('')
+        _renderScreenShotGridItem(bgSrc)
       }
     </Grid>
   );
@@ -221,7 +222,7 @@ const _renderScreenShotGridItem = (src: string) => (
     p={6}
     rounded="lg"
     boxShadow="md"
-    bgImage={`url('${bg}')`}
+    bgImage={src}
     bgPosition="center"
     bgRepeat="no-repeat"
     bgSize="cover"
@@ -229,7 +230,7 @@ const _renderScreenShotGridItem = (src: string) => (
 );
 
 //TODO придумать или найти смешные отзывы
-const _renderReviewSection = (props: THomeRenderProps) => {
+const _renderReviewSection = () => {
   return (
     <Grid
       margin="5rem 10rem"
@@ -271,7 +272,7 @@ const _renderReviewItem = (rowSpan: number, reviewText: string, reviewerName: st
       {_renderReviewRating(rating)}
     </Flex>
   </GridItem>
-)
+);
 
 const _renderReviewRating = (rating: number) => (
   <div>
@@ -308,7 +309,7 @@ const _renderGameStartSection = ({ goToGameStartPage }: THomeRenderProps) => {
 
 
 // возможно еще какую-то информацию разместить на нижней панели
-const _renderBottomPanel = (props: THomeRenderProps) => {
+const _renderBottomPanel = () => {
   return (
     <Flex alignItems="center" py={3} boxShadow="dark-lg">
       <Box p={6}>

@@ -1,4 +1,4 @@
-import {toast, ToastOptions} from "react-toastify";
+import { toast, ToastOptions } from 'react-toastify';
 
 
 export enum NOTIFICATION_LEVEL {

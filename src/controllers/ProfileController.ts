@@ -1,5 +1,5 @@
 import { ProfileAPI, TChangePasswordData, TChangeProfileData } from '../modules/api/profileAPI';
-import {TUserControllerClassError, UserControllerClass} from './UserController';
+import { TUserControllerClassError, UserControllerClass } from './UserController';
 
 
 class ProfileControllerClass {

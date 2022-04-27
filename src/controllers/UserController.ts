@@ -1,5 +1,5 @@
 import { AuthAPI, TSignInData, TSignUpData } from '../modules/api/authAPI';
-import {HTTP_REQUEST_STATUS} from "modules/api/httpTransport/constants";
+import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 
 
 export type TUserControllerClassError = { reason: string, response: unknown, status: HTTP_REQUEST_STATUS };

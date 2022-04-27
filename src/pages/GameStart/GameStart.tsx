@@ -1,6 +1,21 @@
-import { Box, Button, Flex, Heading, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { Background } from 'components/Background/Background';
-import HowToPlay from 'components/HowToPlay/HowToPlay';
+import { HowToPlay } from 'components/HowToPlay/HowToPlay';
 import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'constants/routes';
 import React, { FC, useCallback } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
@@ -17,17 +32,17 @@ export const GameStart: FC<GameStartProps> = () => {
   const goToGamePlayPage = useCallback(
     () => history.push(GAME_PLAY_ROUTE),
     [history],
-  )
+  );
 
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
     [history],
-  )
+  );
   const goToForumPage = useCallback(
     () => history.push(FORUM_ROUTE),
     [history],
-  )
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  );
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
 
 
@@ -84,12 +99,12 @@ export const GameStart: FC<GameStartProps> = () => {
           </Flex>
         </div>
         <Modal isOpen={isOpen} onClose={onClose} size="6xl">
-          <ModalOverlay />
+          <ModalOverlay/>
           <ModalContent>
             <ModalHeader>Как играть</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <HowToPlay />
+              <HowToPlay/>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme='purple' mr={3} onClick={onClose}>
@@ -101,6 +116,6 @@ export const GameStart: FC<GameStartProps> = () => {
       </Background>
 
     </Box>
-  )
-}
+  );
+};
 

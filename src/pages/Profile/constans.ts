@@ -1,10 +1,10 @@
-import { EMPTY_STRING } from 'constants/generalConst'
-import { VALIDATION } from "constants/validation";
+import { EMPTY_STRING } from 'constants/generalConst';
+import { VALIDATION } from 'constants/validation';
 
 export const PROFILE_FORM_SCHEMA = [
   {
-    key: "login",
-    label: "Логин",
+    key: 'login',
+    label: 'Логин',
     placeholder: EMPTY_STRING,
     gridProps: {
       colSpan: 2,
@@ -16,8 +16,8 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: "email",
-    label: "Почта",
+    key: 'email',
+    label: 'Почта',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
       if (value.match(VALIDATION.EMAIL.pattern) == null) {
@@ -26,8 +26,8 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: "first_name",
-    label: "Имя",
+    key: 'first_name',
+    label: 'Имя',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
       if (value.match(VALIDATION.FIRST_NAME.pattern) == null) {
@@ -36,8 +36,8 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: "second_name",
-    label: "Фамилия",
+    key: 'second_name',
+    label: 'Фамилия',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
       if (value.match(VALIDATION.SECOND_NAME.pattern) == null) {
@@ -46,14 +46,14 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: "display_name",
-    label: "Никнейм",
+    key: 'display_name',
+    label: 'Никнейм',
     placeholder: EMPTY_STRING,
     validate: () => undefined,
   },
   {
-    key: "phone",
-    label: "Телефон",
+    key: 'phone',
+    label: 'Телефон',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
       if (value.match(VALIDATION.PHONE.pattern) == null) {

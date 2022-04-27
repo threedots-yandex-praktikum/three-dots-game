@@ -1,18 +1,18 @@
-import React, {FC, useCallback, useContext, useMemo} from "react";
-import "./style.scss";
-import { Logo } from "components/Logo/Logo";
-import { FormikProvider, useFormik } from "formik";
-import { Input } from "components/Input/Input";
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { TLoginProps } from "./types";
-import { Background } from "components/Background/Background";
-import {LOGIN_FORM_SCHEMA, INITIAL_STATE} from './constants'
-import {UserController} from "../../controllers/UserController";
-import {TSignInData} from "../../modules/api/authAPI";
-import {useHistory} from "react-router";
-import {HOME_ROUTE} from "../../constants/routes";
-import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {UserContext} from "components/Root/context";
+import React, { FC, useCallback, useContext, useMemo } from 'react';
+import './style.scss';
+import { Logo } from 'components/Logo/Logo';
+import { FormikProvider, useFormik } from 'formik';
+import { Input } from 'components/Input/Input';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { TLoginProps } from './types';
+import { Background } from 'components/Background/Background';
+import { LOGIN_FORM_SCHEMA, INITIAL_STATE } from './constants';
+import { UserController } from '../../controllers/UserController';
+import { TSignInData } from '../../modules/api/authAPI';
+import { useHistory } from 'react-router';
+import { HOME_ROUTE } from '../../constants/routes';
+import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { UserContext } from 'components/Root/context';
 
 
 export const Login: FC<TLoginProps> = () => {
@@ -25,7 +25,7 @@ export const Login: FC<TLoginProps> = () => {
       .then(response => {
         setUserData(response);
         sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
-        return history.push(HOME_ROUTE)
+        return history.push(HOME_ROUTE);
       }),
     [setUserData, history],
   );
@@ -41,7 +41,7 @@ export const Login: FC<TLoginProps> = () => {
   const isSubmitBtnDisabled = useMemo(
     () =>
       values === INITIAL_STATE || Object.values(errors).some((item) => !!item),
-    [values, errors]
+    [values, errors],
   );
 
   return (
@@ -68,7 +68,7 @@ export const Login: FC<TLoginProps> = () => {
                       value={values[key as keyof typeof values]}
                       onChange={handleChange}
                     />
-                  )
+                  ),
                 )}
 
                 <Flex align="center" justify="center">

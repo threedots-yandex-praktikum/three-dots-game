@@ -1,8 +1,8 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 
-import bg from "static/img/bg.png";
-import bgGrayScale from "static/img/bgGrayScale.png";
-import {Flex} from "@chakra-ui/react";
+import bg from 'static/img/bg.png';
+import bgGrayScale from 'static/img/bgGrayScale.png';
+import { Flex } from '@chakra-ui/react';
 
 
 export const Background: FC<{ children: React.ReactNode, isGreyScale?: boolean }> = props => {
@@ -22,5 +22,5 @@ export const Background: FC<{ children: React.ReactNode, isGreyScale?: boolean }
     >
       {props.children}
     </Flex>
-  )
-}
+  );
+};

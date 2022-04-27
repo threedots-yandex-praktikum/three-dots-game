@@ -11,8 +11,8 @@ export const GamePlay: FC<GamePlayProps> = () => {
     <div>
       страница c игрой
     </div>
-  )
-}
+  );
+};
 
 GamePlay.propTypes = {
 

@@ -1,5 +1,5 @@
-import {VALIDATION} from "../../constants/validation";
-import {EMPTY_STRING} from 'constants/generalConst'
+import { VALIDATION } from '../../constants/validation';
+import { EMPTY_STRING } from 'constants/generalConst';
 export const REGISTER_FORM_SCHEMA = [
   {
     key: 'login',

@@ -1,4 +1,4 @@
-declare module "*.png" {
-  const value: any;
+declare module '*.png' {
+  const value: unknown;
   export default value;
 }

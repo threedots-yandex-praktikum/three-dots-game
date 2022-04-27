@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Switch,
   Route,
@@ -6,8 +6,7 @@ import {
   Redirect,
 } from 'react-router-dom';
 
-import './style.scss'
-import { Home } from "../../pages/Home/Home";
+import './style.scss';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -17,26 +16,28 @@ import {
   LEADERBOARD_ROUTE,
   LOGIN_ROUTE,
   PROFILE_ROUTE,
-  REGISTER_ROUTE
-} from "../../constants/routes";
-import { Login } from "../../pages/Login/Login";
-import {Register} from "../../pages/Register/Register";
-import {Profile} from "../../pages/Profile/Profile";
-import {LeaderBoard} from "../../pages/LeaderBoard/LeaderBoard";
-import {Forum} from "../../pages/Forum/Forum";
-import {GameStart} from "../../pages/GameStart/GameStart";
-import {GamePlay} from "../../pages/GamePlay/GamePlay";
-import {GameOver} from "../../pages/GameOver/GameOver";
-import {UserController} from "../../controllers/UserController";
-import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {UserContext} from "components/Root/context";
+  REGISTER_ROUTE,
+} from '../../constants/routes';
+import { Home } from '../../pages/Home/Home';
+import { Login } from '../../pages/Login/Login';
+import { Register } from '../../pages/Register/Register';
+import { Profile } from '../../pages/Profile/Profile';
+import { LeaderBoard } from '../../pages/LeaderBoard/LeaderBoard';
+import { Forum } from '../../pages/Forum/Forum';
+import { GameStart } from '../../pages/GameStart/GameStart';
+import { GamePlay } from '../../pages/GamePlay/GamePlay';
+import { GameOver } from '../../pages/GameOver/GameOver';
+import { UserController } from '../../controllers/UserController';
+import { NOTIFICATION_LEVEL, sendNotification } from '../../modules/notification';
+import { UserContext } from 'components/Root/context';
+import _constant from 'lodash/constant';
 
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
 *   будут линки на требуемые страницы
 * */
-const defaultIsVisible = (isUserAuthenticated: boolean) => true;
+const defaultIsVisible = _constant(true);
 const isVisibleForAuthenticatedUser = (isUserAuthenticated: boolean) => isUserAuthenticated;
 
 const NAVIGATION_SCHEMA = [
@@ -103,7 +104,7 @@ export const App = () => {
 
   const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
 
-    useEffect(
+  useEffect(
     () => {
       UserController
         .fetchAndSetSignedUserData()
@@ -114,7 +115,7 @@ export const App = () => {
         .finally(() => setIsUserDataRequestInProgress(false));
     },
     [setUserData],
-  )
+  );
 
   if(isUserDataRequestInProgress) {
     return null;

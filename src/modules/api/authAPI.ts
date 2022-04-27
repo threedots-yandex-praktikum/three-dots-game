@@ -1,6 +1,6 @@
 import { HTTPTransport } from './httpTransport/httpTransport';
 import { AUTH_API_ENDPOINTS, DEFAULT_POST_REQUEST_HEADERS, YANDEX_API_HOST } from './httpTransport/constants';
-import {TUserModelResponse} from "modules/api/profileAPI";
+import { TUserModelResponse } from 'modules/api/profileAPI';
 
 
 export type TSignUpData = {

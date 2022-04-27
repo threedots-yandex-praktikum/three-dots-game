@@ -1,7 +1,7 @@
 import {
   HTTP_METHOD,
   HTTP_REQUEST_STATUS,
-} from "modules/api/httpTransport/constants";
+} from 'modules/api/httpTransport/constants';
 
 
 export type THttpRequestOptions = {

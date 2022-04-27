@@ -1,15 +1,15 @@
 import React from 'react';
-import {Field} from "formik";
+import { Field } from 'formik';
 import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input as ChakraInput,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   TInputProps,
-} from "./types";
+} from './types';
 
 export const Input = ({
   id,
@@ -22,7 +22,7 @@ export const Input = ({
   onChange,
   type = 'text',
   variant='filled',
-  isReadOnly=false
+  isReadOnly=false,
 }: TInputProps) => {
 
   return (
@@ -59,4 +59,4 @@ export const Input = ({
       }
     </FormControl>
   );
-}
+};

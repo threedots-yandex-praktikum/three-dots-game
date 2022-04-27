@@ -1,4 +1,4 @@
-import React, { FC, useEffect, } from 'react';
+import React, { FC, useEffect } from 'react';
 import './style.scss';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { LeaderBoardProps } from './types';
@@ -15,7 +15,7 @@ const mockData = [
   { id: 6, userName: 'user6', score: 10 },
   { id: 7, userName: 'userwerwerwerwer 2342432342342342347', score: 3 },
 
-]
+];
 
 
 export const LeaderBoard: FC<LeaderBoardProps> = () => {
@@ -24,7 +24,7 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
     // лоадер ON
     // запрос данных
     // лоадер OFF
-  })
+  });
 
   return (
     <Background>
@@ -36,8 +36,8 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         {_renderList()}
       </Container>
     </Background>
-  )
-}
+  );
+};
 
 
 
@@ -63,8 +63,8 @@ const _renderHead = () => {
       />
     </React.Fragment>
 
-  )
-}
+  );
+};
 
 const _renderList = () => {
   return (
@@ -82,7 +82,7 @@ const _renderList = () => {
         //TODO реализовать в utils свою сортировку (по заданию)
         .sort((a, b) => b.score - a.score)
         .map((row, index) => {
-          const size = chooseSize(index)
+          const size = chooseSize(index);
           return (
             <React.Fragment key={row.id}>
               <Flex w="100%" h="40px" px="10px" alignItems="center">
@@ -111,7 +111,7 @@ const _renderList = () => {
                   my="2px"
                 />}
             </ React.Fragment>
-          )
+          );
         })}
     </Flex>
   );
@@ -121,6 +121,6 @@ const _renderTitle = () => {
   return (
     <Heading>
       Таблица рекордов
-    </Heading>)
+    </Heading>);
 
-}
+};

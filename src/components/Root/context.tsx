@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from 'react';
 
 export type TUserData = {
   id: string,
@@ -29,5 +29,5 @@ export const UserContextProvider = (props: { children: React.ReactNode }) => {
     <UserContext.Provider value={{ userData, setUserData } as TUserContext}>
       {props.children}
     </UserContext.Provider>
-  )
+  );
 };
