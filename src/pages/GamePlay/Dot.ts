@@ -1,47 +1,62 @@
 import { random } from "./utils";
-import { sizeCanvas } from "./settingsGame";
+import { SIZE_CANVAS, COLORS_DOT, DEFAULT_COLOR } from "./settingsGame";
 import { getRadiusFromArea } from "./utils";
 import { getRadians } from "./utils";
+import { TDot } from "./types";
 
-const MIN_RADIUS_DOT = 5;
-const MAX_RADIUS_DOT = 20;
-const COLORS_DOT: ReadonlyArray<string> = ["#FF4903", "#4378B", "#00E691", "#8157D1", "#000"];
+
 const COUNT_COLOR = COLORS_DOT.length - 1;
 const SPEED = 5;
 const RADIANS = getRadians(360);
-const DEFAULT_COLOR = '#000';
 export class Dot {
-  radius = 0
-  private xyMax = sizeCanvas - this.radius;
+  radius = 0;
+  private xyMax = SIZE_CANVAS - this.radius;
   private xyMin = 0 + this.radius;
   x = 0;
-  y = 0;  
-  color: string |  null = null;
-  private speedX = 0;
-  private speedY = 0;
+  y = 0;
+  color: string | null = null;
+  speedX = 0;
+  speedY = 0;
 
   //TODO рзанести на два класса бот и игрок
-  isBot = true
-  
+  isBot = true;
+
   isActive = false;
   transitionRadius: number | null = null;
+  lastDotDanger: TDot | null = null;
+  minRadius = 0
+  maxRadius = 0
 
-  init() {
+  constructor(minRadius: number, maxRadius: number) {
+    this.minRadius = minRadius
+    this.maxRadius = maxRadius
     this.setBaseParams();
 
     this.moveFromEdge();
     this.isActive = true;
   }
 
+  isDodge(dangerousDot: TDot) {
+    if (
+      dangerousDot.radius > this.radius &&
+      dangerousDot !== this.lastDotDanger
+    ) {
+      this.lastDotDanger = dangerousDot;
+      return random(0,5);
+    }
+    return false;
+  }
+
   reInit() {
     this.setBaseParams();
-    this.transitionRadius = this.radius
+    this.transitionRadius = this.radius;
     this.radius = 0;
     this.isActive = true;
   }
 
   private setBaseParams() {
-    this.radius = random(MIN_RADIUS_DOT, MAX_RADIUS_DOT);
+    // TODO не должны пересекаться с уже существующими
+    this.radius = random(this.minRadius, this.maxRadius);
     this.color = COLORS_DOT[random(0, COUNT_COLOR)];
     this.x = random(this.xyMin, this.xyMax);
     this.y = random(this.xyMin, this.xyMax);
@@ -58,11 +73,16 @@ export class Dot {
     return this.radius / 3.5;
   }
 
+  runAway() {
+    //TODO замедлиться перед опасностью, и разогнаться в обратную сторону
+    this.rebound()
+  }
+
   move() {
     const isBorderCanvasX =
-      this.x >= sizeCanvas - this.radius || this.x <= 0 + this.radius;
+      this.x >= SIZE_CANVAS - this.radius || this.x <= 0 + this.radius;
     const isBorderCanvasY =
-      this.y >= sizeCanvas - this.radius || this.y <= 0 + this.radius;
+      this.y >= SIZE_CANVAS - this.radius || this.y <= 0 + this.radius;
     if (isBorderCanvasX) {
       this.speedX *= -1;
     }
@@ -93,19 +113,19 @@ export class Dot {
       this.transitionRadius = null;
     }
   }
-  
-  moveFromEdge () {
-    if (this.x + this.radius > sizeCanvas) {
-      this.x = sizeCanvas - this.radius
+
+  moveFromEdge() {
+    if (this.x + this.radius > SIZE_CANVAS) {
+      this.x = SIZE_CANVAS - this.radius;
     }
     if (this.x - this.radius < 0) {
-      this.x = 0 + this.radius
+      this.x = 0 + this.radius;
     }
-    if (this.y + this.radius > sizeCanvas) {
-      this.y = sizeCanvas - this.radius
+    if (this.y + this.radius > SIZE_CANVAS) {
+      this.y = SIZE_CANVAS - this.radius;
     }
     if (this.y - this.radius < 0) {
-      this.y = 0 + this.radius
+      this.y = 0 + this.radius;
     }
   }
 

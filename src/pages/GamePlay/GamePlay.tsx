@@ -1,12 +1,12 @@
 import React, { FC, useRef, useEffect } from "react";
 import "./style.scss";
-import { GamePlayProps } from "./types";
+import { TGamePlayProps } from "./types";
 import {
-  sizeCanvas
+  SIZE_CANVAS
 } from './settingsGame'
 import {Game} from './Game' 
 
-export const GamePlay: FC<GamePlayProps> = () => {
+export const GamePlay: FC<TGamePlayProps> = () => {
   const ref = useRef(null);
   
   useEffect(() => {
@@ -22,7 +22,7 @@ export const GamePlay: FC<GamePlayProps> = () => {
 
   return (
     <div className="playing-field">
-      <canvas ref={ref} width={sizeCanvas} height={sizeCanvas} />
+      <canvas ref={ref} width={SIZE_CANVAS} height={SIZE_CANVAS} />
     </div>
   );
 };

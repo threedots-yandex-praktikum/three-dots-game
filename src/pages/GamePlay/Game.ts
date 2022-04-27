@@ -1,11 +1,10 @@
 import { TDot } from "./types";
-import { sizeCanvas } from "./settingsGame";
+import { SIZE_CANVAS, REDRAW_BOTS } from "./settingsGame";
 import { Dot } from "./Dot";
-const REDRAW_BOTS = 10;
+import { BOTS } from './settingsGame'
 export class Game {
   ctx: CanvasRenderingContext2D;
   dotsBots: TDot[] = [];
-  countDots = 20;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;
@@ -20,11 +19,13 @@ export class Game {
   }
 
   initDotsBots() {
-    for (let index = 0; index < this.countDots; index++) {
-      const dot = new Dot();
-      dot.init();
-      this.dotsBots.push(dot);
-    }
+    BOTS.forEach((settingsBot) => {
+      for (let index = 0; index < settingsBot.count; index++) {
+        const dot = new Dot(settingsBot.minRadius, settingsBot.maxRadius);
+        this.dotsBots.push(dot);
+      }
+    })
+
   }
 
   reInitDotsBots() {
@@ -44,7 +45,7 @@ export class Game {
   }
 
   private drawGame() {
-    this.ctx.clearRect(0, 0, sizeCanvas, sizeCanvas);
+    this.ctx.clearRect(0, 0, SIZE_CANVAS, SIZE_CANVAS);
     this.drawDotsBots();
     requestAnimationFrame(this.drawGame.bind(this));
   }
@@ -55,24 +56,48 @@ export class Game {
         return;
       }
       dot.move();
+      if (dot.isBot) {
+        this.handleDanger(dot);
+      }
       this.handleIntersection(dot);
       dot.draw(this.ctx);
     });
   }
-
   handleIntersection(dot: TDot) {
-    const dangerousDot = this.getDangerousDot(dot);
+    const dotIntersection = this.getIntersectionDot(dot);
 
-    if (dangerousDot) {
-      this.handleInteractionPhase(dot, dangerousDot);
+    if (dotIntersection) {
+      this.handleInteractionPhase(dot, dotIntersection);
     }
 
     if (dot.transitionRadius) {
       dot.scaleRadius();
     }
   }
+  handleDanger(dot: TDot) {
+    const dangerousDot = this.getDangerousDot(dot);
+
+    if (dangerousDot && dot.isDodge(dangerousDot)) {
+      dot.runAway()
+    }
+  }
 
   private getDangerousDot(dot: TDot) {
+    const radiusDanger = 20;
+    const dotIntersection = this.dotsBots.find((dot2) => {
+      if (dot2 === dot || !dot2.isActive) {
+        return false;
+      }
+      const x = dot.x - dot2.x;
+      const y = dot.y - dot2.y;
+      const distance = Math.sqrt(x * x + y * y);
+      
+      return distance < dot.radius + dot2.radius + radiusDanger;
+    });
+    return dotIntersection;
+  }
+
+  private getIntersectionDot(dot: TDot) {
     const dotIntersection = this.dotsBots.find((dot2) => {
       if (dot2 === dot || !dot2.isActive) {
         return false;
