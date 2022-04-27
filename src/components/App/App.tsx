@@ -38,6 +38,7 @@ import _constant from 'lodash/constant';
 * */
 const defaultIsVisible = _constant(true);
 const isVisibleForAuthenticatedUser = (isUserAuthenticated: boolean) => isUserAuthenticated;
+const isVisibleForNotAuthenticatedUser = (isUserAuthenticated: boolean) => !isUserAuthenticated;
 
 const NAVIGATION_SCHEMA = [
   {
@@ -49,13 +50,13 @@ const NAVIGATION_SCHEMA = [
   {
     title: 'Вход',
     route: LOGIN_ROUTE,
-    isVisible: defaultIsVisible,
+    isVisible: isVisibleForNotAuthenticatedUser,
     icon: null,
   },
   {
     title: 'Регистрация',
     route: REGISTER_ROUTE,
-    isVisible: defaultIsVisible,
+    isVisible: isVisibleForNotAuthenticatedUser,
     icon: null,
   },
   {
