@@ -30,7 +30,8 @@ import _isEqual from 'lodash/isEqual';
 
 const renderButtons = (
   isEdit: boolean,
-  toggleEdit: any,
+  startEditing: any,
+  cancelEditing: any,
   isSubmitBtnDisabled: boolean,
   logout: React.MouseEventHandler,
 ) => {
@@ -40,7 +41,7 @@ const renderButtons = (
         <Button
           w="50%"
           mr={3}
-          onClick={toggleEdit}
+          onClick={cancelEditing}
         >
           Отмена
         </Button>
@@ -68,7 +69,7 @@ const renderButtons = (
         variant="outline"
         w="50%"
         mr={3}
-        onClick={toggleEdit}
+        onClick={startEditing}
       >
         Редактировать
       </Button>
@@ -121,11 +122,6 @@ export const Profile: FC<TProfileProps> = () => {
     [setUserData, history],
   );
 
-  const toggleEdit = (e: MouseEvent) => {
-    e.preventDefault();
-    return setIsEdit(!isEdit);
-  };
-
   const preparedUserDataValues = _mapValues(
     userData,
     (value: string) => _isNil(value) ? '' : value,
@@ -136,7 +132,20 @@ export const Profile: FC<TProfileProps> = () => {
     onSubmit,
   });
 
-  const { errors, touched, handleSubmit, handleChange, values } = formik;
+  const { errors, touched, handleSubmit, handleChange, handleReset, values } = formik;
+
+  const startEditing = (e: MouseEvent) => {
+    e.preventDefault();
+    return setIsEdit(!isEdit);
+  };
+
+  const cancelEditing = useCallback(
+    (e: MouseEvent) => {
+      handleReset(e);
+      setIsEdit(false);
+    },
+    [],
+  );
 
   const isSubmitBtnDisabled = useMemo(
     () =>
@@ -213,7 +222,7 @@ export const Profile: FC<TProfileProps> = () => {
                   }
                 )}
                 <GridItem colStart={2} className="profile__buttons-section">
-                  {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled, logout)}
+                  {renderButtons(isEdit, startEditing, cancelEditing, isSubmitBtnDisabled, logout)}
                 </GridItem>
               </Grid>
             </form>
