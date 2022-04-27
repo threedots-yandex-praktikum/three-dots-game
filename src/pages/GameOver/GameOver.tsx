@@ -2,7 +2,7 @@ import {Box, Button, Flex, Heading, Icon, IconButton} from '@chakra-ui/react';
 import { Background } from 'components/Background/Background';
 import React, {FC, useCallback} from 'react';
 import { useHistory } from 'react-router-dom';
-import {GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE} from "../../constants/routes";
+import {FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE} from "../../constants/routes";
 import {FaRegUserCircle} from "react-icons/fa";
 
 
@@ -22,6 +22,10 @@ const history = useHistory();
   )
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
+    [history],
+  )
+  const goToForumPage = useCallback(
+    () => history.push(FORUM_ROUTE),
     [history],
   )
 
@@ -70,7 +74,7 @@ const history = useHistory();
               w={300}
               colorScheme="purple"
               boxShadow="dark-lg"
-              onClick={goToLeaderBoardPage}
+              onClick={goToForumPage}
             >
               Похоливарю на форуме
             </Button>
