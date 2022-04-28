@@ -1,33 +1,51 @@
-import {Box, Button, Flex, Heading, Icon, IconButton} from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
-import React, {FC, useCallback} from 'react';
+import { Box, Button, Flex, Heading, Icon, IconButton } from '@chakra-ui/react';
+import { Background } from 'components/Background';
+import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import {FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE} from "../../constants/routes";
-import {FaRegUserCircle} from "react-icons/fa";
+import { FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE } from 'constants/routes';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 
-type GameOverProps = Record<string, unknown>;
-
-
-export const GameOver: FC<GameOverProps> = () => {
-const history = useHistory();
+export const GameOver = () => {
+  const history = useHistory();
 
   const goToLeaderBoardPage = useCallback(
     () => history.push(LEADERBOARD_ROUTE),
     [history],
-  )
+  );
   const goToGameStartPage = useCallback(
     () => history.push(GAME_START_ROUTE),
     [history],
-  )
+  );
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
     [history],
-  )
+  );
   const goToForumPage = useCallback(
     () => history.push(FORUM_ROUTE),
     [history],
-  )
+  );
+
+  const buttonSchema = useMemo(
+    () => [
+      {
+        id: 'tryAgain',
+        title: 'Попробую снова',
+        onClick: goToGameStartPage,
+      },
+      {
+        id: 'leaderboard',
+        title: 'Посмотрю список лидеров',
+        onClick: goToLeaderBoardPage,
+      },
+      {
+        id: 'forum',
+        title: 'Похоливарю на форуме',
+        onClick: goToForumPage,
+      },
+    ],
+    [goToGameStartPage, goToLeaderBoardPage, goToForumPage],
+  );
 
   return (
     <Box>
@@ -52,35 +70,24 @@ const history = useHistory();
             justify="center"
             direction="column"
           >
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={goToGameStartPage}
-            >
-              Попробую снова
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={goToLeaderBoardPage}
-            >
-              Посмотрю список лидеров
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              boxShadow="dark-lg"
-              onClick={goToForumPage}
-            >
-              Похоливарю на форуме
-            </Button>
+            {
+              buttonSchema
+                .map(({ id, title, onClick }) => (
+                  <Button
+                    key={id}
+                    w={300}
+                    colorScheme="purple"
+                    mb={3}
+                    boxShadow="dark-lg"
+                    onClick={onClick}
+                  >
+                    {title}
+                  </Button>
+                ))
+            }
           </Flex>
         </div>
       </Background>
     </Box>
-  )
-}
+  );
+};

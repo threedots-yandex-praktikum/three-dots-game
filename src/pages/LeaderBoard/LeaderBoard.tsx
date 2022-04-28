@@ -1,8 +1,6 @@
-import React, { FC, useEffect, } from 'react';
-import './style.scss';
+import React, { useEffect } from 'react';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
-import { LeaderBoardProps } from './types';
-import { Background } from 'components/Background/Background';
+import { Background } from 'components/Background';
 import { chooseSize, getRandomColor } from './constants';
 
 
@@ -15,16 +13,16 @@ const mockData = [
   { id: 6, userName: 'user6', score: 10 },
   { id: 7, userName: 'userwerwerwerwer 2342432342342342347', score: 3 },
 
-]
+];
 
 
-export const LeaderBoard: FC<LeaderBoardProps> = () => {
+export const LeaderBoard = () => {
 
   useEffect(() => {
     // лоадер ON
     // запрос данных
     // лоадер OFF
-  })
+  });
 
   return (
     <Background>
@@ -32,95 +30,72 @@ export const LeaderBoard: FC<LeaderBoardProps> = () => {
         centerContent={true}
         maxW="100%"
       >
-        {_renderTitle()}
-        {_renderList()}
+        <Heading>
+          Таблица рекордов
+        </Heading>
+        <Flex
+          bg="white"
+          margin={50}
+          maxW="500px"
+          alignItems="center"
+          boxShadow="dark-lg"
+          direction='column'
+          w="50%"
+        >
+          <Flex w="100%" h="40px" px="10px" alignItems="center">
+            <Box w="40px">
+            </Box>
+            <Box flexGrow={1} ml="10px">
+              <Text fontSize="lg" fontWeight="bold">Игрок</Text>
+            </Box>
+            <Box >
+              <Text fontSize="lg" fontWeight="bold"> Очки</Text>
+            </Box>
+          </Flex>
+          <Divider
+            w="90%"
+            orientation='horizontal'
+            borderBottomColor="black"
+            border="2px"
+            my="2px"
+          />
+          {mockData
+            //TODO реализовать в utils свою сортировку (по заданию)
+            .sort((a, b) => b.score - a.score)
+            .map((row, index) => {
+              const size = chooseSize(index);
+              return (
+                <React.Fragment key={row.id}>
+                  <Flex w="100%" h="40px" px="10px" alignItems="center">
+                    <Flex w="40px" alignItems="center" justifyContent="center">
+                      <Box
+                        borderRadius="50%"
+                        bgColor={getRandomColor()}
+                        w={size}
+                        h={size}
+                      />
+                    </Flex>
+                    <Box flexGrow={1} ml="10px">
+                      {row.userName}
+                    </Box>
+                    <Box >
+                      {row.score}
+                    </Box>
+                  </Flex>
+                  {index === mockData.length - 1
+                    ? null
+                    : <Divider
+                      w="90%"
+                      orientation='horizontal'
+                      borderBottomColor="black"
+                      border="2px"
+                      my="2px"
+                    />}
+                </ React.Fragment>
+              );
+            })}
+        </Flex>
       </Container>
     </Background>
-  )
-}
-
-
-
-const _renderHead = () => {
-  return (
-    <React.Fragment>
-      <Flex w="100%" h="40px" px="10px" alignItems="center">
-        <Box w="40px">
-        </Box>
-        <Box flexGrow={1} ml="10px">
-          <Text fontSize="lg" fontWeight="bold">Игрок</Text>
-        </Box>
-        <Box >
-          <Text fontSize="lg" fontWeight="bold"> Очки</Text>
-        </Box>
-      </Flex>
-      <Divider
-        w="90%"
-        orientation='horizontal'
-        borderBottomColor="black"
-        border="2px"
-        my="2px"
-      />
-    </React.Fragment>
-
-  )
-}
-
-const _renderList = () => {
-  return (
-    <Flex
-      bg="white"
-      margin={50}
-      maxW="500px"
-      alignItems="center"
-      boxShadow="dark-lg"
-      direction='column'
-      w="50%"
-    >
-      {_renderHead()}
-      {mockData
-        //TODO реализовать в utils свою сортировку (по заданию)
-        .sort((a, b) => b.score - a.score)
-        .map((row, index) => {
-          const size = chooseSize(index)
-          return (
-            <React.Fragment key={row.id}>
-              <Flex w="100%" h="40px" px="10px" alignItems="center">
-                <Flex w="40px" alignItems="center" justifyContent="center">
-                  <Box
-                    borderRadius="50%"
-                    bgColor={getRandomColor()}
-                    w={size}
-                    h={size}
-                  />
-                </Flex>
-                <Box flexGrow={1} ml="10px">
-                  {row.userName}
-                </Box>
-                <Box >
-                  {row.score}
-                </Box>
-              </Flex>
-              {index === mockData.length - 1
-                ? null
-                : <Divider
-                  w="90%"
-                  orientation='horizontal'
-                  borderBottomColor="black"
-                  border="2px"
-                  my="2px"
-                />}
-            </ React.Fragment>
-          )
-        })}
-    </Flex>
   );
 };
-
-const _renderTitle = () => {
-  return (
-    <Heading>
-      Таблица рекордов
-    </Heading>)
-
-}

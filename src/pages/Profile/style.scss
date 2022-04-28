@@ -27,7 +27,18 @@
     border-radius: 50%;
   }
 
-  &__buttons-section {
+  .form-control--is-read-only {
+    margin-bottom: 8px;
+    margin-top: 0;
+
+    input {
+      padding-left: 17px;
+      margin-top: 8px;
+    }
+  }
+
+  &__buttons-section,
+  &__change-password-btn-section {
     margin-top: 9px;
     align-self: center;
   }

@@ -1,11 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
-import { App } from "../App/App";
-import { ChakraProvider } from "@chakra-ui/react";
-import { ErrorBoundary } from "components/ErrorBoundary/ErrorBoundary";
-import { HOME_ROUTE } from "constants/routes";
-import {NotificationSystem} from "components/NotificationSystem/NotificationSystem";
-import {UserContextProvider} from "components/Root/context";
+import React from 'react';
+import { BrowserRouter as Router, useHistory } from 'react-router-dom';
+import { App } from '../App';
+import { ChakraProvider } from '@chakra-ui/react';
+import { ErrorBoundary } from 'components/ErrorBoundary';
+import { HOME_ROUTE } from 'constants/routes';
+import { NotificationSystem } from 'components/NotificationSystem';
+import { UserContextProvider } from 'components/Root/context';
 
 export const Root = () => {
   return (
@@ -16,7 +16,7 @@ export const Root = () => {
 };
 
 const ComponentTreeWithRouter = () => {
-  const history = useHistory()
+  const history = useHistory();
   return (
     <ChakraProvider>
       <UserContextProvider>
@@ -27,5 +27,5 @@ const ComponentTreeWithRouter = () => {
       </UserContextProvider>
     </ChakraProvider>
 
-  )
-}
+  );
+};

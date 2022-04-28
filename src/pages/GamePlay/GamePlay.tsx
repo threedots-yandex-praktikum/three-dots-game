@@ -1,18 +1,14 @@
-import React, { FC } from 'react';
-import './style.scss';
+import React from 'react';
 
 
-type GamePlayProps = Record<string, unknown>;
-
-
-export const GamePlay: FC<GamePlayProps> = () => {
+export const GamePlay = () => {
 
   return (
     <div>
       страница c игрой
     </div>
-  )
-}
+  );
+};
 
 GamePlay.propTypes = {
 

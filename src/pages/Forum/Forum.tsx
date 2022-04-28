@@ -1,21 +1,17 @@
-import React, { FC, useEffect } from 'react';
-import './style.scss';
+import React, { useEffect } from 'react';
 
 
-type ForumProps = Record<string, unknown>;
-
-
-export const Forum: FC<ForumProps> = () => {
+export const Forum = () => {
   useEffect(() => {
     // эмуляция ошибки
-    throw new Error('error')
-  })
+    throw new Error('error');
+  });
   return (
     <div>
       форум
     </div>
-  )
-}
+  );
+};
 
 Forum.propTypes = {
 

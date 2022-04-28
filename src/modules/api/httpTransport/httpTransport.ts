@@ -2,9 +2,9 @@ import {
   makeHTTPRequestResponse,
   THandleCommonCodesParams,
   THttpRequestOptions,
-  THttpRequestOptionsWithoutMethod
-} from "modules/api/httpTransport/types";
-import {HTTP_METHOD, HTTP_REQUEST_STATUS} from "./constants";
+  THttpRequestOptionsWithoutMethod,
+} from 'modules/api/httpTransport/types';
+import { HTTP_METHOD, HTTP_REQUEST_STATUS } from './constants';
 
 
 /* eslint-disable no-console */
@@ -60,24 +60,24 @@ export class HTTPTransport {
 
   private static handleCommonCodes({ status, response }: THandleCommonCodesParams) {
     switch(status) {
-      case HTTP_REQUEST_STATUS.SUCCESS: {
-        return Promise.resolve(response);
-      }
-      case HTTP_REQUEST_STATUS.UNAUTHORIZED: {
-        return Promise.reject({ errorText: 'Неизвестный пользователь', response, status });
-      }
-      case HTTP_REQUEST_STATUS.FORBIDDEN: {
-        return Promise.reject({ errorText: 'Недостаточно прав для выполнения действия', response, status });
-      }
-      case HTTP_REQUEST_STATUS.CONFLICT: {
-        return Promise.reject({ errorText: `Пользователь с такими данными уже существует: ${response.reason.split(' ')[0]}`, response, status });
-      }
-      case HTTP_REQUEST_STATUS.FAILED: {
-        return Promise.reject({ errorText: 'Ошибка запроса', response, status });
-      }
-      default: {
-        return Promise.reject({ errorText: 'При выполнении запроса возникла неизвестная ошибка', response, status });
-      }
+    case HTTP_REQUEST_STATUS.SUCCESS: {
+      return Promise.resolve(response);
+    }
+    case HTTP_REQUEST_STATUS.UNAUTHORIZED: {
+      return Promise.reject({ errorText: 'Неизвестный пользователь', response, status });
+    }
+    case HTTP_REQUEST_STATUS.FORBIDDEN: {
+      return Promise.reject({ errorText: 'Недостаточно прав для выполнения действия', response, status });
+    }
+    case HTTP_REQUEST_STATUS.CONFLICT: {
+      return Promise.reject({ errorText: `Пользователь с такими данными уже существует: ${response.reason.split(' ')[0]}`, response, status });
+    }
+    case HTTP_REQUEST_STATUS.FAILED: {
+      return Promise.reject({ errorText: 'Ошибка запроса', response, status });
+    }
+    default: {
+      return Promise.reject({ errorText: 'При выполнении запроса возникла неизвестная ошибка', response, status });
+    }
     }
   }
 
@@ -117,7 +117,7 @@ export class HTTPTransport {
         headers,
         credentials: 'include',
         body: isFile ? data as XMLHttpRequestBodyInit : JSON.stringify(data as Record<string, unknown>),
-      })
+      });
 
     return fetch(urlToRequest, fetchParams)
       .then(response => {

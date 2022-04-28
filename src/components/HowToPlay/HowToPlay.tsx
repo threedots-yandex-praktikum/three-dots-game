@@ -1,13 +1,9 @@
 import { Box, Flex, Heading, List, ListIcon, ListItem, Stack, StackDivider, Text } from '@chakra-ui/react';
 import React from 'react';
-import { FC } from 'react';
-import { ArrowBackIcon, ArrowDownIcon, ArrowForwardIcon, ArrowUpIcon } from "@chakra-ui/icons"
+import { ArrowBackIcon, ArrowDownIcon, ArrowForwardIcon, ArrowUpIcon } from '@chakra-ui/icons';
 
-interface HowToPlayProps {
 
-}
-
-const HowToPlay: FC<HowToPlayProps> = () => {
+export const HowToPlay = () => {
   return (
     <Stack
       direction='row'
@@ -50,6 +46,4 @@ const HowToPlay: FC<HowToPlayProps> = () => {
       </Flex>
     </Stack >
   );
-}
-
-export default HowToPlay;
+};

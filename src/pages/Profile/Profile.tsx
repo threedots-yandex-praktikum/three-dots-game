@@ -1,6 +1,6 @@
-import React, {FC, useCallback, useContext, useMemo, useState} from "react";
-import "./style.scss";
-import { Background } from "components/Background/Background";
+import React, { useCallback, useContext, useMemo, useState, MouseEvent } from 'react';
+import './style.scss';
+import { Background } from 'components/Background';
 import {
   Box,
   Flex,
@@ -9,90 +9,25 @@ import {
   Grid,
   GridItem,
   Icon,
-} from "@chakra-ui/react";
-import {FormikProvider, useFormik} from "formik";
-import { Input } from "components/Input/Input";
-import Upload, { UploadProps } from "rc-upload";
-import { FiEdit } from "react-icons/fi";
-import { PROFILE_FORM_SCHEMA } from "./constans";
-import {TProfileProps} from "./types";
-import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
-import {EDIT_PASSWORD_ROUTE, LOGIN_ROUTE} from "constants/routes";
-import {useHistory} from "react-router-dom";
-import {ProfileController} from "../../controllers/ProfileController";
-import {TChangeProfileData} from "modules/api/profileAPI";
-import {UserController} from "../../controllers/UserController";
-import {TUserData, UserContext} from "components/Root/context";
+} from '@chakra-ui/react';
+import { FormikProvider, useFormik } from 'formik';
+import { Input } from 'components/Input';
+import Upload, { UploadProps } from 'rc-upload';
+import { FiEdit } from 'react-icons/fi';
+import { PROFILE_FORM_SCHEMA } from './constans';
+import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
+import { EDIT_PASSWORD_ROUTE, LOGIN_ROUTE } from 'constants/routes';
+import { useHistory } from 'react-router-dom';
+import { ProfileController } from 'controllers/ProfileController';
+import { TChangeProfileData } from 'modules/api/profileAPI';
+import { UserController } from 'controllers/UserController';
+import { TUserData, UserContext } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
 
 
-const renderButtons = (
-  isEdit: boolean,
-  startEditing: any,
-  cancelEditing: any,
-  isSubmitBtnDisabled: boolean,
-  logout: React.MouseEventHandler,
-) => {
-  if (isEdit) {
-    return (
-      <Flex align="center" justify="center">
-        <Button
-          w="50%"
-          mr={3}
-          onClick={cancelEditing}
-        >
-          Отмена
-        </Button>
-        <Button
-          w="50%"
-          type="submit"
-          colorScheme="purple"
-          isDisabled={isSubmitBtnDisabled}
-        >
-          Сохранить
-        </Button>
-      </Flex>
-    );
-  }
-  return (
-    <Flex align="center" justify="flex-end">
-      <Button
-        w="50%"
-        mr={3}
-        onClick={logout}
-      >
-        Выйти
-      </Button>
-      <Button
-        variant="outline"
-        w="50%"
-        mr={3}
-        onClick={startEditing}
-      >
-        Редактировать
-      </Button>
-    </Flex>
-  );
-};
-
-const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
-  if (isEdit) {
-    return (
-      <Upload
-        {...propsUpload}
-        className="profile__upload"
-        accept="image/jpeg,image/png,image/gif"
-      >
-        <Icon as={FiEdit} w={8} h={8} color="grey" />
-      </Upload>
-    );
-  }
-  return null;
-};
-
-export const Profile: FC<TProfileProps> = () => {
+export const Profile = () => {
   const history = useHistory();
   const { userData, setUserData } = useContext(UserContext);
 
@@ -124,7 +59,7 @@ export const Profile: FC<TProfileProps> = () => {
 
   const goEditPassword = useCallback(
     () => history.push(EDIT_PASSWORD_ROUTE),
-    [history]
+    [history],
   );
 
   const preparedUserDataValues = _mapValues(
@@ -149,7 +84,7 @@ export const Profile: FC<TProfileProps> = () => {
       handleReset(e);
       setIsEdit(false);
     },
-    [],
+    [handleReset],
   );
 
   const isSubmitBtnDisabled = useMemo(
@@ -180,8 +115,8 @@ export const Profile: FC<TProfileProps> = () => {
   };
 
   const classAvatar = isEdit
-    ? "profile__avatar profile__avatar--opacity"
-    : "profile__avatar";
+    ? 'profile__avatar profile__avatar--opacity'
+    : 'profile__avatar';
 
   const avatarLink = values.avatar ?
     `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
@@ -195,11 +130,21 @@ export const Profile: FC<TProfileProps> = () => {
           <Box className="profile__avatar-wrap">
             <Avatar
               className={classAvatar}
-              bg={avatarLink ? "transparent" : "red.500"}
+              bg={avatarLink ? 'transparent' : 'red.500'}
               size="lg"
               src={avatarLink}
             />
-            {renderUpload(propsUpload, isEdit)}
+            {
+              isEdit ?
+                <Upload
+                  {...propsUpload}
+                  className="profile__upload"
+                  accept="image/jpeg,image/png,image/gif"
+                >
+                  <Icon as={FiEdit} w={8} h={8} color="grey" />
+                </Upload> :
+                null
+            }
           </Box>
           <div className="dot-avatar"></div>
         </Flex>
@@ -208,32 +153,76 @@ export const Profile: FC<TProfileProps> = () => {
             <form onSubmit={handleSubmit}>
               <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                 {PROFILE_FORM_SCHEMA.map(
-                  ({ key, label, placeholder, validate, gridProps = {} }) => {
-                    return (
-                      <GridItem key={key} {...gridProps}>
-                        <Input
-                          variant={isEdit ? "outline" : "unstyled"}
-                          id={key}
-                          label={label}
-                          validate={validate}
-                          placeholder={placeholder}
-                          error={errors[key as keyof typeof errors]}
-                          touched={touched[key as keyof typeof touched]}
-                          value={values[key as keyof typeof values]}
-                          onChange={handleChange}
-                          isReadOnly={!isEdit}
-                        />
-                      </GridItem>
-                    );
-                  }
+                  ({ key, label, placeholder, validate }) => (
+                    <GridItem key={key}>
+                      <Input
+                        variant={isEdit ? 'outline' : 'unstyled'}
+                        id={key}
+                        label={label}
+                        validate={validate}
+                        placeholder={placeholder}
+                        error={errors[key as keyof typeof errors]}
+                        touched={touched[key as keyof typeof touched]}
+                        value={values[key as keyof typeof values]}
+                        onChange={handleChange}
+                        isReadOnly={!isEdit}
+                      />
+                    </GridItem>
+                  ),
                 )}
-                <GridItem m={4} colStart={1}>
-                  <Button onClick={goEditPassword} variant="link">
-                    Изменить пароль
-                  </Button>
+                <GridItem colStart={1} className="profile__change-password-btn-section">
+                  {
+                    isEdit ?
+                      <Button
+                        w="50%"
+                        onClick={goEditPassword}
+                      >
+                        Изменить пароль
+                      </Button> :
+                      null
+                  }
                 </GridItem>
                 <GridItem colStart={2} className="profile__buttons-section">
-                  {renderButtons(isEdit, startEditing, cancelEditing, isSubmitBtnDisabled, logout)}
+                  {
+                    isEdit ?
+                      (
+                        <Flex justify="flex-end">
+                          <Button
+                            w="50%"
+                            mr={3}
+                            onClick={cancelEditing}
+                          >
+                            Отмена
+                          </Button>
+                          <Button
+                            w="50%"
+                            type="submit"
+                            colorScheme="purple"
+                            isDisabled={isSubmitBtnDisabled}
+                          >
+                            Сохранить
+                          </Button>
+                        </Flex>
+                      ) :
+                      (
+                        <Flex justify="flex-end">
+                          <Button
+                            w="50%"
+                            mr={3}
+                            onClick={logout}
+                          >
+                            Выйти
+                          </Button>
+                          <Button
+                            variant="outline"
+                            w="50%"
+                            onClick={startEditing}
+                          >
+                            Редактировать
+                          </Button>
+                        </Flex>
+                      )
+                  }
                 </GridItem>
               </Grid>
             </form>

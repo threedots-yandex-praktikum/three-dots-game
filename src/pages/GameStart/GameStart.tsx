@@ -1,39 +1,68 @@
-import { Box, Button, Flex, Heading, Icon, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from '@chakra-ui/react';
-import { Background } from 'components/Background/Background';
-import HowToPlay from 'components/HowToPlay/HowToPlay';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { Background } from 'components/Background';
+import { HowToPlay } from 'components/HowToPlay';
 import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'constants/routes';
-import React, { FC, useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-import './style.scss';
 
 
-type GameStartProps = Record<string, unknown>;
-
-
-export const GameStart: FC<GameStartProps> = () => {
+export const GameStart = () => {
   const history = useHistory();
 
   const goToGamePlayPage = useCallback(
     () => history.push(GAME_PLAY_ROUTE),
     [history],
-  )
+  );
 
   const goToProfilePage = useCallback(
     () => history.push(PROFILE_ROUTE),
     [history],
-  )
+  );
   const goToForumPage = useCallback(
     () => history.push(FORUM_ROUTE),
     [history],
-  )
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  );
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-
+  const buttonSchema = useMemo(
+    () => [
+      {
+        id: 'start',
+        title: 'Старт',
+        onClick: goToGamePlayPage,
+      },
+      {
+        id: 'howToPlay',
+        title: 'Как играть',
+        onClick: onOpen,
+      },
+      {
+        id: 'forum',
+        title: 'На форум',
+        onClick: goToForumPage,
+      },
+    ],
+    [goToGamePlayPage, onOpen, goToForumPage],
+  );
 
   return (
     <Box>
-
       <Background>
         <IconButton
           pos="absolute"
@@ -55,41 +84,30 @@ export const GameStart: FC<GameStartProps> = () => {
             justify="center"
             direction="column"
           >
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={goToGamePlayPage}
-            >
-              Старт
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              mb={3}
-              boxShadow="dark-lg"
-              onClick={onOpen}
-            >
-              Как играть
-            </Button>
-            <Button
-              w={300}
-              colorScheme="purple"
-              boxShadow="dark-lg"
-              onClick={goToForumPage}
-            >
-              На форум
-            </Button>
+            {
+              buttonSchema
+                .map(({ id, title, onClick }) => (
+                  <Button
+                    key={id}
+                    w={300}
+                    colorScheme="purple"
+                    mb={3}
+                    boxShadow="dark-lg"
+                    onClick={onClick}
+                  >
+                    {title}
+                  </Button>
+                ))
+            }
           </Flex>
         </div>
         <Modal isOpen={isOpen} onClose={onClose} size="6xl">
-          <ModalOverlay />
+          <ModalOverlay/>
           <ModalContent>
             <ModalHeader>Как играть</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <HowToPlay />
+              <HowToPlay/>
             </ModalBody>
             <ModalFooter>
               <Button colorScheme='purple' mr={3} onClick={onClose}>
@@ -101,6 +119,6 @@ export const GameStart: FC<GameStartProps> = () => {
       </Background>
 
     </Box>
-  )
-}
+  );
+};
 
