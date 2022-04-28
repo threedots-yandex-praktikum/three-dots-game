@@ -1,4 +1,4 @@
-import { AuthAPI, TSignInData, TSignUpData } from '../modules/api/authAPI';
+import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
 import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 
 

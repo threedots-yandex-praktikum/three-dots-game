@@ -1,6 +1,6 @@
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
-import bg from '../../../static/img/bg.png';
+import bg from 'static/img/bg.png';
 
 export const MOCKED_REVIEW_DATA = [
   {
