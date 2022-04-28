@@ -1,4 +1,4 @@
-import {ChangeEventHandler} from "react";
+import {ChangeEventHandler, ReactNode} from "react";
 
 export type TInputProps = {
   key: string,
@@ -10,4 +10,5 @@ export type TInputProps = {
   value: string,
   onChange: ChangeEventHandler<HTMLInputElement>,
   type?: string,
+  as?:ReactNode
 };

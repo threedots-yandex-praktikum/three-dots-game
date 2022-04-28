@@ -20,9 +20,10 @@ export const Input = ({
   placeholder,
   value,
   onChange,
+  as,
   type = 'text',
 }: TInputProps) => {
-
+  
   return (
     <FormControl
       isInvalid={touched && !!error}
@@ -31,7 +32,7 @@ export const Input = ({
     >
       <FormLabel htmlFor={key}>{label}</FormLabel>
       <Field
-        as={ChakraInput}
+        as={as || ChakraInput}
         key={key}
         name={key}
         type={type}
