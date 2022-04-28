@@ -12,7 +12,7 @@ import {
 } from "./types";
 
 export const Input = ({
-  key,
+  id,
   label,
   error,
   validate,
@@ -28,14 +28,14 @@ export const Input = ({
   return (
     <FormControl
       isInvalid={touched && !!error}
-      key={key}
+      key={id}
       pb={touched && error ? 0 : 6}
     >
-      <FormLabel htmlFor={key}>{label}</FormLabel>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       <Field
         as={ChakraInput}
-        key={key}
-        name={key}
+        key={id}
+        name={id}
         type={type}
         value={value}
         onChange={onChange}

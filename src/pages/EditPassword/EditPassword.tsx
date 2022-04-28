@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, {useCallback, useMemo} from "react";
 import { TRegisterProps } from "./types";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { Logo } from "components/Logo/Logo";
@@ -10,18 +10,34 @@ import { EDIT_PASSWORD_FORM_SCHEMA } from "./constants";
 import { EMPTY_STRING } from "constants/generalConst";
 
 import { Input } from "components/Input/Input";
+import {ProfileController} from "../../controllers/ProfileController";
+import {TChangePasswordData} from "../../modules/api/profileAPI";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
 
 const INITIAL_STATE = {
-  password: EMPTY_STRING,
+  old_password: EMPTY_STRING,
+  new_password: EMPTY_STRING,
   password_repeat: EMPTY_STRING,
 };
 
 export const EditPassword = (props: TRegisterProps) => {
   const history = useHistory();
 
-  const onSubmit = useCallback((values) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    (values) => {
+      const dataToSend = {
+        newPassword: values.new_password,
+        oldPassword: values.old_password,
+      };
+
+      return ProfileController
+        .changePassword(dataToSend as TChangePasswordData)
+        .then(() => {
+          sendNotification('Пароль успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+        });
+    },
+    [],
+  );
 
   const onClose = useCallback(() => history.push(PROFILE_ROUTE), [history]);
 
@@ -36,7 +52,7 @@ export const EditPassword = (props: TRegisterProps) => {
     () =>
       values === INITIAL_STATE ||
       Object.values(errors).some((item) => !!item) ||
-      values.password.trim() !== values.password_repeat.trim(),
+      values.new_password.trim() !== values.password_repeat.trim(),
     [values, errors]
   );
 
@@ -49,7 +65,7 @@ export const EditPassword = (props: TRegisterProps) => {
         <Box w={600} mt={8} p={6} rounded="lg" bg="white">
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
-             
+
                 {EDIT_PASSWORD_FORM_SCHEMA.map(
                   ({
                     key,
@@ -59,10 +75,10 @@ export const EditPassword = (props: TRegisterProps) => {
                     validate,
                   }) => {
                     return (
-                      
                         <Input
                           variant="outline"
                           key={key}
+                          id={key}
                           label={label}
                           type={type}
                           validate={validate}
@@ -72,11 +88,11 @@ export const EditPassword = (props: TRegisterProps) => {
                           value={values[key as keyof typeof values]}
                           onChange={handleChange}
                         />
-                      
+
                     );
                   }
                 )}
-               
+
                   <Flex align="center" justify="center">
                     <Button w="50%" mr={3} onClick={onClose}>
                       Назад

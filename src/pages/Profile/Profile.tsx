@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, {FC, useCallback, useContext, useMemo, useState} from "react";
 import "./style.scss";
 import { Background } from "components/Background/Background";
 import {
@@ -10,24 +10,39 @@ import {
   GridItem,
   Icon,
 } from "@chakra-ui/react";
-import { FormikProvider, useFormik } from "formik";
+import {FormikProvider, useFormik} from "formik";
 import { Input } from "components/Input/Input";
 import Upload, { UploadProps } from "rc-upload";
 import { FiEdit } from "react-icons/fi";
-import { PROFILE_FORM_SCHEMA, INITIAL_STATE } from "./constans";
-import { TProfileProps } from "./types";
-import { EDIT_PASSWORD_ROUTE } from "constants/routes";
-import { useHistory } from "react-router";
+import { PROFILE_FORM_SCHEMA } from "./constans";
+import {TProfileProps} from "./types";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {EDIT_PASSWORD_ROUTE, LOGIN_ROUTE} from "constants/routes";
+import {useHistory} from "react-router-dom";
+import {ProfileController} from "../../controllers/ProfileController";
+import {TChangeProfileData} from "modules/api/profileAPI";
+import {UserController} from "../../controllers/UserController";
+import {TUserData, UserContext} from "components/Root/context";
+import _mapValues from 'lodash/mapValues';
+import _isNil from 'lodash/isNil';
+import _isEqual from 'lodash/isEqual';
+
 
 const renderButtons = (
   isEdit: boolean,
-  toggleEdit: React.MouseEventHandler,
-  isSubmitBtnDisabled: boolean
+  startEditing: any,
+  cancelEditing: any,
+  isSubmitBtnDisabled: boolean,
+  logout: React.MouseEventHandler,
 ) => {
   if (isEdit) {
     return (
       <Flex align="center" justify="center">
-        <Button w="50%" mr={3} onClick={toggleEdit}>
+        <Button
+          w="50%"
+          mr={3}
+          onClick={cancelEditing}
+        >
           Отмена
         </Button>
         <Button
@@ -43,7 +58,19 @@ const renderButtons = (
   }
   return (
     <Flex align="center" justify="flex-end">
-      <Button variant="outline" w="50%" mr={3} onClick={toggleEdit}>
+      <Button
+        w="50%"
+        mr={3}
+        onClick={logout}
+      >
+        Выйти
+      </Button>
+      <Button
+        variant="outline"
+        w="50%"
+        mr={3}
+        onClick={startEditing}
+      >
         Редактировать
       </Button>
     </Flex>
@@ -52,7 +79,6 @@ const renderButtons = (
 
 const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
   if (isEdit) {
-    // принимает src. по этому загрузка файла будет в отдельной ветке
     return (
       <Upload
         {...propsUpload}
@@ -63,59 +89,103 @@ const renderUpload = (propsUpload: UploadProps, isEdit: boolean) => {
       </Upload>
     );
   }
-  return "";
+  return null;
 };
 
 export const Profile: FC<TProfileProps> = () => {
+  const history = useHistory();
+  const { userData, setUserData } = useContext(UserContext);
+
   const [isEdit, setIsEdit] = useState(false);
 
-  const onSubmit = useCallback((values) => {
-    console.log(values);
-  }, []);
+  const onSubmit = useCallback(
+    values => {
+      return ProfileController
+        .changeProfile(values as TChangeProfileData)
+        .then(response => {
+          setUserData(response);
+          setIsEdit(false);
+          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
+        });
+    },
+    [setUserData, setIsEdit],
+  );
 
-  const toggleEdit = () => setIsEdit(!isEdit);
+  const logout = useCallback(
+    () => UserController
+      .logOut()
+      .then(() => {
+        setUserData(null);
+        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
+        return history.push(LOGIN_ROUTE);
+      }),
+    [setUserData, history],
+  );
+
+  const goEditPassword = useCallback(
+    () => history.push(EDIT_PASSWORD_ROUTE),
+    [history]
+  );
+
+  const preparedUserDataValues = _mapValues(
+    userData,
+    (value: string) => _isNil(value) ? '' : value,
+  );
 
   const formik = useFormik({
-    initialValues: INITIAL_STATE,
+    initialValues: preparedUserDataValues as TUserData,
     onSubmit,
   });
 
-  const { errors, touched, handleSubmit, handleChange, values } = formik;
+  const { errors, touched, handleSubmit, handleChange, handleReset, values } = formik;
+
+  const startEditing = (e: MouseEvent) => {
+    e.preventDefault();
+    return setIsEdit(!isEdit);
+  };
+
+  const cancelEditing = useCallback(
+    (e: MouseEvent) => {
+      handleReset(e);
+      setIsEdit(false);
+    },
+    [],
+  );
 
   const isSubmitBtnDisabled = useMemo(
     () =>
-      values === INITIAL_STATE || Object.values(errors).some((item) => !!item),
-    [values, errors]
+      _isEqual(values, userData) || Object.values(errors).some((item) => !!item),
+    [userData, values, errors],
   );
+
   const propsUpload: UploadProps = {
-    action: () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve("/upload.do");
-        }, 2000);
-      });
+    action: (file: File) => {
+      const formData = new FormData();
+      formData.append('avatar', file as Blob);
+
+      return ProfileController
+        .changeAvatar(formData)
+        .then(avatarSrc => {
+          setUserData({
+            ...userData || {},
+            avatar: avatarSrc,
+          });
+          setIsEdit(false);
+          sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+
+          return avatarSrc;
+        });
     },
-    multiple: true,
-    onStart(file: File) {
-      console.log("onStart", file, file.name);
-    },
-    onSuccess() {
-      console.log("onSuccess");
-    },
-    onError() {
-      console.log("onError");
-    },
+    multiple: false,
   };
 
   const classAvatar = isEdit
     ? "profile__avatar profile__avatar--opacity"
     : "profile__avatar";
 
-  const history = useHistory();
-  const goEditPassword = useCallback(
-    () => history.push(EDIT_PASSWORD_ROUTE),
-    [history]
-  );
+  const avatarLink = values.avatar ?
+    `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
+    undefined;
 
   return (
     <Background>
@@ -123,10 +193,14 @@ export const Profile: FC<TProfileProps> = () => {
         <Flex align="center" justify="center">
           <div className="dot-avatar"></div>
           <Box className="profile__avatar-wrap">
-            <Avatar className={classAvatar} bg="red.500" size="lg" />
+            <Avatar
+              className={classAvatar}
+              bg={avatarLink ? "transparent" : "red.500"}
+              size="lg"
+              src={avatarLink}
+            />
             {renderUpload(propsUpload, isEdit)}
           </Box>
-
           <div className="dot-avatar"></div>
         </Flex>
         <Box w={1000} mt={8} p={6} rounded="lg" bg="white">
@@ -139,7 +213,7 @@ export const Profile: FC<TProfileProps> = () => {
                       <GridItem key={key} {...gridProps}>
                         <Input
                           variant={isEdit ? "outline" : "unstyled"}
-                          key={key}
+                          id={key}
                           label={label}
                           validate={validate}
                           placeholder={placeholder}
@@ -158,8 +232,8 @@ export const Profile: FC<TProfileProps> = () => {
                     Изменить пароль
                   </Button>
                 </GridItem>
-                <GridItem colStart={2}>
-                  {renderButtons(isEdit, toggleEdit, isSubmitBtnDisabled)}
+                <GridItem colStart={2} className="profile__buttons-section">
+                  {renderButtons(isEdit, startEditing, cancelEditing, isSubmitBtnDisabled, logout)}
                 </GridItem>
               </Grid>
             </form>
@@ -169,5 +243,3 @@ export const Profile: FC<TProfileProps> = () => {
     </Background>
   );
 };
-
-Profile.propTypes = {};

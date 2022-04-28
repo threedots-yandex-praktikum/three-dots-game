@@ -1,18 +1,34 @@
-import React, { FC, useCallback, useMemo } from "react";
+import React, {FC, useCallback, useContext, useMemo} from "react";
 import "./style.scss";
 import { Logo } from "components/Logo/Logo";
 import { FormikProvider, useFormik } from "formik";
 import { Input } from "components/Input/Input";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import { TLoginProps, TInitialValues } from "./types";
+import { TLoginProps } from "./types";
 import { Background } from "components/Background/Background";
 import {LOGIN_FORM_SCHEMA, INITIAL_STATE} from './constants'
+import {UserController} from "../../controllers/UserController";
+import {TSignInData} from "../../modules/api/authAPI";
+import {useHistory} from "react-router";
+import {HOME_ROUTE} from "../../constants/routes";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {UserContext} from "components/Root/context";
 
 
 export const Login: FC<TLoginProps> = () => {
-  const onSubmit = useCallback((values: TInitialValues) => {
-    alert(JSON.stringify(values, null, 2));
-  }, []);
+  const history = useHistory();
+  const { setUserData } = useContext(UserContext);
+
+  const onSubmit = useCallback(
+    (values: TSignInData) => UserController
+      .signIn(values)
+      .then(response => {
+        setUserData(response);
+        sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
+        return history.push(HOME_ROUTE)
+      }),
+    [setUserData, history],
+  );
 
 
   const formik = useFormik({
@@ -39,19 +55,20 @@ export const Login: FC<TLoginProps> = () => {
             <FormikProvider value={formik}>
               <form onSubmit={handleSubmit}>
                 {LOGIN_FORM_SCHEMA.map(
-                  ({ key, label, type, placeholder, validate }) => {
-                    return Input({
-                      key,
-                      label,
-                      type,
-                      validate,
-                      placeholder,
-                      error: errors[key as keyof typeof errors],
-                      touched: touched[key as keyof typeof touched],
-                      value: values[key as keyof typeof values],
-                      onChange: handleChange,
-                    });
-                  }
+                  ({ key, label, type, placeholder, validate }) => (
+                    <Input
+                      id={key}
+                      key={key}
+                      label={label}
+                      type={type}
+                      validate={validate}
+                      placeholder={placeholder}
+                      error={errors[key as keyof typeof errors]}
+                      touched={touched[key as keyof typeof touched]}
+                      value={values[key as keyof typeof values]}
+                      onChange={handleChange}
+                    />
+                  )
                 )}
 
                 <Flex align="center" justify="center">

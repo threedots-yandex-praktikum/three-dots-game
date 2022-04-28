@@ -1,5 +1,10 @@
-import React from "react";
-import { Switch, Route, Link, Redirect } from "react-router-dom";
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 
 import "./style.scss";
 import { Home } from "../../pages/Home/Home";
@@ -16,14 +21,18 @@ import {
   EDIT_PASSWORD_ROUTE,
 } from "../../constants/routes";
 import { Login } from "../../pages/Login/Login";
-import { Register } from "../../pages/Register/Register";
-import { Profile } from "../../pages/Profile/Profile";
-import { LeaderBoard } from "../../pages/LeaderBoard/LeaderBoard";
-import { Forum } from "../../pages/Forum/Forum";
-import { GameStart } from "../../pages/GameStart/GameStart";
-import { GamePlay } from "../../pages/GamePlay/GamePlay";
-import { GameOver } from "../../pages/GameOver/GameOver";
+import {Register} from "../../pages/Register/Register";
+import {Profile} from "../../pages/Profile/Profile";
+import {LeaderBoard} from "../../pages/LeaderBoard/LeaderBoard";
+import {Forum} from "../../pages/Forum/Forum";
+import {GameStart} from "../../pages/GameStart/GameStart";
+import {GamePlay} from "../../pages/GamePlay/GamePlay";
+import {GameOver} from "../../pages/GameOver/GameOver";
 import { EditPassword } from "../../pages/EditPassword";
+import {UserController} from "../../controllers/UserController";
+import {NOTIFICATION_LEVEL, sendNotification} from "../../modules/notification";
+import {UserContext} from "components/Root/context";
+
 
 /*
  * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -89,7 +98,7 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
   {
-    title: "Смена паролья",
+    title: "Смена пароля",
     route: EDIT_PASSWORD_ROUTE,
     isVisible: isVisibleForAuthenticatedUser,
     icon: null,
@@ -97,18 +106,35 @@ const NAVIGATION_SCHEMA = [
 ];
 
 export const App = () => {
-  // TODO в будущем убрать эту заглушку, когда появятся данные о пользователе
-  const isUserAuthenticated = true;
+  const { userData, setUserData } = useContext(UserContext);
+
+  const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
+
+    useEffect(
+    () => {
+      UserController
+        .fetchAndSetSignedUserData()
+        .then(setUserData)
+        .catch(() => {
+          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
+        })
+        .finally(() => setIsUserDataRequestInProgress(false));
+    },
+    [setUserData],
+  )
+
+  if(isUserDataRequestInProgress) {
+    return null;
+  }
 
   return (
     <div className="app">
-      <h1>Three dots game</h1>
-
-      {_renderNavigation(isUserAuthenticated)}
-
-      {isUserAuthenticated
-        ? _renderAppContent()
-        : _renderNotAuthenticatedContent()}
+      {_renderNavigation(!!userData)}
+      {
+        userData ?
+          _renderAppContent() :
+          _renderNotAuthenticatedContent()
+      }
     </div>
   );
 };
@@ -151,9 +177,10 @@ const _renderNavigation = (isUserAuthenticated: boolean) => {
 const _renderNotAuthenticatedContent = () => {
   return (
     <Switch>
-      <Route path={LOGIN_ROUTE} component={Login} />
-      <Route path={REGISTER_ROUTE} component={Register} />
-      <Redirect to={LOGIN_ROUTE} />
+      <Route path={LOGIN_ROUTE} component={Login}/>
+      <Route path={REGISTER_ROUTE} component={Register}/>
+      <Route path={HOME_ROUTE} component={Home}/>
+      <Redirect to={LOGIN_ROUTE}/>
     </Switch>
   );
 };

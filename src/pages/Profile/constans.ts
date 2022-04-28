@@ -46,6 +46,12 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
+    key: "display_name",
+    label: "Никнейм",
+    placeholder: EMPTY_STRING,
+    validate: () => undefined,
+  },
+  {
     key: "phone",
     label: "Телефон",
     placeholder: EMPTY_STRING,
@@ -56,11 +62,3 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
 ];
-
-export const INITIAL_STATE = {
-  login: "login",
-  email: "name@yandex.ru",
-  first_name: "Иван",
-  second_name: "Иванов",
-  phone: "89009999999",
-};

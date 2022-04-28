@@ -3,7 +3,9 @@
 .profile {
   &__avatar-wrap {
     position: relative;
-    
+    border: 2px solid $color-dot;
+    border-radius: 50%;
+
   }
 
   &__avatar {
@@ -12,7 +14,7 @@
 
     }
   }
-  
+
   &__upload {
     position: absolute;
     top: 0;
@@ -22,7 +24,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 50%;
+    border-radius: 50%;
+  }
+
+  &__buttons-section {
+    margin-top: 9px;
+    align-self: center;
   }
 }
 
