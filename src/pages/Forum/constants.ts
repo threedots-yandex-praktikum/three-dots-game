@@ -33,6 +33,7 @@ export const SEND_MESSAGE_FORM_SCHEMA = [
     label: EMPTY_STRING,
     placeholder: EMPTY_STRING,
     as: Textarea,
+    className: "resize_none",
     validate: (value: string) => {
       if (value.match(VALIDATION.REQUIRED.pattern) == null) {
         return VALIDATION.REQUIRED.message;

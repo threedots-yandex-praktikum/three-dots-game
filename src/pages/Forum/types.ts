@@ -1,9 +1,9 @@
 export type TForumProps = Record<string, unknown>;
-export type TThemProps = {
-  them: TThem;
+export type TTopicProps = {
+  them: TTopic;
 };
 
-export type TThem = {
+export type TTopic = {
   themId: number;
   title: string;
   date: number;
@@ -16,17 +16,17 @@ export type TLastMessage = {
 } | null;
 
 export type TInteractivePanelProps = {
-  themName?: string;
+  topicName?: string;
   onOpen: () => void;
 };
 
 export type TListOfThemsProps = {
-  thems: TThem[];
+  thems: TTopic[];
   setTitle: (title: string) => unknown;
   setIsSelected: (flag: boolean) => void;
 };
 
-export type TCreateThemeProps = {
+export type TCreateTopicProps = {
   isOpen: boolean;
   onClose: () => void;
 };

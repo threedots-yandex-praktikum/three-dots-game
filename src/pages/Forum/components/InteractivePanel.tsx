@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import { TInteractivePanelProps } from '../types';
 
 
-export const InteractivePanel: FC<TInteractivePanelProps> = ({ themName,onOpen }) => {
+
+export const InteractivePanel: FC<TInteractivePanelProps> = ({ topicName, onOpen }) => {
 
 
     return (
@@ -18,15 +19,19 @@ export const InteractivePanel: FC<TInteractivePanelProps> = ({ themName,onOpen }
                         Форум
                     </Link>
                 </Text>
-                {themName &&
+                {topicName &&
                     <Text display="inline">
-                        {" > "}{themName}
+                        {" > "}{topicName}
                     </Text>
                 }
             </Box>
             <Box w="25%" ml="5px">
-                {themName
-                    ? <Button colorScheme="red">Закрыть тему &times;</Button>
+                {topicName
+                    ? <Button
+                        colorScheme="red"
+                    >
+                        Закрыть тему &times;
+                    </Button>
                     : <Button onClick={onOpen} colorScheme="purple">Создать тему +</Button>
                 }
             </Box>

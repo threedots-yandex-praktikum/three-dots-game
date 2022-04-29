@@ -51,21 +51,21 @@ export const MessageForm: FC<TMessageFormProps> = () => {
             SEND_MESSAGE_FORM_SCHEMA
               .map(
                 ({
+                  className,
                   as,
                   key,
                   label,
                   placeholder,
                   validate,
-
                 }) => {
                   return (
                     <Box key={key}>
                       {
                         Input({
+                          className,
                           as,
                           key,
                           label,
-
                           validate,
                           placeholder,
                           error: errors[key as keyof typeof errors],
@@ -84,7 +84,6 @@ export const MessageForm: FC<TMessageFormProps> = () => {
           disabled={isSubmitBtnDisabled}
           type="submit"
           colorScheme="purple"
-
         >
           Отправить
         </Button>

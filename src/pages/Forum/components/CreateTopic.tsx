@@ -6,7 +6,7 @@ import { FormikProvider, useFormik } from "formik";
 import { EMPTY_STRING } from "pages/Register/constants";
 import React, { FC, useCallback, useMemo } from "react";
 import { CREATE_TOPIC_FORM_SCHEMA } from "../constants";
-import { TCreateThemeProps } from "../types";
+import { TCreateTopicProps } from "../types";
 
 const INITIAL_STATE = {
     title: EMPTY_STRING,
@@ -14,7 +14,7 @@ const INITIAL_STATE = {
 
 };
 
-export const CreateTheme: FC<TCreateThemeProps> = ({ isOpen, onClose }) => {
+export const CreateTopic: FC<TCreateTopicProps> = ({ isOpen, onClose }) => {
 
     const onSubmit = useCallback(
         values => {
@@ -92,7 +92,7 @@ export const CreateTheme: FC<TCreateThemeProps> = ({ isOpen, onClose }) => {
                 <ModalFooter>
                     <Button colorScheme='blue' mr={3} onClick={onClose}>
                         Закрыть
-            </Button>
+                    </Button>
                     <Button
                         variant='ghost'
                         colorScheme="purple"

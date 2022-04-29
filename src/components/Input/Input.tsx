@@ -1,5 +1,5 @@
 import React from 'react';
-import {Field} from "formik";
+import { Field } from "formik";
 import {
   FormControl,
   FormErrorMessage,
@@ -22,8 +22,9 @@ export const Input = ({
   onChange,
   as,
   type = 'text',
+  className,
 }: TInputProps) => {
-  
+
   return (
     <FormControl
       isInvalid={touched && !!error}
@@ -40,6 +41,7 @@ export const Input = ({
         onChange={onChange}
         validate={validate}
         variant="filled"
+        className={className}
       />
       {
         error ?

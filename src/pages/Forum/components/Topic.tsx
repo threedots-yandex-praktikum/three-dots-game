@@ -1,10 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { getDateString } from '../../../utils/getDateString';
-import { TThemProps, TLastMessage } from '../types';
+import { TTopicProps, TLastMessage } from '../types';
 
 
-export const Them: FC<TThemProps> = ({them}:TThemProps ) => {
+export const Topic: FC<TTopicProps> = ({ them }: TTopicProps) => {
 
     return (
         <Flex borderRadius="7px" justifyContent="start" className="them" >
