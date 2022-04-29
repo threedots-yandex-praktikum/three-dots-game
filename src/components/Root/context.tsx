@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export type TUserData = {
-  id: string,
+  id: number,
   login: string,
   email: string,
   phone: string,
@@ -13,7 +13,7 @@ export type TUserData = {
 
 export type TUserContext = {
   userData: TUserData | null,
-  setUserData: (value: unknown) => unknown,
+  setUserData: (value: TUserData | null) => void,
 }
 
 export const UserContext = React.createContext({

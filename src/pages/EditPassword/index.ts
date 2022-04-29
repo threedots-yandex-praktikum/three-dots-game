@@ -1,2 +1,1 @@
-import { EditPassword } from './EditPassword';
-export { EditPassword };
+export { EditPassword } from './EditPassword';
