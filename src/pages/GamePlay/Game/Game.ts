@@ -13,17 +13,24 @@ export class Game {
   dotPlayer: TDotPlayer;
   gameFinished = false;
   sizeScreen: TSizeScreen;
+  callbackEvents: Record<string, ((event: KeyboardEvent) => void) > = {};
   constructor(ctx: CanvasRenderingContext2D, sizeScreen: TSizeScreen) {
     this.ctx = ctx;
     this.dotPlayer = new DotPlayer();
     this.interactionDots = new InteractionDots(this.dotPlayer);
-    this.sizeScreen = sizeScreen;
+    this.sizeScreen = sizeScreen;    
   }
 
   start() {
     this.initHandlerMotionPlayer();
     this.drawGame();
     this.reInitDotsBots();
+  }
+
+  stop() {
+    this.gameFinished = true;
+    document.addEventListener('keydown', this.callbackEvents.keydown);
+    document.addEventListener('keyup', this.callbackEvents.keyup);
   }
 
   reInitDotsBots() {
@@ -36,23 +43,25 @@ export class Game {
   }
 
   initHandlerMotionPlayer() {
-    document.addEventListener('keydown', (event) => {      
+    this.callbackEvents.keydown = (event: KeyboardEvent) => {
       if (
         !Object.values(codeKeyboard).includes(event.key)
       ) {
         return;
       }
       this.dotPlayer.move(event.key);
-    });
-
-    document.addEventListener('keyup', (event) => {
+    };
+    this.callbackEvents.keyup = (event: KeyboardEvent) => {
       this.dotPlayer.stopMove(event.key);
-    });
+    };
+
+    document.addEventListener('keydown', this.callbackEvents.keydown);
+    document.addEventListener('keyup', this.callbackEvents.keyup);
   }
 
   private drawGame() {
     if (!this.dotPlayer.isActive) {
-      this.gameFinished = true;
+      this.stop();
       return;
     }
     this.ctx.clearRect(0, 0, SIZE_CANVAS, SIZE_CANVAS);
