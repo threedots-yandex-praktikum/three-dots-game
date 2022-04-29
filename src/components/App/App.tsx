@@ -70,7 +70,8 @@ const NAVIGATION_SCHEMA = [
   {
     title: 'Форум',
     route: FORUM_ROUTE,
-    isVisible: isVisibleForAuthenticatedUser,
+    // isVisible: isVisibleForAuthenticatedUser,
+    isVisible: defaultIsVisible,
     icon: null,
   },
   {
@@ -123,7 +124,7 @@ export const App = () => {
     [setUserData],
   );
 
-  if(isUserDataRequestInProgress) {
+  if (isUserDataRequestInProgress) {
     return null;
   }
 
@@ -141,7 +142,8 @@ export const App = () => {
         }
       </div>
       {
-        userData ?
+        // userData ?
+        !userData ?
           (
             <div className="app__content">
               <Switch>
@@ -162,10 +164,10 @@ export const App = () => {
           ) :
           (
             <Switch>
-              <Route path={LOGIN_ROUTE} component={Login}/>
-              <Route path={REGISTER_ROUTE} component={Register}/>
-              <Route path={HOME_ROUTE} component={Home}/>
-              <Redirect to={LOGIN_ROUTE}/>
+              <Route path={LOGIN_ROUTE} component={Login} />
+              <Route path={REGISTER_ROUTE} component={Register} />
+              <Route path={HOME_ROUTE} component={Home} />
+              <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )
       }

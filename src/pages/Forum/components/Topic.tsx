@@ -4,18 +4,19 @@ import { getDateString } from '../../../utils/getDateString';
 import { TTopicProps, TLastMessage } from '../types';
 
 
-export const Topic = ({ them }: TTopicProps) => {
+export const Topic = ({ topic }: TTopicProps) => {
 
+  const { date, title, lastMessage } = topic
   return (
-        <Flex borderRadius="7px" justifyContent="start" className="them" >
-            <Box w="60%" px="4px">
-                <Text >{them.title}</Text>
-            </Box>
-            <Box w="20%">
-                <Text>{getDateString(them.date)}</Text>
-            </Box >
-            {_renderLastMessage(them.lastMessage)}
-        </Flex>
+    <Flex borderRadius="7px" justifyContent="start" className="them" >
+      <Box w="60%" px="4px">
+        <Text >{title}</Text>
+      </Box>
+      <Box w="20%">
+        <Text>{getDateString(date)}</Text>
+      </Box >
+      {_renderLastMessage(lastMessage)}
+    </Flex>
   );
 };
 
@@ -27,9 +28,9 @@ const _renderLastMessage = (message: TLastMessage) => {
   };
 
   return (
-        <Box w="20%">
-            <Text>{message && _getLastMessageString(message)}</Text>
-        </Box>
+    <Box w="20%">
+      <Text>{message && _getLastMessageString(message)}</Text>
+    </Box>
   );
 
 };

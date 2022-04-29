@@ -1,12 +1,21 @@
-import React  from 'react';
+import React, { useEffect } from 'react';
 import { TListOfThemsProps } from '../types';
 import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { FORUM_ROUTE } from 'constants/routes';
 import { Topic } from './Topic';
+import { mockThemList } from '../Forum';
 
 
-export const ListOfThems = ({ thems, setTitle, setIsSelected }: TListOfThemsProps) => {
+
+
+export const ListOfThems = ({ setCurrentId }: TListOfThemsProps) => {
+  const topics = mockThemList; // из useEffect
+  const history = useHistory()
+
+  useEffect(() => {
+    //получение тем (const topics =...)
+  });
 
   return (
     <Flex
@@ -30,18 +39,18 @@ export const ListOfThems = ({ thems, setTitle, setIsSelected }: TListOfThemsProp
         </Box>
       </Flex>
       <Divider orientation="horizontal" border="2px" />
-      {thems.map(them => {
+      {topics.map(topic => {
+        const { topicId } = topic
         return (
-          <Link
-            key={them.themId}
-            to={`${FORUM_ROUTE}/${them.themId}`}
+          <div
+            key={topicId}
             onClick={() => {
-              setTitle(them.title);
-              setIsSelected(true);
+              setCurrentId(topicId)
+              history.push([FORUM_ROUTE, topicId].join('/'))
             }}
           >
-            <Topic them={them} />
-          </Link>
+            <Topic topic={topic} />
+          </div>
         );
       })}
     </Flex>

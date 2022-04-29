@@ -1,9 +1,9 @@
 export type TTopicProps = {
-  them: TTopic;
+  topic: TTopic;
 };
 
 export type TTopic = {
-  themId: number;
+  topicId: number;
   title: string;
   date: number;
   lastMessage: TLastMessage;
@@ -20,15 +20,20 @@ export type TInteractivePanelProps = {
 };
 
 export type TListOfThemsProps = {
-  thems: TTopic[];
-  setTitle: (title: string) => unknown;
-  setIsSelected: (flag: boolean) => void;
+  setCurrentId: (id: number | null) => unknown;
+  currentTopicId: number | null;
 };
 
 export type TCreateTopicProps = {
   isOpen: boolean;
   onClose: () => void;
 };
+
 export type TCurrentTopicProps = {
-  topicId: number;
+  setCurrentId: (id: number | null) => unknown;
+  currentTopicId: number | null;
+};
+
+export type TParams = {
+  topicId: string;
 };

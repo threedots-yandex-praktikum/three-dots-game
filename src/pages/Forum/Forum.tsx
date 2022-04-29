@@ -1,15 +1,17 @@
 import { Container } from '@chakra-ui/react';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import './style.scss';
 import { InteractivePanel } from './components/InteractivePanel';
 import { FORUM_ROUTE } from 'constants/routes';
 import { ListOfThems } from './components/ListOfThems';
 import { CreateTopic } from './components/CreateTopic';
 import { CurrentTopic } from './components/CurrentTopic';
+import { Route, Switch } from 'react-router-dom';
 
-const mockThemList = [
+// TODO данные ниже брать из store
+export const mockThemList = [
   {
-    themId: 1,
+    topicId: 1,
     title: 'TITLE_1',
     date: new Date().getTime(),
     lastMessage: {
@@ -19,7 +21,7 @@ const mockThemList = [
     },
   },
   {
-    themId: 2,
+    topicId: 2,
     title: 'TITLE_2',
     date: new Date().getTime(),
     lastMessage: {
@@ -29,13 +31,13 @@ const mockThemList = [
     },
   },
   {
-    themId: 3,
+    topicId: 3,
     title: 'TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3',
     date: new Date().getTime(),
     lastMessage: null,
   },
   {
-    themId: 4,
+    topicId: 4,
     title: 'TITLE_33',
     date: new Date().getTime(),
     lastMessage: {
@@ -47,28 +49,39 @@ const mockThemList = [
 ];
 
 export const Forum = () => {
-  const [currentTopicTitle, setCurrentTheme] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
-  let urlParam = parseInt(location.pathname.split('/').pop() as string);
-  const [isSelected, setIsSelected] = useState(false);
+  const [currentTopicId, setCurrentId] = useState<null | number>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    //получение тем
-  });
+  const currentTopicTitle = useMemo(() => {
+    return mockThemList.find(i => i.topicId === currentTopicId)?.title
+  }, [currentTopicId])
 
-  useEffect(() => {
-    urlParam = parseInt(location.pathname.split('/').pop() as string);
-    if (location.pathname === FORUM_ROUTE) {
-      setCurrentTheme('');
-      setIsSelected(false);
-    }
-    if (urlParam) {
-      const topicTitle = mockThemList.find(i => i.themId === urlParam)?.title;
-      if (!topicTitle) throw new Error('Темы с таким ID нет');
-      setIsSelected(true);
-      setCurrentTheme(topicTitle as string);
-    }
-  }, [location.pathname, currentTopicTitle]);
+  // const params: TParams = useParams()
+  // const topicId = params.topicId
+
+  // useEffect(() => {
+  //   console.log(topicId, 'topicId');
+  //   setCurrentId()
+
+  // }, [currentTopicId])
+
+  // useEffect(() => {
+  //   const topicId = params.topicId
+
+  //   console.log(topicId, 'undefined');
+  //   if (topicId !== undefined) {
+  //     console.log(params.topicId, 'params1');
+  //     const isInThemList = mockThemList.find(i => i.topicId === currentTopicId)
+  //     console.log(params.topicId, 'params22');
+
+  //     if (!isInThemList) throw new Error('Темы с таким ID нет')
+  //   } else {
+  //     setCurrentId(null)
+
+  //   }
+
+
+  // }, [currentTopicId])
 
   return (
     <Container
@@ -80,16 +93,18 @@ export const Forum = () => {
       maxW="full"
       minH="100vh"
     >
-      <InteractivePanel topicName={currentTopicTitle} onOpen={() => setIsOpen(true)} />
-      {isSelected
-        //TODO currentThem
-        ? <CurrentTopic topicId={urlParam} />
-        : <ListOfThems thems={mockThemList} setTitle={setCurrentTheme} setIsSelected={setIsSelected} />
-
-      }
+      <InteractivePanel topicName={currentTopicTitle} onOpen={() => setIsModalOpen(true)} />
+      <Switch>
+        <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
+          <CurrentTopic setCurrentId={(id) => setCurrentId(id)} currentTopicId={currentTopicId} />
+        </Route>
+        <Route path={FORUM_ROUTE}  >
+          <ListOfThems currentTopicId={currentTopicId} setCurrentId={(id) => setCurrentId(id)} />
+        </Route>
+      </Switch>
       <CreateTopic
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </Container>
   );
