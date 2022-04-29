@@ -1,23 +1,23 @@
-import { Button, Container, Flex, Text } from "@chakra-ui/react";
-import { Background } from "components/Background/Background";
-import React from "react";
-import { TErrorBoundaryProps, TErrorBoundaryState } from "./types";
+import { Button, Container, Flex, Text } from '@chakra-ui/react';
+import { Background } from 'components/Background';
+import React from 'react';
+import { TErrorBoundaryProps, TErrorBoundaryState } from './types';
+
 
 export class ErrorBoundary extends React.Component<TErrorBoundaryProps> {
   state: TErrorBoundaryState = {
     hasError: false,
-    error: null
-  }
+    error: null,
+  };
 
 
   static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error) {
     //TODO логирование ошибки
     console.log(error);
-
   }
 
   render() {
@@ -29,8 +29,8 @@ export class ErrorBoundary extends React.Component<TErrorBoundaryProps> {
             <Flex justifyContent="center" mt="10px">
               <Button
                 onClick={() => {
-                  this.setState({ hasError: null, error: null })
-                  this.props.onClick()
+                  this.setState({ hasError: null, error: null });
+                  this.props.onClick();
                 }}
               >
                 Назад
@@ -42,4 +42,4 @@ export class ErrorBoundary extends React.Component<TErrorBoundaryProps> {
     }
     return this.props.children;
   }
-};
+}

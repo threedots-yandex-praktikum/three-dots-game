@@ -1,6 +1,16 @@
-import {VALIDATION} from "../../constants/validation";
+import { VALIDATION } from 'constants/validation';
+import { EMPTY_STRING } from 'constants/generalConst';
 
-export const EMPTY_STRING = '';
+
+export const REGISTER_INITIAL_STATE = {
+  login: EMPTY_STRING,
+  email: EMPTY_STRING,
+  first_name: EMPTY_STRING,
+  second_name: EMPTY_STRING,
+  phone: EMPTY_STRING,
+  password: EMPTY_STRING,
+  password_repeat: EMPTY_STRING,
+};
 
 export const REGISTER_FORM_SCHEMA = [
   {
