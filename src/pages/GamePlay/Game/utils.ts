@@ -18,5 +18,5 @@ export function getRadians(degrees: number) {
 }
 
 export function getRadiusFromArea(area: number): number {
-  return Math.floor(Math.sqrt(area/Math.PI))
+  return Math.floor(Math.sqrt(area/Math.PI));
 }

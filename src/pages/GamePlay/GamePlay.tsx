@@ -1,28 +1,37 @@
-import React, { FC, useRef, useEffect } from "react";
-import "./style.scss";
-import { TGamePlayProps } from "./types";
-import {
-  SIZE_CANVAS
-} from './settingsGame'
-import {Game} from './Game' 
+import React, { FC, useRef, useEffect } from 'react';
+import './style.scss';
+import { TGamePlayProps } from './types';
+import { SIZE_CANVAS } from './Game/settingsGame';
+import { Game } from './Game/Game';
 
 export const GamePlay: FC<TGamePlayProps> = () => {
-  const ref = useRef(null);
-  
+  const refCanvas = useRef(null);
+  const refScreen = useRef(null);
   useEffect(() => {
-    if (ref?.current) {
-      const ctx = (ref.current as HTMLCanvasElement).getContext("2d");
-      if (ctx) {
-        const game = new Game(ctx, );
-        game.start()
+    let sizeScreen = {
+      w: 0,
+      h: 0,
+    };
 
+    if (refScreen.current) {
+      sizeScreen = {
+        w: (refScreen.current as HTMLDivElement).clientWidth,
+        h: (refScreen.current as HTMLDivElement).clientHeight,
+      };
+    }
+    if (refCanvas?.current) {
+      const ctx = (refCanvas.current as HTMLCanvasElement).getContext('2d');
+      if (ctx) {
+
+        const game = new Game(ctx, sizeScreen);
+        game.start();
       }
     }
   }, []);
 
   return (
-    <div className="playing-field">
-      <canvas ref={ref} width={SIZE_CANVAS} height={SIZE_CANVAS} />
+    <div ref={refScreen} className="playing-field">
+      <canvas ref={refCanvas} width={SIZE_CANVAS} height={SIZE_CANVAS} />
     </div>
   );
 };
