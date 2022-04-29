@@ -1,10 +1,9 @@
-import React, { FC, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import './style.scss';
-import { TGamePlayProps } from './types';
 import { SIZE_CANVAS } from './Game/settingsGame';
 import { Game } from './Game/Game';
 
-export const GamePlay: FC<TGamePlayProps> = () => {
+export const GamePlay = () => {
   const refCanvas = useRef(null);
   const refScreen = useRef(null);
   useEffect(() => {
