@@ -1,12 +1,12 @@
-import React, { FC } from "react"
-import { TListOfThemsProps } from "../types"
+import React  from 'react';
+import { TListOfThemsProps } from '../types';
 import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
-import { Link } from "react-router-dom";
-import { FORUM_ROUTE } from "constants/routes";
-import { Topic } from "./Topic";
+import { Link } from 'react-router-dom';
+import { FORUM_ROUTE } from 'constants/routes';
+import { Topic } from './Topic';
 
-export const ListOfThems: FC<TListOfThemsProps> = ({ thems, setTitle, setIsSelected }) => {
 
+export const ListOfThems = ({ thems, setTitle, setIsSelected }: TListOfThemsProps) => {
 
   return (
     <Flex
@@ -36,14 +36,14 @@ export const ListOfThems: FC<TListOfThemsProps> = ({ thems, setTitle, setIsSelec
             key={them.themId}
             to={`${FORUM_ROUTE}/${them.themId}`}
             onClick={() => {
-              setTitle(them.title)
-              setIsSelected(true)
+              setTitle(them.title);
+              setIsSelected(true);
             }}
           >
             <Topic them={them} />
           </Link>
-        )
+        );
       })}
     </Flex>
-  )
-}
+  );
+};

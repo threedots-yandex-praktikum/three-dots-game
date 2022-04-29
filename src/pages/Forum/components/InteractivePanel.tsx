@@ -1,27 +1,25 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { FORUM_ROUTE } from 'constants/routes';
-import React, { FC } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { TInteractivePanelProps } from '../types';
 
 
 
-export const InteractivePanel: FC<TInteractivePanelProps> = ({ topicName, onOpen }) => {
-
-
-    return (
+export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) => {
+  return (
         <Flex p="10px" my="15px" boxShadow="dark-lg" bg="#ffffff" w="100%">
             <Box flexGrow={1}>
                 <Text as="span">
-                    <span>{" > "} </span>
+                    <span>{' > '} </span>
                     <Link className="nav-link" to={FORUM_ROUTE} >
                         Форум
                     </Link>
                 </Text>
                 {topicName &&
                     <Text display="inline">
-                        {" > "}{topicName}
+                        {' > '}{topicName}
                     </Text>
                 }
             </Box>
@@ -36,5 +34,5 @@ export const InteractivePanel: FC<TInteractivePanelProps> = ({ topicName, onOpen
                 }
             </Box>
         </Flex>
-    )
-}
+  );
+};

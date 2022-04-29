@@ -1,34 +1,35 @@
-import { Button } from "@chakra-ui/button";
-import { Box, Flex } from "@chakra-ui/layout";
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/modal";
-import { Input } from "components/Input/Input";
-import { FormikProvider, useFormik } from "formik";
-import { EMPTY_STRING } from "pages/Register/constants";
-import React, { FC, useCallback, useMemo } from "react";
-import { CREATE_TOPIC_FORM_SCHEMA } from "../constants";
-import { TCreateTopicProps } from "../types";
+import { Button } from '@chakra-ui/button';
+import { Box, Flex } from '@chakra-ui/layout';
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from '@chakra-ui/modal';
+import { Input } from 'components/Input/Input';
+import { FormikProvider, useFormik } from 'formik';
+import React, { useCallback, useMemo } from 'react';
+import { CREATE_TOPIC_FORM_SCHEMA } from '../constants';
+import { TCreateTopicProps } from '../types';
+import { EMPTY_STRING } from 'constants/generalConst';
+
 
 const INITIAL_STATE = {
-    title: EMPTY_STRING,
-    message: EMPTY_STRING,
+  title: EMPTY_STRING,
+  message: EMPTY_STRING,
 
 };
 
-export const CreateTopic: FC<TCreateTopicProps> = ({ isOpen, onClose }) => {
+export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
 
-    const onSubmit = useCallback(
+  const onSubmit = useCallback(
         values => {
-            console.log(values)
+          console.log(values);
         },
         [],
     );
 
-    const formik = useFormik({
-        initialValues: INITIAL_STATE,
-        onSubmit,
-    })
+  const formik = useFormik({
+    initialValues: INITIAL_STATE,
+    onSubmit,
+  });
 
-    const {
+  const {
         errors,
         touched,
         handleSubmit,
@@ -36,13 +37,13 @@ export const CreateTopic: FC<TCreateTopicProps> = ({ isOpen, onClose }) => {
         values,
     } = formik;
 
-    const isSubmitBtnDisabled = useMemo(
+  const isSubmitBtnDisabled = useMemo(
         () => values === INITIAL_STATE ||
             Object.values(errors).some(item => !!item),
         [values, errors],
     );
 
-    return (
+  return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg">
             <ModalOverlay />
             <ModalContent>
@@ -61,26 +62,26 @@ export const CreateTopic: FC<TCreateTopicProps> = ({ isOpen, onClose }) => {
                                                 label,
                                                 placeholder,
                                                 validate,
-                                                type
+                                                type,
                                             }) => {
-                                                return (
+                                              return (
                                                     <Box key={key}>
                                                         {
                                                             Input({
-                                                                as,
-                                                                key,
-                                                                label,
-                                                                type,
-                                                                validate,
-                                                                placeholder,
-                                                                error: errors[key as keyof typeof errors],
-                                                                touched: touched[key as keyof typeof touched],
-                                                                value: values[key as keyof typeof values],
-                                                                onChange: handleChange,
+                                                              as,
+                                                              id: key,
+                                                              label,
+                                                              type,
+                                                              validate,
+                                                              placeholder,
+                                                              error: errors[key as keyof typeof errors],
+                                                              touched: touched[key as keyof typeof touched],
+                                                              value: values[key as keyof typeof values],
+                                                              onChange: handleChange,
                                                             })
                                                         }
                                                     </Box>
-                                                );
+                                              );
                                             },
                                         )
                                 }
@@ -105,5 +106,5 @@ export const CreateTopic: FC<TCreateTopicProps> = ({ isOpen, onClose }) => {
                 </ModalFooter>
             </ModalContent>
         </Modal>
-    )
-}
+  );
+};

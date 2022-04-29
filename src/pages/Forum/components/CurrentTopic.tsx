@@ -1,104 +1,104 @@
-import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from "@chakra-ui/layout"
-import { Avatar } from "@chakra-ui/react"
-import React, { FC, useEffect } from "react"
-import { getDateString } from "../../../utils/getDateString"
-import { TCurrentTopicProps } from "../types"
-import { MessageForm } from "./MessageForm"
+import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
+import { Avatar } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { getDateString } from '../../../utils/getDateString';
+import { TCurrentTopicProps } from '../types';
+import { MessageForm } from './MessageForm';
 
 
 
 
 // TODO данные ниже брать из store
 const mockMessages = [
-    {
-        messageId: 1,
-        avatarLink: undefined,
-        userName: "USER_1_LONG_LONG_LONG_LONG_LONG",
-        time: new Date().getTime(),
-        text: "lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-    },
-    {
-        messageId: 2,
-        avatarLink: undefined,
+  {
+    messageId: 1,
+    avatarLink: undefined,
+    userName: 'USER_1_LONG_LONG_LONG_LONG_LONG',
+    time: new Date().getTime(),
+    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+  },
+  {
+    messageId: 2,
+    avatarLink: undefined,
 
-        userName: "USER_2",
-        time: new Date().getTime(),
-        text: "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-    },
-    {
-        messageId: 3,
-        avatarLink: undefined,
+    userName: 'USER_2',
+    time: new Date().getTime(),
+    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+  },
+  {
+    messageId: 3,
+    avatarLink: undefined,
 
-        userName: "USER_3",
-        time: new Date().getTime(),
-        text: "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-    },
-    {
-        messageId: 4,
-        avatarLink: undefined,
+    userName: 'USER_3',
+    time: new Date().getTime(),
+    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+  },
+  {
+    messageId: 4,
+    avatarLink: undefined,
 
-        userName: "USER_1",
-        time: new Date().getTime(),
-        text: "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-    },
-    {
-        messageId: 5,
-        userName: "USER_5",
-        avatarLink: undefined,
+    userName: 'USER_1',
+    time: new Date().getTime(),
+    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+  },
+  {
+    messageId: 5,
+    userName: 'USER_5',
+    avatarLink: undefined,
 
-        time: new Date().getTime(),
-        text: "lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem "
-    },
-    {
-        messageId: 6,
-        avatarLink: undefined,
+    time: new Date().getTime(),
+    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+  },
+  {
+    messageId: 6,
+    avatarLink: undefined,
 
-        userName: "USER_2",
-        time: new Date().getTime(),
-        text: "lorem "
-    },
-    {
-        messageId: 7,
-        avatarLink: undefined,
+    userName: 'USER_2',
+    time: new Date().getTime(),
+    text: 'lorem ',
+  },
+  {
+    messageId: 7,
+    avatarLink: undefined,
 
-        userName: "USER_12",
-        time: new Date().getTime(),
-        text: "lorem "
-    },
-    {
-        messageId: 8,
-        avatarLink: undefined,
+    userName: 'USER_12',
+    time: new Date().getTime(),
+    text: 'lorem ',
+  },
+  {
+    messageId: 8,
+    avatarLink: undefined,
 
-        userName: "USER_21",
-        time: new Date().getTime(),
-        text: "lorem "
-    },
-    {
-        messageId: 9,
-        avatarLink: undefined,
+    userName: 'USER_21',
+    time: new Date().getTime(),
+    text: 'lorem ',
+  },
+  {
+    messageId: 9,
+    avatarLink: undefined,
 
-        userName: "USER_211",
-        time: new Date().getTime(),
-        text: "lorem "
-    },
-]
+    userName: 'USER_211',
+    time: new Date().getTime(),
+    text: 'lorem ',
+  },
+];
 const mockData = {
-    countMessages: 5,
-    title: "topic title"
-}
+  countMessages: 5,
+  title: 'topic title',
+};
 
 const my = {
-    avatarLink: undefined
-}
+  avatarLink: undefined,
+};
 
 
-export const CurrentTopic: FC<TCurrentTopicProps> = ({ topicId }) => {
+export const CurrentTopic = ({ topicId }: TCurrentTopicProps) => {
 
-    useEffect(() => {
-        // получить контент по id        
-    }, [topicId])
+  useEffect(() => {
+        // получить контент по id
+  }, [topicId]);
 
-    return (
+  return (
         <Flex
             boxShadow="dark-lg"
             direction="column"
@@ -113,7 +113,7 @@ export const CurrentTopic: FC<TCurrentTopicProps> = ({ topicId }) => {
             </Heading>
             <Divider orientation="horizontal" border="2px" />
             {mockMessages.map(message => {
-                return (
+              return (
                     <Stack
                         divider={<StackDivider borderColor='gray.200' />}
                         direction="row"
@@ -145,7 +145,7 @@ export const CurrentTopic: FC<TCurrentTopicProps> = ({ topicId }) => {
                             {message.text}
                         </Box>
                     </Stack>
-                )
+              );
             })}
             <Stack
                 divider={<StackDivider borderColor='gray.200' />}
@@ -174,5 +174,5 @@ export const CurrentTopic: FC<TCurrentTopicProps> = ({ topicId }) => {
                 </Box>
             </Stack>
         </Flex>
-    )
-} 
+  );
+};

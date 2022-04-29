@@ -1,4 +1,3 @@
-export type TForumProps = Record<string, unknown>;
 export type TTopicProps = {
   them: TTopic;
 };
@@ -33,5 +32,3 @@ export type TCreateTopicProps = {
 export type TCurrentTopicProps = {
   topicId: number;
 };
-
-export type TMessageFormProps = {};

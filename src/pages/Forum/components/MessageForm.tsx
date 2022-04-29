@@ -1,25 +1,21 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
-import { Input } from "components/Input/Input";
-import { FormikProvider, useFormik } from "formik";
-import { EMPTY_STRING } from "pages/Register/constants";
-import React from "react";
-import { FC, useCallback, useMemo } from "react";
-import { SEND_MESSAGE_FORM_SCHEMA } from "../constants";
-import { TMessageFormProps } from "../types";
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { Input } from 'components/Input/Input';
+import { FormikProvider, useFormik } from 'formik';
+import React from 'react';
+import { useCallback, useMemo } from 'react';
+import { SEND_MESSAGE_FORM_SCHEMA } from '../constants';
+import { EMPTY_STRING } from 'constants/generalConst';
 
 
 const INITIAL_STATE = {
   message: EMPTY_STRING,
-
 };
 
-
-
-export const MessageForm: FC<TMessageFormProps> = () => {
+export const MessageForm = () => {
 
   const onSubmit = useCallback(
     values => {
-      console.log(values)
+      console.log(values);
     },
     [],
   );
@@ -27,7 +23,7 @@ export const MessageForm: FC<TMessageFormProps> = () => {
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     onSubmit,
-  })
+  });
 
   const {
     errors,
@@ -64,7 +60,7 @@ export const MessageForm: FC<TMessageFormProps> = () => {
                         Input({
                           className,
                           as,
-                          key,
+                          id: key,
                           label,
                           validate,
                           placeholder,
@@ -90,4 +86,4 @@ export const MessageForm: FC<TMessageFormProps> = () => {
       </form>
     </FormikProvider>
   );
-}
+};

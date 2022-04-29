@@ -1,7 +1,6 @@
 import { Container } from '@chakra-ui/react';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './style.scss';
-import { TForumProps } from './types';
 import { InteractivePanel } from './components/InteractivePanel';
 import { FORUM_ROUTE } from 'constants/routes';
 import { ListOfThems } from './components/ListOfThems';
@@ -11,66 +10,65 @@ import { CurrentTopic } from './components/CurrentTopic';
 const mockThemList = [
   {
     themId: 1,
-    title: "TITLE_1",
+    title: 'TITLE_1',
     date: new Date().getTime(),
     lastMessage: {
       userName: 'User1',
-      message: "Lorem Lorem Lorem Lorem Lorem Lorem Lorem "
+      message: 'Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
 
     },
   },
   {
     themId: 2,
-    title: "TITLE_2",
+    title: 'TITLE_2',
     date: new Date().getTime(),
     lastMessage: {
       userName: 'User2',
-      message: "1"
+      message: '1',
 
     },
   },
   {
     themId: 3,
-    title: "TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3",
+    title: 'TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3',
     date: new Date().getTime(),
-    lastMessage: null
+    lastMessage: null,
   },
   {
     themId: 4,
-    title: "TITLE_33",
+    title: 'TITLE_33',
     date: new Date().getTime(),
     lastMessage: {
       userName: 'User33',
-      message: "Lorem Lorem Lorem1231231321231321 Lorem Lorem Lorem Lorem "
+      message: 'Lorem Lorem Lorem1231231321231321 Lorem Lorem Lorem Lorem ',
 
     },
   },
-]
+];
 
-export const Forum: FC<TForumProps> = () => {
-
+export const Forum = () => {
   const [currentTopicTitle, setCurrentTheme] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  let urlParam = parseInt(location.pathname.split('/').pop() as string)
+  let urlParam = parseInt(location.pathname.split('/').pop() as string);
   const [isSelected, setIsSelected] = useState(false);
 
   useEffect(() => {
     //получение тем
-  })
+  });
 
   useEffect(() => {
-    urlParam = parseInt(location.pathname.split('/').pop() as string)
+    urlParam = parseInt(location.pathname.split('/').pop() as string);
     if (location.pathname === FORUM_ROUTE) {
-      setCurrentTheme('')
-      setIsSelected(false)
+      setCurrentTheme('');
+      setIsSelected(false);
     }
     if (urlParam) {
-      const topicTitle = mockThemList.find(i => i.themId === urlParam)?.title
-      if (!topicTitle) throw new Error('Темы с таким ID нет')
-      setIsSelected(true)
-      setCurrentTheme(topicTitle as string)
+      const topicTitle = mockThemList.find(i => i.themId === urlParam)?.title;
+      if (!topicTitle) throw new Error('Темы с таким ID нет');
+      setIsSelected(true);
+      setCurrentTheme(topicTitle as string);
     }
-  }, [location.pathname, currentTopicTitle])
+  }, [location.pathname, currentTopicTitle]);
 
   return (
     <Container
@@ -94,6 +92,6 @@ export const Forum: FC<TForumProps> = () => {
         onClose={() => setIsOpen(false)}
       />
     </Container>
-  )
-}
+  );
+};
 

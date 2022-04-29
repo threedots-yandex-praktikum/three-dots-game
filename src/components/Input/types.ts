@@ -11,6 +11,7 @@ export type TInputProps = {
   onChange: ChangeEventHandler<HTMLInputElement>,
   type?: string,
   variant?: 'outline' | 'filled' | 'flushed' | 'unstyled',
+  isReadOnly?: boolean,
   as?: ReactNode,
   className?: string,
 };
