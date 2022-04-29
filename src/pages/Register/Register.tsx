@@ -1,63 +1,46 @@
-import React, { FC, useCallback, useMemo } from 'react';
-import {
-  TRegisterProps,
-} from "./types";
-import {
-  Box, Button,
-  Flex,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
-import { Logo } from "components/Logo/Logo";
-import { Background } from 'components/Background/Background';
-import {LOGIN_ROUTE} from "constants/routes";
-import {useHistory} from "react-router";
-import { FormikProvider, useFormik} from "formik";
-import { EMPTY_STRING, REGISTER_FORM_SCHEMA } from './constants';
-import { Input } from 'components/Input/Input'
+import React, { useCallback, useContext, useMemo } from 'react';
+import { Box, Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Logo } from 'components/Logo';
+import { Background } from 'components/Background';
+import { HOME_ROUTE, LOGIN_ROUTE } from 'constants/routes';
+import { useHistory } from 'react-router';
+import { FormikProvider, useFormik } from 'formik';
+import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
+import { UserController } from 'controllers/UserController';
+import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
+import { Input } from 'components/Input';
+import { TUserData, UserContext } from 'components/Root/context';
 
 
-const INITIAL_STATE = {
-  login: EMPTY_STRING,
-  email: EMPTY_STRING,
-  first_name: EMPTY_STRING,
-  second_name: EMPTY_STRING,
-  phone: EMPTY_STRING,
-  password: EMPTY_STRING,
-  password_repeat: EMPTY_STRING,
-};
-
-export const Register: FC<TRegisterProps> = () => {
+export const Register = () => {
   const history = useHistory();
+  const { setUserData } = useContext(UserContext);
 
   const onSubmit = useCallback(
-    values => {
-      console.log(values)
-    },
-    [],
+    values => UserController
+      .signUp(values)
+      .then(response => {
+        setUserData(response as TUserData);
+
+        sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
+        return history.push(HOME_ROUTE);
+      }),
+    [setUserData, history],
   );
 
-  const onClose = useCallback(
-    () => history.push(LOGIN_ROUTE),
-    [history],
-  );
+  const onClose = useCallback(() => history.push(LOGIN_ROUTE), [history]);
 
   const formik = useFormik({
-    initialValues: INITIAL_STATE,
+    initialValues: REGISTER_INITIAL_STATE,
     onSubmit,
-  })
+  });
 
-  const {
-    errors,
-    touched,
-    handleSubmit,
-    handleChange,
-    values,
-  } = formik;
+  const { errors, touched, handleSubmit, handleChange, values } = formik;
 
   const isSubmitBtnDisabled = useMemo(
-    () => values === INITIAL_STATE ||
-      Object.values(errors).some(item => !!item) ||
+    () =>
+      values === REGISTER_INITIAL_STATE ||
+      Object.values(errors).some((item) => !!item) ||
       values.password.trim() !== values.password_repeat.trim(),
     [values, errors],
   );
@@ -66,7 +49,7 @@ export const Register: FC<TRegisterProps> = () => {
     <Background>
       <Box>
         <Flex align="center" justify="center">
-          <Logo/>
+          <Logo />
         </Flex>
         <Box
           w={1000}
@@ -78,48 +61,36 @@ export const Register: FC<TRegisterProps> = () => {
         >
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
-              <Grid
-                templateColumns='repeat(2, 1fr)'
-                gap={3}
-              >
-                {
-                  REGISTER_FORM_SCHEMA
-                    .map(
-                      ({
-                         key ,
-                         label,
-                         type,
-                         placeholder,
-                          validate,
-                         gridProps = {},
-                       }) => {
-                        return (
-                          <GridItem key={key} {...gridProps}>
-                            {
-                              Input({
-                                key,
-                                label,
-                                type,
-                                validate,
-                                placeholder,
-                                error: errors[key as keyof typeof errors],
-                                touched: touched[key as keyof typeof touched],
-                                value: values[key as keyof typeof values],
-                                onChange: handleChange,
-                              })
-                            }
-                          </GridItem>
-                        );
-                      },
-                    )
-                }
+              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                {REGISTER_FORM_SCHEMA.map(
+                  ({
+                    key,
+                    label,
+                    type,
+                    placeholder,
+                    validate,
+                    gridProps = {},
+                  }) => {
+                    return (
+                      <GridItem key={key} {...gridProps}>
+                        <Input
+                          id={key}
+                          label={label}
+                          type={type}
+                          validate={validate}
+                          placeholder={placeholder}
+                          error={errors[key as keyof typeof errors]}
+                          touched={touched[key as keyof typeof touched]}
+                          value={values[key as keyof typeof values]}
+                          onChange={handleChange}
+                        />
+                      </GridItem>
+                    );
+                  },
+                )}
                 <GridItem colStart={2}>
                   <Flex align="center" justify="center">
-                    <Button
-                      w="50%"
-                      mr={3}
-                      onClick={onClose}
-                    >
+                    <Button w="50%" mr={3} onClick={onClose}>
                       Назад
                     </Button>
                     <Button
@@ -138,5 +109,5 @@ export const Register: FC<TRegisterProps> = () => {
         </Box>
       </Box>
     </Background>
-  )
-}
+  );
+};

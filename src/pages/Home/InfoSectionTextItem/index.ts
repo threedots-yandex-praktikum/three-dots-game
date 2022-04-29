@@ -1,0 +1,1 @@
+export { InfoSectionTextItem } from './InfoSectionTextItem';

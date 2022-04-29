@@ -36,4 +36,3 @@ export const GamePlay: FC<TGamePlayProps> = () => {
   );
 };
 
-GamePlay.propTypes = {};

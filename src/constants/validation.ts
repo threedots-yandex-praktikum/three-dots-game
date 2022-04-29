@@ -4,7 +4,7 @@ export const VALIDATION = {
     message: 'Поле является обязательным',
   },
   EMAIL: {
-    pattern: /[a-z\d\-]+@[a-z]+\.[a-z]+/,
+    pattern: /[a-z\d-]+@[a-z]+\.[a-z]+/,
     message: 'только латиница, цифры, символ "-"',
   },
   LOGIN: {
@@ -12,11 +12,11 @@ export const VALIDATION = {
     message: 'только латиница, цифры, символы "_" и "-", от 3 до 20 символов, начинается не с цифры',
   },
   FIRST_NAME: {
-    pattern: /[A-ZА-Я][A-ZА-Яа-яa-z\-]+/,
+    pattern: /[A-ZА-Я][A-ZА-Яа-яa-z-]+/,
     message: 'только латиница, кириллица, символ "-"',
   },
   SECOND_NAME: {
-    pattern: /[A-ZА-Я][A-ZА-Яа-яa-z\-]+/,
+    pattern: /[A-ZА-Я][A-ZА-Яа-яa-z-]+/,
     message: 'только латиница, кириллица, символ "-"',
   },
   PHONE: {

@@ -1,18 +1,19 @@
 import React from 'react';
-import {Field} from "formik";
+import { Field } from 'formik';
 import {
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input as ChakraInput,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 import {
   TInputProps,
-} from "./types";
+} from './types';
+
 
 export const Input = ({
-  key,
+  id,
   label,
   error,
   validate,
@@ -21,24 +22,28 @@ export const Input = ({
   value,
   onChange,
   type = 'text',
+  variant='filled',
+  isReadOnly=false,
 }: TInputProps) => {
 
   return (
     <FormControl
+      className={isReadOnly ? 'form-control--is-read-only' : undefined}
       isInvalid={touched && !!error}
-      key={key}
+      key={id}
       pb={touched && error ? 0 : 6}
     >
-      <FormLabel htmlFor={key}>{label}</FormLabel>
+      <FormLabel htmlFor={id}>{label}</FormLabel>
       <Field
         as={ChakraInput}
-        key={key}
-        name={key}
+        key={id}
+        name={id}
         type={type}
         value={value}
         onChange={onChange}
         validate={validate}
-        variant="filled"
+        variant={variant}
+        isReadOnly={isReadOnly}
       />
       {
         error ?
@@ -56,4 +61,4 @@ export const Input = ({
       }
     </FormControl>
   );
-}
+};

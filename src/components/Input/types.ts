@@ -1,7 +1,7 @@
-import {ChangeEventHandler} from "react";
+import { ChangeEventHandler } from 'react';
 
 export type TInputProps = {
-  key: string,
+  id: string,
   label: string,
   error?: string,
   validate: (value: string) => string | undefined,
@@ -10,4 +10,6 @@ export type TInputProps = {
   value: string,
   onChange: ChangeEventHandler<HTMLInputElement>,
   type?: string,
+  variant?: 'outline' | 'filled' | 'flushed' | 'unstyled',
+  isReadOnly?: boolean
 };
