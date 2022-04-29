@@ -15,19 +15,13 @@ export class DotPlayer extends Dot {
     this.moveFromEdge();
   }
 
-  reInit() {
-    this.setBaseParams();
-    this.transitionRadius = this.radius;
-    this.radius = 0;
-    this.isActive = true;
-  }
-
   protected setBaseParams() {
     this.radius = INITIAL_COORDINATES_PLAYER.radius;
     this.color = COLORS_DOT[random(0, COUNT_COLOR)];
     this.x = INITIAL_COORDINATES_PLAYER.x;
     this.y = INITIAL_COORDINATES_PLAYER.y;
     this.isActive = true;
+
   }
 
   move(key: string) {
