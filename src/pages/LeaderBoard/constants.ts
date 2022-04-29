@@ -7,11 +7,13 @@ export enum BALL_SIZE {
 export const chooseSize = (index: number): BALL_SIZE => {
   if (index < 3) {
     return BALL_SIZE.LARGE;
-  } else if (index < 6) {
-    return BALL_SIZE.MEDIUM;
-  } else {
-    return BALL_SIZE.SMALL;
   }
+
+  if (index < 6) {
+    return BALL_SIZE.MEDIUM;
+  }
+
+  return BALL_SIZE.SMALL;
 };
 
 export const colors = [

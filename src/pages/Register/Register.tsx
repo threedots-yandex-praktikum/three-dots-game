@@ -9,7 +9,7 @@ import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { Input } from 'components/Input';
-import { UserContext } from 'components/Root/context';
+import { TUserData, UserContext } from 'components/Root/context';
 
 
 export const Register = () => {
@@ -20,7 +20,7 @@ export const Register = () => {
     values => UserController
       .signUp(values)
       .then(response => {
-        setUserData(response);
+        setUserData(response as TUserData);
 
         sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);

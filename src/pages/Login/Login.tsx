@@ -10,7 +10,7 @@ import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
 import { HOME_ROUTE } from 'constants/routes';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { UserContext } from 'components/Root/context';
+import { TUserData, UserContext } from 'components/Root/context';
 
 
 export const Login = () => {
@@ -21,7 +21,7 @@ export const Login = () => {
     (values: TSignInData) => UserController
       .signIn(values)
       .then(response => {
-        setUserData(response);
+        setUserData(response as TUserData);
         sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
       }),

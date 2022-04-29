@@ -129,58 +129,46 @@ export const App = () => {
 
   return (
     <div className="app">
-      {_renderNavigation(!!userData)}
+      <div className="app__navigation">
+        {
+          NAVIGATION_SCHEMA
+            .filter(({ isVisible }) => isVisible(!!userData))
+            .map(({ title, route }) => (
+              <Link key={route} to={route}>
+                {title}{' '}
+              </Link>
+            ))
+        }
+      </div>
       {
         userData ?
-          _renderAppContent() :
-          _renderNotAuthenticatedContent()
+          (
+            <div className="app__content">
+              <Switch>
+                <Route path={HOME_ROUTE} component={Home} />
+                <Route path={LOGIN_ROUTE} component={Login} />
+                <Route path={REGISTER_ROUTE} component={Register} />
+                <Route path={PROFILE_ROUTE} exact component={Profile} />
+                <Route path={LEADERBOARD_ROUTE} component={LeaderBoard} />
+                <Route path={FORUM_ROUTE} component={Forum} />
+                <Route path={GAME_START_ROUTE} exact component={GameStart} />
+                <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
+                <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
+                <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
+
+                <Redirect to={HOME_ROUTE} />
+              </Switch>
+            </div>
+          ) :
+          (
+            <Switch>
+              <Route path={LOGIN_ROUTE} component={Login}/>
+              <Route path={REGISTER_ROUTE} component={Register}/>
+              <Route path={HOME_ROUTE} component={Home}/>
+              <Redirect to={LOGIN_ROUTE}/>
+            </Switch>
+          )
       }
     </div>
-  );
-};
-
-const _renderAppContent = () => {
-  return (
-    <div className="app__content">
-      <Switch>
-        <Route path={HOME_ROUTE} component={Home} />
-        <Route path={LOGIN_ROUTE} component={Login} />
-        <Route path={REGISTER_ROUTE} component={Register} />
-        <Route path={PROFILE_ROUTE} exact component={Profile} />
-        <Route path={LEADERBOARD_ROUTE} component={LeaderBoard} />
-        <Route path={FORUM_ROUTE} component={Forum} />
-        <Route path={GAME_START_ROUTE} exact component={GameStart} />
-        <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
-        <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
-        <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
-
-        <Redirect to={HOME_ROUTE} />
-      </Switch>
-    </div>
-  );
-};
-
-const _renderNavigation = (isUserAuthenticated: boolean) => {
-  return (
-    <div className="app__navigation">
-      {NAVIGATION_SCHEMA.filter(({ isVisible }) =>
-        isVisible(isUserAuthenticated),
-      ).map(({ title, route }) => (
-        <Link key={route} to={route}>
-          {title}{' '}
-        </Link>
-      ))}
-    </div>
-  );
-};
-
-const _renderNotAuthenticatedContent = () => {
-  return (
-    <Switch>
-      <Route path={LOGIN_ROUTE} component={Login}/>
-      <Route path={REGISTER_ROUTE} component={Register}/>
-      <Route path={HOME_ROUTE} component={Home}/>
-      <Redirect to={LOGIN_ROUTE}/>
-    </Switch>
   );
 };

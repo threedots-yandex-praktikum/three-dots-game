@@ -68,7 +68,7 @@ export const Profile = () => {
   );
 
   const formik = useFormik({
-    initialValues: preparedUserDataValues as TUserData,
+    initialValues: preparedUserDataValues as unknown as Omit<TUserData, 'id'>,
     onSubmit,
   });
 
@@ -104,7 +104,7 @@ export const Profile = () => {
           setUserData({
             ...userData || {},
             avatar: avatarSrc,
-          });
+          } as TUserData);
           setIsEdit(false);
           sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
 

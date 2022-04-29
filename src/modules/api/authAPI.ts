@@ -9,7 +9,9 @@ export type TSignUpData = {
   login: string,
   email: string,
   password: string,
-  phone: string
+  phone: string,
+  display_name?: string,
+  avatar?: string,
 };
 
 export type TSignInData = {
