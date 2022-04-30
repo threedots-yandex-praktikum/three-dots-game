@@ -70,8 +70,7 @@ const NAVIGATION_SCHEMA = [
   {
     title: 'Форум',
     route: FORUM_ROUTE,
-    // isVisible: isVisibleForAuthenticatedUser,
-    isVisible: defaultIsVisible,
+    isVisible: isVisibleForAuthenticatedUser,
     icon: null,
   },
   {
@@ -142,8 +141,7 @@ export const App = () => {
         }
       </div>
       {
-        // userData ?
-        !userData ?
+        userData ?
           (
             <div className="app__content">
               <Switch>
