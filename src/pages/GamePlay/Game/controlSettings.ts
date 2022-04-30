@@ -8,10 +8,10 @@ export enum ECODE_KEYBOARD {
 }
 
 export enum ECODE_DIRECTION {
-  RIGHT = 'r',
-  DOWN = 'b',
-  LEFT = 'l',
-  UP = 't',
+  RIGHT = 'right',
+  DOWN = 'down',
+  LEFT = 'left',
+  UP = 'up',
 }
 export const controlSettings: TControl = {
   right: {

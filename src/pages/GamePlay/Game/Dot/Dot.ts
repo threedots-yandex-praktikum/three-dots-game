@@ -26,12 +26,18 @@ export abstract class Dot {
     this.transitionRadius = getRadiusFromArea(area);
   }
 
+  move(keyDirection: string) {
+    if (this.transitionRadius) {
+      this.scaleRadius();
+    }
+  }
+
   scaleRadius() {
     if (!this.transitionRadius) {
       return;
     }
     if (this.radius < this.transitionRadius) {
-      this.radius = this.radius + (this.transitionRadius - this.radius) * 0.05;
+      this.radius = Math.ceil(this.radius + (this.transitionRadius - this.radius) * 0.05);
       this.moveFromEdge();
     } else if (this.radius >= this.transitionRadius) {
       this.transitionRadius = null;

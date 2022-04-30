@@ -16,7 +16,7 @@ export class DotPlayer extends Dot {
   }
 
   protected setBaseParams() {
-    this.radius = INITIAL_COORDINATES_PLAYER.radius;
+    this.transitionRadius = INITIAL_COORDINATES_PLAYER.radius;
     this.color = COLORS_DOT[random(0, COUNT_COLOR)];
     this.x = INITIAL_COORDINATES_PLAYER.x;
     this.y = INITIAL_COORDINATES_PLAYER.y;
@@ -24,9 +24,10 @@ export class DotPlayer extends Dot {
 
   }
 
-  move(key: string) {
+  move (keyDirection: string) {
+    super.move(keyDirection);
     const control = Object.values(controlSettings).find((control) => {
-      return control.value === key;
+      return control.value === keyDirection;
     });
 
     if (!control || control.isMoved) {

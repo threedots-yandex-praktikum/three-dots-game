@@ -18,22 +18,43 @@ export class Game {
     this.ctx = ctx;
     this.dotPlayer = new DotPlayer();
     this.interactionDots = new InteractionDots(this.dotPlayer);
-    this.sizeScreen = sizeScreen;    
+    this.sizeScreen = sizeScreen;
+    this.initHandlerMotionPlayer();
   }
 
   start() {
-    this.initHandlerMotionPlayer();
-    this.drawGame();    
+    this.firstDraw();
     this.reInitDotsBots();
+  }
+
+  private firstDraw() {
+    this.firstDrawPlayer();    
+    if (this.dotPlayer.radius !== this.dotPlayer.transitionRadius) {
+      requestAnimationFrame(this.firstDraw.bind(this));
+    } else {
+      this.firstDrawPlayer();
+      setTimeout(() => {
+        this.drawGame();        
+      }, 400);
+    }
+  }
+
+  private firstDrawPlayer() {
+    this.prepareCanvas();
+    this.drawPlayerDot();
+    this.dotPlayer.move('');
+    this.restoreCanvas();
   }
 
   stop() {
     this.gameFinished = true;
+
+    // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
     document.removeEventListener('keydown', this.callbackEvents.keydown);
     document.removeEventListener('keyup', this.callbackEvents.keyup);
   }
 
-  reInitDotsBots() {
+  private reInitDotsBots() {
     setTimeout(() => {
       this.interactionDots.reInitDotsBots();
       if (!this.gameFinished) {
@@ -42,13 +63,14 @@ export class Game {
     }, 5000);
   }
 
-  initHandlerMotionPlayer() {
-    this.callbackEvents.keydown = (event: KeyboardEvent) => {
+  private initHandlerMotionPlayer() {
+    this.callbackEvents.keydown = (event: KeyboardEvent) => {    
       if (
         !Object.values(codeKeyboard).includes(event.key)
       ) {
         return;
       }
+
       this.dotPlayer.move(event.key);
     };
     this.callbackEvents.keyup = (event: KeyboardEvent) => {
@@ -59,20 +81,37 @@ export class Game {
     document.addEventListener('keyup', this.callbackEvents.keyup);
   }
 
-  private drawGame() {
-    if (!this.dotPlayer.isActive) {
-      this.stop();
-      return;
-    }
+  private prepareCanvas() {
     this.ctx.clearRect(0, 0, SIZE_CANVAS, SIZE_CANVAS);
     this.ctx.rect(0, 0, SIZE_CANVAS, SIZE_CANVAS);
     this.ctx.fillStyle = COLOR_BG;
     this.ctx.fill();
+    const shift = this.getShiftScreen();
+    this.ctx.save();
+    this.ctx.translate(-INITIAL_COORDINATES_PLAYER.x - shift.x + this.sizeScreen.w / 2, -INITIAL_COORDINATES_PLAYER.y - shift.y + this.sizeScreen.h / 2);
+  }
+
+  private drawGame() {
+    if (!this.dotPlayer.isActive || this.isVictory()) {
+      this.stop();
+      return;
+    }
+    this.prepareCanvas();
     this.drawDots();    
     requestAnimationFrame(this.drawGame.bind(this));
   }
 
-  getShiftScreen () {
+  private isVictory() {    
+  //условие победы. если у игрока самая большая точка, то выйграл. 
+  // TODO выглядит сомнительно. подумать, как переделать. 
+    this.dotPlayer.radius;
+    const dotBigRadius = this.interactionDots.dots.find((dot)=> {
+      return this.dotPlayer.radius < dot.radius;
+    });
+    return !dotBigRadius;
+  }
+
+  private getShiftScreen () {
     const shiftX = this.dotPlayer.x - INITIAL_COORDINATES_PLAYER.x;
     const shiftY = this.dotPlayer.y - INITIAL_COORDINATES_PLAYER.y;
     const screenWithoutMove = {
@@ -100,32 +139,38 @@ export class Game {
   }
 
   private drawDots() {
-    const shift = this.getShiftScreen();
-    this.ctx.save();
-    this.ctx.translate(-INITIAL_COORDINATES_PLAYER.x - shift.x + this.sizeScreen.w / 2, -INITIAL_COORDINATES_PLAYER.y - shift.y + this.sizeScreen.h / 2);  
     this.interactionDots.handleMovePhase();
     this.interactionDots.dots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }
-      this.drawBaseDot(dot);
+      if (dot instanceof DotPlayer) {
+        this.drawPlayerDot();
+      } else {
+        this.drawBaseDot(dot);
+      }
     });
-    this.ctx.restore();
+    this.restoreCanvas();
   }
 
-  drawBaseDot(dot: TDot) {
+  private restoreCanvas() {
+    this.ctx.restore();
+  }
+  // все отрисовки в классе Game потому что не хотела передавать управление контекстом canvas по всем классам. Но все равно остались спорные ощущения
+  private drawBaseDot(dot: TDot) {
     this.ctx.beginPath();
     this.ctx.arc(dot.x, dot.y, dot.radius, 0, RADIANS);
     this.ctx.fillStyle = dot.color || DEFAULT_COLOR;
     this.ctx.fill();
-    if (dot instanceof DotPlayer) {
-      this.drawPlayerDot();
-    }
+
   }
 
-  drawPlayerDot() {
+  private drawPlayerDot() {
+    this.drawBaseDot(this.dotPlayer);
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = '#ffd700';
     this.ctx.stroke();
   }
+
+
 }

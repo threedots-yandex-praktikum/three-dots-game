@@ -47,10 +47,6 @@ export class InteractionDots {
     if (dotIntersection) {
       this.handleInteractionPhase(dot, dotIntersection);
     }
-
-    if (dot.transitionRadius) {
-      dot.scaleRadius();
-    }
   }
   
   handleDanger(dot: TDotBot) {
