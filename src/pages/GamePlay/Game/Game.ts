@@ -23,14 +23,14 @@ export class Game {
 
   start() {
     this.initHandlerMotionPlayer();
-    this.drawGame();
+    this.drawGame();    
     this.reInitDotsBots();
   }
 
   stop() {
     this.gameFinished = true;
-    document.addEventListener('keydown', this.callbackEvents.keydown);
-    document.addEventListener('keyup', this.callbackEvents.keyup);
+    document.removeEventListener('keydown', this.callbackEvents.keydown);
+    document.removeEventListener('keyup', this.callbackEvents.keyup);
   }
 
   reInitDotsBots() {
