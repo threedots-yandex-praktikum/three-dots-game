@@ -93,19 +93,25 @@ const my = {
 };
 
 
-export const CurrentTopic: FC<TCurrentTopicProps> = ({ setCurrentId, currentTopicId }) => {
+export const CurrentTopic: FC<TCurrentTopicProps> = ({ setCurrentId }) => {
 
   const params: TParams = useParams()
   const topicId = parseInt(params.topicId)
 
   useEffect(() => {
-    const isInThemList = mockThemList.find(i => i.topicId === topicId)
-    if (!isInThemList) throw new Error('Темы с таким ID нет')
-    // получить контент по id   
-    console.log(topicId, 'id');
     return () => {
       setCurrentId(null)
     }
+  }, [])
+
+  useEffect(() => {
+
+    const isInThemList = mockThemList.find(i => i.topicId === topicId)
+    if (!isInThemList) throw new Error('Темы с таким ID нет')
+    // получить контент по id   
+    setCurrentId(topicId)
+    console.log(topicId, 'id');
+
   }, [params])
 
   return (

@@ -33,6 +33,8 @@ export const MessageForm = () => {
     values,
   } = formik;
 
+  const { key, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA
+
   const isSubmitBtnDisabled = useMemo(
     () => values === INITIAL_STATE ||
       Object.values(errors).some(item => !!item),
@@ -43,38 +45,22 @@ export const MessageForm = () => {
     <FormikProvider value={formik}>
       <form onSubmit={handleSubmit} id="create-topick">
         <Flex direction="column">
-          {
-            SEND_MESSAGE_FORM_SCHEMA
-              .map(
-                ({
-                  className,
-                  as,
-                  key,
-                  label,
-                  placeholder,
-                  validate,
-                }) => {
-                  return (
-                    <Box key={key}>
-                      {
-                        Input({
-                          className,
-                          as,
-                          id: key,
-                          label,
-                          validate,
-                          placeholder,
-                          error: errors[key as keyof typeof errors],
-                          touched: touched[key as keyof typeof touched],
-                          value: values[key as keyof typeof values],
-                          onChange: handleChange,
-                        })
-                      }
-                    </Box>
-                  );
-                },
-              )
-          }
+          <Box >
+            {
+              Input({
+                className,
+                as,
+                id: key,
+                label,
+                validate,
+                placeholder,
+                error: errors[key as keyof typeof errors],
+                touched: touched[key as keyof typeof touched],
+                value: values[key as keyof typeof values],
+                onChange: handleChange,
+              })
+            }
+          </Box>
         </Flex>
         <Button
           disabled={isSubmitBtnDisabled}

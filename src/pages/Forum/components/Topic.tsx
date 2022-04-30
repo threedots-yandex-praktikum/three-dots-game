@@ -1,10 +1,15 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { getDateString } from '../../../utils/getDateString';
-import { TTopicProps, TLastMessage } from '../types';
+import { TTopicProps } from '../types';
 
 
 export const Topic = ({ topic }: TTopicProps) => {
+
+  const lastMessageString = useMemo(() => {
+    const slicedMessage = topic.lastMessage?.message.slice(0, 20) + '...';
+    return slicedMessage + ' от ' + topic.lastMessage?.userName;
+  }, [topic])
 
   const { date, title, lastMessage } = topic
   return (
@@ -15,22 +20,9 @@ export const Topic = ({ topic }: TTopicProps) => {
       <Box w="20%">
         <Text>{getDateString(date)}</Text>
       </Box >
-      {_renderLastMessage(lastMessage)}
+      <Box w="20%">
+        <Text>{lastMessage && lastMessageString}</Text>
+      </Box>
     </Flex>
   );
-};
-
-
-const _renderLastMessage = (message: TLastMessage) => {
-  const _getLastMessageString = (message: TLastMessage): string => {
-    const slicedMessage = message?.message.slice(0, 20) + '...';
-    return slicedMessage + ' от ' + message?.userName;
-  };
-
-  return (
-    <Box w="20%">
-      <Text>{message && _getLastMessageString(message)}</Text>
-    </Box>
-  );
-
 };

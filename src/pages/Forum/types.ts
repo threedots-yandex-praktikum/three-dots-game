@@ -31,7 +31,6 @@ export type TCreateTopicProps = {
 
 export type TCurrentTopicProps = {
   setCurrentId: (id: number | null) => unknown;
-  currentTopicId: number | null;
 };
 
 export type TParams = {

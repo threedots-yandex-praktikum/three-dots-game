@@ -45,7 +45,6 @@ export const ListOfThems = ({ setCurrentId }: TListOfThemsProps) => {
           <div
             key={topicId}
             onClick={() => {
-              setCurrentId(topicId)
               history.push([FORUM_ROUTE, topicId].join('/'))
             }}
           >

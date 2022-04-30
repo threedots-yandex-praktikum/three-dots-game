@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/react';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './style.scss';
 import { InteractivePanel } from './components/InteractivePanel';
 import { FORUM_ROUTE } from 'constants/routes';
@@ -56,33 +56,8 @@ export const Forum = () => {
     return mockThemList.find(i => i.topicId === currentTopicId)?.title
   }, [currentTopicId])
 
-  // const params: TParams = useParams()
-  // const topicId = params.topicId
-
-  // useEffect(() => {
-  //   console.log(topicId, 'topicId');
-  //   setCurrentId()
-
-  // }, [currentTopicId])
-
-  // useEffect(() => {
-  //   const topicId = params.topicId
-
-  //   console.log(topicId, 'undefined');
-  //   if (topicId !== undefined) {
-  //     console.log(params.topicId, 'params1');
-  //     const isInThemList = mockThemList.find(i => i.topicId === currentTopicId)
-  //     console.log(params.topicId, 'params22');
-
-  //     if (!isInThemList) throw new Error('Темы с таким ID нет')
-  //   } else {
-  //     setCurrentId(null)
-
-  //   }
-
-
-  // }, [currentTopicId])
-
+  const onCloseMemoized = useCallback(() => setIsModalOpen(false), [])
+  const onOpenMemoized = useCallback(() => setIsModalOpen(true), [])
   return (
     <Container
       w="100%"
@@ -93,10 +68,10 @@ export const Forum = () => {
       maxW="full"
       minH="100vh"
     >
-      <InteractivePanel topicName={currentTopicTitle} onOpen={() => setIsModalOpen(true)} />
+      <InteractivePanel topicName={currentTopicTitle} onOpen={onOpenMemoized} />
       <Switch>
         <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
-          <CurrentTopic setCurrentId={(id) => setCurrentId(id)} currentTopicId={currentTopicId} />
+          <CurrentTopic setCurrentId={(id) => setCurrentId(id)} />
         </Route>
         <Route path={FORUM_ROUTE}  >
           <ListOfThems currentTopicId={currentTopicId} setCurrentId={(id) => setCurrentId(id)} />
@@ -104,7 +79,7 @@ export const Forum = () => {
       </Switch>
       <CreateTopic
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={onCloseMemoized}
       />
     </Container>
   );

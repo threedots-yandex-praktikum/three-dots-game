@@ -1,4 +1,5 @@
+import { format } from "date-fns";
+
 export const getDateString = (time: number): string => {
-    const dateObj = new Date(time)
-    return dateObj.toLocaleDateString() + " " + dateObj.toLocaleTimeString().slice(0, 5)
-}
+  return format(time, "dd.MM.yyyy HH:mm");
+};
