@@ -19,11 +19,11 @@ export class Game {
     this.dotPlayer = new DotPlayer();
     this.interactionDots = new InteractionDots(this.dotPlayer);
     this.sizeScreen = sizeScreen;
-    this.initHandlerMotionPlayer();
   }
 
   start() {
     this.firstDraw();
+    this.initHandlerMotionPlayer();
     this.reInitDotsBots();
   }
 
