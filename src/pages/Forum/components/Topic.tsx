@@ -9,9 +9,9 @@ export const Topic = ({ topic }: TTopicProps) => {
   const lastMessageString = useMemo(() => {
     const slicedMessage = topic.lastMessage?.message.slice(0, 20) + '...';
     return slicedMessage + ' от ' + topic.lastMessage?.userName;
-  }, [topic])
+  }, [topic]);
 
-  const { date, title, lastMessage } = topic
+  const { date, title, lastMessage } = topic;
   return (
     <Flex borderRadius="7px" justifyContent="start" className="them" >
       <Box w="60%" px="4px">

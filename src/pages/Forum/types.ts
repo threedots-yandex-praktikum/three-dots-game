@@ -15,22 +15,13 @@ export type TLastMessage = {
 } | null;
 
 export type TInteractivePanelProps = {
-  topicName?: string;
-  onOpen: () => void;
-};
-
-export type TListOfThemsProps = {
-  setCurrentId: (id: number | null) => unknown;
-  currentTopicId: number | null;
+  topicName?: string | null;
+  onOpen?: () => void;
 };
 
 export type TCreateTopicProps = {
   isOpen: boolean;
   onClose: () => void;
-};
-
-export type TCurrentTopicProps = {
-  setCurrentId: (id: number | null) => unknown;
 };
 
 export type TParams = {

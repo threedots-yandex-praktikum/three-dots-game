@@ -1,8 +1,7 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { Input } from 'components/Input/Input';
 import { FormikProvider, useFormik } from 'formik';
-import React from 'react';
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { SEND_MESSAGE_FORM_SCHEMA } from '../constants';
 import { EMPTY_STRING } from 'constants/generalConst';
 
@@ -33,7 +32,7 @@ export const MessageForm = () => {
     values,
   } = formik;
 
-  const { key, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA
+  const { key, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA;
 
   const isSubmitBtnDisabled = useMemo(
     () => values === INITIAL_STATE ||

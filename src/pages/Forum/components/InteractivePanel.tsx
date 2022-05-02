@@ -8,6 +8,11 @@ import { TInteractivePanelProps } from '../types';
 
 
 export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) => {
+
+  const makeTopicDisabled = () => {
+    console.log('topic disabled');
+  };
+
   return (
     <Flex p="10px" my="15px" boxShadow="dark-lg" bg="#ffffff" w="100%">
       <Box flexGrow={1}>
@@ -27,10 +32,16 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
         {topicName
           ? <Button
             colorScheme="red"
+            onClick={makeTopicDisabled}
           >
             Закрыть тему &times;
           </Button>
-          : <Button onClick={onOpen} colorScheme="purple">Создать тему +</Button>
+          : <Button
+            onClick={onOpen}
+            colorScheme="purple"
+          >
+            Создать тему +
+          </Button>
         }
       </Box>
     </Flex>

@@ -1,10 +1,8 @@
 import { Container } from '@chakra-ui/react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React from 'react';
 import './style.scss';
-import { InteractivePanel } from './components/InteractivePanel';
 import { FORUM_ROUTE } from 'constants/routes';
 import { ListOfThems } from './components/ListOfThems';
-import { CreateTopic } from './components/CreateTopic';
 import { CurrentTopic } from './components/CurrentTopic';
 import { Route, Switch } from 'react-router-dom';
 
@@ -49,15 +47,7 @@ export const mockThemList = [
 ];
 
 export const Forum = () => {
-  const [currentTopicId, setCurrentId] = useState<null | number>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const currentTopicTitle = useMemo(() => {
-    return mockThemList.find(i => i.topicId === currentTopicId)?.title
-  }, [currentTopicId])
-
-  const onCloseMemoized = useCallback(() => setIsModalOpen(false), [])
-  const onOpenMemoized = useCallback(() => setIsModalOpen(true), [])
   return (
     <Container
       w="100%"
@@ -68,19 +58,14 @@ export const Forum = () => {
       maxW="full"
       minH="100vh"
     >
-      <InteractivePanel topicName={currentTopicTitle} onOpen={onOpenMemoized} />
       <Switch>
         <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
-          <CurrentTopic setCurrentId={(id) => setCurrentId(id)} />
+          <CurrentTopic />
         </Route>
         <Route path={FORUM_ROUTE}  >
-          <ListOfThems currentTopicId={currentTopicId} setCurrentId={(id) => setCurrentId(id)} />
+          <ListOfThems />
         </Route>
       </Switch>
-      <CreateTopic
-        isOpen={isModalOpen}
-        onClose={onCloseMemoized}
-      />
     </Container>
   );
 };
