@@ -48,7 +48,6 @@ export class Game {
 
   stop() {
     this.gameFinished = true;
-
     // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
     document.removeEventListener('keydown', this.callbackEvents.keydown);
     document.removeEventListener('keyup', this.callbackEvents.keyup);
@@ -88,6 +87,8 @@ export class Game {
     this.ctx.fill();
     const shift = this.getShiftScreen();
     this.ctx.save();
+
+    // перемещаем активный экран вслед за точкой, отступая от рамки вычисленный отступ
     this.ctx.translate(-INITIAL_COORDINATES_PLAYER.x - shift.x + this.sizeScreen.w / 2, -INITIAL_COORDINATES_PLAYER.y - shift.y + this.sizeScreen.h / 2);
   }
 
@@ -104,7 +105,6 @@ export class Game {
   private isVictory() {    
   //условие победы. если у игрока самая большая точка, то выйграл. 
   // TODO выглядит сомнительно. подумать, как переделать. 
-    this.dotPlayer.radius;
     const dotBigRadius = this.interactionDots.dots.find((dot)=> {
       return this.dotPlayer.radius < dot.radius;
     });
@@ -114,9 +114,10 @@ export class Game {
   private getShiftScreen () {
     const shiftX = this.dotPlayer.x - INITIAL_COORDINATES_PLAYER.x;
     const shiftY = this.dotPlayer.y - INITIAL_COORDINATES_PLAYER.y;
+    const thicknessFrame = 100;
     const screenWithoutMove = {
-      w: this.sizeScreen.w / 2 - 100,
-      h: this.sizeScreen.h / 2 - 100,
+      w: this.sizeScreen.w / 2 - thicknessFrame,
+      h: this.sizeScreen.h / 2 - thicknessFrame,
     };
     const result ={
       x: 0,
