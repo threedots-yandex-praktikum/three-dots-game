@@ -18,11 +18,11 @@ const INITIAL_STATE = {
 export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
 
   const onSubmit = useCallback(
-        values => {
-          console.log(values);
-        },
-        [],
-    );
+    values => {
+      console.log(values);
+    },
+    [],
+  );
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
@@ -30,81 +30,81 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
   });
 
   const {
-        errors,
-        touched,
-        handleSubmit,
-        handleChange,
-        values,
-    } = formik;
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    values,
+  } = formik;
 
   const isSubmitBtnDisabled = useMemo(
-        () => values === INITIAL_STATE ||
-            Object.values(errors).some(item => !!item),
-        [values, errors],
-    );
+    () => values === INITIAL_STATE ||
+      Object.values(errors).some(item => !!item),
+    [values, errors],
+  );
 
   return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Создание обсуждения</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                    <FormikProvider value={formik}>
-                        <form onSubmit={handleSubmit} id="create-topick">
-                            <Flex direction="column">
-                                {
-                                    CREATE_TOPIC_FORM_SCHEMA
-                                        .map(
-                                            ({
-                                                as,
-                                                key,
-                                                label,
-                                                placeholder,
-                                                validate,
-                                                type,
-                                            }) => {
-                                              return (
-                                                    <Box key={key}>
-                                                        {
-                                                            Input({
-                                                              as,
-                                                              id: key,
-                                                              label,
-                                                              type,
-                                                              validate,
-                                                              placeholder,
-                                                              error: errors[key as keyof typeof errors],
-                                                              touched: touched[key as keyof typeof touched],
-                                                              value: values[key as keyof typeof values],
-                                                              onChange: handleChange,
-                                                            })
-                                                        }
-                                                    </Box>
-                                              );
-                                            },
-                                        )
-                                }
-                            </Flex>
-                        </form>
-                    </FormikProvider>
-                </ModalBody>
+    <Modal isOpen={isOpen} onClose={onClose} size="lg">
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Создание обсуждения</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <FormikProvider value={formik}>
+            <form onSubmit={handleSubmit} id="create-topick">
+              <Flex direction="column">
+                {
+                  CREATE_TOPIC_FORM_SCHEMA
+                    .map(
+                      ({
+                        as,
+                        key,
+                        label,
+                        placeholder,
+                        validate,
+                        type,
+                      }) => {
+                        return (
+                          <Box key={key}>
+                            {
+                              Input({
+                                as,
+                                id: key,
+                                label,
+                                type,
+                                validate,
+                                placeholder,
+                                error: errors[key as keyof typeof errors],
+                                touched: touched[key as keyof typeof touched],
+                                value: values[key as keyof typeof values],
+                                onChange: handleChange,
+                              })
+                            }
+                          </Box>
+                        );
+                      },
+                    )
+                }
+              </Flex>
+            </form>
+          </FormikProvider>
+        </ModalBody>
 
-                <ModalFooter>
-                    <Button colorScheme='blue' mr={3} onClick={onClose}>
-                        Закрыть
-                    </Button>
-                    <Button
-                        variant='ghost'
-                        colorScheme="purple"
-                        isDisabled={isSubmitBtnDisabled}
-                        type="submit"
-                        form="create-topick"
-                    >
-                        Создать
-                    </Button>
-                </ModalFooter>
-            </ModalContent>
-        </Modal>
+        <ModalFooter>
+          <Button colorScheme='blue' mr={3} onClick={onClose}>
+            Закрыть
+          </Button>
+          <Button
+            variant='ghost'
+            colorScheme="purple"
+            isDisabled={isSubmitBtnDisabled}
+            type="submit"
+            form="create-topick"
+          >
+            Создать
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
