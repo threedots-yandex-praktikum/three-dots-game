@@ -21,7 +21,9 @@ export const Input = ({
   placeholder,
   value,
   onChange,
+  as,
   type = 'text',
+  className,
   variant='filled',
   isReadOnly=false,
 }: TInputProps) => {
@@ -35,7 +37,7 @@ export const Input = ({
     >
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <Field
-        as={ChakraInput}
+        as={as || ChakraInput}
         key={id}
         name={id}
         type={type}
@@ -44,6 +46,7 @@ export const Input = ({
         validate={validate}
         variant={variant}
         isReadOnly={isReadOnly}
+        className={className}
       />
       {
         error ?

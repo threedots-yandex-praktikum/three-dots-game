@@ -1,0 +1,30 @@
+.them{
+    cursor: pointer;
+    transition: .3s linear;
+    border-radius:7px;
+    margin-top: 4px;
+    margin-bottom: 4px; 
+    padding: 6px; 
+    border:2px purple solid;
+}
+.them:hover{
+    transform: scale(1.005);
+    background-color: rgb(238, 175, 230);
+}
+.nav-link{
+    text-decoration: underline;
+}
+.nav-link:hover{
+    transform: scale(1.005);
+    background-color: rgb(238, 175, 230);
+}
+.message{
+    border-radius:7px;
+    margin-top: 4px;
+    margin-bottom: 4px; 
+    padding: 6px; 
+    border:2px purple solid;
+}
+.resize_none{
+    resize: none;
+}

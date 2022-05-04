@@ -1,4 +1,4 @@
-import { ChangeEventHandler } from 'react';
+import { ChangeEventHandler, ReactNode } from 'react';
 
 export type TInputProps = {
   id: string,
@@ -11,5 +11,7 @@ export type TInputProps = {
   onChange: ChangeEventHandler<HTMLInputElement>,
   type?: string,
   variant?: 'outline' | 'filled' | 'flushed' | 'unstyled',
-  isReadOnly?: boolean
+  isReadOnly?: boolean,
+  as?: ReactNode,
+  className?: string,
 };
