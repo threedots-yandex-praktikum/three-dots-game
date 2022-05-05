@@ -1,11 +1,20 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import './style.scss';
-import { SIZE_CANVAS } from './Game/settingsGame';
+import { CANVAS_SIZE_IN_PX } from './Game/settingsGame';
 import { Game } from './Game/Game';
+import { useHistory } from 'react-router-dom';
+import { GAME_OVER_ROUTE } from 'constants/routes';
 
 export const GamePlay = () => {
   const refCanvas = useRef(null);
   const refScreen = useRef(null);
+
+  const history = useHistory();
+  const goToGameOverScreen = useCallback(
+    () => history.push(GAME_OVER_ROUTE),
+    [history],
+  );
+
   useEffect(() => {
     let sizeScreen = {
       w: 0,
@@ -22,7 +31,17 @@ export const GamePlay = () => {
       const ctx = (refCanvas.current as HTMLCanvasElement).getContext('2d');
       if (ctx) {
 
-        const game = new Game(ctx, sizeScreen);
+        const game = new Game({
+          ctx,
+          sizeScreen,
+          onGameWin: () => console.log('win'),
+          onGameOver: () => {
+            console.log('lose');
+            goToGameOverScreen();
+          },
+          onGamePause: () => console.log('pause'),
+        });
+
         game.start();
       }
     }
@@ -30,7 +49,7 @@ export const GamePlay = () => {
 
   return (
     <div ref={refScreen} className="playing-field">
-      <canvas ref={refCanvas} width={SIZE_CANVAS} height={SIZE_CANVAS} />
+      <canvas ref={refCanvas} width={CANVAS_SIZE_IN_PX} height={CANVAS_SIZE_IN_PX} />
     </div>
   );
 };

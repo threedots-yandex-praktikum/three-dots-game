@@ -1,12 +1,12 @@
 import { random } from '../utils';
-import { SIZE_CANVAS, COLORS_DOT } from '../settingsGame';
+import { CANVAS_SIZE_IN_PX, COLORS_DOT } from '../settingsGame';
 import { TDot, TDotCoordinate } from '../types';
 import { Dot } from './Dot';
 
 const COUNT_COLOR = COLORS_DOT.length - 1;
 const DIRECTION = 10;
 export class DotBot extends Dot {
-  private xyMax = SIZE_CANVAS - this.radius;
+  private xyMax = CANVAS_SIZE_IN_PX - this.radius;
   private xyMin = 0 + this.radius;
   lastDotDanger: TDot | null = null;
   minRadius = 0;
@@ -69,9 +69,9 @@ export class DotBot extends Dot {
   move() {
     super.move('');
     const isBorderCanvasX =
-      this.x >= SIZE_CANVAS - this.radius || this.x <= 0 + this.radius;
+      this.x >= CANVAS_SIZE_IN_PX - this.radius || this.x <= 0 + this.radius;
     const isBorderCanvasY =
-      this.y >= SIZE_CANVAS - this.radius || this.y <= 0 + this.radius;
+      this.y >= CANVAS_SIZE_IN_PX - this.radius || this.y <= 0 + this.radius;
     if (isBorderCanvasX) {
       this.directionX *= -1;
     }

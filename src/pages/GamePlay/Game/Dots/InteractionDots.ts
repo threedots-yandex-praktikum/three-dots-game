@@ -1,6 +1,6 @@
 import { TDotBot, TDotPlayer, TDot } from '../types';
-import { REDRAW_BOTS,
-  INITIAL_COORDINATES_PLAYER, BOTS } from '../settingsGame';
+import { BOTS_TO_RE_INIT_AMOUNT,
+  INITIAL_PLAYER_COORDINATES_IN_PX, BOTS } from '../settingsGame';
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
 
@@ -17,7 +17,7 @@ export class InteractionDots {
   initDotsBots() {
     BOTS.forEach((settingsBot) => {
       for (let index = 0; index < settingsBot.count; index++) {
-        const dot = new DotBot(settingsBot.minRadius, settingsBot.maxRadius, this.dotPlayer || INITIAL_COORDINATES_PLAYER);
+        const dot = new DotBot(settingsBot.minRadius, settingsBot.maxRadius, this.dotPlayer || INITIAL_PLAYER_COORDINATES_IN_PX);
         this.dots.push(dot);
       }
     });
@@ -28,10 +28,10 @@ export class InteractionDots {
 
     for (let i = 0; i < this.dots.length; i++) {
       const dot = this.dots[i];
-      if (countInitBots === REDRAW_BOTS || dot instanceof DotPlayer) {
+      if (countInitBots === BOTS_TO_RE_INIT_AMOUNT || dot instanceof DotPlayer) {
         continue;
       }
-      
+
       if (dot.isActive) {
         continue;
       }
@@ -48,7 +48,7 @@ export class InteractionDots {
       this.handleInteractionPhase(dot, dotIntersection);
     }
   }
-  
+
   handleDanger(dot: TDotBot) {
     const dangerousDot = this.getDangerousDot(dot);
 
@@ -96,7 +96,7 @@ export class InteractionDots {
   }
 
   handleMovePhase() {
-    this.dots.forEach((dot) => {      
+    this.dots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }

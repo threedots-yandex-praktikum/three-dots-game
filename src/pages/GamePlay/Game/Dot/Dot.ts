@@ -1,4 +1,4 @@
-import { SIZE_CANVAS } from '../settingsGame';
+import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
 import { TDotCoordinate  } from '../types';
 
@@ -45,14 +45,14 @@ export abstract class Dot {
   }
 
   moveFromEdge() {
-    if (this.x + this.radius > SIZE_CANVAS) {
-      this.x = SIZE_CANVAS - this.radius;
+    if (this.x + this.radius > CANVAS_SIZE_IN_PX) {
+      this.x = CANVAS_SIZE_IN_PX - this.radius;
     }
     if (this.x - this.radius < 0) {
       this.x = 0 + this.radius;
     }
-    if (this.y + this.radius > SIZE_CANVAS) {
-      this.y = SIZE_CANVAS - this.radius;
+    if (this.y + this.radius > CANVAS_SIZE_IN_PX) {
+      this.y = CANVAS_SIZE_IN_PX - this.radius;
     }
     if (this.y - this.radius < 0) {
       this.y = 0 + this.radius;
