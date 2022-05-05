@@ -165,6 +165,9 @@ export const App = () => {
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={HOME_ROUTE} component={Home} />
+              <Route path={GAME_START_ROUTE} exact component={GameStart} />
+              <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
+              <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
               <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )

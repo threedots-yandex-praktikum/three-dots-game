@@ -24,6 +24,8 @@ export const Register = () => {
 
         sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
+      }).catch(()=> {
+        sendNotification('Ошибка сети, повторите позже', NOTIFICATION_LEVEL.ERROR);
       }),
     [setUserData, history],
   );
