@@ -1,0 +1,51 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react-hooks"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/prop-types": "off",
+    "indent-legacy": [
+      2,
+      2
+    ],
+    "quotes": [
+      1,
+      "single",
+      {"avoidEscape": true, "allowTemplateLiterals": true}
+    ],
+    "quote-props": [2, "as-needed"],
+    "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+    "comma-spacing": [1, {"before": false, "after": true}],
+    "no-duplicate-imports": [2, {"includeExports": true}],
+    "no-nested-ternary": 1,
+    "object-curly-spacing": [1, "always"],
+    "semi": [1, "always"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
+    }]
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+@import 'styles/variables';
+
+.dots {
+  display: flex;
+  align-items:  center;
+
+  &__item {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+
+    &:not(:first-child) {
+      margin-left: 20px;
+    }
+    
+  }
+
+  &:hover &__item:nth-child(2) {
+    transition: transform 0.4s 0.2s ease;
+    transform: scale(2.5);  
+  }
+
+  &:hover &__item:last-child, &:hover &__item:first-child {
+    opacity: 0;  
+  }
+
+  &:hover &__item:last-child {
+    transition: transform 0.4s 0.2s ease, opacity 0.4s 0.2s ease;
+    transform: translate(calc(-100% - 20px));
+  }
+
+  &:hover &__item:first-child {
+    transform: translate(calc(100% + 20px));
+  }
+}
+
+.dot {
+  border-radius: 50%;
+  background: $color-dot;
+
+  &--m {
+    width: 20px;
+    height: 20px;
+  }
+}

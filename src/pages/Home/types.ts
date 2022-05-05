@@ -1,0 +1,1 @@
+export type TRouteChangeCallback = () => void;
