@@ -3,3 +3,4 @@
 webpack.config.js
 **/*.test.ts
 sw.js
+sw-reg.js

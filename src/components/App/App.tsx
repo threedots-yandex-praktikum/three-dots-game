@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, Suspense, lazy } from 'react';
 import {
   Switch,
   Route,
@@ -18,21 +18,21 @@ import {
   REGISTER_ROUTE,
   EDIT_PASSWORD_ROUTE,
 } from 'constants/routes';
-import { Home } from 'pages/Home';
-import { Login } from 'pages/Login';
-import { Register } from 'pages/Register';
-import { Profile } from 'pages/Profile';
-import { LeaderBoard } from 'pages/LeaderBoard';
-import { Forum } from 'pages/Forum';
-import { GameStart } from 'pages/GameStart';
-import { GamePlay } from 'pages/GamePlay';
-import { GameOver } from 'pages/GameOver';
+const Home = lazy(() => import('pages/Home'));
+const Login = lazy(() => import('pages/Login'));
+const Register = lazy(() => import('pages/Register'));
+const Profile = lazy(() => import('pages/Profile'));
+const LeaderBoard = lazy(() => import('pages/LeaderBoard'));
+const Forum = lazy(() => import('pages/Forum'));
+const GameStart = lazy(() => import('pages/GameStart'));
+const GamePlay = lazy(() => import('pages/GamePlay'));
+const GameOver = lazy(() => import('pages/GameOver'));
+const EditPassword = lazy(() => import('pages/EditPassword'));
+
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
-import { EditPassword } from 'pages/EditPassword';
-
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -140,6 +140,7 @@ export const App = () => {
             ))
         }
       </div>
+      <Suspense fallback={<div>Loading...</div>}>
       {
         userData ?
           (
@@ -162,16 +163,17 @@ export const App = () => {
           ) :
           (
             <Switch>
+              <Route path={HOME_ROUTE} component={Home} />
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
-              <Route path={HOME_ROUTE} component={Home} />
               <Route path={GAME_START_ROUTE} exact component={GameStart} />
               <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
               <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
-              <Redirect to={LOGIN_ROUTE} />
+              <Redirect to={HOME_ROUTE} />
             </Switch>
           )
       }
+      </Suspense>      
     </div>
   );
 };
