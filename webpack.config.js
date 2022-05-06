@@ -2,7 +2,6 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const AddAssetHtmlPlugin = require("add-asset-html-webpack-plugin");
 const { GenerateSW } = require("workbox-webpack-plugin");
-// настройки Babel
 const babelLoader = {
   loader: "babel-loader",
   options: {
@@ -14,7 +13,8 @@ const babelLoader = {
     ],
   },
 };
-module.exports = {
+const isProduction = process.env.NODE_ENV == "production";
+const config = {
   entry: {
     app: "./src/index.tsx",
   },
@@ -24,7 +24,6 @@ module.exports = {
     publicPath: "/",
     clean: true,
   },
-  // mode: 'development',
   module: {
     rules: [
       {
@@ -76,18 +75,27 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "index.html"),
     }),
-    new AddAssetHtmlPlugin({ filepath: `./sw/sw-reg.js` }),
-    new GenerateSW({
-      clientsClaim: true,
-      skipWaiting: true,
-
-      //TODO сделать только для Dev
-      maximumFileSizeToCacheInBytes: 5097152,
-    }),
   ],
   optimization: {
     runtimeChunk: {
       name: (entrypoint) => `runtimechunk~${entrypoint.name}`,
     },
   },
+};
+
+module.exports = () => {
+  if (isProduction) {
+    config.mode = "production";
+    const plugins = [
+      new GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true,
+      }),
+      new AddAssetHtmlPlugin({ filepath: `./sw/sw-reg.js` }),
+    ];
+    config.plugins.push(...plugins);
+  } else {
+    config.mode = "development";
+  }
+  return config;
 };
