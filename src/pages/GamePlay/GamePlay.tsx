@@ -1,13 +1,18 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import './style.scss';
-import { CANVAS_SIZE_IN_PX } from './Game/settingsGame';
 import { Game } from './Game/Game';
 import { useHistory } from 'react-router-dom';
 import { GAME_OVER_ROUTE } from 'constants/routes';
+import { CANVAS_SIZE_IN_PX } from 'pages/GamePlay/Game/settingsGame';
+import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/modal';
+import { Button } from '@chakra-ui/react';
+import _isFunction from 'lodash/isFunction';
+
 
 export const GamePlay = () => {
   const refCanvas = useRef(null);
   const refScreen = useRef(null);
+  const unpauseCbRef = useRef(null);
 
   const history = useHistory();
   const goToGameOverScreen = useCallback(
@@ -39,7 +44,10 @@ export const GamePlay = () => {
             console.log('lose');
             goToGameOverScreen();
           },
-          onGamePause: () => console.log('pause'),
+          onGamePause: unpauseCb => {
+            // @ts-ignore
+            unpauseCbRef.current = unpauseCb;
+          },
         });
 
         game.start();
@@ -49,6 +57,21 @@ export const GamePlay = () => {
 
   return (
     <div ref={refScreen} className="playing-field">
+      <Modal isOpen onClose={() => { console.log('onCLose');}}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Пауза</ModalHeader>
+          <ModalBody>
+            {/*@ts-ignore*/}
+            <Button onClick={() => _isFunction(unpauseCbRef.current) && unpauseCbRef.current()}>
+              Продолжить игру
+            </Button>
+            <Button onClick={goToGameOverScreen}>
+              Выход из игры
+            </Button>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       <canvas ref={refCanvas} width={CANVAS_SIZE_IN_PX} height={CANVAS_SIZE_IN_PX} />
     </div>
   );

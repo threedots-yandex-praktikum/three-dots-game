@@ -10,3 +10,9 @@
   width: 100vw;
   height: 100vh;
 }
+
+.chakra-modal__overlay,
+.chakra-modal__content-container {
+  z-index: 200000 !important;
+}
+

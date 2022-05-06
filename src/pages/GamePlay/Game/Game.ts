@@ -12,7 +12,7 @@ type TGame = {
   sizeScreen: TSizeScreen,
   onGameWin: () => void,
   onGameOver: () => void,
-  onGamePause: () => void,
+  onGamePause: (v: () => void) => void,
 };
 
 export class Game {
@@ -115,14 +115,17 @@ export class Game {
     this.onGameOver();
   }
   private handleGamePause() {
-    if(this.isGamePaused) {
+    const unpauseCb = () => {
       this.isGamePaused = false;
       requestAnimationFrame(this.drawGame.bind(this));
-      return;
+    };
+
+    if(this.isGamePaused) {
+      return unpauseCb();
     }
 
     this.isGamePaused = true;
-    this.onGamePause();
+    this.onGamePause(unpauseCb);
     return;
   }
 
