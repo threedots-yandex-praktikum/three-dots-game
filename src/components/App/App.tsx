@@ -5,7 +5,7 @@ import {
   Link,
   Redirect,
 } from 'react-router-dom';
-
+import { Spinner, Box } from '@chakra-ui/react';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -104,6 +104,13 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
 ];
+const _renderSpinner = ()=> {
+  return (
+    <Box w='100vw' h='100vh' display="flex" alignItems="center" justifyContent="center">
+      <Spinner color='red.500' />
+    </Box>
+  );
+};
 
 export const App = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -140,7 +147,7 @@ export const App = () => {
             ))
         }
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={_renderSpinner()}>
       {
         userData ?
           (
@@ -169,7 +176,7 @@ export const App = () => {
               <Route path={GAME_START_ROUTE} exact component={GameStart} />
               <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
               <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
-              <Redirect to={HOME_ROUTE} />
+              <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )
       }

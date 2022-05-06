@@ -1,27 +1,27 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const AddAssetHtmlPlugin = require("add-asset-html-webpack-plugin");
-const { GenerateSW } = require("workbox-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 const babelLoader = {
-  loader: "babel-loader",
+  loader: 'babel-loader',
   options: {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
+    presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
-      "@babel/plugin-proposal-class-properties",
-      "@babel/plugin-syntax-dynamic-import",
-      "@babel/plugin-transform-runtime",
+      '@babel/plugin-proposal-class-properties',
+      '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-transform-runtime',
     ],
   },
 };
-const isProduction = process.env.NODE_ENV == "production";
+const isProduction = process.env.NODE_ENV == 'production';
 const config = {
   entry: {
-    app: "./src/index.tsx",
+    app: './src/index.tsx',
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].[contenthash].bundle.js",
-    publicPath: "/",
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[contenthash].bundle.js',
+    publicPath: '/',
     clean: true,
   },
   module: {
@@ -34,17 +34,17 @@ const config = {
       {
         test: /.tsx?$/i,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ['ts-loader'],
       },
       {
         test: /\.scss$/i,
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: "file-loader",
+            loader: 'file-loader',
           },
         ],
       },
@@ -52,28 +52,28 @@ const config = {
   },
   devServer: {
     historyApiFallback: true,
-    static: path.join(__dirname, "dist"),
+    static: path.join(__dirname, 'dist'),
     compress: true,
     hot: true,
     open: true,
     port: 4000,
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      static: path.resolve(__dirname, "static/"),
-      components: path.resolve(__dirname, "src/components/"),
-      constants: path.resolve(__dirname, "src/constants/"),
-      controllers: path.resolve(__dirname, "src/controllers/"),
-      modules: path.resolve(__dirname, "src/modules/"),
-      pages: path.resolve(__dirname, "src/pages/"),
-      styles: path.resolve(__dirname, "src/styles/"),
+      static: path.resolve(__dirname, 'static/'),
+      components: path.resolve(__dirname, 'src/components/'),
+      constants: path.resolve(__dirname, 'src/constants/'),
+      controllers: path.resolve(__dirname, 'src/controllers/'),
+      modules: path.resolve(__dirname, 'src/modules/'),
+      pages: path.resolve(__dirname, 'src/pages/'),
+      styles: path.resolve(__dirname, 'src/styles/'),
     },
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "src", "index.html"),
+      template: path.join(__dirname, 'src', 'index.html'),
     }),
   ],
   optimization: {
@@ -85,7 +85,7 @@ const config = {
 
 module.exports = () => {
   if (isProduction) {
-    config.mode = "production";
+    config.mode = 'production';
     const plugins = [
       new GenerateSW({
         clientsClaim: true,
@@ -95,7 +95,7 @@ module.exports = () => {
     ];
     config.plugins.push(...plugins);
   } else {
-    config.mode = "development";
+    config.mode = 'development';
   }
   return config;
 };
