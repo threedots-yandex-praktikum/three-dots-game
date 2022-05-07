@@ -2,7 +2,7 @@ import React, {useRef, useEffect, useCallback, useState} from 'react';
 import './style.scss';
 import { Game } from './Game/Game';
 import { useHistory } from 'react-router-dom';
-import { GAME_OVER_ROUTE } from 'constants/routes';
+import {GAME_OVER_ROUTE, LEADERBOARD_ROUTE} from 'constants/routes';
 import { CANVAS_SIZE_IN_PX } from 'pages/GamePlay/Game/settingsGame';
 import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/modal';
 import { Button } from '@chakra-ui/react';
@@ -29,6 +29,11 @@ export const GamePlay = () => {
     [history],
   );
 
+  const goToLeaderBoardScreen = useCallback(
+    () => history.push(LEADERBOARD_ROUTE),
+    [history],
+  );
+
   useEffect(() => {
     let sizeScreen = {
       w: 0,
@@ -48,7 +53,10 @@ export const GamePlay = () => {
         const game = new Game({
           ctx,
           sizeScreen,
-          onGameWin: () => console.log('win'),
+          onGameWin: () => {
+            console.log('win');
+            goToLeaderBoardScreen();
+          },
           onGameOver: () => {
             console.log('lose');
             goToGameOverScreen();
@@ -57,6 +65,11 @@ export const GamePlay = () => {
             // @ts-ignore
             unpauseCbRef.current = unpauseCb;
             setIsOpen(true);
+          },
+          sendScoresData: scoresData => {
+
+            // TODO здесь необходимо будет реализовать запись очков игрового сеанса в редакс
+            console.log(scoresData);
           },
         });
 

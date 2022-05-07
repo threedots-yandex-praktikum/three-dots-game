@@ -7,12 +7,24 @@ import { getRadians } from './utils';
 
 const RADIANS = getRadians(360);
 
+
+type TPlayerSores = {
+  kills: number,
+  scores: number,
+};
+
+type TScoresData = {
+  player: TPlayerSores,
+  bots: TPlayerSores[],
+};
+
 type TGame = {
   ctx: CanvasRenderingContext2D,
   sizeScreen: TSizeScreen,
   onGameWin: () => void,
   onGameOver: () => void,
   onGamePause: (v: () => void) => void,
+  sendScoresData: (scoresData: TScoresData) => void,
 };
 
 export class Game {
@@ -28,6 +40,7 @@ export class Game {
   onGameWin;
   onGameOver;
   onGamePause;
+  sendScoresData;
 
   callbackEvents: Record<string, ((event: KeyboardEvent) => void) > = {};
 
@@ -37,6 +50,7 @@ export class Game {
       onGameWin,
       onGameOver,
       onGamePause,
+      sendScoresData,
   }: TGame) {
     this.ctx = ctx;
     this.dotPlayer = new DotPlayer();
@@ -45,6 +59,7 @@ export class Game {
     this.onGameWin = onGameWin;
     this.onGameOver = onGameOver;
     this.onGamePause = onGamePause;
+    this.sendScoresData = sendScoresData;
   }
 
   start() {
@@ -55,6 +70,20 @@ export class Game {
 
   stop() {
     this.isGameFinished = true;
+
+    /*
+    * формируем данные по очкам для игрока и 20 ботов с лучшими результатами, и отправляем эти данные в sendScoresData
+    * */
+    const scoresData = {
+      player: { kills: this.dotPlayer.kills, scores: this.dotPlayer.scores },
+      bots: this.interactionDots.dots
+        .sort((a, b) => b.scores - a.scores)
+        .slice(0, 20)
+        .map(dot => ({ kills: dot.kills, scores: dot.scores })),
+    };
+    this.sendScoresData(scoresData);
+    // collect users scores and kills data
+
     // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
     document.removeEventListener('keydown', this.callbackEvents.keydown);
     document.removeEventListener('keyup', this.callbackEvents.keyup);
