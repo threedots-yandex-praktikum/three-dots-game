@@ -1,5 +1,5 @@
 import {  TDotPlayer, TSizeScreen, TDot } from './types';
-import { CANVAS_SIZE_IN_PX, COLOR_BG, DEFAULT_COLOR } from './settingsGame';
+import {CANVAS_SIZE_IN_PX, COLOR_BG, DEFAULT_COLOR, INITIAL_PLAYER_COORDINATES_IN_PX} from './settingsGame';
 import { DotPlayer } from './Dot/DotPlayer';
 import { codeKeyboard } from './controlSettings';
 import { InteractionDots } from './Dots/InteractionDots';
@@ -125,13 +125,42 @@ export class Game {
     this.ctx.rect(0, 0, CANVAS_SIZE_IN_PX, CANVAS_SIZE_IN_PX);
     this.ctx.fillStyle = COLOR_BG;
     this.ctx.fill();
+    const shift = this.getShiftScreen();
     this.ctx.save();
 
-    // перемещаем активный экран вслед за точкой
+    // перемещаем активный экран вслед за точкой, отступая от рамки вычисленный отступ
     this.ctx.translate(
-      this.sizeScreen.w / 2 - this.dotPlayer.x,
-      this.sizeScreen.h / 2 - this.dotPlayer.y,
+      -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2,
+      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2,
     );
+  }
+
+  private getShiftScreen () {
+    const shiftX = this.dotPlayer.x - INITIAL_PLAYER_COORDINATES_IN_PX.x;
+    const shiftY = this.dotPlayer.y - INITIAL_PLAYER_COORDINATES_IN_PX.y;
+    const thicknessFrame = 100;
+    const screenWithoutMove = {
+      w: this.sizeScreen.w / 2 - thicknessFrame,
+      h: this.sizeScreen.h / 2 - thicknessFrame,
+    };
+    const result ={
+      x: 0,
+      y: 0,
+    };
+    if (shiftX > screenWithoutMove.w) {
+      result.x = shiftX - screenWithoutMove.w;
+    }
+    if (shiftX < -screenWithoutMove.w) {
+      result.x = shiftX + screenWithoutMove.w;
+    }
+
+    if (shiftY > screenWithoutMove.h) {
+      result.y = shiftY - screenWithoutMove.h;
+    }
+    if (shiftY < -screenWithoutMove.h) {
+      result.y = shiftY + screenWithoutMove.h;
+    }
+    return result;
   }
 
   private handleGameWin() {
@@ -198,30 +227,26 @@ export class Game {
       if (dot instanceof DotPlayer) {
         this.drawPlayerDot();
       } else {
-        this.drawBaseDot(dot);
+        this.drawBaseDot(dot, false);
       }
     });
     this.ctx.restore();
   }
 
   // все отрисовки в классе Game потому что не хотела передавать управление контекстом canvas по всем классам. Но все равно остались спорные ощущения
-  private drawBaseDot(dot: TDot) {
+  private drawBaseDot(dot: TDot, isPlayer: boolean) {
     this.ctx.beginPath();
     this.ctx.arc(dot.x, dot.y, dot.radius, 0, RADIANS);
-    this.ctx.fillStyle = dot.color || DEFAULT_COLOR;
+    this.ctx.fillStyle = isPlayer ?
+      '#ec128a' :
+      dot.color || DEFAULT_COLOR;
     this.ctx.fill();
-
-    // отладочная информация для отображения очков всех ботов и ползователя на экране
-    this.ctx.font = '10px Arial';
-    this.ctx.fillStyle = '#805AD5';
-    const scoresData = `Очки: ${dot.scores}`;
-    this.ctx.fillText(scoresData, dot.x, dot.y);
   }
 
   private drawPlayerDot() {
     this.dotPlayer.move('');
-    this.drawBaseDot(this.dotPlayer);
-    this.ctx.lineWidth = 3;
+    this.drawBaseDot(this.dotPlayer, true);
+    this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = DEFAULT_COLOR;
     this.ctx.stroke();
   }

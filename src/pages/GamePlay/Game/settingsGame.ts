@@ -30,7 +30,7 @@ const COLORS_DOT: ReadonlyArray<string> = [
 
 const DEFAULT_COLOR = '#555';
 
-const COLOR_BG = '#fff';
+const COLOR_BG = '#eee';
 
 const INITIAL_PLAYER_COORDINATES_IN_PX = {
   x:  CANVAS_SIZE_IN_PX/ 2,

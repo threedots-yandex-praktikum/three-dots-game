@@ -2,7 +2,7 @@ import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
 import { TDotCoordinate  } from '../types';
 
-const speedFactor = 11;
+const speedFactor = 10;
 export abstract class Dot {
   radius = 0;
   x = 0;
@@ -15,6 +15,7 @@ export abstract class Dot {
 
   protected abstract setBaseParams() : void
 
+  //TODO продумать формулу для корректной логики движения частиц разных размеров
   getSpeedFactor(): number {
     return this.radius / speedFactor;
   }
