@@ -12,7 +12,7 @@ export class DotPlayer extends Dot {
   constructor() {
     super();
     this.setBaseParams();
-    this.moveFromEdge();
+    this.correctCenterPositionAccordingNewDotRadius();
   }
 
   protected setBaseParams() {
@@ -26,6 +26,8 @@ export class DotPlayer extends Dot {
 
   move (keyDirection: string) {
     super.move(keyDirection);
+    console.log('scores', this.scores);
+    console.log('kills', this.kills);
     const control = Object.values(controlSettings).find((control) => {
       return control.value === keyDirection;
     });

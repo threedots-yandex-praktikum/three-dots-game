@@ -10,6 +10,8 @@ export abstract class Dot {
   color: string | null = null;
   isActive = false;
   transitionRadius: number | null = null;
+  kills = 0;
+  scores = 0;
 
   protected abstract setBaseParams() : void
 
@@ -27,24 +29,19 @@ export abstract class Dot {
   }
 
   move(keyDirection: string) {
-    if (this.transitionRadius) {
-      this.scaleRadius();
-    }
-  }
-
-  scaleRadius() {
     if (!this.transitionRadius) {
       return;
     }
+
     if (this.radius < this.transitionRadius) {
       this.radius = Math.ceil(this.radius + (this.transitionRadius - this.radius) * 0.05);
-      this.moveFromEdge();
-    } else if (this.radius >= this.transitionRadius) {
+      this.correctCenterPositionAccordingNewDotRadius();
+    } else {
       this.transitionRadius = null;
     }
   }
 
-  moveFromEdge() {
+  correctCenterPositionAccordingNewDotRadius() {
     if (this.x + this.radius > CANVAS_SIZE_IN_PX) {
       this.x = CANVAS_SIZE_IN_PX - this.radius;
     }

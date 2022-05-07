@@ -20,7 +20,7 @@ export class DotBot extends Dot {
     this.maxRadius = maxRadius;
     this.coordPlayerDot = coordPlayerDot;
     this.setBaseParams();
-    this.moveFromEdge();
+    this.correctCenterPositionAccordingNewDotRadius();
   }
 
   isDanger(dangerousDot: TDot) {

@@ -81,9 +81,13 @@ export class InteractionDots {
     const totalArea = dot.getAreaCircle() + dotIntersection.getAreaCircle();
     if (dot.radius > dotIntersection.radius) {
       dot.setTransitionRadius(totalArea);
+      dot.kills += 1;
+      dot.scores = Math.round(dotIntersection.getAreaCircle());
       dotIntersection.toggleActive();
     } else if (dot.radius < dotIntersection.radius) {
       dotIntersection.setTransitionRadius(totalArea);
+      dotIntersection.kills += 1;
+      dotIntersection.scores = Math.round(dot.getAreaCircle());
       dot.toggleActive();
     } else {
       if (dotIntersection instanceof DotBot) {
