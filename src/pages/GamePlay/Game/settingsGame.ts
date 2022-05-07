@@ -23,13 +23,12 @@ const BOTS: TBotSettings[] = [
 
 const COLORS_DOT: ReadonlyArray<string> = [
   '#FF4903',
-  '#4378B',
+  '#3182CE',
   '#00E691',
   '#8157D1',
-  '#000',
 ];
 
-const DEFAULT_COLOR = '#000';
+const DEFAULT_COLOR = '#555';
 
 const COLOR_BG = '#fff';
 

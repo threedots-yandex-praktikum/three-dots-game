@@ -144,6 +144,7 @@ export class Game {
 
     this.prepareCanvas();
     this.drawDots();
+    this.drawScore();
     requestAnimationFrame(this.drawGame.bind(this));
   }
 
@@ -187,10 +188,19 @@ export class Game {
   private drawPlayerDot() {
     this.dotPlayer.move('');
     this.drawBaseDot(this.dotPlayer);
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = '#ffd700';
+    this.ctx.lineWidth = 3;
+    this.ctx.strokeStyle = DEFAULT_COLOR;
     this.ctx.stroke();
   }
 
+  private drawScore() {
+    this.ctx.font = '30px Arial';
+    this.ctx.fillStyle = '#805AD5';
+    const scoresData = `Очки: ${this.dotPlayer.scores}`;
+    this.ctx.fillText(scoresData, 10, 50);
+    this.ctx.fillStyle = '#ED8936';
+    const killsData = `Съедено: ${this.dotPlayer.kills}`;
+    this.ctx.fillText(killsData, 10, 100);
+  }
 
 }
