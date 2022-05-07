@@ -82,8 +82,8 @@ export class DotBot extends Dot {
     if (isBorderCanvasY) {
       this.directionY *= -1;
     }
-    this.x += this.directionX / DIRECTION;
-    this.y += this.directionY / DIRECTION;
+    this.x += this.directionX / DIRECTION / this.getSpeedFactor();
+    this.y += this.directionY / DIRECTION / this.getSpeedFactor();
   }
 
 
