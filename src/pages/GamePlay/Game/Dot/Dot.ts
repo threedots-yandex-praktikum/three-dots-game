@@ -2,7 +2,7 @@ import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
 import { TDotCoordinate  } from '../types';
 
-const speedFactor = 25;
+const speedFactor = 20;
 export abstract class Dot {
   radius = 0;
   x = 0;

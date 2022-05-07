@@ -35,9 +35,11 @@ export class DotBot extends Dot {
   }
 
   reInit() {
-    this.setBaseParams();
     this.transitionRadius = this.radius;
     this.radius = 0;
+    this.kills = 0;
+    this.scores = 0;
+    this.setBaseParams();
     this.isActive = true;
   }
 
@@ -52,11 +54,13 @@ export class DotBot extends Dot {
       this.y += random(this.xyMin, this.xyMax);
     }
 
-    this.directionX = random(-DIRECTION, DIRECTION) / this.getSpeedFactor();
-    this.directionY = random(-DIRECTION, DIRECTION) / this.getSpeedFactor();
+    const speedFactor = this.getSpeedFactor();
+
+    this.directionX = random(-DIRECTION, DIRECTION) / speedFactor;
+    this.directionY = random(-DIRECTION, DIRECTION) / speedFactor;
     if (this.directionX === 0 && this.directionY === 0) {
-      this.directionX = DIRECTION / this.getSpeedFactor();
-      this.directionY = DIRECTION / this.getSpeedFactor();
+      this.directionX = DIRECTION / speedFactor;
+      this.directionY = DIRECTION / speedFactor;
     }
     this.isActive = true;
   }

@@ -28,13 +28,15 @@ export class InteractionDots {
 
     for (let i = 0; i < this.dots.length; i++) {
       const dot = this.dots[i];
-      if (countInitBots === BOTS_TO_RE_INIT_AMOUNT || dot instanceof DotPlayer) {
+
+      if (
+        countInitBots === BOTS_TO_RE_INIT_AMOUNT ||
+        dot instanceof DotPlayer ||
+        dot.isActive
+      ) {
         continue;
       }
 
-      if (dot.isActive) {
-        continue;
-      }
       dot.reInit();
       countInitBots++;
     }

@@ -98,7 +98,6 @@ export class Game {
     }, 5000);
   }
 
-  //TODO порефакторить логику подключения обработчиков
   private initGamePlayEventHandlers() {
     this.callbackEvents.keydown = (event: KeyboardEvent) => {
       if(event.key === 'Escape') {
@@ -212,6 +211,11 @@ export class Game {
     this.ctx.fillStyle = dot.color || DEFAULT_COLOR;
     this.ctx.fill();
 
+    // отладочная информация для отображения очков всех ботов и ползователя на экране
+    this.ctx.font = '10px Arial';
+    this.ctx.fillStyle = '#805AD5';
+    const scoresData = `Очки: ${dot.scores}`;
+    this.ctx.fillText(scoresData, dot.x, dot.y);
   }
 
   private drawPlayerDot() {
