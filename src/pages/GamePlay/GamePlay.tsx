@@ -1,12 +1,13 @@
-import React, {useRef, useEffect, useCallback, useState} from 'react';
+import React, { useRef, useEffect, useCallback, useState, useMemo } from 'react';
 import './style.scss';
 import { Game } from './Game/Game';
 import { useHistory } from 'react-router-dom';
-import {GAME_OVER_ROUTE, LEADERBOARD_ROUTE} from 'constants/routes';
+import { GAME_OVER_ROUTE, LEADERBOARD_ROUTE } from 'constants/routes';
 import { CANVAS_SIZE_IN_PX } from 'pages/GamePlay/Game/settingsGame';
 import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chakra-ui/modal';
-import { Button } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import _isFunction from 'lodash/isFunction';
+import _identity from 'lodash/identity';
 
 
 export const GamePlay = () => {
@@ -32,6 +33,31 @@ export const GamePlay = () => {
   const goToLeaderBoardScreen = useCallback(
     () => history.push(LEADERBOARD_ROUTE),
     [history],
+  );
+
+  const [ isInFullScreenMode, setIsInFullScreenMode ] = useState(false);
+  const toggleFullScreenMode = useCallback(
+    () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen()
+          .then(() => setIsInFullScreenMode(true));
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+            .then(() => setIsInFullScreenMode(false));
+        }
+      }
+    },
+    [],
+  );
+
+  const continueGame = useCallback(
+    () => {
+      /*@ts-ignore*/
+      _isFunction(unpauseCbRef.current) && unpauseCbRef.current();
+      setIsOpen(false);
+    },
+    [],
   );
 
   useEffect(() => {
@@ -78,30 +104,52 @@ export const GamePlay = () => {
     }
   }, []);
 
+  const PAUSE_MODAL_WINDOW_BTN_SCHEMA = useMemo(
+    () => [
+      {
+        id: 'continueGame',
+        title: 'Продолжить игру',
+        onClick: continueGame,
+      },
+      {
+        id: 'exitGame',
+        title: 'Выход из игры',
+        onClick: goToGameOverScreen,
+      },
+      {
+        id: 'fullScreenMode',
+        title: isInFullScreenMode ? 'Режим окна' : 'На весь экран',
+        onClick: toggleFullScreenMode,
+      },
+    ],
+    [continueGame, goToGameOverScreen, toggleFullScreenMode, isInFullScreenMode],
+  );
+
   return (
     <div ref={refScreen} className="playing-field">
-      <Modal isOpen={isOpen} onClose={() => { console.log('onCLose');}}>
+      <Modal isOpen={isOpen} onClose={_identity} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Пауза</ModalHeader>
+          <ModalHeader mb={3}>Пауза</ModalHeader>
           <ModalBody>
-            <Button
-              mr={2}
-              onClick={() => {
-                /*@ts-ignore*/
-                _isFunction(unpauseCbRef.current) && unpauseCbRef.current();
-                setIsOpen(false);
-              }}
-            >
-              Продолжить игру
-            </Button>
-            <Button onClick={goToGameOverScreen}>
-              Выход из игры
-            </Button>
+            <Flex justifyContent="center" mb={3}>
+              {
+                PAUSE_MODAL_WINDOW_BTN_SCHEMA
+                  .map(({ id, title, onClick }) => (
+                    <Button
+                      key={id}
+                      mr={2}
+                      onClick={onClick}
+                    >
+                      {title}
+                    </Button>
+                  ))
+              }
+            </Flex>
           </ModalBody>
         </ModalContent>
       </Modal>
-      <canvas key={111} ref={refCanvas} width={CANVAS_SIZE_IN_PX} height={CANVAS_SIZE_IN_PX} />
+      <canvas ref={refCanvas} width={CANVAS_SIZE_IN_PX} height={CANVAS_SIZE_IN_PX} />
     </div>
   );
 };
