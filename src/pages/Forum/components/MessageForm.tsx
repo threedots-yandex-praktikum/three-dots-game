@@ -5,8 +5,8 @@ import React, { useCallback, useMemo } from 'react';
 import { SEND_MESSAGE_FORM_SCHEMA } from '../constants';
 import { EMPTY_STRING } from 'constants/generalConst';
 import { useDispatch } from 'react-redux';
-import { sendMessageAC } from '../../../store/reducers/forumReducer/forumActionCreators';
-import { useAppSelector } from '../../../hooks/useAppSelector';
+import { sendMessageAC } from 'store/reducers/forumReducer/forumActionCreators';
+import { useAppSelector } from 'hooks/useAppSelector';
 import { TMessageFormProps } from '../types';
 
 

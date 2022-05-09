@@ -1,6 +1,6 @@
-import { ELeaderActions, TLeaderRow } from "./types";
+import { ELeaderActions, IGetTableAction, TLeaderRow } from "./types";
 
-export const getTableAC = () => {
+export const getTableAC = (): IGetTableAction => {
   return { type: ELeaderActions.GET_TABLE };
 };
 export const setTableAC = (data: TLeaderRow[]) => {

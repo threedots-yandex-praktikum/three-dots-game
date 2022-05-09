@@ -5,9 +5,9 @@ import { FORUM_ROUTE } from 'constants/routes';
 import { Topic } from './Topic';
 import { InteractivePanel } from './InteractivePanel';
 import { CreateTopic } from './CreateTopic';
-import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 import { useDispatch } from 'react-redux';
-import { getTopicsAC } from '../../../store/reducers/forumReducer/forumActionCreators';
+import { getTopicsAC } from 'store/reducers/forumReducer/forumActionCreators';
 
 
 

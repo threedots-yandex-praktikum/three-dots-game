@@ -15,7 +15,7 @@ import { ReviewItem } from './ReviewItem/ReviewItem';
 import { INFO_SECTION_SCHEMA, MOCKED_REVIEW_DATA } from './constants';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 export const Home = () => {

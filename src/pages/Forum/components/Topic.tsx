@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { getDateString } from '../../../utils/getDateString';
+import { getDateString } from 'utils/getDateString';
 import { TTopicProps } from '../types';
 
 

@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { Background } from 'components/Background';
 import { chooseSize, getRandomColor } from './constants';
-import { useDispatch } from 'react-redux';
-import { getTableAC } from '../../store/reducers/leaderBoardReducer/leaderBoardActionCreators';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { getTableAC } from 'store/reducers/leaderBoardReducer/leaderBoardActionCreators';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 
 
 
 
 export const LeaderBoard = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const { leaders } = useAppSelector(state => state.leaderBoardReducer)
 

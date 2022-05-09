@@ -10,7 +10,7 @@ import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
 import { HOME_ROUTE } from 'constants/routes';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 

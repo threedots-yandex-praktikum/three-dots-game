@@ -6,8 +6,6 @@ import { ListOfThems } from './components/ListOfThems';
 import { CurrentTopic } from './components/CurrentTopic';
 import { Route, Switch } from 'react-router-dom';
 
-// TODO данные ниже брать из store
-
 
 export const Forum = () => {
 

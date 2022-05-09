@@ -1,15 +1,15 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/react';
-import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDateString } from '../../../utils/getDateString';
+import { getDateString } from 'utils/getDateString';
 import { TParams } from '../types';
 import { InteractivePanel } from './InteractivePanel';
 import { MessageForm } from './MessageForm';
-import { generateAvatarLink } from '../../../utils/generateAvatarLink';
-import { useDispatch } from 'react-redux';
-import { getCurrentTopicAC } from '../../../store/reducers/forumReducer/forumActionCreators';
+import { generateAvatarLink } from 'utils/generateAvatarLink';
+import { getCurrentTopicAC } from 'store/reducers/forumReducer/forumActionCreators';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 
 
 export const CurrentTopic = () => {
@@ -20,7 +20,7 @@ export const CurrentTopic = () => {
   const { avatar } = useAppSelector(state => state.profileReducer)
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer)
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   const avatarLink = generateAvatarLink(avatar)
 

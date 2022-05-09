@@ -1,11 +1,11 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { FORUM_ROUTE } from 'constants/routes';
-import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { closeTopicAC } from '../../../store/reducers/forumReducer/forumActionCreators';
+import { closeTopicAC } from 'store/reducers/forumReducer/forumActionCreators';
 import { TInteractivePanelProps, TParams } from '../types';
 
 

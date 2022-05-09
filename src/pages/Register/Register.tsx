@@ -9,7 +9,7 @@ import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { Input } from 'components/Input';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 export const Register = () => {

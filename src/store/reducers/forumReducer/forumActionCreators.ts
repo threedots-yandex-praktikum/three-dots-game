@@ -1,4 +1,11 @@
-import { TCurrentTopic, TNewTopicData, TSendData, TTopic } from "./types";
+import {
+  ICreateNewTopicAction,
+  IGetCurrentTopicAction,
+  TCurrentTopic,
+  TNewTopicData,
+  TSendData,
+  TTopic,
+} from "./types";
 import { EForumActions } from "./types";
 
 export const getTopicsAC = () => {
@@ -9,7 +16,7 @@ export const setTopicsAC = (topics: TTopic[]) => {
   return { type: EForumActions.SET_TOPICS, payload: topics };
 };
 
-export const getCurrentTopicAC = (topicId: number) => {
+export const getCurrentTopicAC = (topicId: number): IGetCurrentTopicAction => {
   return { type: EForumActions.GET_CURRENT_TOPIC, payload: topicId };
 };
 
@@ -17,7 +24,9 @@ export const setCurrentTopicAC = (currentTopicData: TCurrentTopic) => {
   return { type: EForumActions.SET_CURRENT_TOPIC, payload: currentTopicData };
 };
 
-export const createNewTopicAC = (data: TNewTopicData) => {
+export const createNewTopicAC = (
+  data: TNewTopicData
+): ICreateNewTopicAction => {
   return { type: EForumActions.CREATE_NEW_TOPIC, payload: data };
 };
 

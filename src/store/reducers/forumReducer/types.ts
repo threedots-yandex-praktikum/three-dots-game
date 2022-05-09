@@ -58,7 +58,7 @@ interface ISetTopicsAction {
   type: EForumActions.SET_TOPICS;
   payload: TTopic[];
 }
-interface IGetCurrentTopicAction {
+export interface IGetCurrentTopicAction {
   type: EForumActions.GET_CURRENT_TOPIC;
   payload: number;
 }
@@ -66,7 +66,7 @@ interface ISetCurrentTopicAction {
   type: EForumActions.SET_CURRENT_TOPIC;
   payload: TCurrentTopic;
 }
-interface ICreateNewTopicAction {
+export interface ICreateNewTopicAction {
   type: EForumActions.CREATE_NEW_TOPIC;
   payload: TNewTopicData;
 }

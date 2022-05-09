@@ -25,8 +25,8 @@ import { TUserData } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { generateAvatarLink } from '../../utils/generateAvatarLink';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { generateAvatarLink } from 'utils/generateAvatarLink';
 
 
 export const Profile = () => {
