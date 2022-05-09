@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Logo } from 'components/Logo';
 import { FormikProvider, useFormik } from 'formik';
 import { Input } from 'components/Input';
@@ -10,24 +10,27 @@ import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
 import { HOME_ROUTE } from 'constants/routes';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { TUserData, UserContext } from 'components/Root/context';
+import { useAppSelector } from '../../hooks/useAppSelector';
+
+
 
 
 export const Login = () => {
   const history = useHistory();
-  const { setUserData } = useContext(UserContext);
+  const { isFetch } = useAppSelector(state => state.fetchReducer)
+  const { error } = useAppSelector(state => state.authReducer)
 
   const onSubmit = useCallback(
     (values: TSignInData) => UserController
       .signIn(values)
-      .then(response => {
-        setUserData(response as TUserData);
-        sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
+      .then(_ => {
+        error
+          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
+          : sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
       }),
-    [setUserData, history],
+    [history],
   );
-
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
@@ -74,7 +77,7 @@ export const Login = () => {
                     w="50%"
                     type="submit"
                     colorScheme="purple"
-                    isDisabled={isSubmitBtnDisabled}
+                    isDisabled={isSubmitBtnDisabled || isFetch}
                   >
                     Войти
                   </Button>

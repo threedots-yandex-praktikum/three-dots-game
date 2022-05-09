@@ -1,13 +1,7 @@
 import { ELoginActions, TAuthAction, TAuthState } from "./types";
 
 const initialState: TAuthState = {
-  email: "",
-  first_name: "",
-  login: "",
-  phone: "",
-  second_name: "",
-  avatar: "",
-  display_name: "",
+  error: null,
 };
 
 export const authReducer = (
@@ -15,10 +9,10 @@ export const authReducer = (
   action: TAuthAction
 ) => {
   switch (action.type) {
-    case ELoginActions.SET_USER:
-      return { ...state, ...action.payload };
+    case ELoginActions.SET_ERROR:
+      return { ...state, error: action.payload };
     case ELoginActions.LOGOUT:
-      return { ...state, ...initialState };
+      return { ...state, error: false };
     default:
       return state;
   }

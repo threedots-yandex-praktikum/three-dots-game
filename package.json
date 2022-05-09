@@ -69,6 +69,7 @@
     "postcss": "8.4.12",
     "postcss-loader": "6.2.1",
     "postcss-preset-env": "7.4.3",
+    "redux-devtools-extension": "^2.13.9",
     "rimraf": "3.0.2",
     "stylelint": "14.7.1",
     "stylelint-config-prettier-scss": "0.0.1",

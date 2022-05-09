@@ -1,5 +1,6 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/react';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDateString } from '../../../utils/getDateString';
@@ -7,6 +8,7 @@ import { mockThemList } from '../Forum';
 import { TParams } from '../types';
 import { InteractivePanel } from './InteractivePanel';
 import { MessageForm } from './MessageForm';
+import { generateAvatarLink } from '../../../utils/generateAvatarLink';
 
 // TODO данные ниже брать из store
 
@@ -89,15 +91,21 @@ const mockData = {
   title: 'topic title',
 };
 
-const my = {
-  avatarLink: undefined,
-};
+// const my = {
+//   avatarLink: undefined,
+// };
 
 
 export const CurrentTopic = () => {
 
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
+  const { avatar } = useAppSelector(state => state.profileReducer)
+
+  const avatarLink = generateAvatarLink(avatar)
+  // avatar ?
+  //   `https://ya-praktikum.tech/api/v2/resources/${avatar}` :
+  //   undefined;
 
   useEffect(() => {
 
@@ -175,9 +183,9 @@ export const CurrentTopic = () => {
           >
             <Box>
               <Avatar
-                bg={my.avatarLink ? 'transparent' : 'purple.500'}
+                bg={avatarLink ? 'transparent' : 'purple.500'}
                 size="lg"
-                src={my.avatarLink}
+                src={avatarLink}
               />
             </Box>
 

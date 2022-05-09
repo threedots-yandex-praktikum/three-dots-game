@@ -3,18 +3,30 @@ import { TSignUpData } from "modules/api/authAPI";
 export enum ELoginActions {
   LOGIN = "LOGIN",
   LOGOUT = "LOGOUT",
-  SET_USER = "SET_USER",
+  REGISTER = "REGISTER",
+  SET_ERROR = "SET_ERROR",
 }
-export type TAuthState = Omit<TSignUpData, "password">;
-
-interface ISetUserAction {
-  type: ELoginActions.SET_USER;
-  payload: TAuthState;
-}
+export type TAuthState = {
+  error: null | Error;
+};
 
 interface ILogoutAction {
   type: ELoginActions.LOGOUT;
-  payload: TAuthState;
+}
+interface ILogintAction {
+  type: ELoginActions.LOGIN;
+}
+interface IRegisterAction {
+  type: ELoginActions.REGISTER;
+  payload: TSignUpData;
+}
+interface ISetErrorAction {
+  type: ELoginActions.SET_ERROR;
+  payload: null | Error;
 }
 
-export type TAuthAction = ISetUserAction | ILogoutAction;
+export type TAuthAction =
+  | ILogoutAction
+  | ILogintAction
+  | IRegisterAction
+  | ISetErrorAction;

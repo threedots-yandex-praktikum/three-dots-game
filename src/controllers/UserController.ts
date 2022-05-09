@@ -1,13 +1,22 @@
-import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
-import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
+import { AuthAPI, TSignInData, TSignUpData } from "modules/api/authAPI";
+import { HTTP_REQUEST_STATUS } from "modules/api/httpTransport/constants";
+import {
+  loginAC,
+  logoutAC,
+  registrationAC,
+} from "../store/reducers/authReducer/authActionCreators";
+import { store } from "../store/store";
 
-
-export type TUserControllerClassError = { reason: string, response: unknown, status: HTTP_REQUEST_STATUS };
-
+const { dispatch } = store;
+export type TUserControllerClassError = {
+  reason: string;
+  response: unknown;
+  status: HTTP_REQUEST_STATUS;
+};
 
 export class UserControllerClass {
   public static setError(error: TUserControllerClassError | null) {
-    if(error === null) {
+    if (error === null) {
       return null;
     }
 
@@ -27,7 +36,7 @@ export class UserControllerClass {
 
   public async logOut() {
     try {
-      await AuthAPI.logOut();
+      dispatch(logoutAC());
 
       UserControllerClass.setError(null);
     } catch (error) {
@@ -38,19 +47,9 @@ export class UserControllerClass {
 
   public async signUp(formData: TSignUpData) {
     try {
-      const response = await AuthAPI.signUp(formData);
-      const {
-        id,
-      } = response;
-
-      const userData = {
-        ...formData,
-        id,
-      };
+      dispatch(registrationAC(formData));
 
       UserControllerClass.setError(null);
-
-      return userData;
     } catch (error) {
       return Promise.reject();
     }
@@ -61,8 +60,10 @@ export class UserControllerClass {
       await AuthAPI.signIn(formData);
 
       return this.fetchAndSetSignedUserData();
-    } catch(error) {
-      if((error as TUserControllerClassError).reason === 'User already in system') {
+    } catch (error) {
+      if (
+        (error as TUserControllerClassError).reason === "User already in system"
+      ) {
         await this.fetchAndSetSignedUserData();
         return Promise.resolve();
       }
@@ -73,39 +74,14 @@ export class UserControllerClass {
 
   public async fetchAndSetSignedUserData() {
     try {
-      const signedUserResponse = await AuthAPI.getUserData();
-
-      const {
-        id,
-        first_name,
-        second_name,
-        display_name,
-        login,
-        email,
-        phone,
-        avatar,
-      } = signedUserResponse;
-
-      const userData = {
-        id,
-        first_name,
-        second_name,
-        display_name,
-        login,
-        email,
-        phone,
-        avatar,
-      };
+      dispatch(loginAC());
 
       UserControllerClass.setError(null);
-
-      return userData;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject(error);
     }
   }
 }
-
 
 export const UserController = new UserControllerClass();

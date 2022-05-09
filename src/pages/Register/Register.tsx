@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Box, Button, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { Logo } from 'components/Logo';
 import { Background } from 'components/Background';
@@ -9,23 +9,24 @@ import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { Input } from 'components/Input';
-import { TUserData, UserContext } from 'components/Root/context';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const Register = () => {
   const history = useHistory();
-  const { setUserData } = useContext(UserContext);
+  const { isFetch } = useAppSelector(state => state.fetchReducer)
+  const { error } = useAppSelector(state => state.authReducer)
 
   const onSubmit = useCallback(
     values => UserController
       .signUp(values)
-      .then(response => {
-        setUserData(response as TUserData);
-
-        sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
+      .then(_ => {
+        error
+          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
+          : sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
       }),
-    [setUserData, history],
+    [history],
   );
 
   const onClose = useCallback(() => history.push(LOGIN_ROUTE), [history]);
@@ -97,7 +98,7 @@ export const Register = () => {
                       w="50%"
                       type="submit"
                       colorScheme="purple"
-                      isDisabled={isSubmitBtnDisabled}
+                      isDisabled={isSubmitBtnDisabled || isFetch}
                     >
                       Зарегистрироваться
                     </Button>

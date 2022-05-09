@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch,
   Route,
@@ -29,9 +29,10 @@ import { GamePlay } from 'pages/GamePlay';
 import { GameOver } from 'pages/GameOver';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { UserContext } from 'components/Root/context';
+// import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
 import { EditPassword } from 'pages/EditPassword';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 /*
@@ -106,21 +107,23 @@ const NAVIGATION_SCHEMA = [
 ];
 
 export const App = () => {
-  const { userData, setUserData } = useContext(UserContext);
+  // const { userData, setUserData } = useContext(UserContext);
 
   const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
-
+  const { email } = useAppSelector(state => state.profileReducer)//TODO потом заменить на id
   useEffect(
     () => {
       UserController
         .fetchAndSetSignedUserData()
-        .then(setUserData)
+        // .then(setUserData)
         .catch(() => {
           sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
         })
         .finally(() => setIsUserDataRequestInProgress(false));
     },
-    [setUserData],
+    // [setUserData],
+    [],
+
   );
 
   if (isUserDataRequestInProgress) {
@@ -132,7 +135,7 @@ export const App = () => {
       <div className="app__navigation">
         {
           NAVIGATION_SCHEMA
-            .filter(({ isVisible }) => isVisible(!!userData))
+            .filter(({ isVisible }) => isVisible(!!email))
             .map(({ title, route }) => (
               <Link key={route} to={route}>
                 {title}{' '}
@@ -141,7 +144,7 @@ export const App = () => {
         }
       </div>
       {
-        userData ?
+        email ?
           (
             <div className="app__content">
               <Switch>

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState, MouseEvent } from 'react';
+import React, { useCallback, useMemo, useState, MouseEvent } from 'react';
 import './style.scss';
 import { Background } from 'components/Background';
 import {
@@ -21,40 +21,48 @@ import { useHistory } from 'react-router-dom';
 import { ProfileController } from 'controllers/ProfileController';
 import { TChangeProfileData } from 'modules/api/profileAPI';
 import { UserController } from 'controllers/UserController';
-import { TUserData, UserContext } from 'components/Root/context';
+import { TUserData } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { generateAvatarLink } from '../../utils/generateAvatarLink';
 
 
 export const Profile = () => {
   const history = useHistory();
-  const { userData, setUserData } = useContext(UserContext);
 
+  const { error } = useAppSelector(state => state.authReducer)
+
+  const { profileReducer: userData } = useAppSelector(state => state)
   const [isEdit, setIsEdit] = useState(false);
 
   const onSubmit = useCallback(
     values => {
       return ProfileController
         .changeProfile(values as TChangeProfileData)
-        .then(response => {
-          setUserData(response);
+        .then(_ => {
           setIsEdit(false);
-          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
+          console.log(error, "async test");//TODO async
+
+          error
+            ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
+            : sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
         });
     },
-    [setUserData, setIsEdit],
+    [setIsEdit],
   );
 
   const logout = useCallback(
     () => UserController
       .logOut()
       .then(() => {
-        setUserData(null);
-        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
+        error
+          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
+          : sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO)
         return history.push(LOGIN_ROUTE);
       }),
-    [setUserData, history],
+    [history],
   );
 
   const goEditPassword = useCallback(
@@ -101,12 +109,10 @@ export const Profile = () => {
       return ProfileController
         .changeAvatar(formData)
         .then(avatarSrc => {
-          setUserData({
-            ...userData || {},
-            avatar: avatarSrc,
-          } as TUserData);
           setIsEdit(false);
-          sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+          error
+            ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
+            : sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
 
           return avatarSrc;
         });
@@ -118,9 +124,10 @@ export const Profile = () => {
     ? 'profile__avatar profile__avatar--opacity'
     : 'profile__avatar';
 
-  const avatarLink = values.avatar ?
-    `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
-    undefined;
+  const avatarLink = generateAvatarLink(userData.avatar)
+  // userData.avatar ?
+  //   `https://ya-praktikum.tech/api/v2/resources/${userData.avatar}` :
+  //   undefined;
 
   return (
     <Background>

@@ -7,11 +7,9 @@ export type TStateFetch = {
 };
 interface IFetchON {
   type: EFetchActions.FETCH_ON;
-  payload: boolean;
 }
 interface IFetchOFF {
   type: EFetchActions.FETCH_OFF;
-  payload: boolean;
 }
 
 export type TFetchAction = IFetchON | IFetchOFF;
