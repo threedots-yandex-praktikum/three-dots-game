@@ -36,9 +36,8 @@ function* fetchChangeProfile({
 }
 
 export function* watchChangeProfile() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EProfileActions.CHANGE_PROFILE
-  );
+  const channel: TakeableChannel<ReturnType<typeof changeProfileAC>> =
+    yield actionChannel(EProfileActions.CHANGE_PROFILE);
   yield takeEvery(channel, fetchChangeProfile);
 }
 
@@ -57,9 +56,8 @@ function* fetchChangePassword({
 }
 
 export function* watchChangePassword() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EProfileActions.CHANGE_PASSWORD
-  );
+  const channel: TakeableChannel<ReturnType<typeof changeProfileAC>> =
+    yield actionChannel(EProfileActions.CHANGE_PASSWORD);
   yield takeEvery(channel, fetchChangePassword);
 }
 
@@ -81,8 +79,7 @@ function* fetchChangeAvatar({
 }
 
 export function* watchChangeAvatar() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EProfileActions.CHANGE_AVATAR
-  );
+  const channel: TakeableChannel<ReturnType<typeof changeAvatarAC>> =
+    yield actionChannel(EProfileActions.CHANGE_AVATAR);
   yield takeEvery(channel, fetchChangeAvatar);
 }

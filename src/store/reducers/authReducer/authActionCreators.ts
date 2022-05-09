@@ -1,11 +1,11 @@
-import { TSignUpData } from "modules/api/authAPI";
+import { TSignUpData } from 'modules/api/authAPI';
 import {
   ELoginActions,
   ILogintAction,
   ILogoutAction,
   IRegisterAction,
   ISetErrorAction,
-} from "./types";
+} from './types';
 
 export const loginAC = (): ILogintAction => {
   return { type: ELoginActions.LOGIN };

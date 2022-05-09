@@ -8,7 +8,7 @@ function* onFetch() {
 }
 
 export function* watchOnFetch() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
     EFetchActions.FETCH_ON
   );
   yield takeEvery(channel, onFetch);

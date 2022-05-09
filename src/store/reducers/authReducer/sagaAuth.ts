@@ -30,7 +30,9 @@ function* fetchSignIn() {
 }
 
 export function* watchSignIn() {
-  const channel: TakeableChannel<{}> = yield actionChannel(ELoginActions.LOGIN);
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
+    ELoginActions.LOGIN
+  );
   while (true) {
     yield take(channel);
     yield call(fetchSignIn);
@@ -55,9 +57,8 @@ function* fetchSignUp({ payload: data }: ReturnType<typeof registrationAC>) {
   }
 }
 export function* watchRegister() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    ELoginActions.REGISTER
-  );
+  const channel: TakeableChannel<ReturnType<typeof registrationAC>> =
+    yield actionChannel(ELoginActions.REGISTER);
   yield takeEvery(channel, fetchSignUp);
 }
 
@@ -77,7 +78,7 @@ function* fetchLogout() {
 }
 
 export function* watchLogout() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
     ELoginActions.LOGOUT
   );
   while (true) {

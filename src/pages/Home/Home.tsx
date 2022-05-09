@@ -20,7 +20,7 @@ import { useAppSelector } from 'hooks/useAppSelector';
 
 export const Home = () => {
   const history = useHistory();
-  const { id } = useAppSelector(state => state.profileReducer)
+  const { id } = useAppSelector(state => state.profileReducer);
 
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),

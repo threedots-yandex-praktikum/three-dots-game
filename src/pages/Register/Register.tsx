@@ -14,8 +14,8 @@ import { useAppSelector } from 'hooks/useAppSelector';
 
 export const Register = () => {
   const history = useHistory();
-  const { isFetch } = useAppSelector(state => state.fetchReducer)
-  const { error } = useAppSelector(state => state.authReducer)
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { error } = useAppSelector(state => state.authReducer);
 
   const onSubmit = useCallback(
     values => UserController

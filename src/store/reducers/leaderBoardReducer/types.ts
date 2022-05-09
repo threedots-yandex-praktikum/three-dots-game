@@ -1,6 +1,6 @@
 export enum ELeaderActions {
-  SET_TABLE = "SET_TABLE",
-  GET_TABLE = "GET_TABLE",
+  SET_TABLE = 'SET_TABLE',
+  GET_TABLE = 'GET_TABLE',
 }
 export type TLeaderState = {
   leaders: [] | TLeaderRow[];

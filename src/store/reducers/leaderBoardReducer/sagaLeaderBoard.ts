@@ -33,7 +33,7 @@ function* fetchLeaderBoard() {
 }
 
 export function* watchLeaderBoard() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
     ELeaderActions.GET_TABLE
   );
   yield takeEvery(channel, fetchLeaderBoard);

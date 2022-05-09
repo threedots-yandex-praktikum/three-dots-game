@@ -14,8 +14,8 @@ import { getTopicsAC } from 'store/reducers/forumReducer/forumActionCreators';
 
 export const ListOfThems = () => {
   const history = useHistory();
-  const { topics } = useAppSelector(state => state.forumReducer)
-  const dispatch = useDispatch()
+  const { topics } = useAppSelector(state => state.forumReducer);
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onCloseMemoized = useCallback(() => setIsModalOpen(false), []);
@@ -24,7 +24,7 @@ export const ListOfThems = () => {
 
 
   useEffect(() => {
-    dispatch(getTopicsAC())
+    dispatch(getTopicsAC());
   }, []);
 
   return (

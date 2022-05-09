@@ -19,12 +19,12 @@ const INITIAL_STATE = {
 };
 
 export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
-  const dispatch = useAppDispatch()
-  const { id } = useAppSelector(state => state.profileReducer)
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector(state => state.profileReducer);
   const onSubmit = useCallback(
     values => {
       console.log(values);
-      dispatch(createNewTopicAC({ ...values, userId: id }))
+      dispatch(createNewTopicAC({ ...values, userId: id }));
     },
     [],
   );

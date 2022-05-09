@@ -1,4 +1,4 @@
-import { TTopic } from "../../store/reducers/forumReducer/types";
+import { TTopic } from '../../store/reducers/forumReducer/types';
 
 export type TTopicProps = {
   topic: TTopic;

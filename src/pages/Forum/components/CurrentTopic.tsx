@@ -17,19 +17,19 @@ export const CurrentTopic = () => {
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
 
-  const { avatar } = useAppSelector(state => state.profileReducer)
-  const { topics, currentTopic } = useAppSelector(state => state.forumReducer)
+  const { avatar } = useAppSelector(state => state.profileReducer);
+  const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const avatarLink = generateAvatarLink(avatar)
+  const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
 
     const isInThemList = topics?.find(i => i.topicId === topicId);
     if (!isInThemList) throw new Error('Темы с таким ID нет');
 
-    dispatch(getCurrentTopicAC(topicId))
+    dispatch(getCurrentTopicAC(topicId));
   }, [params]);
 
   const currentTopicTitle = useMemo(() => {
@@ -55,7 +55,7 @@ export const CurrentTopic = () => {
         <Divider orientation="horizontal" border="2px" />
         {currentTopic?.messages.map(message => {
           const { avatarLink, messageId, text, time, userName } = message;
-          const avatar = generateAvatarLink(avatarLink)
+          const avatar = generateAvatarLink(avatarLink);
           return (
             <Stack
               divider={<StackDivider borderColor='gray.200' />}

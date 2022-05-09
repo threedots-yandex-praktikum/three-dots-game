@@ -110,7 +110,7 @@ export const App = () => {
   // const { userData, setUserData } = useContext(UserContext);
 
   const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
-  const { email } = useAppSelector(state => state.profileReducer)//TODO потом заменить на id
+  const { email } = useAppSelector(state => state.profileReducer);//TODO потом заменить на id
   useEffect(
     () => {
       UserController

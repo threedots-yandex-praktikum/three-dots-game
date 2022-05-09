@@ -1,4 +1,4 @@
-import { EFetchActions } from "./types";
+import { EFetchActions } from './types';
 
 //AC - action creator
 export const setFetchOnAC = () => {

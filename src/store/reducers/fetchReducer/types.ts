@@ -1,6 +1,6 @@
 export enum EFetchActions {
-  FETCH_ON = "FETCH_ON",
-  FETCH_OFF = "FETCH_OFF",
+  FETCH_ON = 'FETCH_ON',
+  FETCH_OFF = 'FETCH_OFF',
 }
 export type TStateFetch = {
   isFetch: boolean;

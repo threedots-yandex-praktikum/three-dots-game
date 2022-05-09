@@ -1,11 +1,11 @@
-import { AuthAPI, TSignInData, TSignUpData } from "modules/api/authAPI";
-import { HTTP_REQUEST_STATUS } from "modules/api/httpTransport/constants";
+import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
+import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 import {
   loginAC,
   logoutAC,
   registrationAC,
-} from "../store/reducers/authReducer/authActionCreators";
-import { store } from "../store/store";
+} from '../store/reducers/authReducer/authActionCreators';
+import { store } from '../store/store';
 
 const { dispatch } = store;
 export type TUserControllerClassError = {
@@ -62,7 +62,7 @@ export class UserControllerClass {
       return this.fetchAndSetSignedUserData();
     } catch (error) {
       if (
-        (error as TUserControllerClassError).reason === "User already in system"
+        (error as TUserControllerClassError).reason === 'User already in system'
       ) {
         await this.fetchAndSetSignedUserData();
         return Promise.resolve();

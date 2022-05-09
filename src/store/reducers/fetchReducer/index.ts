@@ -1,4 +1,4 @@
-import { EFetchActions, TFetchAction, TStateFetch } from "./types";
+import { EFetchActions, TFetchAction, TStateFetch } from './types';
 
 const initialState = {
   isFetch: false,
@@ -6,14 +6,14 @@ const initialState = {
 
 export const fetchReducer = (
   state: TStateFetch = initialState,
-  action: TFetchAction
+  action: TFetchAction,
 ) => {
   switch (action.type) {
-    case EFetchActions.FETCH_ON:
-      return { ...state, isFetch: true };
-    case EFetchActions.FETCH_OFF:
-      return { ...state, isFetch: false };
-    default:
-      return state;
+  case EFetchActions.FETCH_ON:
+    return { ...state, isFetch: true };
+  case EFetchActions.FETCH_OFF:
+    return { ...state, isFetch: false };
+  default:
+    return state;
   }
 };

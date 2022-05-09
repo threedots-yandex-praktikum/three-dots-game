@@ -18,11 +18,11 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
   const topicId = parseInt(params.topicId);
 
   const makeTopicDisabled = () => {
-    dispatch(closeTopicAC(topicId))
+    dispatch(closeTopicAC(topicId));
   };
 
-  const { id } = useAppSelector(state => state.profileReducer)
-  const { currentTopic } = useAppSelector(state => state.forumReducer)
+  const { id } = useAppSelector(state => state.profileReducer);
+  const { currentTopic } = useAppSelector(state => state.forumReducer);
 
   return (
     <Flex p="10px" my="15px" boxShadow="dark-lg" bg="#ffffff" w="100%">

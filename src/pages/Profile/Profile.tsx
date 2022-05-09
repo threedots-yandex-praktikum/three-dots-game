@@ -32,9 +32,9 @@ import { generateAvatarLink } from 'utils/generateAvatarLink';
 export const Profile = () => {
   const history = useHistory();
 
-  const { error } = useAppSelector(state => state.authReducer)
+  const { error } = useAppSelector(state => state.authReducer);
 
-  const { profileReducer: userData } = useAppSelector(state => state)
+  const { profileReducer: userData } = useAppSelector(state => state);
   const [isEdit, setIsEdit] = useState(false);
 
   const onSubmit = useCallback(
@@ -43,7 +43,7 @@ export const Profile = () => {
         .changeProfile(values as TChangeProfileData)
         .then(_ => {
           setIsEdit(false);
-          console.log(error, "async test");//TODO async
+          console.log(error, 'async test');//TODO async
 
           error
             ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
@@ -59,7 +59,7 @@ export const Profile = () => {
       .then(() => {
         error
           ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-          : sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO)
+          : sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
         return history.push(LOGIN_ROUTE);
       }),
     [history],
@@ -124,7 +124,7 @@ export const Profile = () => {
     ? 'profile__avatar profile__avatar--opacity'
     : 'profile__avatar';
 
-  const avatarLink = generateAvatarLink(userData.avatar)
+  const avatarLink = generateAvatarLink(userData.avatar);
 
   return (
     <Background>

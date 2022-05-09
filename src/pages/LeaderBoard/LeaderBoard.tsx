@@ -11,12 +11,12 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 
 
 export const LeaderBoard = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const { leaders } = useAppSelector(state => state.leaderBoardReducer)
+  const { leaders } = useAppSelector(state => state.leaderBoardReducer);
 
   useEffect(() => {
-    dispatch(getTableAC())
+    dispatch(getTableAC());
   }, []);
 
   return (

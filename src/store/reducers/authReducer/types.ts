@@ -1,10 +1,10 @@
-import { TSignUpData } from "modules/api/authAPI";
+import { TSignUpData } from 'modules/api/authAPI';
 
 export enum ELoginActions {
-  LOGIN = "LOGIN",
-  LOGOUT = "LOGOUT",
-  REGISTER = "REGISTER",
-  SET_ERROR = "SET_ERROR",
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  REGISTER = 'REGISTER',
+  SET_ERROR = 'SET_ERROR',
 }
 export type TAuthState = {
   error: null | Error;

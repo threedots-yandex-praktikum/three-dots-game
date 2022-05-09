@@ -67,7 +67,7 @@ function* fetchGetTopics() {
 }
 
 export function* watchGetTopics() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
     EForumActions.GET_TOPICS
   );
   yield takeEvery(channel, fetchGetTopics);
@@ -167,7 +167,7 @@ function* fetchGetCurrentTopic() {
 }
 
 export function* watchGetCurrentTopic() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
+  const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
     EForumActions.GET_CURRENT_TOPIC
   );
   yield takeEvery(channel, fetchGetCurrentTopic);
@@ -192,9 +192,8 @@ function* fetchCloseTopic({ payload }: ReturnType<typeof closeTopicAC>) {
 }
 
 export function* watchCloseTopic() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EForumActions.CLOSE_CURRENT_TOPIC
-  );
+  const channel: TakeableChannel<ReturnType<typeof closeTopicAC>> =
+    yield actionChannel(EForumActions.CLOSE_CURRENT_TOPIC);
   while (true) {
     yield takeEvery(channel, fetchCloseTopic);
   }
@@ -219,9 +218,8 @@ function* fetchCreateTopic({ payload }: ReturnType<typeof createNewTopicAC>) {
 }
 
 export function* watchCreateTopic() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EForumActions.CREATE_NEW_TOPIC
-  );
+  const channel: TakeableChannel<ReturnType<typeof createNewTopicAC>> =
+    yield actionChannel(EForumActions.CREATE_NEW_TOPIC);
   while (true) {
     yield takeEvery(channel, fetchCreateTopic);
   }
@@ -245,9 +243,8 @@ function* fetchSendMessage({ payload }: ReturnType<typeof sendMessageAC>) {
 }
 
 export function* watchSendMessage() {
-  const channel: TakeableChannel<{}> = yield actionChannel(
-    EForumActions.SEND_MESSAGE
-  );
+  const channel: TakeableChannel<ReturnType<typeof sendMessageAC>> =
+    yield actionChannel(EForumActions.SEND_MESSAGE);
   while (true) {
     yield takeEvery(channel, fetchSendMessage);
   }

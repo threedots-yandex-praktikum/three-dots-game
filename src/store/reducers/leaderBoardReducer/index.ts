@@ -1,4 +1,4 @@
-import { ELeaderActions, TLeaderBoardActions, TLeaderState } from "./types";
+import { ELeaderActions, TLeaderBoardActions, TLeaderState } from './types';
 
 const initialState: TLeaderState = {
   leaders: [],
@@ -6,12 +6,12 @@ const initialState: TLeaderState = {
 
 export const leaderBoardReducer = (
   state: TLeaderState = initialState,
-  action: TLeaderBoardActions
+  action: TLeaderBoardActions,
 ) => {
   switch (action.type) {
-    case ELeaderActions.SET_TABLE:
-      return { ...state, leaders: action.payload };
-    default:
-      return state;
+  case ELeaderActions.SET_TABLE:
+    return { ...state, leaders: action.payload };
+  default:
+    return state;
   }
 };

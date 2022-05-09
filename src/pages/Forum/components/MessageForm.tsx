@@ -16,12 +16,12 @@ const INITIAL_STATE = {
 
 export const MessageForm = ({ topicId }: TMessageFormProps) => {
 
-  const dispatch = useDispatch()
-  const { id } = useAppSelector(state => state.profileReducer)
+  const dispatch = useDispatch();
+  const { id } = useAppSelector(state => state.profileReducer);
   const onSubmit = useCallback(
     (values, { resetForm }) => {
-      dispatch(sendMessageAC({ ...values, userId: id as number, topicId }))
-      resetForm({ values: '' })
+      dispatch(sendMessageAC({ ...values, userId: id as number, topicId }));
+      resetForm({ values: '' });
     },
     [],
   );
