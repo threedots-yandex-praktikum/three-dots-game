@@ -6,7 +6,7 @@ import { InteractionDots } from './Dots/InteractionDots';
 import {getRadians, random} from './utils';
 
 const RADIANS = getRadians(360);
-const OBSTACLES_DATA = Array
+export const OBSTACLES_DATA = Array
   .from(new Array(random(10, 20)))
   .map(() => ({
     x: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
@@ -273,7 +273,6 @@ export class Game {
   private drawObstacles() {
     return OBSTACLES_DATA
       .map(data => {
-
         return this.drawObstacle(data)
       });
   }

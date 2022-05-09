@@ -3,6 +3,8 @@ import { BOTS_TO_RE_INIT_AMOUNT,
   INITIAL_PLAYER_COORDINATES_IN_PX, BOTS } from '../settingsGame';
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
+import {OBSTACLES_DATA} from "pages/GamePlay/Game/Game";
+import {getRadiusFromArea} from "pages/GamePlay/Game/utils";
 
 export class InteractionDots {
   dots: (TDotBot | TDotPlayer)[] = [];
@@ -45,16 +47,22 @@ export class InteractionDots {
 
   handleIntersection(dot: TDot) {
     const dotIntersection = this.getIntersectionDot(dot);
-
     if (dotIntersection) {
-      this.handleInteractionPhase(dot, dotIntersection);
+      return this.handleInteractionPhase(dot, dotIntersection);
+    }
+
+    const obstacleIntersection = this.getIntersectionObstacle(dot);
+    if (obstacleIntersection) {
+      return this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
     }
   }
 
   handleDanger(dot: TDotBot) {
     const dangerousDot = this.getDangerousDot(dot);
 
-    if (dangerousDot && dot.isDanger(dangerousDot)) {
+    const dangerousObstacle = this.getDangerousObstacle(dot);
+
+    if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot)) {
       dot.runAway();
     }
   }
@@ -69,6 +77,10 @@ export class InteractionDots {
     return dotIntersection;
   }
 
+  private getDangerousObstacle(dot: TDotBot) {
+    return OBSTACLES_DATA.find(obstacle => dot.isDotWarning(obstacle));
+  }
+
   private getIntersectionDot(dot: TDot) {
     const dotIntersection = this.dots.find((dot2) => {
       if (dot2 === dot || !dot2.isActive) {
@@ -77,6 +89,10 @@ export class InteractionDots {
       return dot.isDotIntersection(dot2);
     });
     return dotIntersection;
+  }
+
+  private getIntersectionObstacle(dot: TDot) {
+    return OBSTACLES_DATA.find(obstacle => dot.isDotIntersection(obstacle));
   }
 
   private handleInteractionPhase(dot: TDot, dotIntersection: TDot) {
@@ -101,6 +117,16 @@ export class InteractionDots {
     }
   }
 
+  private handleObstaclesInteractionPhase(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
+    dot instanceof DotPlayer && console.log('obstacle intersection', dot, obstacleIntersection)
+
+    const totalArea = dot.getAreaCircle();
+    const updatedRadius = getRadiusFromArea(totalArea/2);
+    dot.inverseDirectionAndRollback(dot, obstacleIntersection);
+    dot.setTransitionRadius(updatedRadius);
+
+  }
+
   handleMovePhase() {
     this.dots.forEach((dot) => {
       if (!dot.isActive) {
@@ -111,7 +137,7 @@ export class InteractionDots {
         this.handleDanger(dot);
       }
 
-      this.handleIntersection(dot);
+      this.handleIntersection(dot as TDot);
     });
   }
 }

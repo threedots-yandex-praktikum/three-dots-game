@@ -1,6 +1,6 @@
 import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
-import { TDotCoordinate  } from '../types';
+import {TDot, TDotCoordinate} from '../types';
 
 const speedFactor = 10;
 export abstract class Dot {
@@ -29,17 +29,20 @@ export abstract class Dot {
     this.transitionRadius = getRadiusFromArea(area);
   }
 
+  inverseDirectionAndRollback(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
+    // получаем по двум точкам уравнение прямой, откладываем по ней примерно 50 пиксеей и перемещаем точку в полученные координаты
+    const lineEquation = (x: number): number => (x - dot.x) * (obstacleIntersection.y - dot.y) / (obstacleIntersection.x - dot.x) + dot.y;
+
+    console.log(lineEquation)
+  }
+
   move(keyDirection: string) {
     if (!this.transitionRadius) {
       return;
     }
 
-    if (this.radius < this.transitionRadius) {
-      this.radius = Math.ceil(this.radius + (this.transitionRadius - this.radius) * 0.05);
-      this.correctCenterPositionAccordingNewDotRadius();
-    } else {
-      this.transitionRadius = null;
-    }
+    this.radius = this.transitionRadius;
+    this.correctCenterPositionAccordingNewDotRadius();
   }
 
   correctCenterPositionAccordingNewDotRadius() {
