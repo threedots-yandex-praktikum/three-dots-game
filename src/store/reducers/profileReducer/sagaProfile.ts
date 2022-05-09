@@ -1,31 +1,31 @@
-import { ProfileAPI } from "modules/api/profileAPI";
-import { TakeableChannel } from "redux-saga";
-import { actionChannel, call, putResolve, takeEvery } from "redux-saga/effects";
-import { setErrorAC } from "../authReducer/authActionCreators";
+import { ProfileAPI } from 'modules/api/profileAPI';
+import { TakeableChannel } from 'redux-saga';
+import { actionChannel, call, putResolve, takeEvery } from 'redux-saga/effects';
+import { setErrorAC } from '../authReducer/authActionCreators';
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from "../fetchReducer/fetchActionCreators";
+} from '../fetchReducer/fetchActionCreators';
 import {
   changeAvatarAC,
   changeProfileAC,
   setUserAC,
-} from "./profileActionCreators";
-import { EProfileActions, TProfileState } from "./types";
+} from './profileActionCreators';
+import { EProfileActions, TProfileState } from './types';
 
 function* fetchChangeProfile({
   payload: data,
 }: ReturnType<typeof changeProfileAC>) {
   try {
-    console.log(data, "data fetchChangeProfile");
+    console.log(data, 'data fetchChangeProfile');
 
     yield putResolve(setFetchOnAC());
 
     const response: TProfileState = yield call(
       ProfileAPI.changeProfile.bind(ProfileAPI),
-      data
+      data,
     );
-    console.log(response, "response");
+    console.log(response, 'response');
     yield putResolve(setUserAC(response));
 
     yield putResolve(setFetchOffAC());
@@ -68,7 +68,7 @@ function* fetchChangeAvatar({
     yield putResolve(setFetchOnAC());
     const response: TProfileState = yield call(
       ProfileAPI.changeAvatar.bind(ProfileAPI),
-      data
+      data,
     );
     yield putResolve(setUserAC(response));
     yield putResolve(setFetchOffAC());

@@ -1,24 +1,24 @@
-import { registrationAC, setErrorAC } from "./authActionCreators";
-import { AuthAPI } from "../../../modules/api/authAPI";
-import { actionChannel, call, put, take, takeEvery } from "redux-saga/effects";
+import { registrationAC, setErrorAC } from './authActionCreators';
+import { AuthAPI } from '../../../modules/api/authAPI';
+import { actionChannel, call, put, take, takeEvery } from 'redux-saga/effects';
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from "../fetchReducer/fetchActionCreators";
-import { ELoginActions } from "./types";
-import { TakeableChannel } from "redux-saga";
-import { TProfileState } from "../profileReducer/types";
+} from '../fetchReducer/fetchActionCreators';
+import { ELoginActions } from './types';
+import { TakeableChannel } from 'redux-saga';
+import { TProfileState } from '../profileReducer/types';
 import {
   resetUserAC,
   setUserAC,
-} from "../profileReducer/profileActionCreators";
+} from '../profileReducer/profileActionCreators';
 
 function* fetchSignIn() {
   try {
     yield put(setFetchOnAC());
 
     const response: TProfileState = yield call(
-      AuthAPI.getUserData.bind(AuthAPI)
+      AuthAPI.getUserData.bind(AuthAPI),
     );
     yield put(setUserAC(response));
 
@@ -31,7 +31,7 @@ function* fetchSignIn() {
 
 export function* watchSignIn() {
   const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
-    ELoginActions.LOGIN
+    ELoginActions.LOGIN,
   );
   while (true) {
     yield take(channel);
@@ -45,7 +45,7 @@ function* fetchSignUp({ payload: data }: ReturnType<typeof registrationAC>) {
 
     let response: TProfileState = yield call(
       AuthAPI.signUp.bind(AuthAPI),
-      data
+      data,
     );
     response = { ...data, id: response.id };
     yield put(setUserAC(response));
@@ -79,7 +79,7 @@ function* fetchLogout() {
 
 export function* watchLogout() {
   const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
-    ELoginActions.LOGOUT
+    ELoginActions.LOGOUT,
   );
   while (true) {
     yield take(channel);

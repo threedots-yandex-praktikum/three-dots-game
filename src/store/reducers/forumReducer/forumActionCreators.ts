@@ -5,8 +5,8 @@ import {
   TNewTopicData,
   TSendData,
   TTopic,
-} from './types';
-import { EForumActions } from './types';
+  EForumActions,
+} from "./types";
 
 export const getTopicsAC = () => {
   return { type: EForumActions.GET_TOPICS };
@@ -25,7 +25,7 @@ export const setCurrentTopicAC = (currentTopicData: TCurrentTopic) => {
 };
 
 export const createNewTopicAC = (
-  data: TNewTopicData,
+  data: TNewTopicData
 ): ICreateNewTopicAction => {
   return { type: EForumActions.CREATE_NEW_TOPIC, payload: data };
 };
