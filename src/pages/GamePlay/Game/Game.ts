@@ -1,12 +1,18 @@
 import {  TDotPlayer, TSizeScreen, TDot } from './types';
-import {CANVAS_SIZE_IN_PX, COLOR_BG, DEFAULT_COLOR, INITIAL_PLAYER_COORDINATES_IN_PX} from './settingsGame';
+import {CANVAS_SIZE_IN_PX, COLOR_BG, COLORS_DOT, DEFAULT_COLOR, INITIAL_PLAYER_COORDINATES_IN_PX} from './settingsGame';
 import { DotPlayer } from './Dot/DotPlayer';
 import { codeKeyboard } from './controlSettings';
 import { InteractionDots } from './Dots/InteractionDots';
-import { getRadians } from './utils';
+import {getRadians, random} from './utils';
 
 const RADIANS = getRadians(360);
-
+const OBSTACLES_DATA = Array
+  .from(new Array(random(10, 20)))
+  .map(() => ({
+    x: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
+    y: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
+    radius: random(30, 140),
+  }));
 
 type TPlayerSores = {
   kills: number,
@@ -201,6 +207,7 @@ export class Game {
 
     this.prepareCanvas();
     this.drawDots();
+    this.drawObstacles();
     this.drawScore();
     requestAnimationFrame(this.drawGame.bind(this));
   }
@@ -235,12 +242,14 @@ export class Game {
 
   // все отрисовки в классе Game потому что не хотела передавать управление контекстом canvas по всем классам. Но все равно остались спорные ощущения
   private drawBaseDot(dot: TDot, isPlayer: boolean) {
-    this.ctx.beginPath();
-    this.ctx.arc(dot.x, dot.y, dot.radius, 0, RADIANS);
-    this.ctx.fillStyle = isPlayer ?
-      '#ec128a' :
-      dot.color || DEFAULT_COLOR;
-    this.ctx.fill();
+    this.drawCircle(
+      dot.x,
+      dot.y,
+      dot.radius,
+      isPlayer ?
+        '#ec128a' :
+        dot.color || DEFAULT_COLOR,
+    );
   }
 
   private drawPlayerDot() {
@@ -261,4 +270,42 @@ export class Game {
     this.ctx.fillText(killsData, 10, 100);
   }
 
+  private drawObstacles() {
+    return OBSTACLES_DATA
+      .map(data => {
+
+        return this.drawObstacle(data)
+      });
+  }
+
+  private drawObstacle = ({ x, y, radius }: { x: number, y: number, radius: number }) => {
+    const shift = this.getShiftScreen();
+
+    /*
+    * при расположении препятствия на игровом поле необходимо учитывать смещение окна просмотра относительно верхнего
+    * левого угла экрана, т.к. окно движется за точкой пользователя
+    * Поэтому используем расчет смещения, аналогичный расчету при отрисовке игрового поля и добавляем к этому значению
+    * координаты препятствия (x, y)
+    * */
+    const centerXCoord = -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2 + x;
+    const centerYCoord = -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2 + y;
+
+    this.drawCircle(centerXCoord, centerYCoord, radius, COLORS_DOT[0]);
+    this.drawCircle(centerXCoord, centerYCoord, radius / 3 * 2, COLORS_DOT[1]);
+    this.drawCircle(centerXCoord, centerYCoord, radius / 3, COLORS_DOT[2]);
+  }
+
+  private drawCircle(x: number, y: number, radius: number, fillColor: string) {
+    this.ctx.beginPath();
+    this.ctx.arc(
+      x,
+      y,
+      radius,
+      0,
+      RADIANS,
+    );
+    this.ctx.fillStyle = fillColor;
+    this.ctx.fill();
+  }
 }
+
