@@ -6,7 +6,7 @@ export type TForumState = {
 export type TTopic = {
   topicId: number;
   title: string;
-  date: number | Date;
+  date: number;
   lastMessage: TLastMessage | null;
 };
 
@@ -18,6 +18,7 @@ export type TLastMessage = {
 export type TCurrentTopic = {
   title: string;
   messages: TMessage[];
+  isDisabled: boolean;
   userOwenerId: number;
 };
 
@@ -25,20 +26,20 @@ export type TMessage = {
   messageId: number;
   avatarLink: null | string;
   userName: string;
-  time: number | Date;
+  time: number;
   text: string;
 };
 
 export type TSendData = {
   userId: number;
   topicId: number;
-  text: string;
+  message: string;
 };
 
 export type TNewTopicData = {
   userId: number;
   title: string;
-  text: string;
+  message: string;
 };
 
 export enum EForumActions {

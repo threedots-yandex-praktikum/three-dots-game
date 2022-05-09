@@ -1,17 +1,28 @@
 import { Button } from '@chakra-ui/button';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { FORUM_ROUTE } from 'constants/routes';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { TInteractivePanelProps } from '../types';
+import { useDispatch } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { closeTopicAC } from '../../../store/reducers/forumReducer/forumActionCreators';
+import { TInteractivePanelProps, TParams } from '../types';
 
 
 
 export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) => {
 
+  const dispatch = useDispatch();
+
+  const params = useParams<TParams>();
+  const topicId = parseInt(params.topicId);
+
   const makeTopicDisabled = () => {
-    console.log('topic disabled');
+    dispatch(closeTopicAC(topicId))
   };
+
+  const { id } = useAppSelector(state => state.profileReducer)
+  const { currentTopic } = useAppSelector(state => state.forumReducer)
 
   return (
     <Flex p="10px" my="15px" boxShadow="dark-lg" bg="#ffffff" w="100%">
@@ -33,6 +44,7 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
           ? <Button
             colorScheme="red"
             onClick={makeTopicDisabled}
+            disabled={currentTopic?.userOwenerId !== id}
           >
             Закрыть тему &times;
           </Button>

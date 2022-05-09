@@ -7,6 +7,9 @@ import React, { useCallback, useMemo } from 'react';
 import { CREATE_TOPIC_FORM_SCHEMA } from '../constants';
 import { TCreateTopicProps } from '../types';
 import { EMPTY_STRING } from 'constants/generalConst';
+import { useDispatch } from 'react-redux';
+import { createNewTopicAC } from '../../../store/reducers/forumReducer/forumActionCreators';
+import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
 const INITIAL_STATE = {
@@ -16,10 +19,12 @@ const INITIAL_STATE = {
 };
 
 export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
-
+  const dispatch = useDispatch()
+  const { id } = useAppSelector(state => state.profileReducer)
   const onSubmit = useCallback(
     values => {
       console.log(values);
+      dispatch(createNewTopicAC({ ...values, userId: id }))
     },
     [],
   );

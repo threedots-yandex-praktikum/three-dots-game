@@ -2,27 +2,22 @@ import React, { useEffect } from 'react';
 import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { Background } from 'components/Background';
 import { chooseSize, getRandomColor } from './constants';
+import { useDispatch } from 'react-redux';
+import { getTableAC } from '../../store/reducers/leaderBoardReducer/leaderBoardActionCreators';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
-const mockData = [
-  { id: 1, userName: 'user1', score: 20 },
-  { id: 2, userName: 'user2', score: 20 },
-  { id: 3, userName: 'user3', score: 20 },
-  { id: 4, userName: 'user4', score: 40 },
-  { id: 5, userName: 'user5', score: 50 },
-  { id: 6, userName: 'user6', score: 10 },
-  { id: 7, userName: 'userwerwerwerwer 2342432342342342347', score: 3 },
 
-];
 
 
 export const LeaderBoard = () => {
+  const dispatch = useDispatch()
+
+  const { leaders } = useAppSelector(state => state.leaderBoardReducer)
 
   useEffect(() => {
-    // лоадер ON
-    // запрос данных
-    // лоадер OFF
-  });
+    dispatch(getTableAC())
+  }, []);
 
   return (
     <Background>
@@ -59,7 +54,7 @@ export const LeaderBoard = () => {
             border="2px"
             my="2px"
           />
-          {mockData
+          {leaders
             //TODO реализовать в utils свою сортировку (по заданию)
             .sort((a, b) => b.score - a.score)
             .map((row, index) => {
@@ -82,7 +77,7 @@ export const LeaderBoard = () => {
                       {row.score}
                     </Box>
                   </Flex>
-                  {index === mockData.length - 1
+                  {index === leaders.length - 1
                     ? null
                     : <Divider
                       w="90%"

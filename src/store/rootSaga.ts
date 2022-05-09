@@ -6,6 +6,14 @@ import {
 } from "./reducers/authReducer/sagaAuth";
 import { watchOnFetch } from "./reducers/fetchReducer/sagaFetch";
 import {
+  watchCloseTopic,
+  watchCreateTopic,
+  watchGetCurrentTopic,
+  watchGetTopics,
+  watchSendMessage,
+} from "./reducers/forumReducer/sagaForum";
+import { watchLeaderBoard } from "./reducers/leaderBoardReducer/sagaLeaderBoard";
+import {
   watchChangeAvatar,
   watchChangePassword,
   watchChangeProfile,
@@ -20,20 +28,11 @@ export default function* rootSaga() {
     watchChangeProfile(),
     watchChangeAvatar(),
     watchChangePassword(),
+    watchGetTopics(),
+    watchGetCurrentTopic(),
+    watchCloseTopic(),
+    watchCreateTopic(),
+    watchSendMessage(),
+    watchLeaderBoard(),
   ]);
-  // const sagas = [watchAuth];
-
-  // const retrySagas = sagas.map((saga) => {
-  //   return spawn(function* () {
-  //     while (true) {
-  //       try {
-  //         yield call(saga);
-  //         break;
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     }
-  //   });
-  // });
-  // yield all(retrySagas);
 }

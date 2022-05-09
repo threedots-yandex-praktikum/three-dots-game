@@ -10,17 +10,17 @@ export type TAuthState = {
   error: null | Error;
 };
 
-interface ILogoutAction {
+export interface ILogoutAction {
   type: ELoginActions.LOGOUT;
 }
-interface ILogintAction {
+export interface ILogintAction {
   type: ELoginActions.LOGIN;
 }
-interface IRegisterAction {
+export interface IRegisterAction {
   type: ELoginActions.REGISTER;
   payload: TSignUpData;
 }
-interface ISetErrorAction {
+export interface ISetErrorAction {
   type: ELoginActions.SET_ERROR;
   payload: null | Error;
 }

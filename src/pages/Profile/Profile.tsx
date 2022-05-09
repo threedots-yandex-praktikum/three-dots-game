@@ -125,9 +125,6 @@ export const Profile = () => {
     : 'profile__avatar';
 
   const avatarLink = generateAvatarLink(userData.avatar)
-  // userData.avatar ?
-  //   `https://ya-praktikum.tech/api/v2/resources/${userData.avatar}` :
-  //   undefined;
 
   return (
     <Background>

@@ -25,6 +25,6 @@ export const closeTopicAC = (topicId: number) => {
   return { type: EForumActions.CLOSE_CURRENT_TOPIC, payload: topicId };
 };
 
-export const sendMessageeAC = (messageData: TSendData) => {
+export const sendMessageAC = (messageData: TSendData) => {
   return { type: EForumActions.SEND_MESSAGE, payload: messageData };
 };

@@ -22,16 +22,16 @@ interface ISetUserAction {
 interface IResetUserAction {
   type: EProfileActions.RESET_USER;
 }
-interface IChangePasswordAction {
+export interface IChangePasswordAction {
   type: EProfileActions.CHANGE_PASSWORD;
   payload: TChangePasswordData;
 }
-interface IChangeProfileAction {
+export interface IChangeProfileAction {
   type: EProfileActions.CHANGE_PROFILE;
   payload: TChangeProfileData;
 }
 
-interface IChangeAvatarAction {
+export interface IChangeAvatarAction {
   type: EProfileActions.CHANGE_AVATAR;
   payload: FormData;
 }

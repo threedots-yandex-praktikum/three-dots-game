@@ -3,25 +3,29 @@ import { Box, Divider, Flex, Text } from '@chakra-ui/layout';
 import { useHistory } from 'react-router-dom';
 import { FORUM_ROUTE } from 'constants/routes';
 import { Topic } from './Topic';
-import { mockThemList } from '../Forum';
 import { InteractivePanel } from './InteractivePanel';
 import { CreateTopic } from './CreateTopic';
+import { useAppSelector } from '../../../hooks/useAppSelector';
+import { useDispatch } from 'react-redux';
+import { getTopicsAC } from '../../../store/reducers/forumReducer/forumActionCreators';
 
 
 
 
 export const ListOfThems = () => {
-  const topics = mockThemList; // из useEffect
   const history = useHistory();
-
+  const { topics } = useAppSelector(state => state.forumReducer)
+  const dispatch = useDispatch()
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onCloseMemoized = useCallback(() => setIsModalOpen(false), []);
   const onOpenMemoized = useCallback(() => setIsModalOpen(true), []);
 
+
+
   useEffect(() => {
-    //получение тем (const topics =...)
-  });
+    dispatch(getTopicsAC())
+  }, []);
 
   return (
     <>
@@ -49,7 +53,7 @@ export const ListOfThems = () => {
           </Box>
         </Flex>
         <Divider orientation="horizontal" border="2px" />
-        {topics.map(topic => {
+        {topics?.map(topic => {
           const { topicId } = topic;
           return (
             <div

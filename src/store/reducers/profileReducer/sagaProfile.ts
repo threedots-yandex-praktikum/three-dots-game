@@ -1,12 +1,6 @@
 import { ProfileAPI } from "modules/api/profileAPI";
 import { TakeableChannel } from "redux-saga";
-import {
-  actionChannel,
-  call,
-  // put,
-  putResolve,
-  takeEvery,
-} from "redux-saga/effects";
+import { actionChannel, call, putResolve, takeEvery } from "redux-saga/effects";
 import { setErrorAC } from "../authReducer/authActionCreators";
 import {
   setFetchOffAC,
@@ -31,8 +25,6 @@ function* fetchChangeProfile({
       ProfileAPI.changeProfile.bind(ProfileAPI),
       data
     );
-    // TODO  ассинхронно
-
     console.log(response, "response");
     yield putResolve(setUserAC(response));
 
