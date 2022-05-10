@@ -3,8 +3,9 @@ import { BOTS_TO_RE_INIT_AMOUNT,
   INITIAL_PLAYER_COORDINATES_IN_PX, BOTS } from '../settingsGame';
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
-import {OBSTACLES_DATA} from "pages/GamePlay/Game/Game";
-import {getRadiusFromArea} from "pages/GamePlay/Game/utils";
+import { OBSTACLES_DATA } from 'pages/GamePlay/Game/Game';
+
+const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 15;
 
 export class InteractionDots {
   dots: (TDotBot | TDotPlayer)[] = [];
@@ -118,13 +119,12 @@ export class InteractionDots {
   }
 
   private handleObstaclesInteractionPhase(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
-    dot instanceof DotPlayer && console.log('obstacle intersection', dot, obstacleIntersection)
-
     const totalArea = dot.getAreaCircle();
-    const updatedRadius = getRadiusFromArea(totalArea/2);
+    if(totalArea >= MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX) {
+      return dot.isActive = false;
+    }
     dot.inverseDirectionAndRollback(dot, obstacleIntersection);
-    dot.setTransitionRadius(updatedRadius);
-
+    dot.setTransitionRadius(totalArea/2);
   }
 
   handleMovePhase() {
