@@ -5,7 +5,7 @@ import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
 import { OBSTACLES_DATA } from 'pages/GamePlay/Game/Game';
 
-const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 15;
+const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 40;
 
 export class InteractionDots {
   dots: (TDotBot | TDotPlayer)[] = [];
@@ -120,9 +120,11 @@ export class InteractionDots {
 
   private handleObstaclesInteractionPhase(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
     const totalArea = dot.getAreaCircle();
-    if(totalArea >= MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX) {
+
+    if(totalArea <= MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX) {
       return dot.isActive = false;
     }
+
     dot.inverseDirectionAndRollback(dot, obstacleIntersection);
     dot.setTransitionRadius(totalArea/2);
   }
