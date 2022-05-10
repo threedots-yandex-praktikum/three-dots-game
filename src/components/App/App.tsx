@@ -3,7 +3,7 @@ import {
   Switch,
   Route,
   Link,
-  Redirect,
+  // Redirect,
 } from 'react-router-dom';
 
 import {
@@ -29,10 +29,10 @@ import { GamePlay } from 'pages/GamePlay';
 import { GameOver } from 'pages/GameOver';
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-// import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
 import { EditPassword } from 'pages/EditPassword';
 import { useAppSelector } from '../../hooks/useAppSelector';
+import { authRoutes, unAuthRoutes, useAuth } from '../../hooks/useAuth';
 
 
 /*
@@ -107,21 +107,20 @@ const NAVIGATION_SCHEMA = [
 ];
 
 export const App = () => {
-  // const { userData, setUserData } = useContext(UserContext);
+
+  useAuth(authRoutes, unAuthRoutes);
 
   const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
-  const { email } = useAppSelector(state => state.profileReducer);//TODO потом заменить на id
+  const { id } = useAppSelector(state => state.profileReducer);
   useEffect(
     () => {
       UserController
         .fetchAndSetSignedUserData()
-        // .then(setUserData)
         .catch(() => {
           sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
         })
         .finally(() => setIsUserDataRequestInProgress(false));
     },
-    // [setUserData],
     [],
 
   );
@@ -135,7 +134,7 @@ export const App = () => {
       <div className="app__navigation">
         {
           NAVIGATION_SCHEMA
-            .filter(({ isVisible }) => isVisible(!!email))
+            .filter(({ isVisible }) => isVisible(!!id))
             .map(({ title, route }) => (
               <Link key={route} to={route}>
                 {title}{' '}
@@ -144,7 +143,7 @@ export const App = () => {
         }
       </div>
       {
-        email ?
+        id ?
           (
             <div className="app__content">
               <Switch>
@@ -159,7 +158,7 @@ export const App = () => {
                 <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
                 <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
 
-                <Redirect to={HOME_ROUTE} />
+                {/* <Redirect to={HOME_ROUTE} /> */}
               </Switch>
             </div>
           ) :
@@ -168,7 +167,7 @@ export const App = () => {
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={HOME_ROUTE} component={Home} />
-              <Redirect to={LOGIN_ROUTE} />
+              {/* <Redirect to={LOGIN_ROUTE} /> */}
             </Switch>
           )
       }
