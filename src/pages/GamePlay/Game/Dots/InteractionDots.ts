@@ -5,7 +5,7 @@ import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
 import { OBSTACLES_DATA } from 'pages/GamePlay/Game/Game';
 
-const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 40;
+const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 60;
 
 export class InteractionDots {
   dots: (TDotBot | TDotPlayer)[] = [];
