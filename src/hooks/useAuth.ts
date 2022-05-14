@@ -11,6 +11,7 @@ import {
   LOGIN_ROUTE,
   PROFILE_ROUTE,
   REGISTER_ROUTE,
+  ROOT_ROUTE,
 } from "../constants/routes";
 import { useAppSelector } from "./useAppSelector";
 
@@ -36,7 +37,12 @@ export const useAuth = (
   }, [id, location.pathname]);
 };
 
-export const unAuthRoutes = [HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE];
+export const unAuthRoutes = [
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTER_ROUTE,
+  ROOT_ROUTE,
+];
 export const authRoutes = [
   PROFILE_ROUTE,
   FORUM_ROUTE,
@@ -45,4 +51,5 @@ export const authRoutes = [
   GAME_PLAY_ROUTE,
   GAME_OVER_ROUTE,
   EDIT_PASSWORD_ROUTE,
+  ROOT_ROUTE,
 ];

@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { HOME_ROUTE } from 'constants/routes';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { useAppSelector } from 'hooks/useAppSelector';
+import { SpinnerWrapper } from '../../components/Spinner';
 
 
 
@@ -52,37 +53,39 @@ export const Login = () => {
           <Flex align="center" justify="center">
             <Logo />
           </Flex>
-          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white">
+          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white" pos='relative'>
             <FormikProvider value={formik}>
-              <form onSubmit={handleSubmit}>
-                {LOGIN_FORM_SCHEMA.map(
-                  ({ key, label, type, placeholder, validate }) => (
-                    <Input
-                      id={key}
-                      key={key}
-                      label={label}
-                      type={type}
-                      validate={validate}
-                      placeholder={placeholder}
-                      error={errors[key as keyof typeof errors]}
-                      touched={touched[key as keyof typeof touched]}
-                      value={values[key as keyof typeof values]}
-                      onChange={handleChange}
-                    />
-                  ),
-                )}
+              <SpinnerWrapper loading={isFetch}>
+                <form onSubmit={handleSubmit}>
+                  {LOGIN_FORM_SCHEMA.map(
+                    ({ key, label, type, placeholder, validate }) => (
+                      <Input
+                        id={key}
+                        key={key}
+                        label={label}
+                        type={type}
+                        validate={validate}
+                        placeholder={placeholder}
+                        error={errors[key as keyof typeof errors]}
+                        touched={touched[key as keyof typeof touched]}
+                        value={values[key as keyof typeof values]}
+                        onChange={handleChange}
+                      />
+                    ),
+                  )}
 
-                <Flex align="center" justify="center">
-                  <Button
-                    w="50%"
-                    type="submit"
-                    colorScheme="purple"
-                    isDisabled={isSubmitBtnDisabled || isFetch}
-                  >
-                    Войти
-                  </Button>
-                </Flex>
-              </form>
+                  <Flex align="center" justify="center">
+                    <Button
+                      w="50%"
+                      type="submit"
+                      colorScheme="purple"
+                      isDisabled={isSubmitBtnDisabled || isFetch}
+                    >
+                      Войти
+                    </Button>
+                  </Flex>
+                </form>
+              </SpinnerWrapper>
             </FormikProvider>
           </Box>
         </Box>

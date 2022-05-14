@@ -5,10 +5,12 @@ import { FORUM_ROUTE } from 'constants/routes';
 import { ListOfThems } from './components/ListOfThems';
 import { CurrentTopic } from './components/CurrentTopic';
 import { Route, Switch } from 'react-router-dom';
+import { SpinnerWrapper } from '../../components/Spinner';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const Forum = () => {
-
+  const { isFetch } = useAppSelector(state => state.fetchReducer)
   return (
     <Container
       w="100%"
@@ -18,13 +20,20 @@ export const Forum = () => {
       centerContent
       maxW="full"
       minH="100vh"
+      position="relative"
     >
       <Switch>
         <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
-          <CurrentTopic />
+          <SpinnerWrapper loading={isFetch}>
+
+            <CurrentTopic />
+          </SpinnerWrapper>
         </Route>
         <Route path={FORUM_ROUTE}  >
-          <ListOfThems />
+          <SpinnerWrapper loading={isFetch}>
+
+            <ListOfThems />
+          </SpinnerWrapper>
         </Route>
       </Switch>
     </Container>

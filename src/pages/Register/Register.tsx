@@ -10,6 +10,7 @@ import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { Input } from 'components/Input';
 import { useAppSelector } from 'hooks/useAppSelector';
+import { SpinnerWrapper } from '../../components/Spinner';
 
 
 export const Register = () => {
@@ -61,51 +62,53 @@ export const Register = () => {
           bg="white"
         >
           <FormikProvider value={formik}>
-            <form onSubmit={handleSubmit}>
-              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
-                {REGISTER_FORM_SCHEMA.map(
-                  ({
-                    key,
-                    label,
-                    type,
-                    placeholder,
-                    validate,
-                    gridProps = {},
-                  }) => {
-                    return (
-                      <GridItem key={key} {...gridProps}>
-                        <Input
-                          id={key}
-                          label={label}
-                          type={type}
-                          validate={validate}
-                          placeholder={placeholder}
-                          error={errors[key as keyof typeof errors]}
-                          touched={touched[key as keyof typeof touched]}
-                          value={values[key as keyof typeof values]}
-                          onChange={handleChange}
-                        />
-                      </GridItem>
-                    );
-                  },
-                )}
-                <GridItem colStart={2}>
-                  <Flex align="center" justify="center">
-                    <Button w="50%" mr={3} onClick={onClose}>
-                      Назад
-                    </Button>
-                    <Button
-                      w="50%"
-                      type="submit"
-                      colorScheme="purple"
-                      isDisabled={isSubmitBtnDisabled || isFetch}
-                    >
-                      Зарегистрироваться
-                    </Button>
-                  </Flex>
-                </GridItem>
-              </Grid>
-            </form>
+            <SpinnerWrapper loading={isFetch}>
+              <form onSubmit={handleSubmit}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                  {REGISTER_FORM_SCHEMA.map(
+                    ({
+                      key,
+                      label,
+                      type,
+                      placeholder,
+                      validate,
+                      gridProps = {},
+                    }) => {
+                      return (
+                        <GridItem key={key} {...gridProps}>
+                          <Input
+                            id={key}
+                            label={label}
+                            type={type}
+                            validate={validate}
+                            placeholder={placeholder}
+                            error={errors[key as keyof typeof errors]}
+                            touched={touched[key as keyof typeof touched]}
+                            value={values[key as keyof typeof values]}
+                            onChange={handleChange}
+                          />
+                        </GridItem>
+                      );
+                    },
+                  )}
+                  <GridItem colStart={2}>
+                    <Flex align="center" justify="center">
+                      <Button w="50%" mr={3} onClick={onClose}>
+                        Назад
+                      </Button>
+                      <Button
+                        w="50%"
+                        type="submit"
+                        colorScheme="purple"
+                        isDisabled={isSubmitBtnDisabled || isFetch}
+                      >
+                        Зарегистрироваться
+                      </Button>
+                    </Flex>
+                  </GridItem>
+                </Grid>
+              </form>
+            </SpinnerWrapper>
           </FormikProvider>
         </Box>
       </Box>

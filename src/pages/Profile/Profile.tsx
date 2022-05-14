@@ -27,13 +27,14 @@ import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { generateAvatarLink } from 'utils/generateAvatarLink';
+import { SpinnerWrapper } from '../../components/Spinner';
 
 
 export const Profile = () => {
   const history = useHistory();
 
   const { error } = useAppSelector(state => state.authReducer);
-
+  const { isFetch } = useAppSelector(state => state.fetchReducer)
   const { profileReducer: userData } = useAppSelector(state => state);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -152,84 +153,86 @@ export const Profile = () => {
           </Box>
           <div className="dot-avatar"></div>
         </Flex>
-        <Box w={1000} mt={8} p={6} rounded="lg" bg="white">
+        <Box w={1000} mt={8} p={6} rounded="lg" bg="white" pos='relative'>
           <FormikProvider value={formik}>
-            <form onSubmit={handleSubmit}>
-              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
-                {PROFILE_FORM_SCHEMA.map(
-                  ({ key, label, placeholder, validate }) => (
-                    <GridItem key={key}>
-                      <Input
-                        variant={isEdit ? 'outline' : 'unstyled'}
-                        id={key}
-                        label={label}
-                        validate={validate}
-                        placeholder={placeholder}
-                        error={errors[key as keyof typeof errors]}
-                        touched={touched[key as keyof typeof touched]}
-                        value={values[key as keyof typeof values]}
-                        onChange={handleChange}
-                        isReadOnly={!isEdit}
-                      />
-                    </GridItem>
-                  ),
-                )}
-                <GridItem colStart={1} className="profile__change-password-btn-section">
-                  {
-                    isEdit ?
-                      <Button
-                        w="50%"
-                        onClick={goEditPassword}
-                      >
-                        Изменить пароль
-                      </Button> :
-                      null
-                  }
-                </GridItem>
-                <GridItem colStart={2} className="profile__buttons-section">
-                  {
-                    isEdit ?
-                      (
-                        <Flex justify="flex-end">
-                          <Button
-                            w="50%"
-                            mr={3}
-                            onClick={cancelEditing}
-                          >
-                            Отмена
-                          </Button>
-                          <Button
-                            w="50%"
-                            type="submit"
-                            colorScheme="purple"
-                            isDisabled={isSubmitBtnDisabled}
-                          >
-                            Сохранить
-                          </Button>
-                        </Flex>
-                      ) :
-                      (
-                        <Flex justify="flex-end">
-                          <Button
-                            w="50%"
-                            mr={3}
-                            onClick={logout}
-                          >
-                            Выйти
-                          </Button>
-                          <Button
-                            variant="outline"
-                            w="50%"
-                            onClick={startEditing}
-                          >
-                            Редактировать
-                          </Button>
-                        </Flex>
-                      )
-                  }
-                </GridItem>
-              </Grid>
-            </form>
+            <SpinnerWrapper loading={isFetch}>
+              <form onSubmit={handleSubmit}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                  {PROFILE_FORM_SCHEMA.map(
+                    ({ key, label, placeholder, validate }) => (
+                      <GridItem key={key}>
+                        <Input
+                          variant={isEdit ? 'outline' : 'unstyled'}
+                          id={key}
+                          label={label}
+                          validate={validate}
+                          placeholder={placeholder}
+                          error={errors[key as keyof typeof errors]}
+                          touched={touched[key as keyof typeof touched]}
+                          value={values[key as keyof typeof values]}
+                          onChange={handleChange}
+                          isReadOnly={!isEdit}
+                        />
+                      </GridItem>
+                    ),
+                  )}
+                  <GridItem colStart={1} className="profile__change-password-btn-section">
+                    {
+                      isEdit ?
+                        <Button
+                          w="50%"
+                          onClick={goEditPassword}
+                        >
+                          Изменить пароль
+                        </Button> :
+                        null
+                    }
+                  </GridItem>
+                  <GridItem colStart={2} className="profile__buttons-section">
+                    {
+                      isEdit ?
+                        (
+                          <Flex justify="flex-end">
+                            <Button
+                              w="50%"
+                              mr={3}
+                              onClick={cancelEditing}
+                            >
+                              Отмена
+                            </Button>
+                            <Button
+                              w="50%"
+                              type="submit"
+                              colorScheme="purple"
+                              isDisabled={isSubmitBtnDisabled}
+                            >
+                              Сохранить
+                            </Button>
+                          </Flex>
+                        ) :
+                        (
+                          <Flex justify="flex-end">
+                            <Button
+                              w="50%"
+                              mr={3}
+                              onClick={logout}
+                            >
+                              Выйти
+                            </Button>
+                            <Button
+                              variant="outline"
+                              w="50%"
+                              onClick={startEditing}
+                            >
+                              Редактировать
+                            </Button>
+                          </Flex>
+                        )
+                    }
+                  </GridItem>
+                </Grid>
+              </form>
+            </SpinnerWrapper>
           </FormikProvider>
         </Box>
       </Box>
