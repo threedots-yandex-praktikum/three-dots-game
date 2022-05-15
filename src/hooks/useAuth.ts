@@ -6,12 +6,10 @@ import {
   GAME_OVER_ROUTE,
   GAME_PLAY_ROUTE,
   GAME_START_ROUTE,
-  HOME_ROUTE,
   LEADERBOARD_ROUTE,
   LOGIN_ROUTE,
   PROFILE_ROUTE,
   REGISTER_ROUTE,
-  ROOT_ROUTE,
 } from "../constants/routes";
 import { useAppSelector } from "./useAppSelector";
 
@@ -26,44 +24,29 @@ export const authRoutes: TAuthRoutes = [
   GAME_PLAY_ROUTE,
   GAME_OVER_ROUTE,
   EDIT_PASSWORD_ROUTE,
-  // ROOT_ROUTE,
 ];
-export const unAuthRoutes: TUnAuthRoutes = [
-  LOGIN_ROUTE,
-  REGISTER_ROUTE,
-  ROOT_ROUTE,
-];
-export const useAuth = (
-  authRoutesArr: TAuthRoutes = authRoutes,
-  unAuthRoutesArr: TUnAuthRoutes = unAuthRoutes
-) => {
+export const unAuthRoutes: TUnAuthRoutes = [LOGIN_ROUTE, REGISTER_ROUTE];
+export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
   const { id } = useAppSelector((state) => state.profileReducer);
   const { isFetch } = useAppSelector((state) => state.fetchReducer);
   const history = useHistory();
   const location = useLocation();
+
+  sessionStorage.setItem("userId", String(id));
+
   useEffect(() => {
     const authPath = authRoutesArr.includes(location.pathname);
-    const unAuthPath = unAuthRoutesArr.includes(location.pathname);
-    console.log("useAuth");
-    if (isFetch) {
-      console.log("isFetch");
 
+    console.log("useAuth", location.pathname);
+    if (sessionStorage.getItem("userId") && authRoutesArr) {
       return;
     }
-    if (id && unAuthPath) {
-      history.push(HOME_ROUTE);
+    if (isFetch) {
+      return;
     }
+
     if (!id && authPath) {
       history.push(LOGIN_ROUTE);
     }
-    // if (!authPath) {
-    //   return;
-    // }
-
-    // if (!id) {
-    //   console.log("id");
-
-    //   history.push(LOGIN_ROUTE);
-    // }
-  }, [id, location.pathname, history]);
+  }, [id, location.pathname, history, isFetch]);
 };

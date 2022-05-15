@@ -8,9 +8,6 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { SpinnerWrapper } from '../../components/Spinner';
 
 
-
-
-
 export const LeaderBoard = () => {
   const dispatch = useAppDispatch();
 

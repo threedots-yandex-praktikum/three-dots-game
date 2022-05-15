@@ -59,9 +59,11 @@ function* fetchChangePassword({
     yield put(setFetchOnAC());
     yield call(ProfileAPI.changePassword.bind(ProfileAPI), data);
     yield put(setFetchOffAC());
+    sendNotification("Пароль успешно обновлен", NOTIFICATION_LEVEL.SUCCESS);
   } catch (error) {
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
   }
 }
 

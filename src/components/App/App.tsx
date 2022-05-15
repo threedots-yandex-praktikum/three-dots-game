@@ -3,7 +3,6 @@ import {
   Switch,
   Route,
   Link,
-  // Redirect,
 } from 'react-router-dom';
 
 import {
@@ -17,6 +16,7 @@ import {
   PROFILE_ROUTE,
   REGISTER_ROUTE,
   EDIT_PASSWORD_ROUTE,
+  ROOT_ROUTE,
 } from 'constants/routes';
 import { Home } from 'pages/Home';
 import { Login } from 'pages/Login';
@@ -147,8 +147,8 @@ export const App = () => {
                 <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
                 <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
                 <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
+                <Route path={ROOT_ROUTE} component={Home} />
 
-                {/* <Redirect to={HOME_ROUTE} /> */}
               </Switch>
             </div>
           ) :
@@ -157,8 +157,8 @@ export const App = () => {
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={HOME_ROUTE} component={Home} />
+              <Route path={ROOT_ROUTE} component={Home} />
 
-              {/* <Redirect to={LOGIN_ROUTE} /> */}
             </Switch>
           )
       }

@@ -94,6 +94,7 @@ function* fetchLogout({ cb }: ReturnType<typeof logoutAC>) {
     yield put(setFetchOffAC());
     sendNotification("Пользователь вышел из системы", NOTIFICATION_LEVEL.INFO);
     cb();
+    // sessionStorage.clear();
   } catch (error) {
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));
