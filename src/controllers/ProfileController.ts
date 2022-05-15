@@ -1,26 +1,25 @@
 import {
   TChangePasswordData,
   TChangeProfileData,
-} from 'modules/api/profileAPI';
+} from "modules/api/profileAPI";
 import {
   changeAvatarAC,
   changeProfileAC,
   resetPasswordAC,
-} from '../store/reducers/profileReducer/profileActionCreators';
+} from "../store/reducers/profileReducer/profileActionCreators";
 import {
   TUserControllerClassError,
   UserControllerClass,
-} from './UserController';
-import { store } from '../store/store';
-import { EMPTY_STRING } from 'constants/generalConst';
+} from "./UserController";
+import { store } from "../store/store";
+import { EMPTY_STRING } from "constants/generalConst";
 
 const { dispatch } = store;
 
 class ProfileControllerClass {
-  public async changeProfile(data: TChangeProfileData) {
+  public async changeProfile(data: TChangeProfileData, cb: () => void) {
     try {
-      // TODO  ассинхронно
-      dispatch(changeProfileAC(data));
+      dispatch(changeProfileAC(data, cb));
 
       UserControllerClass.setError(null);
     } catch (error) {
@@ -38,10 +37,10 @@ class ProfileControllerClass {
     }
   }
 
-  public async changeAvatar(data: FormData) {
+  public async changeAvatar(data: FormData, cb: () => void) {
     try {
       UserControllerClass.setError(null);
-      dispatch(changeAvatarAC(data));
+      dispatch(changeAvatarAC(data, cb));
 
       return EMPTY_STRING;
     } catch (error) {

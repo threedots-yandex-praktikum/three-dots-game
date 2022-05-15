@@ -1,11 +1,11 @@
-import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
-import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
+import { AuthAPI, TSignInData, TSignUpData } from "modules/api/authAPI";
+import { HTTP_REQUEST_STATUS } from "modules/api/httpTransport/constants";
 import {
   loginAC,
   logoutAC,
   registrationAC,
-} from '../store/reducers/authReducer/authActionCreators';
-import { store } from '../store/store';
+} from "../store/reducers/authReducer/authActionCreators";
+import { store } from "../store/store";
 
 const { dispatch } = store;
 export type TUserControllerClassError = {
@@ -34,9 +34,9 @@ export class UserControllerClass {
     }
   }
 
-  public async logOut() {
+  public async logOut(cb: () => void) {
     try {
-      dispatch(logoutAC());
+      dispatch(logoutAC(cb));
 
       UserControllerClass.setError(null);
     } catch (error) {
@@ -45,9 +45,9 @@ export class UserControllerClass {
     }
   }
 
-  public async signUp(formData: TSignUpData) {
+  public async signUp(formData: TSignUpData, cb: () => void) {
     try {
-      dispatch(registrationAC(formData));
+      dispatch(registrationAC(formData, cb));
 
       UserControllerClass.setError(null);
     } catch (error) {
@@ -55,16 +55,16 @@ export class UserControllerClass {
     }
   }
 
-  public async signIn(formData: TSignInData) {
+  public async signIn(formData: TSignInData, cb: () => void) {
     try {
       await AuthAPI.signIn(formData);
 
-      return this.fetchAndSetSignedUserData();
+      return this.fetchAndSetSignedUserData(cb);
     } catch (error) {
       if (
-        (error as TUserControllerClassError).reason === 'User already in system'
+        (error as TUserControllerClassError).reason === "User already in system"
       ) {
-        await this.fetchAndSetSignedUserData();
+        await this.fetchAndSetSignedUserData(cb);
         return Promise.resolve();
       }
 
@@ -72,9 +72,9 @@ export class UserControllerClass {
     }
   }
 
-  public async fetchAndSetSignedUserData() {
+  public async fetchAndSetSignedUserData(cb: () => void = () => {}) {
     try {
-      dispatch(loginAC());
+      dispatch(loginAC(cb));
 
       UserControllerClass.setError(null);
     } catch (error) {

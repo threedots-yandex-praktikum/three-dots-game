@@ -11,6 +11,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const Forum = () => {
   const { isFetch } = useAppSelector(state => state.fetchReducer)
+
   return (
     <Container
       w="100%"
@@ -25,13 +26,11 @@ export const Forum = () => {
       <Switch>
         <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
           <SpinnerWrapper loading={isFetch}>
-
             <CurrentTopic />
           </SpinnerWrapper>
         </Route>
         <Route path={FORUM_ROUTE}  >
           <SpinnerWrapper loading={isFetch}>
-
             <ListOfThems />
           </SpinnerWrapper>
         </Route>

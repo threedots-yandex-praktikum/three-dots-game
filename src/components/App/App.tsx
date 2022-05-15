@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -28,11 +28,10 @@ import { GameStart } from 'pages/GameStart';
 import { GamePlay } from 'pages/GamePlay';
 import { GameOver } from 'pages/GameOver';
 import { UserController } from 'controllers/UserController';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import _constant from 'lodash/constant';
 import { EditPassword } from 'pages/EditPassword';
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { authRoutes, unAuthRoutes, useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 
 
 /*
@@ -108,26 +107,17 @@ const NAVIGATION_SCHEMA = [
 
 export const App = () => {
 
-  useAuth(authRoutes, unAuthRoutes);
+  useAuth();
 
-  const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
   const { id } = useAppSelector(state => state.profileReducer);
   useEffect(
     () => {
       UserController
         .fetchAndSetSignedUserData()
-        .catch(() => {
-          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
-        })
-        .finally(() => setIsUserDataRequestInProgress(false));
     },
     [],
-
   );
 
-  if (isUserDataRequestInProgress) {
-    return null;
-  }
 
   return (
     <div className="app">
@@ -167,6 +157,7 @@ export const App = () => {
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={HOME_ROUTE} component={Home} />
+
               {/* <Redirect to={LOGIN_ROUTE} /> */}
             </Switch>
           )

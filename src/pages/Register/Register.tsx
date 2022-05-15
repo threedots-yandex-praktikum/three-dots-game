@@ -7,7 +7,6 @@ import { useHistory } from 'react-router';
 import { FormikProvider, useFormik } from 'formik';
 import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { Input } from 'components/Input';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { SpinnerWrapper } from '../../components/Spinner';
@@ -16,17 +15,15 @@ import { SpinnerWrapper } from '../../components/Spinner';
 export const Register = () => {
   const history = useHistory();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
-  const { error } = useAppSelector(state => state.authReducer);
 
   const onSubmit = useCallback(
-    values => UserController
-      .signUp(values)
-      .then(_ => {
-        error
-          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-          : sendNotification('Пользователь успешно зарегистрирован', NOTIFICATION_LEVEL.SUCCESS);
-        return history.push(HOME_ROUTE);
-      }),
+    values => {
+      const onSucseccefulRegistration = () => {
+        history.push(HOME_ROUTE)
+      }
+      UserController
+        .signUp(values, onSucseccefulRegistration)
+    },
     [history],
   );
 

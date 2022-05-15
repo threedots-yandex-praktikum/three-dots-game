@@ -1,33 +1,34 @@
-import { HTTPTransport } from './httpTransport/httpTransport';
-import { USER_API_ENDPOINTS, DEFAULT_POST_REQUEST_HEADERS, YANDEX_API_HOST } from './httpTransport/constants';
-
-
+import { HTTPTransport } from "./httpTransport/httpTransport";
+import {
+  USER_API_ENDPOINTS,
+  DEFAULT_POST_REQUEST_HEADERS,
+  YANDEX_API_HOST,
+} from "./httpTransport/constants";
 
 export type TChangeProfileData = {
-  first_name: string,
-  second_name: string,
-  display_name: string,
-  login: string,
-  email: string,
-  phone: string,
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
 };
 
 export type TChangePasswordData = {
-  oldPassword: string,
-  newPassword: string,
+  oldPassword: string;
+  newPassword: string;
 };
 
-
 export type TUserModelResponse = {
-  id: number,
-  first_name: string,
-  second_name: string,
-  display_name: string,
-  login: string,
-  email: string,
-  phone: string,
-  avatar: string,
-}
+  id: number;
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+  avatar: string;
+};
 
 class ProfileAPIClass {
   userHTTPTransportInstance: HTTPTransport;
@@ -42,7 +43,7 @@ class ProfileAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
     return response as TUserModelResponse;
   }
@@ -53,7 +54,7 @@ class ProfileAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
   }
 
@@ -63,7 +64,7 @@ class ProfileAPIClass {
       {
         data,
         isFile: true,
-      },
+      }
     );
 
     return response as TUserModelResponse;
@@ -75,7 +76,7 @@ class ProfileAPIClass {
       {
         data: { login },
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
 
     return response as TUserModelResponse[];
@@ -83,7 +84,7 @@ class ProfileAPIClass {
 
   async getUserById(userId: number): Promise<TUserModelResponse> {
     const response = await this.userHTTPTransportInstance.get(
-      [USER_API_ENDPOINTS.GET_USER_BY_ID, userId].join('/'),
+      [USER_API_ENDPOINTS.GET_USER_BY_ID, userId].join("/")
     );
 
     return response as TUserModelResponse;

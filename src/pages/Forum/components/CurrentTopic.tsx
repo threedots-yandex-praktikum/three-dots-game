@@ -25,17 +25,15 @@ export const CurrentTopic = () => {
   const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
-
     const isInThemList = topics?.find(i => i.topicId === topicId);
     if (!isInThemList) throw new Error('Темы с таким ID нет');
 
     dispatch(getCurrentTopicAC(topicId));
-  }, [params]);
+  }, [topics, topicId, dispatch]);
 
   const currentTopicTitle = useMemo(() => {
     return topics?.find(i => i.topicId === topicId)?.title;
   }, [topicId]);
-
 
   return (
     <>

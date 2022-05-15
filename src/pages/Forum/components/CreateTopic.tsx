@@ -23,10 +23,9 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
   const { id } = useAppSelector(state => state.profileReducer);
   const onSubmit = useCallback(
     values => {
-      console.log(values);
-      dispatch(createNewTopicAC({ ...values, userId: id }));
+      dispatch(createNewTopicAC({ message: values.message, title: values.title, userId: id as number }));
     },
-    [],
+    [id, dispatch],
   );
 
   const formik = useFormik({

@@ -1,37 +1,48 @@
-import { ProfileAPI } from 'modules/api/profileAPI';
-import { TakeableChannel } from 'redux-saga';
-import { actionChannel, call, putResolve, takeEvery } from 'redux-saga/effects';
-import { setErrorAC } from '../authReducer/authActionCreators';
+import { ProfileAPI } from "modules/api/profileAPI";
+import { TakeableChannel } from "redux-saga";
+import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
+import {
+  NOTIFICATION_LEVEL,
+  sendNotification,
+} from "../../../modules/notification";
+import { setErrorAC } from "../authReducer/authActionCreators";
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from '../fetchReducer/fetchActionCreators';
+} from "../fetchReducer/fetchActionCreators";
 import {
   changeAvatarAC,
   changeProfileAC,
+  resetPasswordAC,
   setUserAC,
-} from './profileActionCreators';
-import { EProfileActions, TProfileState } from './types';
+} from "./profileActionCreators";
+import { EProfileActions, TProfileState } from "./types";
 
 function* fetchChangeProfile({
   payload: data,
+  cb,
 }: ReturnType<typeof changeProfileAC>) {
   try {
-    console.log(data, 'data fetchChangeProfile');
-
-    yield putResolve(setFetchOnAC());
+    yield put(setFetchOnAC());
 
     const response: TProfileState = yield call(
       ProfileAPI.changeProfile.bind(ProfileAPI),
-      data,
+      data
     );
-    console.log(response, 'response');
-    yield putResolve(setUserAC(response));
+    yield put(setUserAC(response));
 
-    yield putResolve(setFetchOffAC());
+    yield put(setFetchOffAC());
+    sendNotification(
+      "Данные пользователя успешно изменены",
+      NOTIFICATION_LEVEL.SUCCESS
+    );
+    cb();
   } catch (error) {
-    yield putResolve(setFetchOffAC());
-    yield putResolve(setErrorAC(error as Error));
+    yield put(setFetchOffAC());
+    console.log(error, "error");
+    yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
+    cb();
   }
 }
 
@@ -43,38 +54,42 @@ export function* watchChangeProfile() {
 
 function* fetchChangePassword({
   payload: data,
-}: ReturnType<typeof changeProfileAC>) {
+}: ReturnType<typeof resetPasswordAC>) {
   try {
-    yield putResolve(setFetchOnAC());
-    // @ts-ignore
+    yield put(setFetchOnAC());
     yield call(ProfileAPI.changePassword.bind(ProfileAPI), data);
-    yield putResolve(setFetchOffAC());
+    yield put(setFetchOffAC());
   } catch (error) {
-    yield putResolve(setFetchOffAC());
-    yield putResolve(setErrorAC(error as Error));
+    yield put(setFetchOffAC());
+    yield put(setErrorAC(error as Error));
   }
 }
 
 export function* watchChangePassword() {
-  const channel: TakeableChannel<ReturnType<typeof changeProfileAC>> =
+  const channel: TakeableChannel<ReturnType<typeof resetPasswordAC>> =
     yield actionChannel(EProfileActions.CHANGE_PASSWORD);
   yield takeEvery(channel, fetchChangePassword);
 }
 
 function* fetchChangeAvatar({
   payload: data,
+  cb,
 }: ReturnType<typeof changeAvatarAC>) {
   try {
-    yield putResolve(setFetchOnAC());
+    yield put(setFetchOnAC());
     const response: TProfileState = yield call(
       ProfileAPI.changeAvatar.bind(ProfileAPI),
-      data,
+      data
     );
-    yield putResolve(setUserAC(response));
-    yield putResolve(setFetchOffAC());
+    yield put(setUserAC(response));
+    yield put(setFetchOffAC());
+    sendNotification("Аватар успешно обновлен", NOTIFICATION_LEVEL.SUCCESS);
+    cb();
   } catch (error) {
-    yield putResolve(setFetchOffAC());
-    yield putResolve(setErrorAC(error as Error));
+    yield put(setFetchOffAC());
+    yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
+    cb();
   }
 }
 

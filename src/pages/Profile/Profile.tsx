@@ -15,8 +15,7 @@ import { Input } from 'components/Input';
 import Upload, { UploadProps } from 'rc-upload';
 import { FiEdit } from 'react-icons/fi';
 import { PROFILE_FORM_SCHEMA } from './constans';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { EDIT_PASSWORD_ROUTE, LOGIN_ROUTE } from 'constants/routes';
+import { EDIT_PASSWORD_ROUTE } from 'constants/routes';
 import { useHistory } from 'react-router-dom';
 import { ProfileController } from 'controllers/ProfileController';
 import { TChangeProfileData } from 'modules/api/profileAPI';
@@ -33,36 +32,29 @@ import { SpinnerWrapper } from '../../components/Spinner';
 export const Profile = () => {
   const history = useHistory();
 
-  const { error } = useAppSelector(state => state.authReducer);
   const { isFetch } = useAppSelector(state => state.fetchReducer)
   const { profileReducer: userData } = useAppSelector(state => state);
   const [isEdit, setIsEdit] = useState(false);
 
   const onSubmit = useCallback(
     values => {
-      return ProfileController
-        .changeProfile(values as TChangeProfileData)
-        .then(_ => {
-          setIsEdit(false);
-          console.log(error, 'async test');//TODO async
+      const onSuccesfulProfileDataChange = () => {
+        setIsEdit(false);
+      };
 
-          error
-            ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-            : sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
-        });
+      return ProfileController
+        .changeProfile(values as TChangeProfileData, onSuccesfulProfileDataChange);
     },
     [setIsEdit],
   );
 
   const logout = useCallback(
-    () => UserController
-      .logOut()
-      .then(() => {
-        error
-          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-          : sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
-        return history.push(LOGIN_ROUTE);
-      }),
+    () => {
+      const onSuccesfulLogout = () => {
+        setIsEdit(false);
+      };
+      return UserController.logOut(onSuccesfulLogout)
+    },
     [history],
   );
 
@@ -106,17 +98,12 @@ export const Profile = () => {
     action: (file: File) => {
       const formData = new FormData();
       formData.append('avatar', file as Blob);
-
+      const onSuccesfulChangeAvatar = () => {
+        setIsEdit(false);
+      }
       return ProfileController
-        .changeAvatar(formData)
-        .then(avatarSrc => {
-          setIsEdit(false);
-          error
-            ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-            : sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+        .changeAvatar(formData, onSuccesfulChangeAvatar)
 
-          return avatarSrc;
-        });
     },
     multiple: false,
   };

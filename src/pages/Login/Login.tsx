@@ -9,7 +9,6 @@ import { UserController } from 'controllers/UserController';
 import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
 import { HOME_ROUTE } from 'constants/routes';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { SpinnerWrapper } from '../../components/Spinner';
 
@@ -19,17 +18,16 @@ import { SpinnerWrapper } from '../../components/Spinner';
 export const Login = () => {
   const history = useHistory();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
-  const { error } = useAppSelector(state => state.authReducer);
 
   const onSubmit = useCallback(
-    (values: TSignInData) => UserController
-      .signIn(values)
-      .then(_ => {
-        error
-          ? sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR)
-          : sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
-        return history.push(HOME_ROUTE);
-      }),
+
+    (values: TSignInData) => {
+      const onSucseccefulLogin = () => {
+        history.push(HOME_ROUTE)
+      }
+      UserController
+        .signIn(values, onSucseccefulLogin)
+    },
     [history],
   );
 
