@@ -3,6 +3,7 @@ import {
   Switch,
   Route,
   Link,
+  Redirect,
 } from 'react-router-dom';
 
 import {
@@ -148,7 +149,7 @@ export const App = () => {
                 <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
                 <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
                 <Route path={ROOT_ROUTE} component={Home} />
-
+                <Redirect to={HOME_ROUTE} />
               </Switch>
             </div>
           ) :
@@ -158,7 +159,7 @@ export const App = () => {
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={HOME_ROUTE} component={Home} />
               <Route path={ROOT_ROUTE} component={Home} />
-
+              <Redirect to={HOME_ROUTE} />
             </Switch>
           )
       }

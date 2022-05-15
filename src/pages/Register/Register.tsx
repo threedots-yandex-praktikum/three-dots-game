@@ -57,6 +57,7 @@ export const Register = () => {
           rounded="lg"
           boxShadow="lg"
           bg="white"
+          pos="relative"
         >
           <FormikProvider value={formik}>
             <SpinnerWrapper loading={isFetch}>
