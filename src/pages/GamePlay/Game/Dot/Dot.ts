@@ -49,9 +49,15 @@ export abstract class Dot {
     if (!this.transitionRadius) {
       return;
     }
-
-    this.radius = this.transitionRadius;
-    this.correctCenterPositionAccordingNewDotRadius();
+    if (this.radius < this.transitionRadius) {
+      this.radius = Math.ceil(this.radius + (this.transitionRadius - this.radius) * 0.05);
+      this.correctCenterPositionAccordingNewDotRadius();
+    } else if (this.radius > this.transitionRadius) {
+      this.radius = Math.floor(this.radius - (this.radius - this.transitionRadius ) * 0.05);
+      this.correctCenterPositionAccordingNewDotRadius();
+    } else {
+      this.transitionRadius = null;
+    }
   }
 
   correctCenterPositionAccordingNewDotRadius() {

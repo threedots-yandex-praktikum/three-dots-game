@@ -21,7 +21,7 @@ export const GamePlay = () => {
   * компонент канваса из-за обновления локального стейта компонента. Вероятно можно использовать какой-то постоянный кей
   * чтобы отключить возможность обновления компонента канваса при обновлшении локального стейта компонента
   * */
-  const unpauseCbRef = useRef(null);
+  const unpauseCbRef = useRef<() => void>();
   const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
@@ -53,7 +53,6 @@ export const GamePlay = () => {
 
   const continueGame = useCallback(
     () => {
-      /*@ts-ignore*/
       _isFunction(unpauseCbRef.current) && unpauseCbRef.current();
       setIsOpen(false);
     },
@@ -87,8 +86,11 @@ export const GamePlay = () => {
             console.log('lose');
             goToGameOverScreen();
           },
-          onGamePause: unpauseCb => {
-            // @ts-ignore
+          onGamePause: (isGamePaused, unpauseCb) => {
+            if(!isGamePaused) {
+              return setIsOpen(false);
+            }
+
             unpauseCbRef.current = unpauseCb;
             setIsOpen(true);
           },

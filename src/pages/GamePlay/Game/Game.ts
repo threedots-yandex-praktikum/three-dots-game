@@ -1,9 +1,17 @@
 import {  TDotPlayer, TSizeScreen, TDot } from './types';
-import {CANVAS_SIZE_IN_PX, COLOR_BG, COLORS_DOT, DEFAULT_COLOR, INITIAL_PLAYER_COORDINATES_IN_PX} from './settingsGame';
+import {
+  CANVAS_SIZE_IN_PX,
+  COLOR_BG,
+  COLORS_DOT,
+  DEFAULT_COLOR,
+  INITIAL_PLAYER_COORDINATES_IN_PX,
+  KILLS_STRING_COLOR,
+  SCORES_STRING_COLOR,
+} from './settingsGame';
 import { DotPlayer } from './Dot/DotPlayer';
 import { codeKeyboard } from './controlSettings';
 import { InteractionDots } from './Dots/InteractionDots';
-import {getRadians, random} from './utils';
+import { getRadians, random } from './utils';
 
 const RADIANS = getRadians(360);
 export const OBSTACLES_DATA = Array
@@ -29,7 +37,7 @@ type TGame = {
   sizeScreen: TSizeScreen,
   onGameWin: () => void,
   onGameOver: () => void,
-  onGamePause: (v: () => void) => void,
+  onGamePause: (v1: boolean, v2: () => void) => void,
   sendScoresData: (scoresData: TScoresData) => void,
 };
 
@@ -106,7 +114,7 @@ export class Game {
 
   private initGamePlayEventHandlers() {
     this.callbackEvents.keydown = (event: KeyboardEvent) => {
-      if(event.key === 'Escape') {
+      if(event.key === 'p') {
         this.handleGamePause();
       }
 
@@ -184,12 +192,12 @@ export class Game {
     };
 
     if(this.isGamePaused) {
-      return unpauseCb();
+      unpauseCb();
+      return this.onGamePause(this.isGamePaused, unpauseCb);
     }
 
     this.isGamePaused = true;
-    this.onGamePause(unpauseCb);
-    return;
+    this.onGamePause(this.isGamePaused, unpauseCb);
   }
 
   private drawGame() {
@@ -262,19 +270,17 @@ export class Game {
 
   private drawScore() {
     this.ctx.font = '30px Arial';
-    this.ctx.fillStyle = '#805AD5';
+    this.ctx.fillStyle = SCORES_STRING_COLOR;
     const scoresData = `Очки: ${this.dotPlayer.scores}`;
     this.ctx.fillText(scoresData, 10, 50);
-    this.ctx.fillStyle = '#ED8936';
+    this.ctx.fillStyle = KILLS_STRING_COLOR;
     const killsData = `Съедено: ${this.dotPlayer.kills}`;
     this.ctx.fillText(killsData, 10, 100);
   }
 
   private drawObstacles() {
     return OBSTACLES_DATA
-      .map(data => {
-        return this.drawObstacle(data)
-      });
+      .map(this.drawObstacle);
   }
 
   private drawObstacle = ({ x, y, radius }: { x: number, y: number, radius: number }) => {
@@ -292,7 +298,7 @@ export class Game {
     this.drawCircle(centerXCoord, centerYCoord, radius, COLORS_DOT[0]);
     this.drawCircle(centerXCoord, centerYCoord, radius / 3 * 2, COLORS_DOT[1]);
     this.drawCircle(centerXCoord, centerYCoord, radius / 3, COLORS_DOT[2]);
-  }
+  };
 
   private drawCircle(x: number, y: number, radius: number, fillColor: string) {
     this.ctx.beginPath();

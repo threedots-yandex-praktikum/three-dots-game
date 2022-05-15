@@ -29,6 +29,9 @@ const COLORS_DOT: ReadonlyArray<string> = [
 ];
 
 const DEFAULT_COLOR = '#555';
+const PLAYER_COLOR = '#ec128a';
+const SCORES_STRING_COLOR = '#805AD5';
+const KILLS_STRING_COLOR = '#ED8936';
 
 const COLOR_BG = '#eee';
 
@@ -45,6 +48,9 @@ export {
   BOTS,
   COLORS_DOT,
   DEFAULT_COLOR,
+  PLAYER_COLOR,
+  SCORES_STRING_COLOR,
+  KILLS_STRING_COLOR,
   INITIAL_PLAYER_COORDINATES_IN_PX,
   COLOR_BG,
 };
