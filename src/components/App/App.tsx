@@ -31,8 +31,8 @@ import { GameOver } from 'pages/GameOver';
 import { UserController } from 'controllers/UserController';
 import _constant from 'lodash/constant';
 import { EditPassword } from 'pages/EditPassword';
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { useAuth } from '../../hooks/useAuth';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { useAuth } from 'hooks/useAuth';
 
 
 /*
@@ -114,7 +114,7 @@ export const App = () => {
   useEffect(
     () => {
       UserController
-        .fetchAndSetSignedUserData()
+        .fetchAndSetSignedUserData();
     },
     [],
   );

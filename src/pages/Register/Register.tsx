@@ -19,10 +19,10 @@ export const Register = () => {
   const onSubmit = useCallback(
     values => {
       const onSucseccefulRegistration = () => {
-        history.push(HOME_ROUTE)
-      }
+        history.push(HOME_ROUTE);
+      };
       UserController
-        .signUp(values, onSucseccefulRegistration)
+        .signUp(values, onSucseccefulRegistration);
     },
     [history],
   );

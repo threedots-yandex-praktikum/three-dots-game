@@ -33,7 +33,7 @@ export const CurrentTopic = () => {
 
   const currentTopicTitle = useMemo(() => {
     return topics?.find(i => i.topicId === topicId)?.title;
-  }, [topicId]);
+  }, [topicId, topics]);
 
   return (
     <>

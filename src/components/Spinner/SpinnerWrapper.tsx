@@ -1,13 +1,15 @@
-import { Spinner } from "@chakra-ui/react";
-import React from "react";
-import { FC } from "react";
+import { Spinner } from '@chakra-ui/react';
+import React  from 'react';
 import './styles.scss';
 
+
 interface SpinnerProps {
-  loading: boolean
+  loading: boolean,
+  children: React.ReactNode,
 }
 
-const SpinnerWrapper: FC<SpinnerProps> = (props) => {
+
+export const SpinnerWrapper = (props: SpinnerProps) => {
   return (
     <>
       {
@@ -24,6 +26,4 @@ const SpinnerWrapper: FC<SpinnerProps> = (props) => {
       {props.children}
     </>
   );
-}
-
-export { SpinnerWrapper };
+};

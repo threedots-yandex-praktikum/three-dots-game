@@ -1,11 +1,11 @@
-import { TSignUpData } from "modules/api/authAPI";
+import { TSignUpData } from 'modules/api/authAPI';
 import {
   ELoginActions,
   ILogintAction,
   ILogoutAction,
   IRegisterAction,
   ISetErrorAction,
-} from "./types";
+} from './types';
 
 export const loginAC = (cb: () => void): ILogintAction => {
   return { type: ELoginActions.LOGIN, cb };
@@ -17,7 +17,7 @@ export const logoutAC = (cb: () => void): ILogoutAction => {
 
 export const registrationAC = (
   signUpData: TSignUpData,
-  cb: () => void
+  cb: () => void,
 ): IRegisterAction => {
   return { type: ELoginActions.REGISTER, payload: signUpData, cb };
 };

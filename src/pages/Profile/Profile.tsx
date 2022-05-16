@@ -32,7 +32,7 @@ import { SpinnerWrapper } from '../../components/Spinner';
 export const Profile = () => {
   const history = useHistory();
 
-  const { isFetch } = useAppSelector(state => state.fetchReducer)
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
   const { profileReducer: userData } = useAppSelector(state => state);
   const [isEdit, setIsEdit] = useState(false);
 
@@ -53,9 +53,9 @@ export const Profile = () => {
       const onSuccesfulLogout = () => {
         setIsEdit(false);
       };
-      return UserController.logOut(onSuccesfulLogout)
+      return UserController.logOut(onSuccesfulLogout);
     },
-    [history],
+    [],
   );
 
   const goEditPassword = useCallback(
@@ -100,9 +100,9 @@ export const Profile = () => {
       formData.append('avatar', file as Blob);
       const onSuccesfulChangeAvatar = () => {
         setIsEdit(false);
-      }
+      };
       return ProfileController
-        .changeAvatar(formData, onSuccesfulChangeAvatar)
+        .changeAvatar(formData, onSuccesfulChangeAvatar);
 
     },
     multiple: false,

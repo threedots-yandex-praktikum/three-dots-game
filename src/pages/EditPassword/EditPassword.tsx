@@ -20,7 +20,7 @@ export const EditPassword = () => {
         newPassword: values.new_password,
         oldPassword: values.old_password,
       };
-      return ProfileController.changePassword(dataToSend as TChangePasswordData)
+      return ProfileController.changePassword(dataToSend as TChangePasswordData);
     },
     [],
   );

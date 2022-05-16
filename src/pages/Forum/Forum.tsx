@@ -10,7 +10,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const Forum = () => {
-  const { isFetch } = useAppSelector(state => state.fetchReducer)
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
 
   return (
     <Container

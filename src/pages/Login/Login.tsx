@@ -23,10 +23,10 @@ export const Login = () => {
 
     (values: TSignInData) => {
       const onSucseccefulLogin = () => {
-        history.push(HOME_ROUTE)
-      }
+        history.push(HOME_ROUTE);
+      };
       UserController
-        .signIn(values, onSucseccefulLogin)
+        .signIn(values, onSucseccefulLogin);
     },
     [history],
   );

@@ -23,7 +23,7 @@ export const MessageForm = ({ topicId }: TMessageFormProps) => {
       dispatch(sendMessageAC({ ...values, userId: id as number, topicId }));
       resetForm({ values: '' });
     },
-    [],
+    [dispatch, id, topicId],
   );
 
   const formik = useFormik({

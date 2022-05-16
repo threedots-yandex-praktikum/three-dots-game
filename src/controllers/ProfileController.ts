@@ -1,18 +1,18 @@
 import {
   TChangePasswordData,
   TChangeProfileData,
-} from "modules/api/profileAPI";
+} from 'modules/api/profileAPI';
 import {
   changeAvatarAC,
   changeProfileAC,
   resetPasswordAC,
-} from "../store/reducers/profileReducer/profileActionCreators";
+} from '../store/reducers/profileReducer/profileActionCreators';
 import {
   TUserControllerClassError,
   UserControllerClass,
-} from "./UserController";
-import { store } from "../store/store";
-import { EMPTY_STRING } from "constants/generalConst";
+} from './UserController';
+import { store } from '../store/store';
+import { EMPTY_STRING } from 'constants/generalConst';
 
 const { dispatch } = store;
 

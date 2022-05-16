@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import { GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from 'constants/routes';
 import { TopPanel } from 'pages/Home/TopPanel';
 import { TitleSection } from 'pages/Home/TitleSection';
-import { ReviewItem } from './ReviewItem/ReviewItem';
+import { ReviewItem } from 'pages/Home/ReviewItem';
 import { INFO_SECTION_SCHEMA, MOCKED_REVIEW_DATA } from './constants';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';

@@ -1,1 +1,1 @@
-export { SpinnerWrapper } from "./SpinnerWrapper";
+export { SpinnerWrapper } from './SpinnerWrapper';
