@@ -191,12 +191,12 @@ describe('Страница с формой редактирования проф
     expect(fileUploadButton).toBeVisible();
   });
 
-  it('После входа в режим редактирования и стирания значения из поля логина кнопка сабмита задизейблена', async() => {
+  it('После входа в режим редактирования и ввода невалидного логина кнопка сабмита задизейблена', async() => {
     const editBtn = screen.getByText('Редактировать');
     fireEvent.click(editBtn);
 
     const loginInput = screen.getByLabelText('Логин');
-    fireEvent.change(loginInput, { target: { value: '' } });
+    fireEvent.change(loginInput, { target: { value: '2' } });
 
     await waitFor(() => {
       const submitBtn = screen.getByText('Сохранить');
