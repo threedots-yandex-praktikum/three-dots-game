@@ -2,9 +2,17 @@ import React from 'react';
 import { fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react';
 import { Register } from '../Register';
 import '@testing-library/jest-dom';
+import {Provider} from "react-redux";
+import {store} from "store/store";
 
 
-beforeEach(() => render(<Register/>));
+const Wrapper = () => (
+  <Provider store={store}>
+    <Register/>
+  </Provider>
+);
+
+beforeEach(() => render(<Wrapper/>));
 afterEach(cleanup);
 
 

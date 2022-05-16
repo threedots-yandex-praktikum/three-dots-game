@@ -1,14 +1,23 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import {cleanup, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { Login } from '../Login';
 import '@testing-library/jest-dom';
+import {Provider} from "react-redux";
+import {store} from "store/store";
 
+
+const Wrapper = () => (
+  <Provider store={store}>
+    <Login/>
+  </Provider>
+);
+
+beforeEach(() => render(<Wrapper/>));
+afterEach(cleanup);
 
 describe('Страница с формой логина', () => {
   it('Корректно отрисовывается пустое поле логина', () => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const loginInput = LoginFormMarkup.getByLabelText('Логин');
+    const loginInput = screen.getByLabelText('Логин');
 
     expect(loginInput).toBeInTheDocument();
     expect(loginInput).toBeVisible();
@@ -16,9 +25,7 @@ describe('Страница с формой логина', () => {
   });
 
   it('Корректно отрисовывается пустое поле пароля', () => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const passwordInput = LoginFormMarkup.getByLabelText('Пароль');
+    const passwordInput = screen.getByLabelText('Пароль');
 
     expect(passwordInput).toBeInTheDocument();
     expect(passwordInput).toBeVisible();
@@ -26,9 +33,7 @@ describe('Страница с формой логина', () => {
   });
 
   it('Корректно отрисовывается задизейбленная кнопка сабмита', () => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const submitBtn = LoginFormMarkup.getByText('Войти');
+    const submitBtn = screen.getByText('Войти');
 
     expect(submitBtn).toBeInTheDocument();
     expect(submitBtn).toBeVisible();
@@ -36,11 +41,9 @@ describe('Страница с формой логина', () => {
   });
 
   it('При вводе валидных значений кнопка сабмита становится доступной', async() => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const loginInput = LoginFormMarkup.getByLabelText('Логин');
-    const passwordInput = LoginFormMarkup.getByLabelText('Пароль');
-    const submitBtn = LoginFormMarkup.getByText('Войти');
+    const loginInput = screen.getByLabelText('Логин');
+    const passwordInput = screen.getByLabelText('Пароль');
+    const submitBtn = screen.getByText('Войти');
 
     fireEvent.change(loginInput, { target: { value: 'TestUser' } });
 
@@ -56,11 +59,9 @@ describe('Страница с формой логина', () => {
   });
 
   it('При вводе невалидного логина кнопка сабмита остается недоступной', async() => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const loginInput = LoginFormMarkup.getByLabelText('Логин');
-    const passwordInput = LoginFormMarkup.getByLabelText('Пароль');
-    const submitBtn = LoginFormMarkup.getByText('Войти');
+    const loginInput = screen.getByLabelText('Логин');
+    const passwordInput = screen.getByLabelText('Пароль');
+    const submitBtn = screen.getByText('Войти');
 
     fireEvent.change(loginInput, { target: { value: '45' } });
 
@@ -76,11 +77,9 @@ describe('Страница с формой логина', () => {
   });
 
   it('При вводе невалидного пароля кнопка сабмита остается недоступной', async() => {
-    const LoginFormMarkup = render(<Login/>);
-
-    const loginInput = LoginFormMarkup.getByLabelText('Логин');
-    const passwordInput = LoginFormMarkup.getByLabelText('Пароль');
-    const submitBtn = LoginFormMarkup.getByText('Войти');
+    const loginInput = screen.getByLabelText('Логин');
+    const passwordInput = screen.getByLabelText('Пароль');
+    const submitBtn = screen.getByText('Войти');
 
     fireEvent.change(loginInput, { target: { value: 'TestUser' } });
 

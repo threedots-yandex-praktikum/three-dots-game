@@ -2,9 +2,17 @@ import React from 'react';
 import { fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react';
 import { EditPassword } from '../EditPassword';
 import '@testing-library/jest-dom';
+import {Provider} from "react-redux";
+import {store} from "store/store";
 
 
-beforeEach(() => render(<EditPassword/>));
+const Wrapper = () => (
+  <Provider store={store}>
+    <EditPassword/>
+  </Provider>
+);
+
+beforeEach(() => render(<Wrapper/>));
 afterEach(cleanup);
 
 

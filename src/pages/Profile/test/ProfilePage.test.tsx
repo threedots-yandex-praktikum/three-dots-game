@@ -1,32 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { fireEvent, render, screen, cleanup, waitFor } from '@testing-library/react';
 import { Profile } from '../Profile';
 import '@testing-library/jest-dom';
-import { TUserContext, UserContext } from 'components/Root/context';
+import {store} from "store/store";
+import {Provider} from "react-redux";
 
 
-const USER_DATA_MOCK = {
-  id: 1,
-  login: 'TestLogin',
-  email: 'testEmail@gmail.com',
-  phone: '123123123123',
-  first_name: 'TestLogin',
-  second_name: 'TestLogin',
-  display_name: 'TestLogin',
-  avatar: 'testAvatarLink',
-};
+const Wrapper = () => (
+  <Provider store={store}>
+    <Profile/>
+  </Provider>
+);
 
-const ProfilePageMockContextWrapper = () => {
-  const [userData, setUserData] = useState(USER_DATA_MOCK);
-
-  return (
-    <UserContext.Provider value={{ userData, setUserData } as TUserContext}>
-      <Profile/>
-    </UserContext.Provider>
-  );
-};
-
-beforeEach(() => render(<ProfilePageMockContextWrapper/>));
+beforeEach(() => render(<Wrapper/>));
 afterEach(cleanup);
 
 

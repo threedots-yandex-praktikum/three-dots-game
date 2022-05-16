@@ -11,5 +11,8 @@ module.exports = {
     "^modules(.*)$": "<rootDir>/src/modules/$1",
     "^pages(.*)$": "<rootDir>/src/pages/$1",
     "^styles(.*)$": "<rootDir>/src/styles/$1",
+    "^store(.*)$": "<rootDir>/src/store/$1",
+    "^hooks(.*)$": "<rootDir>/src/hooks/$1",
+    "^utils(.*)$": "<rootDir>/src/utils/$1",
   },
 };
