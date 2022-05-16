@@ -9,8 +9,3 @@ export type TUserData = {
   display_name: string,
   avatar: string,
 };
-
-export type TUserContext = {
-  userData: TUserData | null,
-  setUserData: (value: TUserData | null) => void,
-}
