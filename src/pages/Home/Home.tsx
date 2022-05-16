@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import {
   Box,
   Button,
@@ -9,19 +9,18 @@ import {
 } from '@chakra-ui/react';
 import { useHistory } from 'react-router';
 import { GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from 'constants/routes';
-import { UserContext } from 'components/Root/context';
 import { TopPanel } from 'pages/Home/TopPanel';
 import { TitleSection } from 'pages/Home/TitleSection';
-import { ReviewItem } from './ReviewItem/ReviewItem';
+import { ReviewItem } from 'pages/Home/ReviewItem';
 import { INFO_SECTION_SCHEMA, MOCKED_REVIEW_DATA } from './constants';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 export const Home = () => {
   const history = useHistory();
-
-  const { userData } = useContext(UserContext);
+  const { id } = useAppSelector(state => state.profileReducer);
 
   const goToLoginPage = useCallback(
     () => history.push(LOGIN_ROUTE),
@@ -43,12 +42,12 @@ export const Home = () => {
   return (
     <Container maxW="100%" p="0" bg="gray.200">
       <TopPanel
-        isUserAuthenticated={!!userData}
+        isUserAuthenticated={!!id}
         goToLoginPage={goToLoginPage}
         goToProfilePage={goToProfilePage}
         goToRegisterPage={goToRegisterPage}
       />
-      <TitleSection goToGameStartPage={goToGameStartPage}/>
+      <TitleSection goToGameStartPage={goToGameStartPage} />
       <Grid
         margin="5rem 10rem"
         h='1000px'
@@ -59,12 +58,12 @@ export const Home = () => {
         {
           INFO_SECTION_SCHEMA
             .map(({ id, Component, componentProps }) => {
-              if(Component === InfoSectionImageItem) {
-                return <Component key={id} {...(componentProps as { src: string})}/>;
+              if (Component === InfoSectionImageItem) {
+                return <Component key={id} {...(componentProps as { src: string })} />;
               }
 
-              if(Component === InfoSectionTextItem) {
-                return <Component key={id} {...componentProps as { title: string, text: string }}/>;
+              if (Component === InfoSectionTextItem) {
+                return <Component key={id} {...componentProps as { title: string, text: string }} />;
               }
             })
         }
