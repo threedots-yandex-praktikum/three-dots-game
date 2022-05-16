@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState, MouseEvent } from 'react';
+import React, { useCallback, useMemo, useState, MouseEvent } from 'react';
 import './style.scss';
 import { Background } from 'components/Background';
 import {
@@ -15,46 +15,47 @@ import { Input } from 'components/Input';
 import Upload, { UploadProps } from 'rc-upload';
 import { FiEdit } from 'react-icons/fi';
 import { PROFILE_FORM_SCHEMA } from './constans';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { EDIT_PASSWORD_ROUTE, LOGIN_ROUTE } from 'constants/routes';
+import { EDIT_PASSWORD_ROUTE } from 'constants/routes';
 import { useHistory } from 'react-router-dom';
 import { ProfileController } from 'controllers/ProfileController';
 import { TChangeProfileData } from 'modules/api/profileAPI';
 import { UserController } from 'controllers/UserController';
-import { TUserData, UserContext } from 'components/Root/context';
+import { TUserData } from 'components/Root/context';
 import _mapValues from 'lodash/mapValues';
 import _isNil from 'lodash/isNil';
 import _isEqual from 'lodash/isEqual';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { generateAvatarLink } from 'utils/generateAvatarLink';
+import { SpinnerWrapper } from '../../components/Spinner';
 
 
 export const Profile = () => {
   const history = useHistory();
-  const { userData, setUserData } = useContext(UserContext);
 
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { profileReducer: userData } = useAppSelector(state => state);
   const [isEdit, setIsEdit] = useState(false);
 
   const onSubmit = useCallback(
     values => {
+      const onSuccesfulProfileDataChange = () => {
+        setIsEdit(false);
+      };
+
       return ProfileController
-        .changeProfile(values as TChangeProfileData)
-        .then(response => {
-          setUserData(response);
-          setIsEdit(false);
-          sendNotification('Данные пользователя успешно изменены', NOTIFICATION_LEVEL.SUCCESS);
-        });
+        .changeProfile(values as TChangeProfileData, onSuccesfulProfileDataChange);
     },
-    [setUserData, setIsEdit],
+    [setIsEdit],
   );
 
   const logout = useCallback(
-    () => UserController
-      .logOut()
-      .then(() => {
-        setUserData(null);
-        sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
-        return history.push(LOGIN_ROUTE);
-      }),
-    [setUserData, history],
+    () => {
+      const onSuccesfulLogout = () => {
+        setIsEdit(false);
+      };
+      return UserController.logOut(onSuccesfulLogout);
+    },
+    [],
   );
 
   const goEditPassword = useCallback(
@@ -97,19 +98,12 @@ export const Profile = () => {
     action: (file: File) => {
       const formData = new FormData();
       formData.append('avatar', file as Blob);
-
+      const onSuccesfulChangeAvatar = () => {
+        setIsEdit(false);
+      };
       return ProfileController
-        .changeAvatar(formData)
-        .then(avatarSrc => {
-          setUserData({
-            ...userData || {},
-            avatar: avatarSrc,
-          } as TUserData);
-          setIsEdit(false);
-          sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+        .changeAvatar(formData, onSuccesfulChangeAvatar);
 
-          return avatarSrc;
-        });
     },
     multiple: false,
   };
@@ -118,9 +112,7 @@ export const Profile = () => {
     ? 'profile__avatar profile__avatar--opacity'
     : 'profile__avatar';
 
-  const avatarLink = values.avatar ?
-    `https://ya-praktikum.tech/api/v2/resources/${(values as TUserData).avatar}` :
-    undefined;
+  const avatarLink = generateAvatarLink(userData.avatar);
 
   return (
     <Background>
@@ -148,84 +140,86 @@ export const Profile = () => {
           </Box>
           <div className="dot-avatar"></div>
         </Flex>
-        <Box w={1000} mt={8} p={6} rounded="lg" bg="white">
+        <Box w={1000} mt={8} p={6} rounded="lg" bg="white" pos='relative'>
           <FormikProvider value={formik}>
-            <form onSubmit={handleSubmit}>
-              <Grid templateColumns="repeat(2, 1fr)" gap={3}>
-                {PROFILE_FORM_SCHEMA.map(
-                  ({ key, label, placeholder, validate }) => (
-                    <GridItem key={key}>
-                      <Input
-                        variant={isEdit ? 'outline' : 'unstyled'}
-                        id={key}
-                        label={label}
-                        validate={validate}
-                        placeholder={placeholder}
-                        error={errors[key as keyof typeof errors]}
-                        touched={touched[key as keyof typeof touched]}
-                        value={values[key as keyof typeof values]}
-                        onChange={handleChange}
-                        isReadOnly={!isEdit}
-                      />
-                    </GridItem>
-                  ),
-                )}
-                <GridItem colStart={1} className="profile__change-password-btn-section">
-                  {
-                    isEdit ?
-                      <Button
-                        w="50%"
-                        onClick={goEditPassword}
-                      >
-                        Изменить пароль
-                      </Button> :
-                      null
-                  }
-                </GridItem>
-                <GridItem colStart={2} className="profile__buttons-section">
-                  {
-                    isEdit ?
-                      (
-                        <Flex justify="flex-end">
-                          <Button
-                            w="50%"
-                            mr={3}
-                            onClick={cancelEditing}
-                          >
-                            Отмена
-                          </Button>
-                          <Button
-                            w="50%"
-                            type="submit"
-                            colorScheme="purple"
-                            isDisabled={isSubmitBtnDisabled}
-                          >
-                            Сохранить
-                          </Button>
-                        </Flex>
-                      ) :
-                      (
-                        <Flex justify="flex-end">
-                          <Button
-                            w="50%"
-                            mr={3}
-                            onClick={logout}
-                          >
-                            Выйти
-                          </Button>
-                          <Button
-                            variant="outline"
-                            w="50%"
-                            onClick={startEditing}
-                          >
-                            Редактировать
-                          </Button>
-                        </Flex>
-                      )
-                  }
-                </GridItem>
-              </Grid>
-            </form>
+            <SpinnerWrapper loading={isFetch}>
+              <form onSubmit={handleSubmit}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+                  {PROFILE_FORM_SCHEMA.map(
+                    ({ key, label, placeholder, validate }) => (
+                      <GridItem key={key}>
+                        <Input
+                          variant={isEdit ? 'outline' : 'unstyled'}
+                          id={key}
+                          label={label}
+                          validate={validate}
+                          placeholder={placeholder}
+                          error={errors[key as keyof typeof errors]}
+                          touched={touched[key as keyof typeof touched]}
+                          value={values[key as keyof typeof values]}
+                          onChange={handleChange}
+                          isReadOnly={!isEdit}
+                        />
+                      </GridItem>
+                    ),
+                  )}
+                  <GridItem colStart={1} className="profile__change-password-btn-section">
+                    {
+                      isEdit ?
+                        <Button
+                          w="50%"
+                          onClick={goEditPassword}
+                        >
+                          Изменить пароль
+                        </Button> :
+                        null
+                    }
+                  </GridItem>
+                  <GridItem colStart={2} className="profile__buttons-section">
+                    {
+                      isEdit ?
+                        (
+                          <Flex justify="flex-end">
+                            <Button
+                              w="50%"
+                              mr={3}
+                              onClick={cancelEditing}
+                            >
+                              Отмена
+                            </Button>
+                            <Button
+                              w="50%"
+                              type="submit"
+                              colorScheme="purple"
+                              isDisabled={isSubmitBtnDisabled}
+                            >
+                              Сохранить
+                            </Button>
+                          </Flex>
+                        ) :
+                        (
+                          <Flex justify="flex-end">
+                            <Button
+                              w="50%"
+                              mr={3}
+                              onClick={logout}
+                            >
+                              Выйти
+                            </Button>
+                            <Button
+                              variant="outline"
+                              w="50%"
+                              onClick={startEditing}
+                            >
+                              Редактировать
+                            </Button>
+                          </Flex>
+                        )
+                    }
+                  </GridItem>
+                </Grid>
+              </form>
+            </SpinnerWrapper>
           </FormikProvider>
         </Box>
       </Box>

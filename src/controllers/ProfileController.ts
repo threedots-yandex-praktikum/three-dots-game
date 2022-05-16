@@ -1,15 +1,27 @@
-import { ProfileAPI, TChangePasswordData, TChangeProfileData } from 'modules/api/profileAPI';
-import { TUserControllerClassError, UserControllerClass } from './UserController';
+import {
+  TChangePasswordData,
+  TChangeProfileData,
+} from 'modules/api/profileAPI';
+import {
+  changeAvatarAC,
+  changeProfileAC,
+  resetPasswordAC,
+} from '../store/reducers/profileReducer/profileActionCreators';
+import {
+  TUserControllerClassError,
+  UserControllerClass,
+} from './UserController';
+import { store } from '../store/store';
+import { EMPTY_STRING } from 'constants/generalConst';
 
+const { dispatch } = store;
 
 class ProfileControllerClass {
-  public async changeProfile(data: TChangeProfileData) {
+  public async changeProfile(data: TChangeProfileData, cb: () => void) {
     try {
-      const response = await ProfileAPI.changeProfile(data);
+      dispatch(changeProfileAC(data, cb));
 
       UserControllerClass.setError(null);
-
-      return response;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();
@@ -18,20 +30,19 @@ class ProfileControllerClass {
 
   public async changePassword(data: TChangePasswordData) {
     try {
-      await ProfileAPI.changePassword(data);
+      dispatch(resetPasswordAC(data));
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();
     }
   }
 
-  public async changeAvatar(data: FormData) {
+  public async changeAvatar(data: FormData, cb: () => void) {
     try {
-      const { avatar } = await ProfileAPI.changeAvatar(data);
-
       UserControllerClass.setError(null);
+      dispatch(changeAvatarAC(data, cb));
 
-      return avatar;
+      return EMPTY_STRING;
     } catch (error) {
       UserControllerClass.setError(error as TUserControllerClassError);
       return Promise.reject();

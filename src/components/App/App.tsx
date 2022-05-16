@@ -17,6 +17,7 @@ import {
   PROFILE_ROUTE,
   REGISTER_ROUTE,
   EDIT_PASSWORD_ROUTE,
+  ROOT_ROUTE,
 } from 'constants/routes';
 const Home = lazy(() => import('pages/Home'));
 const Login = lazy(() => import('pages/Login'));
@@ -30,9 +31,11 @@ const GameOver = lazy(() => import('pages/GameOver'));
 const EditPassword = lazy(() => import('pages/EditPassword'));
 
 import { UserController } from 'controllers/UserController';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { UserContext } from 'components/Root/context';
 import _constant from 'lodash/constant';
+import { EditPassword } from 'pages/EditPassword';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { useAuth } from 'hooks/useAuth';
+
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -113,33 +116,25 @@ const _renderSpinner = ()=> {
 };
 
 export const App = () => {
-  const { userData, setUserData } = useContext(UserContext);
 
-  const [isUserDataRequestInProgress, setIsUserDataRequestInProgress] = useState(true);
+  useAuth();
 
+  const { id } = useAppSelector(state => state.profileReducer);
   useEffect(
     () => {
       UserController
-        .fetchAndSetSignedUserData()
-        .then(setUserData)
-        .catch(() => {
-          sendNotification('Пользователь не авторизован в системе', NOTIFICATION_LEVEL.ERROR);
-        })
-        .finally(() => setIsUserDataRequestInProgress(false));
+        .fetchAndSetSignedUserData();
     },
-    [setUserData],
+    [],
   );
 
-  if (isUserDataRequestInProgress) {
-    return null;
-  }
 
   return (
     <div className="app">
       <div className="app__navigation">
         {
           NAVIGATION_SCHEMA
-            .filter(({ isVisible }) => isVisible(!!userData))
+            .filter(({ isVisible }) => isVisible(!!id))
             .map(({ title, route }) => (
               <Link key={route} to={route}>
                 {title}{' '}
@@ -149,7 +144,7 @@ export const App = () => {
       </div>
       <Suspense fallback={_renderSpinner()}>
       {
-        userData ?
+        id ?
           (
             <div className="app__content">
               <Switch>
@@ -163,24 +158,25 @@ export const App = () => {
                 <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
                 <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
                 <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
-
+                <Route path={ROOT_ROUTE} component={Home} />
                 <Redirect to={HOME_ROUTE} />
               </Switch>
             </div>
           ) :
           (
             <Switch>
-              <Route path={HOME_ROUTE} component={Home} />
               <Route path={LOGIN_ROUTE} component={Login} />
               <Route path={REGISTER_ROUTE} component={Register} />
               <Route path={GAME_START_ROUTE} exact component={GameStart} />
               <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
               <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
+              <Route path={HOME_ROUTE} component={Home} />
+              <Route path={ROOT_ROUTE} component={Home} />
               <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )
       }
-      </Suspense>      
+      </Suspense>
     </div>
   );
 };

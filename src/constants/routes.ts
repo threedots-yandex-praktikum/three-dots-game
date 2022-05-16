@@ -4,6 +4,7 @@ export const REGISTER_ROUTE = '/register';
 export const PROFILE_ROUTE = '/profile';
 export const LEADERBOARD_ROUTE = '/leaderboard';
 export const FORUM_ROUTE = '/forum';
+export const ROOT_ROUTE = "/";
 const GAME_SUB_ROUTE = '/game';
 export const GAME_START_ROUTE = [GAME_SUB_ROUTE, 'start'].join('/');
 export const GAME_PLAY_ROUTE = [GAME_SUB_ROUTE, 'play'].join('/');
