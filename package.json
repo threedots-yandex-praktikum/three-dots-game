@@ -33,9 +33,7 @@
     "react-icons": "4.3.1",
     "react-router-dom": "5.3.1",
     "react-toastify": "8.2.0",
-    "redux": "4.1.2",
-    "workbox-cacheable-response": "6.5.3",
-    "workbox-expiration": "6.5.3"
+    "redux": "4.1.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "7.16.7",
