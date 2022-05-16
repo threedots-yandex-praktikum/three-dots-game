@@ -37,6 +37,7 @@ function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
 
     cb();
   } catch (error) {
+    sendNotification('Ошибка сети, повторите позже', NOTIFICATION_LEVEL.ERROR);
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));
     sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
