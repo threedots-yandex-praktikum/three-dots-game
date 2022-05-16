@@ -1,7 +1,7 @@
 import React from 'react';
-import {fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react';
 import { Register } from '../Register';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 
 beforeEach(() => render(<Register/>));
@@ -91,37 +91,37 @@ describe('Страница с формой регистрации', () => {
     const passwordRepeatInput = screen.getByLabelText('Пароль (ещё раз)');
     const submitBtn = screen.getByText('Зарегистрироваться');
 
-    fireEvent.change(loginInput, {target: {value: 'TestUser' }});
+    fireEvent.change(loginInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(emailInput, {target: {value: 'aaaaa@gmail.com' }});
+    fireEvent.change(emailInput, { target: { value: 'aaaaa@gmail.com' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(nameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(nameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(lastNameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(lastNameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(phoneInput, {target: {value: '111111111111' }});
+    fireEvent.change(phoneInput, { target: { value: '111111111111' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordInput, {target: {value: '11111111A' }});
+    fireEvent.change(passwordInput, { target: { value: '11111111A' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordRepeatInput, {target: {value: '11111111A' }});
+    fireEvent.change(passwordRepeatInput, { target: { value: '11111111A' } });
 
     await waitFor(() => {
       expect(submitBtn).not.toBeDisabled();
@@ -138,37 +138,37 @@ describe('Страница с формой регистрации', () => {
     const passwordRepeatInput = screen.getByLabelText('Пароль (ещё раз)');
     const submitBtn = screen.getByText('Зарегистрироваться');
 
-    fireEvent.change(loginInput, {target: {value: 'F' }});
+    fireEvent.change(loginInput, { target: { value: 'F' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(emailInput, {target: {value: 'aaaaa@gmail.com' }});
+    fireEvent.change(emailInput, { target: { value: 'aaaaa@gmail.com' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(nameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(nameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(lastNameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(lastNameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(phoneInput, {target: {value: '111111111111' }});
+    fireEvent.change(phoneInput, { target: { value: '111111111111' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordInput, {target: {value: '11111111A' }});
+    fireEvent.change(passwordInput, { target: { value: '11111111A' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordRepeatInput, {target: {value: '11111111A' }});
+    fireEvent.change(passwordRepeatInput, { target: { value: '11111111A' } });
 
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
@@ -185,37 +185,37 @@ describe('Страница с формой регистрации', () => {
     const passwordRepeatInput = screen.getByLabelText('Пароль (ещё раз)');
     const submitBtn = screen.getByText('Зарегистрироваться');
 
-    fireEvent.change(loginInput, {target: {value: 'TestUser' }});
+    fireEvent.change(loginInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(emailInput, {target: {value: 'aaaaa@gmail.com' }});
+    fireEvent.change(emailInput, { target: { value: 'aaaaa@gmail.com' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(nameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(nameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(lastNameInput, {target: {value: 'TestUser' }});
+    fireEvent.change(lastNameInput, { target: { value: 'TestUser' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(phoneInput, {target: {value: '111111111111' }});
+    fireEvent.change(phoneInput, { target: { value: '111111111111' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordInput, {target: {value: '11111111A' }});
+    fireEvent.change(passwordInput, { target: { value: '11111111A' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(passwordRepeatInput, {target: {value: '9' }});
+    fireEvent.change(passwordRepeatInput, { target: { value: '9' } });
 
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();

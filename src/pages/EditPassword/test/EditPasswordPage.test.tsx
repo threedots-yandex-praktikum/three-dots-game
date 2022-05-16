@@ -1,7 +1,7 @@
 import React from 'react';
-import {fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen, cleanup } from '@testing-library/react';
 import { EditPassword } from '../EditPassword';
-import '@testing-library/jest-dom'
+import '@testing-library/jest-dom';
 
 
 beforeEach(() => render(<EditPassword/>));
@@ -55,17 +55,17 @@ describe('Страница с формой изменения пароля', () 
     const newPasswordRepeatInput = screen.getByLabelText('Новый пароль (ещё раз)');
     const submitBtn = screen.getByText('Сохранить');
 
-    fireEvent.change(oldPasswordInput, {target: {value: '11111111A' }});
+    fireEvent.change(oldPasswordInput, { target: { value: '11111111A' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(newPasswordInput, {target: {value: '11111111B' }});
+    fireEvent.change(newPasswordInput, { target: { value: '11111111B' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(newPasswordRepeatInput, {target: {value: '11111111B' }});
+    fireEvent.change(newPasswordRepeatInput, { target: { value: '11111111B' } });
     await waitFor(() => {
       expect(submitBtn).not.toBeDisabled();
     });
@@ -77,17 +77,17 @@ describe('Страница с формой изменения пароля', () 
     const newPasswordRepeatInput = screen.getByLabelText('Новый пароль (ещё раз)');
     const submitBtn = screen.getByText('Сохранить');
 
-    fireEvent.change(oldPasswordInput, {target: {value: '11111111A' }});
+    fireEvent.change(oldPasswordInput, { target: { value: '11111111A' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(newPasswordInput, {target: {value: '11111111B' }});
+    fireEvent.change(newPasswordInput, { target: { value: '11111111B' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });
 
-    fireEvent.change(newPasswordRepeatInput, {target: {value: '11111111' }});
+    fireEvent.change(newPasswordRepeatInput, { target: { value: '11111111' } });
     await waitFor(() => {
       expect(submitBtn).toBeDisabled();
     });

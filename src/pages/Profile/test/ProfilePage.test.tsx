@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {fireEvent, render, screen, cleanup, waitFor} from '@testing-library/react'
+import React, { useState } from 'react';
+import { fireEvent, render, screen, cleanup, waitFor } from '@testing-library/react';
 import { Profile } from '../Profile';
-import '@testing-library/jest-dom'
-import {TUserContext, UserContext} from "components/Root/context";
+import '@testing-library/jest-dom';
+import { TUserContext, UserContext } from 'components/Root/context';
 
 
 const USER_DATA_MOCK = {
@@ -89,7 +89,7 @@ describe('Страница с формой редактирования проф
   it('Не отрисовывается поле выбора файла аватара', () => {
     const buttons = screen.getAllByRole('button');
 
-    const fileUploadButton = buttons.find(button => button.className === 'rc-upload profile__upload')
+    const fileUploadButton = buttons.find(button => button.className === 'rc-upload profile__upload');
 
     expect(fileUploadButton).toBeUndefined();
   });
@@ -199,7 +199,7 @@ describe('Страница с формой редактирования проф
 
     const buttons = screen.getAllByRole('button');
 
-    const fileUploadButton = buttons.find(button => button.className === 'rc-upload profile__upload')
+    const fileUploadButton = buttons.find(button => button.className === 'rc-upload profile__upload');
 
     expect(fileUploadButton).toBeInTheDocument();
     expect(fileUploadButton).toBeVisible();
@@ -217,7 +217,7 @@ describe('Страница с формой редактирования проф
       expect(submitBtn).toBeInTheDocument();
       expect(submitBtn).toBeVisible();
       expect(submitBtn).toBeDisabled();
-    })
+    });
   });
 
   it('После входа в режим редактирования и изменения значения логина на валидное значение кнопка сабмита доступна', async() => {
@@ -232,7 +232,7 @@ describe('Страница с формой редактирования проф
       expect(submitBtn).toBeInTheDocument();
       expect(submitBtn).toBeVisible();
       expect(submitBtn).not.toBeDisabled();
-    })
+    });
   });
 });
 
