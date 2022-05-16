@@ -1,9 +1,9 @@
 import React from 'react';
-import {cleanup, fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { Login } from '../Login';
 import '@testing-library/jest-dom';
-import {Provider} from "react-redux";
-import {store} from "store/store";
+import { Provider } from 'react-redux';
+import { store } from 'store/store';
 
 
 const Wrapper = () => (
