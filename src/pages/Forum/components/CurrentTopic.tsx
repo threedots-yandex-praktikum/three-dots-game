@@ -1,97 +1,15 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/react';
+import { useAppSelector } from 'hooks/useAppSelector';
 import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { getDateString } from '../../../utils/getDateString';
-import { mockThemList } from '../Forum';
+import { getDateString } from 'utils/getDateString';
 import { TParams } from '../types';
 import { InteractivePanel } from './InteractivePanel';
 import { MessageForm } from './MessageForm';
-
-// TODO данные ниже брать из store
-
-
-const mockMessages = [
-  {
-    messageId: 1,
-    avatarLink: undefined,
-    userName: 'USER_1_LONG_LONG_LONG_LONG_LONG',
-    time: new Date().getTime(),
-    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
-  },
-  {
-    messageId: 2,
-    avatarLink: undefined,
-
-    userName: 'USER_2',
-    time: new Date().getTime(),
-    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
-  },
-  {
-    messageId: 3,
-    avatarLink: undefined,
-
-    userName: 'USER_3',
-    time: new Date().getTime(),
-    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
-  },
-  {
-    messageId: 4,
-    avatarLink: undefined,
-
-    userName: 'USER_1',
-    time: new Date().getTime(),
-    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
-  },
-  {
-    messageId: 5,
-    userName: 'USER_5',
-    avatarLink: undefined,
-
-    time: new Date().getTime(),
-    text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
-  },
-  {
-    messageId: 6,
-    avatarLink: undefined,
-
-    userName: 'USER_2',
-    time: new Date().getTime(),
-    text: 'lorem ',
-  },
-  {
-    messageId: 7,
-    avatarLink: undefined,
-
-    userName: 'USER_12',
-    time: new Date().getTime(),
-    text: 'lorem ',
-  },
-  {
-    messageId: 8,
-    avatarLink: undefined,
-
-    userName: 'USER_21',
-    time: new Date().getTime(),
-    text: 'lorem ',
-  },
-  {
-    messageId: 9,
-    avatarLink: undefined,
-
-    userName: 'USER_211',
-    time: new Date().getTime(),
-    text: 'lorem ',
-  },
-];
-const mockData = {
-  countMessages: 5,
-  title: 'topic title',
-};
-
-const my = {
-  avatarLink: undefined,
-};
+import { generateAvatarLink } from 'utils/generateAvatarLink';
+import { getCurrentTopicAC } from 'store/reducers/forumReducer/forumActionCreators';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 
 
 export const CurrentTopic = () => {
@@ -99,17 +17,23 @@ export const CurrentTopic = () => {
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
 
-  useEffect(() => {
+  const { avatar } = useAppSelector(state => state.profileReducer);
+  const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
 
-    const isInThemList = mockThemList.find(i => i.topicId === topicId);
+  const dispatch = useAppDispatch();
+
+  const avatarLink = generateAvatarLink(avatar);
+
+  useEffect(() => {
+    const isInThemList = topics?.find(i => i.topicId === topicId);
     if (!isInThemList) throw new Error('Темы с таким ID нет');
-    // получить контент по id   
-    console.log(topicId, 'id');
-  }, [params]);
+
+    dispatch(getCurrentTopicAC(topicId));
+  }, [topics, topicId, dispatch]);
 
   const currentTopicTitle = useMemo(() => {
-    return mockThemList.find(i => i.topicId === topicId)?.title;
-  }, [topicId]);
+    return topics?.find(i => i.topicId === topicId)?.title;
+  }, [topicId, topics]);
 
   return (
     <>
@@ -124,11 +48,12 @@ export const CurrentTopic = () => {
         p="10px"
       >
         <Heading textAlign="center" p="6px">
-          {mockData.title}
+          {currentTopicTitle}
         </Heading>
         <Divider orientation="horizontal" border="2px" />
-        {mockMessages.map(message => {
+        {currentTopic?.messages.map(message => {
           const { avatarLink, messageId, text, time, userName } = message;
+          const avatar = generateAvatarLink(avatarLink);
           return (
             <Stack
               divider={<StackDivider borderColor='gray.200' />}
@@ -142,9 +67,9 @@ export const CurrentTopic = () => {
               >
                 <Box>
                   <Avatar
-                    bg={avatarLink ? 'transparent' : 'purple.500'}
+                    bg={avatar ? 'transparent' : 'purple.500'}
                     size="lg"
-                    src={avatarLink}
+                    src={avatar}
                   />
                 </Box>
                 <Box>
@@ -163,32 +88,36 @@ export const CurrentTopic = () => {
             </Stack>
           );
         })}
-        <Stack
-          divider={<StackDivider borderColor='gray.200' />}
-          direction="row"
-          className="message"
-          height="168px"
-        >
-          <Stack
-            direction="column"
-            w="240px"
-          >
-            <Box>
-              <Avatar
-                bg={my.avatarLink ? 'transparent' : 'purple.500'}
-                size="lg"
-                src={my.avatarLink}
-              />
-            </Box>
+        {
+          currentTopic?.isDisabled
+            ? null
+            : <Stack
+              divider={<StackDivider borderColor='gray.200' />}
+              direction="row"
+              className="message"
+              height="168px"
+            >
+              <Stack
+                direction="column"
+                w="240px"
+              >
+                <Box>
+                  <Avatar
+                    bg={avatarLink ? 'transparent' : 'purple.500'}
+                    size="lg"
+                    src={avatarLink}
+                  />
+                </Box>
 
-          </Stack>
-          <Box
-            flexGrow={1}
-            maxW="70%"
-          >
-            <MessageForm />
-          </Box>
-        </Stack>
+              </Stack>
+              <Box
+                flexGrow={1}
+                maxW="70%"
+              >
+                <MessageForm topicId={topicId} />
+              </Box>
+            </Stack>
+        }
       </Flex>
     </>
 

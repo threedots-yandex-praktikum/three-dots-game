@@ -5,48 +5,12 @@ import { FORUM_ROUTE } from 'constants/routes';
 import { ListOfThems } from './components/ListOfThems';
 import { CurrentTopic } from './components/CurrentTopic';
 import { Route, Switch } from 'react-router-dom';
+import { SpinnerWrapper } from '../../components/Spinner';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
-// TODO данные ниже брать из store
-export const mockThemList = [
-  {
-    topicId: 1,
-    title: 'TITLE_1',
-    date: new Date().getTime(),
-    lastMessage: {
-      userName: 'User1',
-      message: 'Lorem Lorem Lorem Lorem Lorem Lorem Lorem ',
-
-    },
-  },
-  {
-    topicId: 2,
-    title: 'TITLE_2',
-    date: new Date().getTime(),
-    lastMessage: {
-      userName: 'User2',
-      message: '1',
-
-    },
-  },
-  {
-    topicId: 3,
-    title: 'TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3 TITLE_3',
-    date: new Date().getTime(),
-    lastMessage: null,
-  },
-  {
-    topicId: 4,
-    title: 'TITLE_33',
-    date: new Date().getTime(),
-    lastMessage: {
-      userName: 'User33',
-      message: 'Lorem Lorem Lorem1231231321231321 Lorem Lorem Lorem Lorem ',
-
-    },
-  },
-];
 
 export const Forum = () => {
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
 
   return (
     <Container
@@ -57,13 +21,18 @@ export const Forum = () => {
       centerContent
       maxW="full"
       minH="100vh"
+      position="relative"
     >
       <Switch>
         <Route path={[FORUM_ROUTE, ':topicId'].join('/')}  >
-          <CurrentTopic />
+          <SpinnerWrapper loading={isFetch}>
+            <CurrentTopic />
+          </SpinnerWrapper>
         </Route>
         <Route path={FORUM_ROUTE}  >
-          <ListOfThems />
+          <SpinnerWrapper loading={isFetch}>
+            <ListOfThems />
+          </SpinnerWrapper>
         </Route>
       </Switch>
     </Container>
