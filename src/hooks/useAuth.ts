@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   EDIT_PASSWORD_ROUTE,
   FORUM_ROUTE,
@@ -11,7 +11,7 @@ import {
   REGISTER_ROUTE,
 } from 'constants/routes';
 import { useAppSelector } from './useAppSelector';
-import {useEffect} from "react";
+import { useEffect } from 'react';
 
 type TAuthRoutes = string[];
 type TUnAuthRoutes = string[];
@@ -32,12 +32,12 @@ export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
   const history = useHistory();
   const location = useLocation();
 
-  sessionStorage.setItem("userId", String(id));
+  sessionStorage.setItem('userId', String(id));
 
   const authPath = authRoutesArr.includes(location.pathname);
   useEffect(() => {
-    console.log("useAuth", location.pathname);
-    if (sessionStorage.getItem("userId") && authRoutesArr) {
+    console.log('useAuth', location.pathname);
+    if (sessionStorage.getItem('userId') && authRoutesArr) {
       return;
     }
     if (isFetch) {
