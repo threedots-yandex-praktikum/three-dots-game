@@ -8,7 +8,7 @@ import { LOGIN_FORM_SCHEMA, INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
-import { HOME_ROUTE } from 'constants/routes';
+import { HOME_ROUTE, REGISTER_ROUTE, GAME_START_ROUTE } from 'constants/routes';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 import { TUserData, UserContext } from 'components/Root/context';
 
@@ -24,10 +24,19 @@ export const Login = () => {
         setUserData(response as TUserData);
         sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
         return history.push(HOME_ROUTE);
+      }).catch(()=> {
+        sendNotification('Ошибка сети, повторите позже', NOTIFICATION_LEVEL.ERROR);
       }),
     [setUserData, history],
   );
 
+  const goSignup = useCallback(()=> {
+    history.push(REGISTER_ROUTE);
+  }, [history]);
+
+  const goPlayGame = useCallback(()=> {
+    history.push(GAME_START_ROUTE);
+  }, [history]);
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
@@ -69,7 +78,10 @@ export const Login = () => {
                   ),
                 )}
 
-                <Flex align="center" justify="center">
+                <Flex align="center" justify="space-between">
+                <Button colorScheme='purple' variant='link' ml={10} onClick={goSignup}>
+                  Зарегистрироваться
+                </Button>
                   <Button
                     w="50%"
                     type="submit"
@@ -82,6 +94,11 @@ export const Login = () => {
               </form>
             </FormikProvider>
           </Box>
+          <Flex mt={10} align="center" justify="center">
+          <Button colorScheme='purple' variant='link' ml={10} onClick={goPlayGame}>
+            Играть без регистрация
+          </Button>            
+          </Flex>
         </Box>
       </Background>
     </div>
