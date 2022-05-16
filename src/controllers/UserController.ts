@@ -68,7 +68,6 @@ export class UserControllerClass {
         await this.fetchAndSetSignedUserData(cb);
         return Promise.resolve();
       }
-
       return Promise.reject(error);
     }
   }

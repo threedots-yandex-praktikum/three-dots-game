@@ -2,3 +2,5 @@
 /node_modules 
 webpack.config.js
 **/*.test.ts
+sw.js
+sw-reg.js

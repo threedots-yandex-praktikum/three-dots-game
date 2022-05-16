@@ -9,7 +9,7 @@ import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
 import { Input } from 'components/Input';
 import { useAppSelector } from 'hooks/useAppSelector';
-import { SpinnerWrapper } from '../../components/Spinner';
+import { SpinnerWrapper } from 'components/Spinner';
 
 
 export const Register = () => {
