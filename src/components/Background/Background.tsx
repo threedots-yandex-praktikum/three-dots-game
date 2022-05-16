@@ -1,7 +1,7 @@
 import React from 'react';
 
-import bg from 'static/img/bg.png';
-import bgGrayScale from 'static/img/bgGrayScale.png';
+import * as bg from 'static/img/bg.png';
+import * as bgGrayScale from 'static/img/bgGrayScale.png';
 import { Flex } from '@chakra-ui/react';
 
 

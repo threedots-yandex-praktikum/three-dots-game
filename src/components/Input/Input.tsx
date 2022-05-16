@@ -39,6 +39,7 @@ export const Input = ({
       <Field
         as={as || ChakraInput}
         key={id}
+        id={id}
         name={id}
         type={type}
         value={value}
