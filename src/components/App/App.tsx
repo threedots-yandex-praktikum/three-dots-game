@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, Suspense, lazy } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import {
   Switch,
   Route,
@@ -32,7 +32,6 @@ const EditPassword = lazy(() => import('pages/EditPassword'));
 
 import { UserController } from 'controllers/UserController';
 import _constant from 'lodash/constant';
-import { EditPassword } from 'pages/EditPassword';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { useAuth } from 'hooks/useAuth';
 

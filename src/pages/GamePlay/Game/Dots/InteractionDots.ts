@@ -1,8 +1,11 @@
 import { TDotBot, TDotPlayer, TDot } from '../types';
-import { REDRAW_BOTS,
-  INITIAL_COORDINATES_PLAYER, BOTS } from '../settingsGame';
+import { BOTS_TO_RE_INIT_AMOUNT,
+  INITIAL_PLAYER_COORDINATES_IN_PX, BOTS } from '../settingsGame';
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
+import { OBSTACLES_DATA } from 'pages/GamePlay/Game/Game';
+
+const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 60;
 
 export class InteractionDots {
   dots: (TDotBot | TDotPlayer)[] = [];
@@ -17,7 +20,7 @@ export class InteractionDots {
   initDotsBots() {
     BOTS.forEach((settingsBot) => {
       for (let index = 0; index < settingsBot.count; index++) {
-        const dot = new DotBot(settingsBot.minRadius, settingsBot.maxRadius, this.dotPlayer || INITIAL_COORDINATES_PLAYER);
+        const dot = new DotBot(settingsBot.minRadius, settingsBot.maxRadius, this.dotPlayer || INITIAL_PLAYER_COORDINATES_IN_PX);
         this.dots.push(dot);
       }
     });
@@ -28,13 +31,15 @@ export class InteractionDots {
 
     for (let i = 0; i < this.dots.length; i++) {
       const dot = this.dots[i];
-      if (countInitBots === REDRAW_BOTS || dot instanceof DotPlayer) {
+
+      if (
+        countInitBots === BOTS_TO_RE_INIT_AMOUNT ||
+        dot instanceof DotPlayer ||
+        dot.isActive
+      ) {
         continue;
       }
-      
-      if (dot.isActive) {
-        continue;
-      }
+
       dot.reInit();
       countInitBots++;
     }
@@ -43,16 +48,22 @@ export class InteractionDots {
 
   handleIntersection(dot: TDot) {
     const dotIntersection = this.getIntersectionDot(dot);
-
     if (dotIntersection) {
-      this.handleInteractionPhase(dot, dotIntersection);
+      return this.handleInteractionPhase(dot, dotIntersection);
+    }
+
+    const obstacleIntersection = this.getIntersectionObstacle(dot);
+    if (obstacleIntersection) {
+      return this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
     }
   }
-  
+
   handleDanger(dot: TDotBot) {
     const dangerousDot = this.getDangerousDot(dot);
 
-    if (dangerousDot && dot.isDanger(dangerousDot)) {
+    const dangerousObstacle = this.getDangerousObstacle(dot);
+
+    if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot)) {
       dot.runAway();
     }
   }
@@ -67,6 +78,10 @@ export class InteractionDots {
     return dotIntersection;
   }
 
+  private getDangerousObstacle(dot: TDotBot) {
+    return OBSTACLES_DATA.find(obstacle => dot.isDotWarning(obstacle));
+  }
+
   private getIntersectionDot(dot: TDot) {
     const dotIntersection = this.dots.find((dot2) => {
       if (dot2 === dot || !dot2.isActive) {
@@ -77,13 +92,21 @@ export class InteractionDots {
     return dotIntersection;
   }
 
+  private getIntersectionObstacle(dot: TDot) {
+    return OBSTACLES_DATA.find(obstacle => dot.isDotIntersection(obstacle));
+  }
+
   private handleInteractionPhase(dot: TDot, dotIntersection: TDot) {
     const totalArea = dot.getAreaCircle() + dotIntersection.getAreaCircle();
     if (dot.radius > dotIntersection.radius) {
       dot.setTransitionRadius(totalArea);
+      dot.kills += 1;
+      dot.scores = Math.round(dotIntersection.getAreaCircle());
       dotIntersection.toggleActive();
     } else if (dot.radius < dotIntersection.radius) {
       dotIntersection.setTransitionRadius(totalArea);
+      dotIntersection.kills += 1;
+      dotIntersection.scores = Math.round(dot.getAreaCircle());
       dot.toggleActive();
     } else {
       if (dotIntersection instanceof DotBot) {
@@ -95,8 +118,19 @@ export class InteractionDots {
     }
   }
 
+  private handleObstaclesInteractionPhase(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
+    const totalArea = dot.getAreaCircle();
+
+    if(totalArea <= MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX) {
+      return dot.isActive = false;
+    }
+
+    dot.inverseDirectionAndRollback(dot, obstacleIntersection);
+    dot.setTransitionRadius(totalArea/2);
+  }
+
   handleMovePhase() {
-    this.dots.forEach((dot) => {      
+    this.dots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }
@@ -105,7 +139,7 @@ export class InteractionDots {
         this.handleDanger(dot);
       }
 
-      this.handleIntersection(dot);
+      this.handleIntersection(dot as TDot);
     });
   }
 }
