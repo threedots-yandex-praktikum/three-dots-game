@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Logo } from 'components/Logo';
 import { FormikProvider, useFormik } from 'formik';
 import { Input } from 'components/Input';
@@ -9,26 +9,28 @@ import { UserController } from 'controllers/UserController';
 import { TSignInData } from 'modules/api/authAPI';
 import { useHistory } from 'react-router';
 import { HOME_ROUTE, REGISTER_ROUTE, GAME_START_ROUTE } from 'constants/routes';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
-import { TUserData, UserContext } from 'components/Root/context';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { SpinnerWrapper } from 'components/Spinner';
+
+
 
 
 export const Login = () => {
   const history = useHistory();
-  const { setUserData } = useContext(UserContext);
+  const { isFetch } = useAppSelector(state => state.fetchReducer);
 
   const onSubmit = useCallback(
-    (values: TSignInData) => UserController
-      .signIn(values)
-      .then(response => {
-        setUserData(response as TUserData);
-        sendNotification('Приветствуем Тебя в ThreeDots!', NOTIFICATION_LEVEL.SUCCESS);
-        return history.push(HOME_ROUTE);
-      }).catch(()=> {
-        sendNotification('Ошибка сети, повторите позже', NOTIFICATION_LEVEL.ERROR);
-      }),
-    [setUserData, history],
+    (values: TSignInData) => {
+      const onSucseccefulLogin = () => {
+        history.push(HOME_ROUTE);
+      };
+      UserController
+        .signIn(values, onSucseccefulLogin);
+    },
+    [history],
   );
+
+
 
   const goSignup = useCallback(()=> {
     history.push(REGISTER_ROUTE);
@@ -58,25 +60,26 @@ export const Login = () => {
           <Flex align="center" justify="center">
             <Logo />
           </Flex>
-          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white">
+          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white" pos='relative'>
             <FormikProvider value={formik}>
-              <form onSubmit={handleSubmit}>
-                {LOGIN_FORM_SCHEMA.map(
-                  ({ typeField, label, type, placeholder, validate }) => (
-                    <Input
-                      id={typeField}
-                      key={typeField}
-                      label={label}
-                      type={type}
-                      validate={validate}
-                      placeholder={placeholder}
-                      error={errors[typeField as keyof typeof errors]}
-                      touched={touched[typeField as keyof typeof touched]}
-                      value={values[typeField as keyof typeof values]}
-                      onChange={handleChange}
-                    />
-                  ),
-                )}
+              <SpinnerWrapper loading={isFetch}>
+                <form onSubmit={handleSubmit}>
+                  {LOGIN_FORM_SCHEMA.map(
+                    ({ typeField, label, type, placeholder, validate }) => (
+                      <Input
+                        id={typeField}
+                        key={typeField}
+                        label={label}
+                        type={typeField}
+                        validate={validate}
+                        placeholder={placeholder}
+                        error={errors[typeField as keyof typeof errors]}
+                        touched={touched[typeField as keyof typeof touched]}
+                        value={values[typeField as keyof typeof values]}
+                        onChange={handleChange}
+                      />
+                    ),
+                  )}
 
                 <Flex align="center" justify="space-between">
                 <Button colorScheme='purple' variant='link' ml={10} onClick={goSignup}>
@@ -92,12 +95,13 @@ export const Login = () => {
                   </Button>
                 </Flex>
               </form>
+            </SpinnerWrapper>
             </FormikProvider>
           </Box>
           <Flex mt={10} align="center" justify="center">
           <Button colorScheme='purple' variant='link' ml={10} onClick={goPlayGame}>
             Играть без регистрация
-          </Button>            
+          </Button>
           </Flex>
         </Box>
       </Background>

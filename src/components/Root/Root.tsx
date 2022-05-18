@@ -5,27 +5,30 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import { HOME_ROUTE } from 'constants/routes';
 import { NotificationSystem } from 'components/NotificationSystem';
-import { UserContextProvider } from 'components/Root/context';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 
 export const Root = () => {
   return (
-    
-      <ComponentTreeWithRouter />
- 
+    <Provider store={store}>
+      <Router>
+        <ComponentTreeWithRouter />
+      </Router>
+    </Provider>
   );
+
+
 };
 
 const ComponentTreeWithRouter = () => {
   const history = useHistory();
   return (
     <ChakraProvider>
-      <UserContextProvider>
-        <ErrorBoundary onClick={() => history.push(HOME_ROUTE)}>
-          <App />
-          <NotificationSystem/>
-        </ErrorBoundary>
-      </UserContextProvider>
+      <ErrorBoundary onClick={() => history.push(HOME_ROUTE)}>
+        <App />
+        <NotificationSystem />
+      </ErrorBoundary>
     </ChakraProvider>
 
   );

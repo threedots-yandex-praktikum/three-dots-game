@@ -1,7 +1,7 @@
 import { TBotSettings } from './types';
-const SIZE_CANVAS = 3000;
+const CANVAS_SIZE_IN_PX = 3000;
 
-const REDRAW_BOTS = 10;
+const BOTS_TO_RE_INIT_AMOUNT = 10;
 
 const BOTS: TBotSettings[] = [
   {
@@ -23,29 +23,34 @@ const BOTS: TBotSettings[] = [
 
 const COLORS_DOT: ReadonlyArray<string> = [
   '#FF4903',
-  '#4378B',
+  '#3182CE',
   '#00E691',
   '#8157D1',
-  '#000',
 ];
 
-const DEFAULT_COLOR = '#000';
+const DEFAULT_COLOR = '#555';
+const PLAYER_COLOR = '#ec128a';
+const SCORES_STRING_COLOR = '#805AD5';
+const KILLS_STRING_COLOR = '#ED8936';
 
-const COLOR_BG = '#fff';
+const COLOR_BG = '#eee';
 
-const INITIAL_COORDINATES_PLAYER = {
-  x:  SIZE_CANVAS/ 2,
-  y: SIZE_CANVAS/ 2,
+const INITIAL_PLAYER_COORDINATES_IN_PX = {
+  x:  CANVAS_SIZE_IN_PX/ 2,
+  y: CANVAS_SIZE_IN_PX/ 2,
   radius: 10,
 };
 
 
 export {
-  SIZE_CANVAS,
-  REDRAW_BOTS,
+  CANVAS_SIZE_IN_PX,
+  BOTS_TO_RE_INIT_AMOUNT,
   BOTS,
   COLORS_DOT,
   DEFAULT_COLOR,
-  INITIAL_COORDINATES_PLAYER,
+  PLAYER_COLOR,
+  SCORES_STRING_COLOR,
+  KILLS_STRING_COLOR,
+  INITIAL_PLAYER_COORDINATES_IN_PX,
   COLOR_BG,
 };

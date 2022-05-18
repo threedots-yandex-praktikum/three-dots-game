@@ -9,7 +9,6 @@ import { EDIT_PASSWORD_FORM_SCHEMA, EDIT_PASSWORD_INITIAL_STATE } from './consta
 import { Input } from 'components/Input/Input';
 import { ProfileController } from 'controllers/ProfileController';
 import { TChangePasswordData } from 'modules/api/profileAPI';
-import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
 
 
 export const EditPassword = () => {
@@ -21,12 +20,7 @@ export const EditPassword = () => {
         newPassword: values.new_password,
         oldPassword: values.old_password,
       };
-
-      return ProfileController
-        .changePassword(dataToSend as TChangePasswordData)
-        .then(() => {
-          sendNotification('Пароль успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
-        });
+      return ProfileController.changePassword(dataToSend as TChangePasswordData);
     },
     [],
   );
@@ -58,45 +52,45 @@ export const EditPassword = () => {
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
 
-                {EDIT_PASSWORD_FORM_SCHEMA.map(
-                  ({
-                    typeField,
-                    label,
-                    type,
-                    placeholder,
-                    validate,
-                  }) => {
-                    return (
-                        <Input
-                          variant="outline"
-                          key={typeField}
-                          id={typeField}
-                          label={label}
-                          type={type}
-                          validate={validate}
-                          placeholder={placeholder}
-                          error={errors[typeField as keyof typeof errors]}
-                          touched={touched[typeField as keyof typeof touched]}
-                          value={values[typeField as keyof typeof values]}
-                          onChange={handleChange}
-                        />
-                    );
-                  },
-                )}
+              {EDIT_PASSWORD_FORM_SCHEMA.map(
+                ({
+                  typeField,
+                  label,
+                  type,
+                  placeholder,
+                  validate,
+                }) => {
+                  return (
+                    <Input
+                      variant="outline"
+                      key={typeField}
+                      id={typeField}
+                      label={label}
+                      type={type}
+                      validate={validate}
+                      placeholder={placeholder}
+                      error={errors[typeField as keyof typeof errors]}
+                      touched={touched[typeField as keyof typeof touched]}
+                      value={values[typeField as keyof typeof values]}
+                      onChange={handleChange}
+                    />
+                  );
+                },
+              )}
 
-                  <Flex align="center" justify="center">
-                    <Button w="50%" mr={3} onClick={onClose}>
-                      Назад
-                    </Button>
-                    <Button
-                      w="50%"
-                      type="submit"
-                      colorScheme="purple"
-                      isDisabled={isSubmitBtnDisabled}
-                    >
-                      Сохранить
-                    </Button>
-                  </Flex>
+              <Flex align="center" justify="center">
+                <Button w="50%" mr={3} onClick={onClose}>
+                  Назад
+                </Button>
+                <Button
+                  w="50%"
+                  type="submit"
+                  colorScheme="purple"
+                  isDisabled={isSubmitBtnDisabled}
+                >
+                  Сохранить
+                </Button>
+              </Flex>
 
             </form>
           </FormikProvider>

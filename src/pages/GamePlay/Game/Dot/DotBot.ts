@@ -1,12 +1,12 @@
 import { random } from '../utils';
-import { SIZE_CANVAS, COLORS_DOT } from '../settingsGame';
+import { CANVAS_SIZE_IN_PX, COLORS_DOT } from '../settingsGame';
 import { TDot, TDotCoordinate } from '../types';
 import { Dot } from './Dot';
 
 const COUNT_COLOR = COLORS_DOT.length - 1;
 const DIRECTION = 10;
 export class DotBot extends Dot {
-  private xyMax = SIZE_CANVAS - this.radius;
+  private xyMax = CANVAS_SIZE_IN_PX - this.radius;
   private xyMin = 0 + this.radius;
   lastDotDanger: TDot | null = null;
   minRadius = 0;
@@ -20,7 +20,7 @@ export class DotBot extends Dot {
     this.maxRadius = maxRadius;
     this.coordPlayerDot = coordPlayerDot;
     this.setBaseParams();
-    this.moveFromEdge();
+    this.correctCenterPositionAccordingNewDotRadius();
   }
 
   isDanger(dangerousDot: TDot) {
@@ -35,9 +35,11 @@ export class DotBot extends Dot {
   }
 
   reInit() {
-    this.setBaseParams();
     this.transitionRadius = this.radius;
     this.radius = 0;
+    this.kills = 0;
+    this.scores = 0;
+    this.setBaseParams();
     this.isActive = true;
   }
 
@@ -52,11 +54,13 @@ export class DotBot extends Dot {
       this.y += random(this.xyMin, this.xyMax);
     }
 
-    this.directionX = random(-DIRECTION, DIRECTION) / this.getSpeedFactor();
-    this.directionY = random(-DIRECTION, DIRECTION) / this.getSpeedFactor();
+    const speedFactor = this.getSpeedFactor();
+
+    this.directionX = random(-DIRECTION, DIRECTION) / speedFactor;
+    this.directionY = random(-DIRECTION, DIRECTION) / speedFactor;
     if (this.directionX === 0 && this.directionY === 0) {
-      this.directionX = DIRECTION / this.getSpeedFactor();
-      this.directionY = DIRECTION / this.getSpeedFactor();
+      this.directionX = DIRECTION / speedFactor;
+      this.directionY = DIRECTION / speedFactor;
     }
     this.isActive = true;
   }
@@ -69,17 +73,17 @@ export class DotBot extends Dot {
   move() {
     super.move('');
     const isBorderCanvasX =
-      this.x >= SIZE_CANVAS - this.radius || this.x <= 0 + this.radius;
+      this.x >= CANVAS_SIZE_IN_PX - this.radius || this.x <= 0 + this.radius;
     const isBorderCanvasY =
-      this.y >= SIZE_CANVAS - this.radius || this.y <= 0 + this.radius;
+      this.y >= CANVAS_SIZE_IN_PX - this.radius || this.y <= 0 + this.radius;
     if (isBorderCanvasX) {
       this.directionX *= -1;
     }
     if (isBorderCanvasY) {
       this.directionY *= -1;
     }
-    this.x += this.directionX / DIRECTION;
-    this.y += this.directionY / DIRECTION;
+    this.x += this.directionX / DIRECTION / this.getSpeedFactor();
+    this.y += this.directionY / DIRECTION / this.getSpeedFactor();
   }
 
 
