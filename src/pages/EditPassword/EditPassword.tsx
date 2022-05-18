@@ -60,7 +60,7 @@ export const EditPassword = () => {
 
                 {EDIT_PASSWORD_FORM_SCHEMA.map(
                   ({
-                    key,
+                    typeField,
                     label,
                     type,
                     placeholder,
@@ -69,15 +69,15 @@ export const EditPassword = () => {
                     return (
                         <Input
                           variant="outline"
-                          key={key}
-                          id={key}
+                          key={typeField}
+                          id={typeField}
                           label={label}
                           type={type}
                           validate={validate}
                           placeholder={placeholder}
-                          error={errors[key as keyof typeof errors]}
-                          touched={touched[key as keyof typeof touched]}
-                          value={values[key as keyof typeof values]}
+                          error={errors[typeField as keyof typeof errors]}
+                          touched={touched[typeField as keyof typeof touched]}
+                          value={values[typeField as keyof typeof values]}
                           onChange={handleChange}
                         />
                     );

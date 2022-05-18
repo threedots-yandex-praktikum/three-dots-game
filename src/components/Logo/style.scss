@@ -1,4 +1,3 @@
-@import 'styles/variables';
 
 .dots {
   display: flex;
@@ -38,7 +37,7 @@
 
 .dot {
   border-radius: 50%;
-  background: $color-dot;
+  background: #FF4903;
 
   &--m {
     width: 20px;

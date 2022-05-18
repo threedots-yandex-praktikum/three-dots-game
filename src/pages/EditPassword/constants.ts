@@ -10,7 +10,7 @@ export const EDIT_PASSWORD_INITIAL_STATE = {
 
 export const EDIT_PASSWORD_FORM_SCHEMA = [
   {
-    key: 'old_password',
+    typeField: 'old_password',
     label: 'Старый пароль',
     type: 'password',
     placeholder: EMPTY_STRING,
@@ -21,7 +21,7 @@ export const EDIT_PASSWORD_FORM_SCHEMA = [
     },
   },
   {
-    key: 'new_password',
+    typeField: 'new_password',
     label: 'Новый пароль',
     type: 'password',
     placeholder: EMPTY_STRING,
@@ -32,7 +32,7 @@ export const EDIT_PASSWORD_FORM_SCHEMA = [
     },
   },
   {
-    key: 'password_repeat',
+    typeField: 'password_repeat',
     label: 'Новый пароль (ещё раз)',
     type: 'password',
     placeholder: EMPTY_STRING,

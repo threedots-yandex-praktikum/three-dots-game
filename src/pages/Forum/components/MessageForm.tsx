@@ -32,7 +32,7 @@ export const MessageForm = () => {
     values,
   } = formik;
 
-  const { key, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA;
+  const { typeField, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA;
 
   const isSubmitBtnDisabled = useMemo(
     () => values === INITIAL_STATE ||
@@ -49,13 +49,13 @@ export const MessageForm = () => {
               Input({
                 className,
                 as,
-                id: key,
+                id: typeField,
                 label,
                 validate,
                 placeholder,
-                error: errors[key as keyof typeof errors],
-                touched: touched[key as keyof typeof touched],
-                value: values[key as keyof typeof values],
+                error: errors[typeField as keyof typeof errors],
+                touched: touched[typeField as keyof typeof touched],
+                value: values[typeField as keyof typeof values],
                 onChange: handleChange,
               })
             }

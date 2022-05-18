@@ -58,25 +58,25 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
                     .map(
                       ({
                         as,
-                        key,
+                        typeField,
                         label,
                         placeholder,
                         validate,
                         type,
                       }) => {
                         return (
-                          <Box key={key}>
+                          <Box key={typeField}>
                             {
                               Input({
                                 as,
-                                id: key,
+                                id: typeField,
                                 label,
                                 type,
                                 validate,
                                 placeholder,
-                                error: errors[key as keyof typeof errors],
-                                touched: touched[key as keyof typeof touched],
-                                value: values[key as keyof typeof values],
+                                error: errors[typeField as keyof typeof errors],
+                                touched: touched[typeField as keyof typeof touched],
+                                value: values[typeField as keyof typeof values],
                                 onChange: handleChange,
                               })
                             }

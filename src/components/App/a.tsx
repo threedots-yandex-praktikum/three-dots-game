@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex } from '@chakra-ui/react';
 
 
-export const Background = (props: { children: React.ReactNode, isGreyScale?: boolean }) => {
+export const AComponent = () => {
 
 
   return (
@@ -15,7 +15,7 @@ export const Background = (props: { children: React.ReactNode, isGreyScale?: boo
       justify="center"
       h="100vh"
     >
-      {props.children}
+      123
     </Flex>
   );
 };

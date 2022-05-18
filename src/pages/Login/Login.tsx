@@ -62,17 +62,17 @@ export const Login = () => {
             <FormikProvider value={formik}>
               <form onSubmit={handleSubmit}>
                 {LOGIN_FORM_SCHEMA.map(
-                  ({ key, label, type, placeholder, validate }) => (
+                  ({ typeField, label, type, placeholder, validate }) => (
                     <Input
-                      id={key}
-                      key={key}
+                      id={typeField}
+                      key={typeField}
                       label={label}
                       type={type}
                       validate={validate}
                       placeholder={placeholder}
-                      error={errors[key as keyof typeof errors]}
-                      touched={touched[key as keyof typeof touched]}
-                      value={values[key as keyof typeof values]}
+                      error={errors[typeField as keyof typeof errors]}
+                      touched={touched[typeField as keyof typeof touched]}
+                      value={values[typeField as keyof typeof values]}
                       onChange={handleChange}
                     />
                   ),

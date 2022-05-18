@@ -153,17 +153,17 @@ export const Profile = () => {
             <form onSubmit={handleSubmit}>
               <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                 {PROFILE_FORM_SCHEMA.map(
-                  ({ key, label, placeholder, validate }) => (
-                    <GridItem key={key}>
+                  ({ typeField, label, placeholder, validate }) => (
+                    <GridItem key={typeField}>
                       <Input
                         variant={isEdit ? 'outline' : 'unstyled'}
-                        id={key}
+                        id={typeField}
                         label={label}
                         validate={validate}
                         placeholder={placeholder}
-                        error={errors[key as keyof typeof errors]}
-                        touched={touched[key as keyof typeof touched]}
-                        value={values[key as keyof typeof values]}
+                        error={errors[typeField as keyof typeof errors]}
+                        touched={touched[typeField as keyof typeof touched]}
+                        value={values[typeField as keyof typeof values]}
                         onChange={handleChange}
                         isReadOnly={!isEdit}
                       />

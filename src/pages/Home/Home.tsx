@@ -13,9 +13,8 @@ import { UserContext } from 'components/Root/context';
 import { TopPanel } from 'pages/Home/TopPanel';
 import { TitleSection } from 'pages/Home/TitleSection';
 import { ReviewItem } from './ReviewItem/ReviewItem';
-import { INFO_SECTION_SCHEMA, MOCKED_REVIEW_DATA } from './constants';
-import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
-import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
+import {  MOCKED_REVIEW_DATA } from './constants';
+
 
 
 export const Home = () => {
@@ -56,7 +55,7 @@ export const Home = () => {
         templateColumns='repeat(2, 1fr)'
         gap={16}
       >
-        {
+        {/* {
           INFO_SECTION_SCHEMA
             .map(({ id, Component, componentProps }) => {
               if(Component === InfoSectionImageItem) {
@@ -67,7 +66,7 @@ export const Home = () => {
                 return <Component key={id} {...componentProps as { title: string, text: string }}/>;
               }
             })
-        }
+        } */}
       </Grid>
       <Flex
         bg="gray.400"

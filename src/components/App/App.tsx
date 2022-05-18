@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState, Suspense, lazy } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Switch,
   Route,
   Link,
   Redirect,
 } from 'react-router-dom';
-import { Spinner, Box } from '@chakra-ui/react';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -18,16 +17,27 @@ import {
   REGISTER_ROUTE,
   EDIT_PASSWORD_ROUTE,
 } from 'constants/routes';
-const Home = lazy(() => import('pages/Home'));
-const Login = lazy(() => import('pages/Login'));
-const Register = lazy(() => import('pages/Register'));
-const Profile = lazy(() => import('pages/Profile'));
-const LeaderBoard = lazy(() => import('pages/LeaderBoard'));
-const Forum = lazy(() => import('pages/Forum'));
-const GameStart = lazy(() => import('pages/GameStart'));
-const GamePlay = lazy(() => import('pages/GamePlay'));
-const GameOver = lazy(() => import('pages/GameOver'));
-const EditPassword = lazy(() => import('pages/EditPassword'));
+// const Home = loadable(() => import('pages/Home'));
+// const Login = loadable(() => import('pages/Login'));
+// const Register = loadable(() => import('pages/Register'));
+// const Profile = loadable(() => import('pages/Profile'));
+// const LeaderBoard = loadable(() => import('pages/LeaderBoard'));
+// const Forum = loadable(() => import('pages/Forum'));
+// const GameStart = loadable(() => import('pages/GameStart'));
+// const GamePlay = loadable(() => import('pages/GamePlay'));
+// const GameOver = loadable(() => import('pages/GameOver'));
+// const EditPassword = loadable(() => import('pages/EditPassword'));
+
+import Home from 'pages/Home';
+import Login from 'pages/Login';
+import Register from 'pages/Register';
+import Profile from 'pages/Profile';
+import LeaderBoard from 'pages/LeaderBoard';
+import Forum from 'pages/Forum';
+import GameStart from 'pages/GameStart';
+import GamePlay from 'pages/GamePlay';
+import GameOver from 'pages/GameOver';
+import EditPassword from 'pages/EditPassword';
 
 import { UserController } from 'controllers/UserController';
 import { NOTIFICATION_LEVEL, sendNotification } from 'modules/notification';
@@ -104,13 +114,7 @@ const NAVIGATION_SCHEMA = [
     icon: null,
   },
 ];
-const _renderSpinner = ()=> {
-  return (
-    <Box w='100vw' h='100vh' display="flex" alignItems="center" justifyContent="center">
-      <Spinner color='red.500' />
-    </Box>
-  );
-};
+
 
 export const App = () => {
   const { userData, setUserData } = useContext(UserContext);
@@ -131,7 +135,7 @@ export const App = () => {
   );
 
   if (isUserDataRequestInProgress) {
-    return null;
+    console.log('return null');
   }
 
   return (
@@ -147,7 +151,6 @@ export const App = () => {
             ))
         }
       </div>
-      <Suspense fallback={_renderSpinner()}>
       {
         userData ?
           (
@@ -163,7 +166,6 @@ export const App = () => {
                 <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
                 <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
                 <Route path={EDIT_PASSWORD_ROUTE} exact component={EditPassword} />
-
                 <Redirect to={HOME_ROUTE} />
               </Switch>
             </div>
@@ -180,7 +182,6 @@ export const App = () => {
             </Switch>
           )
       }
-      </Suspense>      
     </div>
   );
 };

@@ -1,9 +1,8 @@
-@import 'styles/variables';
 
 .profile {
   &__avatar-wrap {
     position: relative;
-    border: 2px solid $color-dot;
+    border: 2px solid #FF4903;
     border-radius: 50%;
 
   }
@@ -48,7 +47,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: $color-dot;
+  background: #FF4903;
 
   &:last-child {
     margin-left: 20px;
