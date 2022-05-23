@@ -18,6 +18,6 @@ export default {
   server: {
     test: /\.js$/i,
     exclude: /node_modules/,
-    use: { loader: 'babel-loader' },
+    use: babelLoader,
   },
 };

@@ -1,6 +1,6 @@
 import { EFetchActions, TFetchAction, TStateFetch } from './types';
 
-const initialState = {
+export const initialState = {
   isFetch: false,
 };
 

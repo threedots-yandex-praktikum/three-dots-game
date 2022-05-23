@@ -1,6 +1,6 @@
 import { ELoginActions, TAuthAction, TAuthState } from './types';
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   error: null,
 };
 

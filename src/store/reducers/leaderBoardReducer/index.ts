@@ -1,6 +1,6 @@
 import { ELeaderActions, TLeaderBoardActions, TLeaderState } from './types';
 
-const initialState: TLeaderState = {
+export const initialState: TLeaderState = {
   leaders: [],
 };
 

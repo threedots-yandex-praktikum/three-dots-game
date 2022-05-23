@@ -1,4 +1,4 @@
-import { IS_DEV } from '../env';
+import { IS_DEV } from '../assets/dir';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 export default {
@@ -10,6 +10,15 @@ export default {
       'css-loader',
       'postcss-loader',
       'sass-loader',
+      {
+        loader: 'sass-resources-loader',
+        options: {
+          resources: [
+            'src/styles/variables.scss',
+            'src/styles/main.scss',
+          ],
+        },
+      },
     ].filter(Boolean) as string[],
   },
   server: {

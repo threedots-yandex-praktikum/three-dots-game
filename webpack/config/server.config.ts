@@ -1,12 +1,11 @@
 import path from 'path';
-import { Configuration } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
-
-import { IS_DEV, DIST_DIR, SRC_DIR } from './env';
-import fileLoader from './loaders/file';
-import cssLoader from './loaders/css';
-import jsLoader from './loaders/js';
-import tsLoader from './loaders/ts';
+import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
+import fileLoader from '../loaders/file';
+import cssLoader from '../loaders/css';
+import jsLoader from '../loaders/js';
+import tsLoader from '../loaders/ts';
 
 const config: Configuration = {
   name: 'server',
@@ -41,6 +40,14 @@ const config: Configuration = {
   externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
 
   optimization: { nodeEnv: false },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      window: [path.resolve(path.join(__dirname, '..', '/mock/window.mock')), 'default'],
+      localStorage: [path.resolve(path.join(__dirname, '..', '/mock/localStorage.mock')), 'default'],
+      sessionStorage: [path.resolve(path.join(__dirname, '..', '/mock/sessionStorage.mock')), 'default'],
+    }),
+  ],
 };
 
 export default config;

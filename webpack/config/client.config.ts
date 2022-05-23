@@ -3,11 +3,12 @@ import { Configuration as WebpackDevSeverConfig } from 'webpack-dev-server';
 import { Configuration, WebpackPluginInstance as Plugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import GenerateSW from 'workbox-webpack-plugin';
-import cssLoader from './loaders/css';
-import jsLoader from './loaders/js';
-import tsLoader from './loaders/ts';
-import fileLoader from './loaders/file';
-import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR } from './env';
+import cssLoader from '../loaders/css';
+import jsLoader from '../loaders/js';
+import tsLoader from '../loaders/ts';
+import fileLoader from '../loaders/file';
+//import LoadablePlugin from '@loadable/webpack-plugin';
+import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR } from '../assets/dir';
 
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
@@ -50,6 +51,9 @@ const config: Config = {
       modules: path.join(SRC_DIR, '/modules/'),
       pages: path.join(SRC_DIR, '/pages/'),
       styles: path.join(SRC_DIR, '/styles/'),
+      store: path.join(SRC_DIR, '/store/'),
+      hooks: path.join(SRC_DIR, '/hooks/'),
+      utils: path.join(SRC_DIR, '/utils/'),
     },
   },
 
@@ -60,6 +64,7 @@ const config: Config = {
       clientsClaim: true,
       skipWaiting: true,
     }),
+    // new LoadablePlugin(),
   ].filter(Boolean) as Plugin[],
 
   performance: {

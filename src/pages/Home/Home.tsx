@@ -55,7 +55,7 @@ export const Home = () => {
         templateColumns='repeat(2, 1fr)'
         gap={16}
       >
-        {/* {
+        {
           INFO_SECTION_SCHEMA
             .map(({ id, Component, componentProps }) => {
               if (Component === InfoSectionImageItem) {
@@ -66,7 +66,7 @@ export const Home = () => {
                 return <Component key={id} {...componentProps as { title: string, text: string }} />;
               }
             })
-        } */}
+        }
       </Grid>
       <Flex
         bg="gray.400"

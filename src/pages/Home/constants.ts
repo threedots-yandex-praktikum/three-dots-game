@@ -1,6 +1,7 @@
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 
+const bg = '/img/bg.png';
 export const MOCKED_REVIEW_DATA = [
   {
     id: 1,
@@ -62,6 +63,7 @@ export const MOCKED_REVIEW_DATA = [
 
 
 
+const bgSrc = `url('${bg}')`;
 
 export const INFO_SECTION_SCHEMA = [
   {
@@ -76,14 +78,14 @@ export const INFO_SECTION_SCHEMA = [
     id: 2,
     Component: InfoSectionImageItem,
     componentProps: {
-      src: '/',
+      src: bgSrc,
     },
   },
   {
     id: 3,
     Component: InfoSectionImageItem,
     componentProps: {
-      src: '/',
+      src: bgSrc,
     },
   },
   {
@@ -106,7 +108,7 @@ export const INFO_SECTION_SCHEMA = [
     id: 6,
     Component: InfoSectionImageItem,
     componentProps: {
-      src: '/',
+      src: bgSrc,
     },
   },
 ];

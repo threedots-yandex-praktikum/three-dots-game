@@ -12,9 +12,7 @@ import { store } from '../../store/store';
 export const Root = () => {
   return (
     <Provider store={store}>
-      <Router>
         <ComponentTreeWithRouter />
-      </Router>
     </Provider>
   );
 
