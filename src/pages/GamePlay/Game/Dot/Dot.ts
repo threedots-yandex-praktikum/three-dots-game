@@ -1,8 +1,11 @@
-import { SIZE_CANVAS } from '../settingsGame';
+import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
-import { TDotCoordinate  } from '../types';
+import { TDot, TDotCoordinate } from '../types';
 
-const speedFactor = 25;
+const speedFactor = 10;
+const OBSTACLE_INTERSECTION_ROLLBACK_IN_PX = 80;
+
+
 export abstract class Dot {
   radius = 0;
   x = 0;
@@ -10,9 +13,12 @@ export abstract class Dot {
   color: string | null = null;
   isActive = false;
   transitionRadius: number | null = null;
+  kills = 0;
+  scores = 0;
 
   protected abstract setBaseParams() : void
 
+  //TODO продумать формулу для корректной логики движения частиц разных размеров
   getSpeedFactor(): number {
     return this.radius / speedFactor;
   }
@@ -26,33 +32,43 @@ export abstract class Dot {
     this.transitionRadius = getRadiusFromArea(area);
   }
 
-  move(keyDirection: string) {
-    if (this.transitionRadius) {
-      this.scaleRadius();
-    }
+  inverseDirectionAndRollback(dot: TDot, obstacleIntersection: Pick<TDot, 'x' | 'y' | 'radius'>) {
+    // получаем по двум точкам уравнение прямой, откладываем по ней примерно 50 пиксеей и перемещаем точку в полученные координаты
+    const lineEquation = (x: number): number => (x - dot.x) * (obstacleIntersection.y - dot.y) / (obstacleIntersection.x - dot.x) + dot.y;
+
+    const xCoordinateAfterRollback = dot.x > obstacleIntersection.x ?
+      dot.x + OBSTACLE_INTERSECTION_ROLLBACK_IN_PX :
+      dot.x - OBSTACLE_INTERSECTION_ROLLBACK_IN_PX;
+
+    dot.x = xCoordinateAfterRollback;
+    dot.y = lineEquation(xCoordinateAfterRollback);
+
   }
 
-  scaleRadius() {
+  move(keyDirection: string) {
     if (!this.transitionRadius) {
       return;
     }
     if (this.radius < this.transitionRadius) {
       this.radius = Math.ceil(this.radius + (this.transitionRadius - this.radius) * 0.05);
-      this.moveFromEdge();
-    } else if (this.radius >= this.transitionRadius) {
+      this.correctCenterPositionAccordingNewDotRadius();
+    } else if (this.radius > this.transitionRadius) {
+      this.radius = Math.floor(this.radius - (this.radius - this.transitionRadius ) * 0.05);
+      this.correctCenterPositionAccordingNewDotRadius();
+    } else {
       this.transitionRadius = null;
     }
   }
 
-  moveFromEdge() {
-    if (this.x + this.radius > SIZE_CANVAS) {
-      this.x = SIZE_CANVAS - this.radius;
+  correctCenterPositionAccordingNewDotRadius() {
+    if (this.x + this.radius > CANVAS_SIZE_IN_PX) {
+      this.x = CANVAS_SIZE_IN_PX - this.radius;
     }
     if (this.x - this.radius < 0) {
       this.x = 0 + this.radius;
     }
-    if (this.y + this.radius > SIZE_CANVAS) {
-      this.y = SIZE_CANVAS - this.radius;
+    if (this.y + this.radius > CANVAS_SIZE_IN_PX) {
+      this.y = CANVAS_SIZE_IN_PX - this.radius;
     }
     if (this.y - this.radius < 0) {
       this.y = 0 + this.radius;

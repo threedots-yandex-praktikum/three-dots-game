@@ -4,24 +4,32 @@ import { FormikProvider, useFormik } from 'formik';
 import React, { useCallback, useMemo } from 'react';
 import { SEND_MESSAGE_FORM_SCHEMA } from '../constants';
 import { EMPTY_STRING } from 'constants/generalConst';
+import { useDispatch } from 'react-redux';
+import { sendMessageAC } from 'store/reducers/forumReducer/forumActionCreators';
+import { useAppSelector } from 'hooks/useAppSelector';
+import { TMessageFormProps } from '../types';
 
 
 const INITIAL_STATE = {
   message: EMPTY_STRING,
 };
 
-export const MessageForm = () => {
+export const MessageForm = ({ topicId }: TMessageFormProps) => {
 
+  const dispatch = useDispatch();
+  const { id } = useAppSelector(state => state.profileReducer);
   const onSubmit = useCallback(
-    values => {
-      console.log(values);
+    (values, { resetForm }) => {
+      dispatch(sendMessageAC({ ...values, userId: id as number, topicId }));
+      resetForm({ values: '' });
     },
-    [],
+    [dispatch, id, topicId],
   );
 
   const formik = useFormik({
     initialValues: INITIAL_STATE,
     onSubmit,
+
   });
 
   const {

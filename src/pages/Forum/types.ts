@@ -1,12 +1,7 @@
+import { TTopic } from '../../store/reducers/forumReducer/types';
+
 export type TTopicProps = {
   topic: TTopic;
-};
-
-export type TTopic = {
-  topicId: number;
-  title: string;
-  date: number;
-  lastMessage: TLastMessage;
 };
 
 export type TLastMessage = {
@@ -26,4 +21,7 @@ export type TCreateTopicProps = {
 
 export type TParams = {
   topicId: string;
+};
+export type TMessageFormProps = {
+  topicId: number;
 };

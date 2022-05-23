@@ -1,7 +1,29 @@
-import { Box, Flex, Heading, List, ListIcon, ListItem, Stack, StackDivider, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Kbd, List, ListItem, Stack, StackDivider, Text } from '@chakra-ui/react';
 import React from 'react';
-import { ArrowBackIcon, ArrowDownIcon, ArrowForwardIcon, ArrowUpIcon } from '@chakra-ui/icons';
 
+
+const CONTROLS_SCHEME = [
+  {
+    key: 'W',
+    title: 'Движение вверх',
+  },
+  {
+    key: 'S',
+    title: 'Движение вниз',
+  },
+  {
+    key: 'A',
+    title: 'Движение влево',
+  },
+  {
+    key: 'D',
+    title: 'Движение вправо',
+  },
+  {
+    key: 'P',
+    title: 'Пауза',
+  },
+];
 
 export const HowToPlay = () => {
   return (
@@ -16,31 +38,24 @@ export const HowToPlay = () => {
           Точка следует в сторону где находится указатель мыши
         </Box>
       </Flex>
+
       <Flex direction="column">
         <Heading as='h3' mb="9px" size='md'> Управление клавиатурой</Heading>
         <List spacing={3}>
-          <ListItem>
-            <ListIcon as={ArrowUpIcon} color='black' />
-            Движение вверх
-          </ListItem>
-          <ListItem>
-            <ListIcon as={ArrowDownIcon} color='black' />
-            Движение вниз
-          </ListItem>
-          <ListItem>
-            <ListIcon as={ArrowBackIcon} color='black' />
-            Движение влево
-          </ListItem>
-          <ListItem>
-            <ListIcon as={ArrowForwardIcon} color='black' />
-            Движение вправо
-          </ListItem>
+          {
+            CONTROLS_SCHEME.map(({ key, title }) => (
+              <ListItem key={key}>
+                <Kbd mr={2}>{key}</Kbd>
+                - {title}
+              </ListItem>
+            ))
+          }
         </List>
       </Flex>
 
       <Flex direction="column">
         <Heading as='h3' mb="9px" size='md'>Правила</Heading>
-        <Text >
+        <Text>
           Точка двигается по игровому полю и поедает другие точки, которые меньше неё по размеру.
         </Text>
       </Flex>
