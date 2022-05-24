@@ -7,11 +7,10 @@
     "node": "16.14.0"
   },
   "scripts": {
-    "init": "npm install && npm run build:dev:vendors",
     "start:webpack": "webpack --watch  --mode development",
     "start:server": "nodemon index.js --watch dist/server.js",
     "start": "SET NODE_ENV=development & npm-run-all --print-label --parallel start:*",
-    "build": "webpack --mode production",
+    "build": "npm run build:dev:vendors && webpack --mode production",
     "build:dev:vendors": "SET NODE_ENV=development & webpack --mode=development --config webpack/config/vendors.config.ts",
     "clean": "rimraf dist/*",
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
@@ -88,6 +87,7 @@
     "@types/postcss-import": "14.0.0",
     "@types/react": "17.0.0",
     "@types/react-dom": "17.0.0",
+    "@types/react-hot-loader": "^4.1.1",
     "@types/react-router-dom": "5.3.1",
     "@types/redux": "3.6.0",
     "@types/webpack": "5.28.0",
@@ -116,6 +116,7 @@
     "postcss": "8.4.12",
     "postcss-loader": "6.2.1",
     "postcss-preset-env": "7.4.3",
+    "react-hot-loader": "^4.13.0",
     "redux-devtools-extension": "^2.13.9",
     "rimraf": "3.0.2",
     "sass": "1.50.0",

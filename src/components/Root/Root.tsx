@@ -5,18 +5,11 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { ErrorBoundary } from 'components/ErrorBoundary';
 import { HOME_ROUTE } from 'constants/routes';
 import { NotificationSystem } from 'components/NotificationSystem';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store';
-
 
 export const Root = () => {
   return (
-    <Provider store={store}>
-        <ComponentTreeWithRouter />
-    </Provider>
+    <ComponentTreeWithRouter />
   );
-
-
 };
 
 const ComponentTreeWithRouter = () => {

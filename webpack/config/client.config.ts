@@ -1,6 +1,6 @@
 import path from 'path';
 import { Configuration as WebpackDevSeverConfig } from 'webpack-dev-server';
-import { Configuration, WebpackPluginInstance as Plugin } from 'webpack';
+import { Configuration, WebpackPluginInstance as Plugin, DllReferencePlugin } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import GenerateSW from 'workbox-webpack-plugin';
 import cssLoader from '../loaders/css';
@@ -8,8 +8,7 @@ import jsLoader from '../loaders/js';
 import tsLoader from '../loaders/ts';
 import fileLoader from '../loaders/file';
 //import LoadablePlugin from '@loadable/webpack-plugin';
-import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR } from '../assets/dir';
-
+import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -58,6 +57,10 @@ const config: Config = {
   },
 
   plugins: [
+    !IS_DEV && new DllReferencePlugin({
+      context: ROOT_DIR,
+      manifest: path.resolve(path.join(DIST_DIR, '/webpack/vendors-manifest.json')),
+    }),
     new MiniCssExtractPlugin({ filename: '[name].css' }),
 
     !IS_DEV && new GenerateSW.GenerateSW({
