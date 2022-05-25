@@ -6,13 +6,14 @@ import {
   changeAvatarAC,
   changeProfileAC,
   resetPasswordAC,
-} from '../store/reducers/profileReducer/profileActionCreators';
+} from 'store/reducers/profileReducer/profileActionCreators';
 import {
   TUserControllerClassError,
   UserControllerClass,
 } from './UserController';
-import { store } from '../store/store';
 import { EMPTY_STRING } from 'constants/generalConst';
+import {store} from "store/store";
+
 
 const { dispatch } = store;
 

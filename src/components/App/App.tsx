@@ -6,10 +6,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import routes from '../../routes';
-/*
-* TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
-*   будут линки на требуемые страницы
-* */
 import { NAVIGATION_SCHEMA } from './constants';
 import {
   HOME_ROUTE,
@@ -53,9 +49,9 @@ export const App = () => {
               <Switch>
                 {
                   routes.filter((route) => route.needAuth).map(({ ...routeProps }) => (
-                    <Route 
+                    <Route
                       key={routeProps.path}
-                     {...routeProps} 
+                     {...routeProps}
                     />
                   ))
                 }
@@ -67,9 +63,9 @@ export const App = () => {
             <Switch>
                 {
                   routes.filter((route) => !route.needAuth).map(({ ...routeProps }) => (
-                    <Route 
+                    <Route
                       key={routeProps.path}
-                     {...routeProps} 
+                     {...routeProps}
                     />
                   ))
                 }

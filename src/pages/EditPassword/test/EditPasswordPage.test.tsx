@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor, screen, cleanup } from '@testing-library/re
 import { EditPassword } from '../EditPassword';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
-import { store } from 'store/store';
+import {store} from "store/store";
 
 
 const Wrapper = () => (

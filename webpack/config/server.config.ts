@@ -4,8 +4,9 @@ import nodeExternals from 'webpack-node-externals';
 import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
 import fileLoader from '../loaders/file';
 import cssLoader from '../loaders/css';
-import jsLoader from '../loaders/js';
 import tsLoader from '../loaders/ts';
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+
 
 const config: Configuration = {
   name: 'server',
@@ -14,7 +15,6 @@ const config: Configuration = {
   entry: path.join(SRC_DIR, 'server'),
   module: {
     rules: [
-      jsLoader.server,
       tsLoader.server,
       cssLoader.server,
       fileLoader.server,
@@ -29,6 +29,7 @@ const config: Configuration = {
   resolve: {
     modules: ['src', 'node_modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
 
   devtool: 'source-map',

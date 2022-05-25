@@ -1,20 +1,15 @@
-// import path from 'path';
-// import { ChunkExtractor } from '@loadable/server';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
-import { Root } from './components/Root';
+import { Root } from 'components/Root';
 import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from './store/store';
-//import rootSaga from './store/rootSaga';
+import {getInitialState} from "store/getInitialState";
+import {configureStore} from "store/store";
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
-  // const scriptTags = chunkExtractor.getScriptTags();
-  // const linkTags = chunkExtractor.getLinkTags();
-  // const styleTags = chunkExtractor.getStyleTags();
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -53,44 +48,26 @@ function getHtml(reactHtml: string, reduxState = {}) {
 export default (req: Request, res: Response) => {
   const location = req.url;
   const context: StaticRouterContext = {};
+  const { store } = configureStore(getInitialState(location), location);
 
-  function renderApp() { 
-    // const statsFile = path.resolve('./dist/loadable-stats.json');
-    // const chunkExtractor = new ChunkExtractor({ statsFile });
-
-  //   const jsx = chunkExtractor.collectChunks( 
-  //     <ReduxProvider store={store}>
-  //       <StaticRouter context={context} location={location}> 
-  //         <Root />
-  //       </StaticRouter>
-  //     </ReduxProvider>,
-  
-  //  );
-    const jsx = (
+  const jsx = (
     <ReduxProvider store={store}>
-      <StaticRouter context={context} location={location}> 
+      <StaticRouter context={context} location={location}>
         <Root />
       </StaticRouter>
     </ReduxProvider>
- );
-    const reactHtml = renderToString(jsx);
-    const reduxState = store.getState();
-    if (context.url) {
-      res.redirect(context.url);
-      return;
-    }
-    res
+  );
+
+  const reactHtml = renderToString(jsx);
+  const reduxState = store.getState();
+
+  if (context.url) {
+    res.redirect(context.url);
+    return;
+  }
+
+  res
     .status(context.statusCode || 200)
     .send(getHtml(reactHtml, reduxState));
-  }
-  // store
-  //   .runSaga(rootSaga)
-  //   .toPromise()
-  //   .then(() => renderApp())
-  //   .catch(err => {
-  //     throw err;
-  //   });
-  // const dataRequirements: (Promise<void> | void)[] = [];
-  // return Promise.all(dataRequirements).then(() => store.close()).catch(err => { throw err; });
-  return renderApp();
+
 };
