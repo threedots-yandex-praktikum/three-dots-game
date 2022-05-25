@@ -22,6 +22,8 @@ export const GamePlay = () => {
   * чтобы отключить возможность обновления компонента канваса при обновлшении локального стейта компонента
   * */
   const unpauseCbRef = useRef<() => void>();
+  const stopGameCbRef = useRef<() => void>();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
@@ -86,12 +88,14 @@ export const GamePlay = () => {
             console.log('lose');
             goToGameOverScreen();
           },
-          onGamePause: (isGamePaused, unpauseCb) => {
+          onGamePause: (isGamePaused, unpauseCb, stopGameCb) => {
             if(!isGamePaused) {
               return setIsOpen(false);
             }
 
             unpauseCbRef.current = unpauseCb;
+            stopGameCbRef.current = stopGameCb;
+
             setIsOpen(true);
           },
           sendScoresData: scoresData => {
@@ -116,7 +120,10 @@ export const GamePlay = () => {
       {
         id: 'exitGame',
         title: 'Выход из игры',
-        onClick: goToGameOverScreen,
+        onClick: () => {
+          _isFunction(stopGameCbRef.current) && stopGameCbRef.current();
+          return goToGameOverScreen();
+        },
       },
       {
         id: 'fullScreenMode',
