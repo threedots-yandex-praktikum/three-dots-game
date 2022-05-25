@@ -7,18 +7,20 @@ import cssLoader from '../loaders/css';
 import tsLoader from '../loaders/ts';
 import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
+import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
 
 const config: Config = {
+  target: 'web',
   entry: {
     app: path.join(SRC_DIR, 'client.tsx'),
   },
   mode: IS_DEV ? 'development': 'production',
   output: {
     path: DIST_DIR,
-    filename: '[name].[contenthash].bundle.js',
+    filename: '[name].js',
     publicPath: '/',
   },
   module: {
@@ -50,6 +52,7 @@ const config: Config = {
       hooks: path.join(SRC_DIR, '/hooks/'),
       utils: path.join(SRC_DIR, '/utils/'),
     },
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
 
   plugins: [
@@ -57,7 +60,7 @@ const config: Config = {
 
     !IS_DEV && new DllReferencePlugin({
       context: ROOT_DIR,
-      manifest: path.resolve(path.join(DIST_DIR, '/webpack/vendors-manifest.json')),
+      manifest: path.resolve(path.join(DIST_DIR, 'vendors-manifest.json')),
     }),
 
     !IS_DEV && new GenerateSW.GenerateSW({

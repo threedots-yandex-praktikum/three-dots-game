@@ -14,16 +14,16 @@ const config: webpack.Configuration = {
     vendors: VENDORS,
   },
   output: {
-    library: '[name]_[hash]',
-    filename: '[name]_[hash].js',
-    path: join(DIST_DIR, 'client', '_'),
+    library: '[name]',
+    filename: '[name].js',
+    path: join(DIST_DIR),
   },
   plugins: [
     new webpack.DllPlugin({
-      name: '[name]_[hash]',
-      path: join(DIST_DIR, 'webpack', 'vendors-manifest.json'),
+      name: '[name]',
+      path: join(DIST_DIR, 'vendors-manifest.json'),
     }),
-    new MiniCssExtractPlugin({ filename: '[name]_[hash].css' }),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
     !ENVS.__DEV__ && new CompressionWebpackPlugin({ minRatio: 1 }),
   ].filter(Boolean) as webpack.WebpackPluginInstance[],
   stats: STATS_OPTIONS,

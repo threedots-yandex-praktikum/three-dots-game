@@ -27,20 +27,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
       <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
       </script>
-      <script>
-        if ("serviceWorker" in navigator) {
-          window.addEventListener("load", () => {
-            navigator.serviceWorker
-              .register("./service-worker.js")
-              .then((reg) => {
-                console.log("СВ зарегистрирован: ", reg);
-              })
-              .catch((err) => {
-                console.error("Регистрация СВ провалилась: ", err);
-              });
-          });
-        }      
-      </script>
+      <script src="app.js"/>
+      <script src="vendors.js"/>
   </body>
   </html>
   `;
