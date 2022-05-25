@@ -24,8 +24,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
     </head>
     <body>
         <div id="root">${reactHtml}</div>
-        <script src="app.js" type="module"></script>
-        <script src="vendors.js" type="module"></script>
+        <script src="/app.js" type="module"></script>
+        <script src="/vendors.js" type="module"></script>
         <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
