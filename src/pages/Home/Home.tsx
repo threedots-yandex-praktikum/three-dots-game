@@ -16,7 +16,7 @@ import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { push } from 'connected-react-router';
-import {useAppDispatch} from "hooks/useAppDispatch";
+import { useAppDispatch } from 'hooks/useAppDispatch';
 
 
 export const Home = () => {
@@ -25,22 +25,22 @@ export const Home = () => {
 
   const goToLoginPage = useCallback(
     () => dispatch(push(LOGIN_ROUTE)),
-    [push, dispatch],
+    [dispatch],
   );
   const goToRegisterPage = useCallback(
     () => dispatch(push(REGISTER_ROUTE)),
-    [push, dispatch],
+    [dispatch],
   );
   const goToProfilePage = useCallback(
     () => dispatch(push(PROFILE_ROUTE)),
-    [push, dispatch],
+    [dispatch],
   );
   const goToGameStartPage = useCallback(
     () => {
-      console.log('asafdsdf')
-      return dispatch(push(GAME_START_ROUTE))
+      console.log('asafdsdf');
+      return dispatch(push(GAME_START_ROUTE));
     },
-    [push, dispatch],
+    [dispatch],
   );
 
   return (

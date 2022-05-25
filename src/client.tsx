@@ -4,9 +4,9 @@ import { Root } from 'components/Root/Root';
 import 'babel-polyfill';
 import { Provider } from 'react-redux';
 import { hot } from 'react-hot-loader/root';
-import {ConnectedRouter} from "connected-react-router";
-import {history, store} from "store/store";
-import {RootState} from "store/reducers/rootReducer";
+import { ConnectedRouter } from 'connected-react-router';
+import { history, store } from 'store/store';
+import { RootState } from 'store/reducers/rootReducer';
 
 
 // global redeclared types

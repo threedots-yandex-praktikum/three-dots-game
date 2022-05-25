@@ -12,7 +12,7 @@ import {
   UserControllerClass,
 } from './UserController';
 import { EMPTY_STRING } from 'constants/generalConst';
-import {store} from "store/store";
+import { store } from 'store/store';
 
 
 const { dispatch } = store;

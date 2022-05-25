@@ -6,7 +6,7 @@ import {
   registrationAC,
 } from 'store/reducers/authReducer/authActionCreators';
 import _identity from 'lodash/identity';
-import {store} from "store/store";
+import { store } from 'store/store';
 
 
 const { dispatch } = store;

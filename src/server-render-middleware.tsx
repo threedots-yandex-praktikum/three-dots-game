@@ -5,8 +5,8 @@ import { Root } from 'components/Root';
 import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
-import {getInitialState} from "store/getInitialState";
-import {configureStore} from "store/store";
+import { getInitialState } from 'store/getInitialState';
+import { configureStore } from 'store/store';
 
 
 function getHtml(reactHtml: string, reduxState = {}) {

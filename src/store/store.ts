@@ -1,11 +1,11 @@
 import { applyMiddleware, createStore, compose } from 'redux';
-import {createRootReducer} from './reducers/rootReducer';
-import createSagaMiddleware, {END} from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router'
+import { createRootReducer } from './reducers/rootReducer';
+import createSagaMiddleware, { END } from 'redux-saga';
+import { routerMiddleware } from 'connected-react-router';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { AppStore } from './types/TReduxSaga';
-import {createBrowserHistory, createMemoryHistory} from "history";
-import rootSaga from "store/rootSaga";
+import { createBrowserHistory, createMemoryHistory } from 'history';
+import rootSaga from 'store/rootSaga';
 
 
 export const isServer = !(
