@@ -13,23 +13,23 @@ function getHtml(reactHtml: string, reduxState = {}) {
   return `
   <!DOCTYPE html>
   <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <link rel="shortcut icon" type="image/png" href="/img/favicon.jpg">
-      <link href="/app.css" rel="stylesheet">
-      <title>Threee dots</title>
-
-  </head>
-  <body>
-      <div id="root">${reactHtml}</div>
-      <script>
-          window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
-      </script>
-      <script src="app.js"/>
-      <script src="vendors.js"/>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="shortcut icon" type="image/png" href="/img/favicon.jpg">
+        <link href="/app.css" rel="stylesheet">
+        <title>Threee dots</title>
+  
+    </head>
+    <body>
+        <div id="root">${reactHtml}</div>
+        <script src="app.js" type="module"></script>
+        <script src="vendors.js" type="module"></script>
+        <script>
+            window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+        </script>
+    </body>
   </html>
   `;
 }
