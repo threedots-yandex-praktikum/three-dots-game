@@ -42,37 +42,21 @@ export const App = () => {
             ))
         }
       </div>
-      {
-        id ?
-          (
-            <div className="app__content">
-              <Switch>
-                {
-                  routes.filter((route) => route.needAuth).map(({ ...routeProps }) => (
-                    <Route
-                      key={routeProps.path}
-                     {...routeProps}
-                    />
-                  ))
-                }
-                <Redirect to={HOME_ROUTE} />
-              </Switch>
-            </div>
-          ) :
-          (
-            <Switch>
-                {
-                  routes.filter((route) => !route.needAuth).map(({ ...routeProps }) => (
-                    <Route
-                      key={routeProps.path}
-                     {...routeProps}
-                    />
-                  ))
-                }
-              <Redirect to={LOGIN_ROUTE} />
-            </Switch>
-          )
-      }
+      <div className="app__content">
+        <Switch>
+          {
+            routes
+              .filter(({ needAuth }) => id ? needAuth : !needAuth)
+              .map(routeProps => (
+                <Route
+                  key={routeProps.path}
+                  {...routeProps}
+                />
+              ))
+          }
+          <Redirect to={id ? HOME_ROUTE : LOGIN_ROUTE} />
+        </Switch>
+      </div>
     </div>
   );
 };
