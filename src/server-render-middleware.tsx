@@ -7,6 +7,7 @@ import { StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
+import rootSaga from "store/rootSaga";
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -34,9 +35,17 @@ function getHtml(reactHtml: string, reduxState = {}) {
   `;
 }
 export default (req: Request, res: Response) => {
-  const location = req.url;
   const context: StaticRouterContext = {};
+
+  if (context.url) {
+    res.redirect(context.url);
+    return;
+  }
+
+  const location = req.url;
+
   const { store } = configureStore(getInitialState(location), location);
+  const reduxState = store.getState();
 
   const jsx = (
     <ReduxProvider store={store}>
@@ -46,16 +55,30 @@ export default (req: Request, res: Response) => {
     </ReduxProvider>
   );
 
+  /*
+  * запускаем сагу и формируем разметку приложения
+  * */
+  store.runSaga(rootSaga)
+
   const reactHtml = renderToString(jsx);
-  const reduxState = store.getState();
-
-  if (context.url) {
-    res.redirect(context.url);
-    return;
-  }
-
+  const html = getHtml(reactHtml, reduxState);
   res
     .status(context.statusCode || 200)
-    .send(getHtml(reactHtml, reduxState));
+    .send(html);
 
+  /*
+  * получаем и выполняем необходимые для текущей страницы приложения асинхронные действия, на этом этапе вызываются
+  * запросы данных и укладываются в стор.
+  * Когда все необходимые запросы выполнены - мидлвар отдает страницу браузеру
+  * */
+  // const asyncActionsPromisesArray = [
+  //   UserController.fetchAndSetSignedUserData(undefined, store.dispatch),
+  //   ...routes
+  //     .map(({ fetchData }) => _isFunction(fetchData) ? fetchData(store.dispatch) : Promise.resolve())
+  // ];
+  //
+  // return Promise.all(asyncActionsPromisesArray)
+  //   .then(() => {
+  //     store.close();
+  //   });
 };

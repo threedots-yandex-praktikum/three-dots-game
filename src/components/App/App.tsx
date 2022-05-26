@@ -11,7 +11,6 @@ import {
   HOME_ROUTE,
   LOGIN_ROUTE,
 } from 'constants/routes';
-//import { UserController } from 'controllers/UserController';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { useAuth } from 'hooks/useAuth';
 
@@ -20,13 +19,6 @@ export const App = () => {
   useAuth();
 
   const { id } = useAppSelector(state => state.profileReducer);
-  // useEffect(
-  //   () => {
-  //     UserController
-  //       .fetchAndSetSignedUserData();
-  //   },
-  //   [],
-  // );
 
 
   return (
