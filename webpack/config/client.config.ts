@@ -70,7 +70,7 @@ const config: Config = {
       runtimeCaching: [
         {
           // кэшируем любой урл приложения
-          urlPattern: ({request, url}) => true,
+          urlPattern: ({ sameOrigin }: any) => sameOrigin,
           handler: 'NetworkFirst',
         },
       ],
