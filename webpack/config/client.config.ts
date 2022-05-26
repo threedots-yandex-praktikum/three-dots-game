@@ -67,6 +67,13 @@ const config: Config = {
       clientsClaim: true,
       skipWaiting: true,
       maximumFileSizeToCacheInBytes: 10000000,
+      runtimeCaching: [
+        {
+          // кэшируем любой урл приложения
+          urlPattern: ({request, url}) => true,
+          handler: 'NetworkFirst',
+        },
+      ],
     }),
   ].filter(Boolean) as Plugin[],
 
