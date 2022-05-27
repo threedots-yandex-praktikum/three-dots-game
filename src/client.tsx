@@ -31,15 +31,15 @@ hydrate(
   document.getElementById('root'),
 );
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register("./service-worker.js")
+      .register('./service-worker.js')
       .then((reg) => {
-        console.log("СВ зарегистрирован: ", reg);
+        console.log('СВ зарегистрирован: ', reg);
       })
       .catch((err) => {
-        console.error("Регистрация СВ провалилась: ", err);
+        console.error('Регистрация СВ провалилась: ', err);
       });
   });
 }

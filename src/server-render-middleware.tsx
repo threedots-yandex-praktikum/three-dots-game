@@ -7,7 +7,7 @@ import { StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
-import rootSaga from "store/rootSaga";
+import rootSaga from 'store/rootSaga';
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -58,7 +58,7 @@ export default (req: Request, res: Response) => {
   /*
   * запускаем сагу и формируем разметку приложения
   * */
-  store.runSaga(rootSaga)
+  store.runSaga(rootSaga);
 
   const reactHtml = renderToString(jsx);
   const html = getHtml(reactHtml, reduxState);

@@ -22,7 +22,7 @@ import GamePlay from 'pages/GamePlay';
 import GameOver from 'pages/GameOver';
 import EditPassword from 'pages/EditPassword';
 import { Action } from 'redux';
-import _identity from "lodash/identity";
+import _identity from 'lodash/identity';
 
 export interface ReduxAction<T = any, P = any> extends Action {
   type: T;
