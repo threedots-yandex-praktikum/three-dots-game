@@ -1,6 +1,5 @@
 import { HTTPTransport } from "./httpTransport/httpTransport";
 import {
-  PREFIX_GAME_API,
   LEADER_BOARD_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
@@ -23,9 +22,7 @@ class LeaderBoardAPIClass {
   authHTTPTransportInstance: HTTPTransport;
 
   constructor() {
-    this.authHTTPTransportInstance = new HTTPTransport(
-      YANDEX_API_HOST + PREFIX_GAME_API
-    );
+    this.authHTTPTransportInstance = new HTTPTransport(YANDEX_API_HOST);
   }
 
   async addUser(data: TAddToLBData) {
@@ -40,16 +37,30 @@ class LeaderBoardAPIClass {
     );
   }
 
-  async getThreeDotsLeaders(data: TGet3DotsLBData) {
+  async getThreeDotsLeaders() {
     console.log("getThreeDotsLeaders");
-
-    return await this.authHTTPTransportInstance.post(
+    const resultResponse = [];
+    const data: TGet3DotsLBData = {
+      cursor: 0,
+      limit: 20,
+      ratingFieldName: "score",
+    };
+    const response = await this.authHTTPTransportInstance.post(
       LEADER_BOARD_API_ENDPOINTS.GET_THEE_DOTS_LEADERS,
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
       }
     );
+    console.log(response, "response");
+    // while ((response as unknown[]).length) {
+    //   data.cursor += 10;
+
+    //   resultResponse.push(response);
+    // }
+    resultResponse.push(response);
+
+    return resultResponse;
   }
 }
 

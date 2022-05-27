@@ -15,8 +15,6 @@ export const USER_API_ENDPOINTS = {
   GET_USER_BY_ID: "user",
 };
 
-export const PREFIX_GAME_API = "game/api/v2";
-
 export const LEADER_BOARD_API_ENDPOINTS = {
   ADD_USER: "leaderboard",
   GET_ALL_LEADER_BOARDS: "leaderboard/all",
