@@ -3,6 +3,8 @@ import {
   logoutAC,
   registrationAC,
   setErrorAC,
+  registrationYaOAuthAC,
+  loginYaOAuthAC,
 } from './authActionCreators';
 import { AuthAPI } from '../../../modules/api/authAPI';
 import { actionChannel, call, put, takeEvery } from 'redux-saga/effects';
@@ -12,7 +14,7 @@ import {
 } from '../fetchReducer/fetchActionCreators';
 import { ELoginActions } from './types';
 import { TakeableChannel } from 'redux-saga';
-import { TProfileState } from '../profileReducer/types';
+import { TProfileState, TServiceIdState } from '../profileReducer/types';
 import {
   resetUserAC,
   setUserAC,
@@ -22,7 +24,7 @@ import {
   sendNotification,
 } from '../../../modules/notification';
 
-function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
+function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {  
   try {
     yield put(setFetchOnAC());
     const response: TProfileState = yield call(
@@ -108,4 +110,52 @@ export function* watchLogout() {
   const channel: TakeableChannel<ReturnType<typeof logoutAC>> =
     yield actionChannel(ELoginActions.LOGOUT);
   yield takeEvery(channel, fetchLogout);
+}
+
+export function* watchRegisterYa() {
+  const channel: TakeableChannel<ReturnType<typeof registrationYaOAuthAC>> =
+    yield actionChannel(ELoginActions.REGISTER_YA_OAUTH);
+  yield takeEvery(channel, fetchSignUpYa);
+}
+
+function* fetchSignUpYa() {
+  try {
+    yield put(setFetchOnAC());
+    const response: TServiceIdState = yield call(
+      AuthAPI.getYaOAuthServiceId.bind(AuthAPI),
+    );
+    const serviceId = response.service_id;
+    yield call(
+      AuthAPI.redirectYaOAuth.bind(AuthAPI, serviceId),
+    );
+
+  } catch (error) {
+    yield put(setFetchOffAC());
+    yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
+
+  }
+}
+
+export function* watchSignInYa() {
+  const channel: TakeableChannel<ReturnType<typeof loginYaOAuthAC>> =
+    yield actionChannel(ELoginActions.LOGIN_YA_OAUTH);
+  yield takeEvery(channel, fetchSignInYa);
+}
+
+
+function* fetchSignInYa({ payload }: ReturnType<typeof loginYaOAuthAC>) {  
+  try {
+    yield put(setFetchOnAC());
+    yield call(
+      AuthAPI.sendCodeAuthYa.bind(AuthAPI, payload ),
+    );
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    yield put(loginAC(()=>{}));
+  } catch (error) {
+    yield put(setFetchOffAC());
+    yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
+
+  }
 }

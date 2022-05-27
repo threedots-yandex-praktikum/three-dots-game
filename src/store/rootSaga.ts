@@ -3,6 +3,8 @@ import {
   watchSignIn,
   watchRegister,
   watchLogout,
+  watchRegisterYa,
+  watchSignInYa,
 } from './reducers/authReducer/sagaAuth';
 import { watchOnFetch } from './reducers/fetchReducer/sagaFetch';
 import {
@@ -25,6 +27,8 @@ export default function* rootSaga() {
     watchOnFetch(),
     watchRegister(),
     watchLogout(),
+    watchRegisterYa(),
+    watchSignInYa(),
     watchChangeProfile(),
     watchChangeAvatar(),
     watchChangePassword(),

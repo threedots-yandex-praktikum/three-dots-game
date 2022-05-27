@@ -4,6 +4,7 @@ import {
   Route,
   Link,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import { Spinner, Box } from '@chakra-ui/react';
 import {
@@ -19,6 +20,7 @@ import {
   EDIT_PASSWORD_ROUTE,
   ROOT_ROUTE,
 } from 'constants/routes';
+
 const Home = lazy(() => import('pages/Home'));
 const Login = lazy(() => import('pages/Login'));
 const Register = lazy(() => import('pages/Register'));
@@ -29,7 +31,7 @@ const GameStart = lazy(() => import('pages/GameStart'));
 const GamePlay = lazy(() => import('pages/GamePlay'));
 const GameOver = lazy(() => import('pages/GameOver'));
 const EditPassword = lazy(() => import('pages/EditPassword'));
-
+const OauthYa = lazy(() => import('pages/authYa'));
 import { UserController } from 'controllers/UserController';
 import _constant from 'lodash/constant';
 import { useAppSelector } from 'hooks/useAppSelector';
@@ -119,10 +121,15 @@ export const App = () => {
   useAuth();
 
   const { id } = useAppSelector(state => state.profileReducer);
+  const location = useLocation();
+
   useEffect(
     () => {
-      UserController
+      if (location.pathname !== ROOT_ROUTE) {      
+        UserController
         .fetchAndSetSignedUserData();
+      }
+
     },
     [],
   );
@@ -170,7 +177,7 @@ export const App = () => {
               <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
               <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
               <Route path={HOME_ROUTE} component={Home} />
-              <Route path={ROOT_ROUTE} component={Home} />
+              <Route path={ROOT_ROUTE} component={OauthYa} />
               <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )
