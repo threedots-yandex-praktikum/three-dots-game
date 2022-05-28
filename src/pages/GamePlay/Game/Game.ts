@@ -1,4 +1,4 @@
-import { TDotPlayer, TSizeScreen, TDot } from "./types";
+import { TDotPlayer, TSizeScreen, TDot } from './types';
 import {
   CANVAS_SIZE_IN_PX,
   COLOR_BG,
@@ -7,11 +7,11 @@ import {
   INITIAL_PLAYER_COORDINATES_IN_PX,
   KILLS_STRING_COLOR,
   SCORES_STRING_COLOR,
-} from "./settingsGame";
-import { DotPlayer } from "./Dot/DotPlayer";
-import { codeKeyboard } from "./controlSettings";
-import { InteractionDots } from "./Dots/InteractionDots";
-import { getRadians, random } from "./utils";
+} from './settingsGame';
+import { DotPlayer } from './Dot/DotPlayer';
+import { codeKeyboard } from './controlSettings';
+import { InteractionDots } from './Dots/InteractionDots';
+import { getRadians, random } from './utils';
 
 const RADIANS = getRadians(360);
 export const OBSTACLES_DATA = Array.from(new Array(random(10, 20))).map(() => ({
@@ -97,8 +97,8 @@ export class Game {
     // collect users scores and kills data
 
     // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
-    document.removeEventListener("keydown", this.callbackEvents.keydown);
-    document.removeEventListener("keyup", this.callbackEvents.keyup);
+    document.removeEventListener('keydown', this.callbackEvents.keydown);
+    document.removeEventListener('keyup', this.callbackEvents.keyup);
   }
 
   private reInitDotsBots() {
@@ -112,7 +112,7 @@ export class Game {
 
   private initGamePlayEventHandlers() {
     this.callbackEvents.keydown = (event: KeyboardEvent) => {
-      if (event.key === "p") {
+      if (event.key === 'p') {
         this.handleGamePause();
       }
 
@@ -126,8 +126,8 @@ export class Game {
       this.dotPlayer.stopMove(event.key);
     };
 
-    document.addEventListener("keydown", this.callbackEvents.keydown);
-    document.addEventListener("keyup", this.callbackEvents.keyup);
+    document.addEventListener('keydown', this.callbackEvents.keydown);
+    document.addEventListener('keyup', this.callbackEvents.keyup);
   }
 
   private prepareCanvas() {
@@ -141,7 +141,7 @@ export class Game {
     // перемещаем активный экран вслед за точкой, отступая от рамки вычисленный отступ
     this.ctx.translate(
       -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2,
-      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2
+      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2,
     );
   }
 
@@ -250,12 +250,12 @@ export class Game {
       dot.x,
       dot.y,
       dot.radius,
-      isPlayer ? "#ec128a" : dot.color || DEFAULT_COLOR
+      isPlayer ? '#ec128a' : dot.color || DEFAULT_COLOR,
     );
   }
 
   private drawPlayerDot() {
-    this.dotPlayer.move("");
+    this.dotPlayer.move('');
     this.drawBaseDot(this.dotPlayer, true);
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = DEFAULT_COLOR;
@@ -263,7 +263,7 @@ export class Game {
   }
 
   private drawScore() {
-    this.ctx.font = "30px Arial";
+    this.ctx.font = '30px Arial';
     this.ctx.fillStyle = SCORES_STRING_COLOR;
     const scoresData = `Очки: ${this.dotPlayer.scores}`;
     this.ctx.fillText(scoresData, 10, 50);
@@ -303,7 +303,7 @@ export class Game {
       centerXCoord,
       centerYCoord,
       (radius / 3) * 2,
-      COLORS_DOT[1]
+      COLORS_DOT[1],
     );
     this.drawCircle(centerXCoord, centerYCoord, radius / 3, COLORS_DOT[2]);
   };

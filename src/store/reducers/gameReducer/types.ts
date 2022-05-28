@@ -7,7 +7,7 @@ export type TUserScoresData = {
 };
 
 export enum EGameActions {
-  SET_SCORE = "SET_SCORE",
+  SET_SCORE = 'SET_SCORE',
 }
 export interface ISetScoreAction {
   type: EGameActions.SET_SCORE;

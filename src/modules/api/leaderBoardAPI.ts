@@ -1,10 +1,10 @@
-import { HTTPTransport } from "./httpTransport/httpTransport";
+import { HTTPTransport } from './httpTransport/httpTransport';
 import {
   LEADER_BOARD_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
   TEAM_NAME,
-} from "./httpTransport/constants";
+} from './httpTransport/constants';
 
 //LB-LeaderBoard
 export type TAddToLBData = {
@@ -29,7 +29,7 @@ class LeaderBoardAPIClass {
   async addUser(palayerData: TAddToLBData) {
     const data = {
       data: { ...palayerData },
-      ratingFieldName: "score",
+      ratingFieldName: 'score',
       teamName: TEAM_NAME,
     };
     return await this.authHTTPTransportInstance.post(
@@ -37,7 +37,7 @@ class LeaderBoardAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      }
+      },
     );
   }
 
@@ -45,14 +45,14 @@ class LeaderBoardAPIClass {
     const data: TGet3DotsLBData = {
       cursor: 0,
       limit: 20,
-      ratingFieldName: "score",
+      ratingFieldName: 'score',
     };
     const response = await this.authHTTPTransportInstance.post(
       LEADER_BOARD_API_ENDPOINTS.GET_THEE_DOTS_LEADERS,
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      }
+      },
     );
     return response;
   }

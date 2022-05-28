@@ -25,7 +25,7 @@ export const ListOfThems = () => {
 
   useEffect(() => {
     dispatch(getTopicsAC());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

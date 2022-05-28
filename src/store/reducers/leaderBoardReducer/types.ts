@@ -1,7 +1,7 @@
 export enum ELeaderActions {
-  SET_TABLE = "SET_TABLE",
-  GET_TABLE = "GET_TABLE",
-  ADD_USER_TO_LB = "ADD_USER_TO_LB",
+  SET_TABLE = 'SET_TABLE',
+  GET_TABLE = 'GET_TABLE',
+  ADD_USER_TO_LB = 'ADD_USER_TO_LB',
 }
 export type TLeaderState = {
   leaders: [] | TLeaderRow[];

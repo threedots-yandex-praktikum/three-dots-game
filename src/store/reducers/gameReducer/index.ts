@@ -1,4 +1,4 @@
-import { EGameActions, TGameAction, TGameState } from "./types";
+import { EGameActions, TGameAction, TGameState } from './types';
 
 const initialState: TGameState = {
   player: {
@@ -9,16 +9,16 @@ const initialState: TGameState = {
 
 export const gameReducer = (
   state: TGameState = initialState,
-  action: TGameAction
+  action: TGameAction,
 ): TGameState => {
   switch (action.type) {
-    case EGameActions.SET_SCORE:
-      return {
-        ...state,
-        player: { ...action.payload },
-      };
+  case EGameActions.SET_SCORE:
+    return {
+      ...state,
+      player: { ...action.payload },
+    };
 
-    default:
-      return state;
+  default:
+    return state;
   }
 };

@@ -18,7 +18,7 @@ export const LeaderBoard = () => {
 
   useEffect(() => {
     dispatch(getTableAC());
-  }, []);
+  }, [dispatch]);
   const history = useHistory();
 
   const goToGameStatrPage = useCallback(

@@ -25,8 +25,8 @@ export const GamePlay = () => {
   * компонент канваса из-за обновления локального стейта компонента. Вероятно можно использовать какой-то постоянный кей
   * чтобы отключить возможность обновления компонента канваса при обновлшении локального стейта компонента
   * */
-  const { id } = useAppSelector(state => state.profileReducer)
-  const dispatch = useAppDispatch()
+  const { id } = useAppSelector(state => state.profileReducer);
+  const dispatch = useAppDispatch();
 
   const unpauseCbRef = useRef<() => void>();
   const [isOpen, setIsOpen] = useState(false);
@@ -88,14 +88,14 @@ export const GamePlay = () => {
           onGameWin: () => {
             console.log('win');
             if (id) {
-              dispatch(addUserToTableAC())
+              dispatch(addUserToTableAC());
             }
             goToLeaderBoardScreen();
           },
           onGameOver: () => {
             console.log('lose');
             if (id) {
-              dispatch(addUserToTableAC())
+              dispatch(addUserToTableAC());
             }
 
             goToGameOverScreen();
@@ -109,7 +109,7 @@ export const GamePlay = () => {
             setIsOpen(true);
           },
           sendScoresData: scoresData => {
-            dispatch(setScoreAC(scoresData.player))
+            dispatch(setScoreAC(scoresData.player));
 
           },
         });

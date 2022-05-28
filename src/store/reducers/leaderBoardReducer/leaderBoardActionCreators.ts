@@ -3,7 +3,7 @@ import {
   IAddUserToLBAction,
   IGetTableAction,
   TLeaderRow,
-} from "./types";
+} from './types';
 
 export const getTableAC = (): IGetTableAction => {
   return { type: ELeaderActions.GET_TABLE };

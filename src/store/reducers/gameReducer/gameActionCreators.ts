@@ -1,4 +1,4 @@
-import { EGameActions, ISetScoreAction, TUserScoresData } from "./types";
+import { EGameActions, ISetScoreAction, TUserScoresData } from './types';
 
 export const setScoreAC = ({
   scores,

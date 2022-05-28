@@ -23,11 +23,11 @@ export const CurrentTopic = () => {
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
 
   const dispatch = useAppDispatch();
-  const [locData, setLocData] = useState(['', ''])
+  const [locData, setLocData] = useState(['', '']);
 
   useEffect(() => {
-    getGeolocation(setLocData)
-  }, [])
+    getGeolocation(setLocData);
+  }, []);
   const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
