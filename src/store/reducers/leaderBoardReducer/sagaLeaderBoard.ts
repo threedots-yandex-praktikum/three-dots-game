@@ -1,6 +1,12 @@
 import { TakeableChannel } from "redux-saga";
-import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
-import { LeaderAPI } from "../../../modules/api/leaderBoardAPI";
+import {
+  actionChannel,
+  call,
+  put,
+  select,
+  takeEvery,
+} from "redux-saga/effects";
+import { LeaderAPI, TAddToLBData } from "../../../modules/api/leaderBoardAPI";
 import {
   NOTIFICATION_LEVEL,
   sendNotification,
@@ -10,26 +16,20 @@ import {
   setFetchOffAC,
   setFetchOnAC,
 } from "../fetchReducer/fetchActionCreators";
+import { RootState } from "../rootReducer";
 import { addUserToTableAC, setTableAC } from "./leaderBoardActionCreators";
-import { ELeaderActions, TLeaderRow } from "./types";
+import { ELeaderActions } from "./types";
 
 function* fetchLeaderBoard() {
   try {
     yield put(setFetchOnAC());
 
-    const response: TLeaderRow[] = yield call(
+    const response: Array<{ data: TAddToLBData }> = yield call(
       LeaderAPI.getThreeDotsLeaders.bind(LeaderAPI)
     );
-    // const response: TLeaderRow[] = [
-    //   { id: 1, userName: 'user1', score: 20 },
-    //   { id: 2, userName: 'user2', score: 20 },
-    //   { id: 3, userName: 'user3', score: 20 },
-    //   { id: 4, userName: 'user4', score: 40 },
-    //   { id: 5, userName: 'user5', score: 52 },
-    //   { id: 6, userName: 'user6', score: 10 },
-    //   { id: 7, userName: 'userwerwerwerwer 2342432342342342347', score: 3 },
-    // ];
-    yield put(setTableAC(response));
+
+    const tableBeaders = Array.from(response, (row) => row.data);
+    yield put(setTableAC(tableBeaders));
     yield put(setFetchOffAC());
   } catch (error) {
     yield put(setFetchOffAC());
@@ -45,12 +45,19 @@ export function* watchLeaderBoard() {
   yield takeEvery(channel, fetchLeaderBoard);
 }
 
-function* fetchAddUserToLB({ payload }: ReturnType<typeof addUserToTableAC>) {
+function* fetchAddUserToLB() {
   try {
     yield put(setFetchOnAC());
-    console.log(payload, "payload");
-
-    yield call(LeaderAPI.addUser.bind(LeaderAPI), payload);
+    const { id, display_name } = yield select(
+      (state: RootState) => state.profileReducer
+    );
+    const { player } = yield select((state: RootState) => state.gameReducer);
+    const data: TAddToLBData = {
+      score: player.scores,
+      id,
+      userName: display_name,
+    };
+    yield call(LeaderAPI.addUser.bind(LeaderAPI), { ...data });
 
     yield put(setFetchOffAC());
   } catch (error) {

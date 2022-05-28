@@ -1,4 +1,4 @@
-import {  TDotPlayer, TSizeScreen, TDot } from './types';
+import { TDotPlayer, TSizeScreen, TDot } from "./types";
 import {
   CANVAS_SIZE_IN_PX,
   COLOR_BG,
@@ -7,38 +7,36 @@ import {
   INITIAL_PLAYER_COORDINATES_IN_PX,
   KILLS_STRING_COLOR,
   SCORES_STRING_COLOR,
-} from './settingsGame';
-import { DotPlayer } from './Dot/DotPlayer';
-import { codeKeyboard } from './controlSettings';
-import { InteractionDots } from './Dots/InteractionDots';
-import { getRadians, random } from './utils';
+} from "./settingsGame";
+import { DotPlayer } from "./Dot/DotPlayer";
+import { codeKeyboard } from "./controlSettings";
+import { InteractionDots } from "./Dots/InteractionDots";
+import { getRadians, random } from "./utils";
 
 const RADIANS = getRadians(360);
-export const OBSTACLES_DATA = Array
-  .from(new Array(random(10, 20)))
-  .map(() => ({
-    x: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
-    y: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
-    radius: random(30, 140),
-  }));
+export const OBSTACLES_DATA = Array.from(new Array(random(10, 20))).map(() => ({
+  x: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
+  y: random(-CANVAS_SIZE_IN_PX / 2, CANVAS_SIZE_IN_PX / 2),
+  radius: random(30, 140),
+}));
 
 type TPlayerSores = {
-  kills: number,
-  scores: number,
+  kills: number;
+  scores: number;
 };
 
 type TScoresData = {
-  player: TPlayerSores,
-  bots: TPlayerSores[],
+  player: TPlayerSores;
+  bots: TPlayerSores[];
 };
 
 type TGame = {
-  ctx: CanvasRenderingContext2D,
-  sizeScreen: TSizeScreen,
-  onGameWin: () => void,
-  onGameOver: () => void,
-  onGamePause: (v1: boolean, v2: () => void) => void,
-  sendScoresData: (scoresData: TScoresData) => void,
+  ctx: CanvasRenderingContext2D;
+  sizeScreen: TSizeScreen;
+  onGameWin: () => void;
+  onGameOver: () => void;
+  onGamePause: (v1: boolean, v2: () => void) => void;
+  sendScoresData: (scoresData: TScoresData) => void;
 };
 
 export class Game {
@@ -56,15 +54,15 @@ export class Game {
   onGamePause;
   sendScoresData;
 
-  callbackEvents: Record<string, ((event: KeyboardEvent) => void) > = {};
+  callbackEvents: Record<string, (event: KeyboardEvent) => void> = {};
 
   constructor({
-      ctx,
-      sizeScreen,
-      onGameWin,
-      onGameOver,
-      onGamePause,
-      sendScoresData,
+    ctx,
+    sizeScreen,
+    onGameWin,
+    onGameOver,
+    onGamePause,
+    sendScoresData,
   }: TGame) {
     this.ctx = ctx;
     this.dotPlayer = new DotPlayer();
@@ -86,21 +84,21 @@ export class Game {
     this.isGameFinished = true;
 
     /*
-    * формируем данные по очкам для игрока и 20 ботов с лучшими результатами, и отправляем эти данные в sendScoresData
-    * */
+     * формируем данные по очкам для игрока и 20 ботов с лучшими результатами, и отправляем эти данные в sendScoresData
+     * */
     const scoresData = {
       player: { kills: this.dotPlayer.kills, scores: this.dotPlayer.scores },
       bots: this.interactionDots.dots
         .sort((a, b) => b.scores - a.scores)
         .slice(0, 20)
-        .map(dot => ({ kills: dot.kills, scores: dot.scores })),
+        .map((dot) => ({ kills: dot.kills, scores: dot.scores })),
     };
     this.sendScoresData(scoresData);
     // collect users scores and kills data
 
     // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
-    document.removeEventListener('keydown', this.callbackEvents.keydown);
-    document.removeEventListener('keyup', this.callbackEvents.keyup);
+    document.removeEventListener("keydown", this.callbackEvents.keydown);
+    document.removeEventListener("keyup", this.callbackEvents.keyup);
   }
 
   private reInitDotsBots() {
@@ -114,13 +112,11 @@ export class Game {
 
   private initGamePlayEventHandlers() {
     this.callbackEvents.keydown = (event: KeyboardEvent) => {
-      if(event.key === 'p') {
+      if (event.key === "p") {
         this.handleGamePause();
       }
 
-      if (
-        !Object.values(codeKeyboard).includes(event.key)
-      ) {
+      if (!Object.values(codeKeyboard).includes(event.key)) {
         return;
       }
 
@@ -130,8 +126,8 @@ export class Game {
       this.dotPlayer.stopMove(event.key);
     };
 
-    document.addEventListener('keydown', this.callbackEvents.keydown);
-    document.addEventListener('keyup', this.callbackEvents.keyup);
+    document.addEventListener("keydown", this.callbackEvents.keydown);
+    document.addEventListener("keyup", this.callbackEvents.keyup);
   }
 
   private prepareCanvas() {
@@ -145,11 +141,11 @@ export class Game {
     // перемещаем активный экран вслед за точкой, отступая от рамки вычисленный отступ
     this.ctx.translate(
       -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2,
-      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2,
+      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2
     );
   }
 
-  private getShiftScreen () {
+  private getShiftScreen() {
     const shiftX = this.dotPlayer.x - INITIAL_PLAYER_COORDINATES_IN_PX.x;
     const shiftY = this.dotPlayer.y - INITIAL_PLAYER_COORDINATES_IN_PX.y;
     const thicknessFrame = 100;
@@ -157,7 +153,7 @@ export class Game {
       w: this.sizeScreen.w / 2 - thicknessFrame,
       h: this.sizeScreen.h / 2 - thicknessFrame,
     };
-    const result ={
+    const result = {
       x: 0,
       y: 0,
     };
@@ -177,13 +173,14 @@ export class Game {
     return result;
   }
 
-  private handleGameWin() {
-    this.stop();
-    this.onGameWin();
+  private async handleGameWin() {
+    // без  await saga  в this.onGameWin() срабатывает быстрее чем в this.stop()
+    await this.stop();
+    await this.onGameWin();
   }
-  private handleGameOver() {
-    this.stop();
-    this.onGameOver();
+  private async handleGameOver() {
+    await this.stop();
+    await this.onGameOver();
   }
   private handleGamePause() {
     const unpauseCb = () => {
@@ -191,7 +188,7 @@ export class Game {
       requestAnimationFrame(this.drawGame.bind(this));
     };
 
-    if(this.isGamePaused) {
+    if (this.isGamePaused) {
       unpauseCb();
       return this.onGamePause(this.isGamePaused, unpauseCb);
     }
@@ -201,7 +198,7 @@ export class Game {
   }
 
   private drawGame() {
-    if(this.isGamePaused) {
+    if (this.isGamePaused) {
       return;
     }
 
@@ -221,10 +218,9 @@ export class Game {
   }
 
   private isVictory() {
-
     //условие победы. если у игрока самая большая точка, то выйграл.
     // TODO выглядит сомнительно. подумать, как переделать.
-    return !this.interactionDots.dots.find((dot)=> {
+    return !this.interactionDots.dots.find((dot) => {
       return this.dotPlayer.radius < dot.radius;
     });
   }
@@ -254,14 +250,12 @@ export class Game {
       dot.x,
       dot.y,
       dot.radius,
-      isPlayer ?
-        '#ec128a' :
-        dot.color || DEFAULT_COLOR,
+      isPlayer ? "#ec128a" : dot.color || DEFAULT_COLOR
     );
   }
 
   private drawPlayerDot() {
-    this.dotPlayer.move('');
+    this.dotPlayer.move("");
     this.drawBaseDot(this.dotPlayer, true);
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = DEFAULT_COLOR;
@@ -269,7 +263,7 @@ export class Game {
   }
 
   private drawScore() {
-    this.ctx.font = '30px Arial';
+    this.ctx.font = "30px Arial";
     this.ctx.fillStyle = SCORES_STRING_COLOR;
     const scoresData = `Очки: ${this.dotPlayer.scores}`;
     this.ctx.fillText(scoresData, 10, 50);
@@ -279,38 +273,45 @@ export class Game {
   }
 
   private drawObstacles() {
-    return OBSTACLES_DATA
-      .map(this.drawObstacle);
+    return OBSTACLES_DATA.map(this.drawObstacle);
   }
 
-  private drawObstacle = ({ x, y, radius }: { x: number, y: number, radius: number }) => {
+  private drawObstacle = ({
+    x,
+    y,
+    radius,
+  }: {
+    x: number;
+    y: number;
+    radius: number;
+  }) => {
     const shift = this.getShiftScreen();
 
     /*
-    * при расположении препятствия на игровом поле необходимо учитывать смещение окна просмотра относительно верхнего
-    * левого угла экрана, т.к. окно движется за точкой пользователя
-    * Поэтому используем расчет смещения, аналогичный расчету при отрисовке игрового поля и добавляем к этому значению
-    * координаты препятствия (x, y)
-    * */
-    const centerXCoord = -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2 + x;
-    const centerYCoord = -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2 + y;
+     * при расположении препятствия на игровом поле необходимо учитывать смещение окна просмотра относительно верхнего
+     * левого угла экрана, т.к. окно движется за точкой пользователя
+     * Поэтому используем расчет смещения, аналогичный расчету при отрисовке игрового поля и добавляем к этому значению
+     * координаты препятствия (x, y)
+     * */
+    const centerXCoord =
+      -INITIAL_PLAYER_COORDINATES_IN_PX.x - shift.x + this.sizeScreen.w / 2 + x;
+    const centerYCoord =
+      -INITIAL_PLAYER_COORDINATES_IN_PX.y - shift.y + this.sizeScreen.h / 2 + y;
 
     this.drawCircle(centerXCoord, centerYCoord, radius, COLORS_DOT[0]);
-    this.drawCircle(centerXCoord, centerYCoord, radius / 3 * 2, COLORS_DOT[1]);
+    this.drawCircle(
+      centerXCoord,
+      centerYCoord,
+      (radius / 3) * 2,
+      COLORS_DOT[1]
+    );
     this.drawCircle(centerXCoord, centerYCoord, radius / 3, COLORS_DOT[2]);
   };
 
   private drawCircle(x: number, y: number, radius: number, fillColor: string) {
     this.ctx.beginPath();
-    this.ctx.arc(
-      x,
-      y,
-      radius,
-      0,
-      RADIANS,
-    );
+    this.ctx.arc(x, y, radius, 0, RADIANS);
     this.ctx.fillStyle = fillColor;
     this.ctx.fill();
   }
 }
-

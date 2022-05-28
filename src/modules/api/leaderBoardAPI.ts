@@ -3,13 +3,14 @@ import {
   LEADER_BOARD_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
+  TEAM_NAME,
 } from "./httpTransport/constants";
 
 //LB-LeaderBoard
 export type TAddToLBData = {
-  data: Record<string, any>;
-  ratingFieldName: string;
-  teamName: "three-dots";
+  score: number;
+  userName: string;
+  id: number;
 };
 
 export type TGet3DotsLBData = {
@@ -25,9 +26,12 @@ class LeaderBoardAPIClass {
     this.authHTTPTransportInstance = new HTTPTransport(YANDEX_API_HOST);
   }
 
-  async addUser(data: TAddToLBData) {
-    console.log("addUser");
-
+  async addUser(palayerData: TAddToLBData) {
+    const data = {
+      data: { ...palayerData },
+      ratingFieldName: "score",
+      teamName: TEAM_NAME,
+    };
     return await this.authHTTPTransportInstance.post(
       LEADER_BOARD_API_ENDPOINTS.ADD_USER,
       {
@@ -38,8 +42,6 @@ class LeaderBoardAPIClass {
   }
 
   async getThreeDotsLeaders() {
-    console.log("getThreeDotsLeaders");
-    const resultResponse = [];
     const data: TGet3DotsLBData = {
       cursor: 0,
       limit: 20,
@@ -52,15 +54,7 @@ class LeaderBoardAPIClass {
         headers: DEFAULT_POST_REQUEST_HEADERS,
       }
     );
-    console.log(response, "response");
-    // while ((response as unknown[]).length) {
-    //   data.cursor += 10;
-
-    //   resultResponse.push(response);
-    // }
-    resultResponse.push(response);
-
-    return resultResponse;
+    return response;
   }
 }
 

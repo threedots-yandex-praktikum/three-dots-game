@@ -1,22 +1,22 @@
-import { ProfileAPI } from 'modules/api/profileAPI';
-import { TakeableChannel } from 'redux-saga';
-import { actionChannel, call, put, takeEvery } from 'redux-saga/effects';
+import { ProfileAPI } from "modules/api/profileAPI";
+import { TakeableChannel } from "redux-saga";
+import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
 import {
   NOTIFICATION_LEVEL,
   sendNotification,
-} from '../../../modules/notification';
-import { setErrorAC } from '../authReducer/authActionCreators';
+} from "../../../modules/notification";
+import { setErrorAC } from "../authReducer/authActionCreators";
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from '../fetchReducer/fetchActionCreators';
+} from "../fetchReducer/fetchActionCreators";
 import {
   changeAvatarAC,
   changeProfileAC,
   resetPasswordAC,
   setUserAC,
-} from './profileActionCreators';
-import { EProfileActions, TProfileState } from './types';
+} from "./profileActionCreators";
+import { EProfileActions, TProfileState } from "./types";
 
 function* fetchChangeProfile({
   payload: data,
@@ -27,19 +27,18 @@ function* fetchChangeProfile({
 
     const response: TProfileState = yield call(
       ProfileAPI.changeProfile.bind(ProfileAPI),
-      data,
+      data
     );
     yield put(setUserAC(response));
 
     yield put(setFetchOffAC());
     sendNotification(
-      'Данные пользователя успешно изменены',
-      NOTIFICATION_LEVEL.SUCCESS,
+      "Данные пользователя успешно изменены",
+      NOTIFICATION_LEVEL.SUCCESS
     );
     cb();
   } catch (error) {
     yield put(setFetchOffAC());
-    console.log(error, 'error');
     yield put(setErrorAC(error as Error));
     sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
     cb();
@@ -59,7 +58,7 @@ function* fetchChangePassword({
     yield put(setFetchOnAC());
     yield call(ProfileAPI.changePassword.bind(ProfileAPI), data);
     yield put(setFetchOffAC());
-    sendNotification('Пароль успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+    sendNotification("Пароль успешно обновлен", NOTIFICATION_LEVEL.SUCCESS);
   } catch (error) {
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));
@@ -81,11 +80,11 @@ function* fetchChangeAvatar({
     yield put(setFetchOnAC());
     const response: TProfileState = yield call(
       ProfileAPI.changeAvatar.bind(ProfileAPI),
-      data,
+      data
     );
     yield put(setUserAC(response));
     yield put(setFetchOffAC());
-    sendNotification('Аватар успешно обновлен', NOTIFICATION_LEVEL.SUCCESS);
+    sendNotification("Аватар успешно обновлен", NOTIFICATION_LEVEL.SUCCESS);
     cb();
   } catch (error) {
     yield put(setFetchOffAC());

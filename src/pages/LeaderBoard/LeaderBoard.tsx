@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
-import { Box, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
+import React, { useCallback, useEffect } from 'react';
+import { Box, Button, Container, Divider, Flex, Heading, Text } from '@chakra-ui/react';
 import { Background } from 'components/Background';
 import { chooseSize, getRandomColor } from './constants';
 import { getTableAC } from 'store/reducers/leaderBoardReducer/leaderBoardActionCreators';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { SpinnerWrapper } from '../../components/Spinner';
+import { useHistory } from 'react-router-dom';
+import { GAME_START_ROUTE } from '../../constants/routes';
 
 
 export const LeaderBoard = () => {
@@ -17,6 +19,12 @@ export const LeaderBoard = () => {
   useEffect(() => {
     dispatch(getTableAC());
   }, []);
+  const history = useHistory();
+
+  const goToGameStatrPage = useCallback(
+    () => history.push(GAME_START_ROUTE),
+    [history],
+  );
 
   return (
     <Background>
@@ -36,6 +44,7 @@ export const LeaderBoard = () => {
           direction='column'
           w="50%"
           pos="relative"
+          pb="6px"
         >
           <SpinnerWrapper loading={isFetch}>
             <Flex w="100%" h="40px" px="10px" alignItems="center">
@@ -56,7 +65,6 @@ export const LeaderBoard = () => {
               my="2px"
             />
             {leaders
-              //TODO реализовать в utils свою сортировку (по заданию)
               .sort((a, b) => b.score - a.score)
               .map((row, index) => {
                 const size = chooseSize(index);
@@ -93,7 +101,15 @@ export const LeaderBoard = () => {
                 );
               })}
           </SpinnerWrapper>
+
         </Flex>
+        <Button
+          onClick={goToGameStatrPage}
+          colorScheme="purple"
+          boxShadow="dark-lg"
+        >
+          Вернуться к игре
+        </Button>
       </Container>
     </Background>
   );

@@ -1,5 +1,3 @@
-import { TAddToLBData } from "../../../modules/api/leaderBoardAPI";
-
 export enum ELeaderActions {
   SET_TABLE = "SET_TABLE",
   GET_TABLE = "GET_TABLE",
@@ -24,7 +22,6 @@ export interface ISetTableAction {
 }
 export interface IAddUserToLBAction {
   type: ELeaderActions.ADD_USER_TO_LB;
-  payload: TAddToLBData;
 }
 
 export type TLeaderBoardActions =

@@ -12,13 +12,8 @@ export const setTableAC = (data: TLeaderRow[]) => {
   return { type: ELeaderActions.SET_TABLE, payload: data };
 };
 
-export const addUserToTableAC = (score: number): IAddUserToLBAction => {
+export const addUserToTableAC = (): IAddUserToLBAction => {
   return {
     type: ELeaderActions.ADD_USER_TO_LB,
-    payload: {
-      data: { score, ratingFieldName: "score" },
-      ratingFieldName: "score",
-      teamName: "three-dots",
-    },
   };
 };

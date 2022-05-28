@@ -1,5 +1,7 @@
 export const YANDEX_API_HOST = "https://ya-praktikum.tech/api/v2";
 
+export const TEAM_NAME = "three-dots";
+
 export const AUTH_API_ENDPOINTS = {
   SIGN_UP: "auth/signup",
   SIGN_IN: "auth/signin",
@@ -18,7 +20,7 @@ export const USER_API_ENDPOINTS = {
 export const LEADER_BOARD_API_ENDPOINTS = {
   ADD_USER: "leaderboard",
   GET_ALL_LEADER_BOARDS: "leaderboard/all",
-  GET_THEE_DOTS_LEADERS: "leaderboard/three-dots",
+  GET_THEE_DOTS_LEADERS: `leaderboard/${TEAM_NAME}`,
 };
 export const DEFAULT_POST_REQUEST_HEADERS = {
   "content-type": "application/json",
