@@ -28,12 +28,16 @@ export type TMessage = {
   userName: string;
   time: number;
   text: string;
+  country?: string;
+  town?: string;
 };
 
 export type TSendData = {
   userId: number;
   topicId: number;
   message: string;
+  country?: string;
+  town?: string;
 };
 
 export type TNewTopicData = {
@@ -43,13 +47,13 @@ export type TNewTopicData = {
 };
 
 export enum EForumActions {
-  SET_TOPICS = 'SET_TOPICS',
-  GET_TOPICS = 'GET_TOPICS',
-  SET_CURRENT_TOPIC = 'SET_CURRENT_TOPIC',
-  GET_CURRENT_TOPIC = 'GET_CURRENT_TOPIC',
-  CREATE_NEW_TOPIC = 'CREATE_NEW_TOPIC',
-  CLOSE_CURRENT_TOPIC = 'CLOSE_CURRENT_TOPIC',
-  SEND_MESSAGE = 'SEND_MESSAGE',
+  SET_TOPICS = "SET_TOPICS",
+  GET_TOPICS = "GET_TOPICS",
+  SET_CURRENT_TOPIC = "SET_CURRENT_TOPIC",
+  GET_CURRENT_TOPIC = "GET_CURRENT_TOPIC",
+  CREATE_NEW_TOPIC = "CREATE_NEW_TOPIC",
+  CLOSE_CURRENT_TOPIC = "CLOSE_CURRENT_TOPIC",
+  SEND_MESSAGE = "SEND_MESSAGE",
 }
 interface IGetTopicsAction {
   type: EForumActions.GET_TOPICS;
