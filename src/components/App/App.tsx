@@ -38,7 +38,7 @@ export const App = () => {
         <Switch>
           {
             routes
-              .filter(({ needAuth }) => id ? needAuth : !needAuth)
+              .filter(({ needAuth }) => id ? true : !needAuth)
               .map(routeProps => (
                 <Route
                   key={routeProps.path}
