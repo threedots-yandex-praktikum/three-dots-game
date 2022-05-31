@@ -1,3 +1,4 @@
+import loadable from '@loadable/component';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -11,7 +12,7 @@ import {
   EDIT_PASSWORD_ROUTE,
   ROOT_ROUTE,
 } from 'constants/routes';
-import Home from 'pages/Home';
+//import Home from 'pages/Home';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
 import Profile from 'pages/Profile';
@@ -21,6 +22,16 @@ import GameStart from 'pages/GameStart';
 import GamePlay from 'pages/GamePlay';
 import GameOver from 'pages/GameOver';
 import EditPassword from 'pages/EditPassword';
+const Home = loadable(() => import('pages/Home'));
+// const Login = loadable(() => import('pages/Login'));
+// const Register = loadable(() => import('pages/Register'));
+// const Profile = loadable(() => import('pages/Profile'));
+// const LeaderBoard = loadable(() => import('pages/LeaderBoard'));
+// const Forum = loadable(() => import('pages/Forum'));
+// const GameStart = loadable(() => import('pages/GameStart'));
+// const GamePlay = loadable(() => import('pages/GamePlay'));
+// const GameOver = loadable(() => import('pages/GameOver'));
+// const EditPassword = loadable(() => import('pages/EditPassword'));
 import { Action } from 'redux';
 import _identity from 'lodash/identity';
 

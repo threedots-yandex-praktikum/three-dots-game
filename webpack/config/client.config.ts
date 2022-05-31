@@ -7,7 +7,8 @@ import cssLoader from '../loaders/css';
 import tsLoader from '../loaders/ts';
 import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
-import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+import LoadablePlugin from '@loadable/webpack-plugin';
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -75,6 +76,7 @@ const config: Config = {
         },
       ],
     }),
+    new LoadablePlugin(),
   ].filter(Boolean) as Plugin[],
 
   performance: {

@@ -8,9 +8,13 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
 import rootSaga from 'store/rootSaga';
+import path from 'path';
+import { ChunkExtractor } from '@loadable/server';
 
-
-function getHtml(reactHtml: string, reduxState = {}) {
+function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
+  const scriptTags = chunkExtractor.getScriptTags();
+  const linkTags = chunkExtractor.getLinkTags();
+  const styleTags = chunkExtractor.getStyleTags();
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -19,13 +23,15 @@ function getHtml(reactHtml: string, reduxState = {}) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="shortcut icon" type="image/png" href="/img/favicon.jpg">
-        <link href="/app.css" rel="stylesheet">
+        ${linkTags}
+        ${styleTags}
         <title>Threee dots</title>
   
     </head>
     <body>
         <div id="root">${reactHtml}</div>
-        <script src="/app.js"></script>
+        ${scriptTags}
+       
         <script src="/vendors.js"></script>
         <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
@@ -36,7 +42,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
 }
 export default (req: Request, res: Response) => {
   const context: StaticRouterContext = {};
-
+  const statsFile = path.resolve('./dist/loadable-stats.json');
+  const chunkExtractor = new ChunkExtractor({ statsFile });
   if (context.url) {
     res.redirect(context.url);
     return;
@@ -47,12 +54,12 @@ export default (req: Request, res: Response) => {
   const { store } = configureStore(getInitialState(location), location);
   const reduxState = store.getState();
 
-  const jsx = (
+  const jsx = chunkExtractor.collectChunks(
     <ReduxProvider store={store}>
       <StaticRouter context={context} location={location}>
         <Root />
       </StaticRouter>
-    </ReduxProvider>
+    </ReduxProvider>,
   );
 
   /*
@@ -61,7 +68,7 @@ export default (req: Request, res: Response) => {
   store.runSaga(rootSaga);
 
   const reactHtml = renderToString(jsx);
-  const html = getHtml(reactHtml, reduxState);
+  const html = getHtml(reactHtml, reduxState, chunkExtractor);
   res
     .status(context.statusCode || 200)
     .send(html);
