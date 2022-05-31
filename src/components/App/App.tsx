@@ -7,6 +7,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { Spinner, Box } from '@chakra-ui/react';
+import { localUrl } from 'modules/api/oAuthConfig';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -31,17 +32,17 @@ const GameStart = lazy(() => import('pages/GameStart'));
 const GamePlay = lazy(() => import('pages/GamePlay'));
 const GameOver = lazy(() => import('pages/GameOver'));
 const EditPassword = lazy(() => import('pages/EditPassword'));
-const OauthYa = lazy(() => import('pages/authYa'));
 import { UserController } from 'controllers/UserController';
 import _constant from 'lodash/constant';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { useAuth } from 'hooks/useAuth';
 
-
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
 *   будут линки на требуемые страницы
 * */
+
+
 const defaultIsVisible = _constant(true);
 const isVisibleForAuthenticatedUser = (isUserAuthenticated: boolean) => isUserAuthenticated;
 const isVisibleForNotAuthenticatedUser = (isUserAuthenticated: boolean) => !isUserAuthenticated;
@@ -117,23 +118,25 @@ const _renderSpinner = ()=> {
 };
 
 export const App = () => {
-
   useAuth();
 
   const { id } = useAppSelector(state => state.profileReducer);
   const location = useLocation();
-
-  useEffect(
-    () => {
-      if (location.pathname !== ROOT_ROUTE) {      
-        UserController
+  useEffect(() => {
+    if(id) {
+      return;
+    }
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    
+    if (code) {
+      UserController
+        .signInYaOAuth({ code, redirect_uri: localUrl });
+    } else {
+      UserController
         .fetchAndSetSignedUserData();
-      }
-
-    },
-    [],
-  );
-
+    }
+  }, []);
 
   return (
     <div className="app">
@@ -177,7 +180,7 @@ export const App = () => {
               <Route path={GAME_PLAY_ROUTE} exact component={GamePlay} />
               <Route path={GAME_OVER_ROUTE} exact component={GameOver} />
               <Route path={HOME_ROUTE} component={Home} />
-              <Route path={ROOT_ROUTE} component={OauthYa} />
+              <Route path={ROOT_ROUTE} component={Home} />
               <Redirect to={LOGIN_ROUTE} />
             </Switch>
           )

@@ -1,4 +1,4 @@
-import { TSignUpData, TDataSignInOAuth } from 'modules/api/authAPI';
+import { TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 import {
   ELoginActions,
   ILogintAction,
@@ -29,7 +29,7 @@ export const registrationYaOAuthAC = (
   return { type: ELoginActions.REGISTER_YA_OAUTH };
 };
 
-export const loginYaOAuthAC = ( dataSignIn: TDataSignInOAuth,
+export const loginYaOAuthAC = ( dataSignIn: TDataSignInYa,
   ): ILoginYaOAuthAction => {
   return { type: ELoginActions.LOGIN_YA_OAUTH, payload: dataSignIn };
 };

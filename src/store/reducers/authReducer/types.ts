@@ -1,4 +1,4 @@
-import { TSignUpData, TDataSignInOAuth } from 'modules/api/authAPI';
+import { TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 
 export enum ELoginActions {
   LOGIN = 'LOGIN',
@@ -32,7 +32,7 @@ export interface IRegisterYaOAuthAction {
 
 export interface ILoginYaOAuthAction {
   type: ELoginActions.LOGIN_YA_OAUTH;
-  payload: TDataSignInOAuth
+  payload: TDataSignInYa
 }
 export interface ISetErrorAction {
   type: ELoginActions.SET_ERROR;

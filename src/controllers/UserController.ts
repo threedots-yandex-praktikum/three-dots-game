@@ -1,4 +1,4 @@
-import { AuthAPI, TSignInData, TSignUpData, TDataSignInOAuth } from 'modules/api/authAPI';
+import { AuthAPI, TSignInData, TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 import {
   loginAC,
@@ -69,7 +69,7 @@ export class UserControllerClass {
     }
   }
 
-  public async signInYaOAuth(dataSignIn: TDataSignInOAuth) {
+  public async signInYaOAuth(dataSignIn: TDataSignInYa) {
     try {      
       dispatch(loginYaOAuthAC(dataSignIn));
 

@@ -23,6 +23,7 @@ import {
   NOTIFICATION_LEVEL,
   sendNotification,
 } from '../../../modules/notification';
+import _identity from 'lodash/identity';
 
 function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {  
   try {

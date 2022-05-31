@@ -6,7 +6,7 @@ import {
   YANDEX_OAUTH_HOST,
 } from './httpTransport/constants';
 import { TUserModelResponse } from 'modules/api/profileAPI';
-import { urlOauth } from './oAuthConfig';
+import { getUrlOauth } from './oAuthConfig';
 export type TSignUpData = {
   first_name: string;
   second_name: string;
@@ -27,7 +27,7 @@ type TSignUpResponse = {
   id: number;
 };
 
-export type TDataSignInOAuth = {
+export type TDataSignInYa = {
   code: string;
   redirect_uri: string
 };
@@ -71,12 +71,12 @@ class AuthAPIClass {
     );
   }
 
-  async redirectYaOAuth(service_id: string) {
-    const urlYa = urlOauth(service_id);
+  async redirectYaOAuth(serviceId: string) {
+    const urlYa = getUrlOauth(serviceId);
     window.location.replace(urlYa);
   }
 
-  async sendCodeAuthYa(data: TDataSignInOAuth) {
+  async sendCodeAuthYa(data: TDataSignInYa) {
     return await this.authHTTPTransportInstance.post(
       AUTH_API_ENDPOINTS.SIGN_IN_YA,
       {
