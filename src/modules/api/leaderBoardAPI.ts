@@ -26,9 +26,9 @@ class LeaderBoardAPIClass {
     this.authHTTPTransportInstance = new HTTPTransport(YANDEX_API_HOST);
   }
 
-  async addUser(palayerData: TAddToLBData) {
+  async addUser(playerData: TAddToLBData) {
     const data = {
-      data: { ...palayerData },
+      data: { ...playerData },
       ratingFieldName: 'score',
       teamName: TEAM_NAME,
     };
