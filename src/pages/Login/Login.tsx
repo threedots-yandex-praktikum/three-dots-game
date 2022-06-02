@@ -12,9 +12,6 @@ import { HOME_ROUTE, REGISTER_ROUTE, GAME_START_ROUTE } from 'constants/routes';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { SpinnerWrapper } from 'components/Spinner';
 
-
-
-
 export const Login = () => {
   const history = useHistory();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
