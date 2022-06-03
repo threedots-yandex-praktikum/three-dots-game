@@ -1,43 +1,44 @@
 import {
   loginAC,
+  loginOnServerAC,
   logoutAC,
   registrationAC,
   setErrorAC,
-} from './authActionCreators';
-import { AuthAPI } from '../../../modules/api/authAPI';
-import { actionChannel, call, put, takeEvery } from 'redux-saga/effects';
+} from "./authActionCreators";
+import { AuthAPI } from "../../../modules/api/authAPI";
+import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from '../fetchReducer/fetchActionCreators';
-import { ELoginActions } from './types';
-import { TakeableChannel } from 'redux-saga';
-import { TProfileState } from '../profileReducer/types';
+} from "../fetchReducer/fetchActionCreators";
+import { ELoginActions } from "./types";
+import { TakeableChannel } from "redux-saga";
+import { TProfileState } from "../profileReducer/types";
 import {
   resetUserAC,
   setUserAC,
-} from '../profileReducer/profileActionCreators';
+} from "../profileReducer/profileActionCreators";
 import {
   NOTIFICATION_LEVEL,
   sendNotification,
-} from '../../../modules/notification';
+} from "../../../modules/notification";
 
 function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
   try {
     yield put(setFetchOnAC());
     const response: TProfileState = yield call(
-      AuthAPI.getUserData.bind(AuthAPI),
+      AuthAPI.getUserData.bind(AuthAPI)
     );
     yield put(setUserAC(response));
     yield put(setFetchOffAC());
     sendNotification(
-      'Приветствуем Тебя в ThreeDots!',
-      NOTIFICATION_LEVEL.SUCCESS,
+      "Приветствуем Тебя в ThreeDots!",
+      NOTIFICATION_LEVEL.SUCCESS
     );
 
     cb();
   } catch (error) {
-    sendNotification('Ошибка сети, повторите позже', NOTIFICATION_LEVEL.ERROR);
+    sendNotification("Ошибка сети, повторите позже", NOTIFICATION_LEVEL.ERROR);
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));
     sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
@@ -60,15 +61,15 @@ function* fetchSignUp({
 
     let response: TProfileState = yield call(
       AuthAPI.signUp.bind(AuthAPI),
-      data,
+      data
     );
     response = { ...data, id: response.id };
     yield put(setUserAC(response));
 
     yield put(setFetchOffAC());
     sendNotification(
-      'Пользователь успешно зарегистрирован',
-      NOTIFICATION_LEVEL.SUCCESS,
+      "Пользователь успешно зарегистрирован",
+      NOTIFICATION_LEVEL.SUCCESS
     );
     cb();
   } catch (error) {
@@ -93,7 +94,7 @@ function* fetchLogout({ cb }: ReturnType<typeof logoutAC>) {
     yield put(resetUserAC());
 
     yield put(setFetchOffAC());
-    sendNotification('Пользователь вышел из системы', NOTIFICATION_LEVEL.INFO);
+    sendNotification("Пользователь вышел из системы", NOTIFICATION_LEVEL.INFO);
     cb();
     sessionStorage.clear();
   } catch (error) {
@@ -108,4 +109,23 @@ export function* watchLogout() {
   const channel: TakeableChannel<ReturnType<typeof logoutAC>> =
     yield actionChannel(ELoginActions.LOGOUT);
   yield takeEvery(channel, fetchLogout);
+}
+
+function* fetchSignInOnServer({ payload }: ReturnType<typeof loginOnServerAC>) {
+  try {
+    const response: TProfileState = yield call(
+      AuthAPI.getUserDataSSR.bind(AuthAPI),
+      payload.cookie
+    );
+    yield put(setUserAC(response));
+    // payload.cb();
+  } catch (error) {
+    yield put(setErrorAC(error as Error));
+  }
+}
+
+export function* watchSignInOnServer() {
+  const channel: TakeableChannel<ReturnType<typeof loginOnServerAC>> =
+    yield actionChannel(ELoginActions.LOGIN_ON_SERVER);
+  yield takeEvery(channel, fetchSignInOnServer);
 }

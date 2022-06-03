@@ -8,6 +8,12 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
 import rootSaga from 'store/rootSaga';
+import { UserController } from './controllers/UserController';
+import routes from './routes';
+import { isFunction as _isFunction } from 'lodash'
+import _identity from 'lodash/identity';
+
+import { loginOnServerAC } from './store/reducers/authReducer/authActionCreators';
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -71,14 +77,20 @@ export default (req: Request, res: Response) => {
   * запросы данных и укладываются в стор.
   * Когда все необходимые запросы выполнены - мидлвар отдает страницу браузеру
   * */
-  // const asyncActionsPromisesArray = [
-  //   UserController.fetchAndSetSignedUserData(undefined, store.dispatch),
-  //   ...routes
-  //     .map(({ fetchData }) => _isFunction(fetchData) ? fetchData(store.dispatch) : Promise.resolve())
-  // ];
-  //
-  // return Promise.all(asyncActionsPromisesArray)
-  //   .then(() => {
-  //     store.close();
-  //   });
+  const getUserDataCallback = () => {
+    const cookie = JSON.stringify(req.cookies)
+    console.log(cookie, 'cookies');
+    store.dispatch(loginOnServerAC(cookie, _identity))
+
+  }
+  const asyncActionsPromisesArray = [
+    UserController.fetchAndSetSignedUserData(getUserDataCallback),
+    ...routes
+      .map(({ fetchData }) => _isFunction(fetchData) ? fetchData(store.dispatch) : Promise.resolve())
+  ];
+
+  return Promise.all(asyncActionsPromisesArray)
+    .then(() => {
+      store.close();
+    });
 };
