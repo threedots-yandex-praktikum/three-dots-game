@@ -1,10 +1,12 @@
-import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
+import { AuthAPI, TSignInData, TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 import {
   loginAC,
   logoutAC,
   registrationAC,
   setErrorAC,
+  loginYaOAuthAC,
+  registrationYaOAuthAC,
 } from 'store/reducers/authReducer/authActionCreators';
 import { store } from 'store/store';
 import _identity from 'lodash/identity';
@@ -53,6 +55,28 @@ export class UserControllerClass {
       dispatch(registrationAC(formData, cb));
 
       UserControllerClass.setError(null);
+    } catch (error) {
+      return Promise.reject();
+    }
+  }
+
+  public async signUpYaOAuth() {
+    try {
+      dispatch(registrationYaOAuthAC());
+
+      UserControllerClass.setError(null);
+      
+    } catch (error) {
+      return Promise.reject();
+    }
+  }
+
+  public async signInYaOAuth(dataSignIn: TDataSignInYa) {
+    try {      
+      dispatch(loginYaOAuthAC(dataSignIn));
+
+      UserControllerClass.setError(null);
+      
     } catch (error) {
       return Promise.reject();
     }

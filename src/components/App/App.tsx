@@ -4,8 +4,10 @@ import {
   Route,
   Link,
   Redirect,
+  useLocation,
 } from 'react-router-dom';
 import { Spinner, Box } from '@chakra-ui/react';
+import { localUrl } from 'modules/api/oAuthConfig';
 import {
   FORUM_ROUTE,
   GAME_OVER_ROUTE,
@@ -19,6 +21,7 @@ import {
   EDIT_PASSWORD_ROUTE,
   ROOT_ROUTE,
 } from 'constants/routes';
+
 const Home = lazy(() => import('pages/Home'));
 const Login = lazy(() => import('pages/Login'));
 const Register = lazy(() => import('pages/Register'));
@@ -29,17 +32,17 @@ const GameStart = lazy(() => import('pages/GameStart'));
 const GamePlay = lazy(() => import('pages/GamePlay'));
 const GameOver = lazy(() => import('pages/GameOver'));
 const EditPassword = lazy(() => import('pages/EditPassword'));
-
 import { UserController } from 'controllers/UserController';
 import _constant from 'lodash/constant';
 import { useAppSelector } from 'hooks/useAppSelector';
 import { useAuth } from 'hooks/useAuth';
 
-
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
 *   будут линки на требуемые страницы
 * */
+
+
 const defaultIsVisible = _constant(true);
 const isVisibleForAuthenticatedUser = (isUserAuthenticated: boolean) => isUserAuthenticated;
 const isVisibleForNotAuthenticatedUser = (isUserAuthenticated: boolean) => !isUserAuthenticated;
@@ -115,18 +118,25 @@ const _renderSpinner = ()=> {
 };
 
 export const App = () => {
-
   useAuth();
 
   const { id } = useAppSelector(state => state.profileReducer);
-  useEffect(
-    () => {
+  const location = useLocation();
+  useEffect(() => {
+    if(id) {
+      return;
+    }
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    
+    if (code) {
+      UserController
+        .signInYaOAuth({ code, redirect_uri: localUrl });
+    } else {
       UserController
         .fetchAndSetSignedUserData();
-    },
-    [],
-  );
-
+    }
+  }, []);
 
   return (
     <div className="app">

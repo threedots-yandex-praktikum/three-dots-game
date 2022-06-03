@@ -56,7 +56,7 @@ const config = {
     compress: true,
     hot: true,
     open: true,
-    port: 4000,
+    port: 5000,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
