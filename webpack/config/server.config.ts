@@ -1,11 +1,12 @@
 import path from 'path';
-import webpack, { Configuration } from 'webpack';
+import { ProvidePlugin, Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
 import fileLoader from '../loaders/file';
 import cssLoader from '../loaders/css';
-import jsLoader from '../loaders/js';
 import tsLoader from '../loaders/ts';
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+
 
 const config: Configuration = {
   name: 'server',
@@ -14,7 +15,6 @@ const config: Configuration = {
   entry: path.join(SRC_DIR, 'server'),
   module: {
     rules: [
-      jsLoader.server,
       tsLoader.server,
       cssLoader.server,
       fileLoader.server,
@@ -29,6 +29,7 @@ const config: Configuration = {
   resolve: {
     modules: ['src', 'node_modules'],
     extensions: ['*', '.js', '.jsx', '.json', '.ts', '.tsx'],
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
 
   devtool: 'source-map',
@@ -40,9 +41,8 @@ const config: Configuration = {
   externals: [nodeExternals({ allowlist: [/\.(?!(?:tsx?|json)$).{1,5}$/i] })],
 
   optimization: { nodeEnv: false },
-
   plugins: [
-    new webpack.ProvidePlugin({
+    new ProvidePlugin({
       window: [path.resolve(path.join(__dirname, '..', '/mock/window.mock')), 'default'],
       localStorage: [path.resolve(path.join(__dirname, '..', '/mock/localStorage.mock')), 'default'],
       sessionStorage: [path.resolve(path.join(__dirname, '..', '/mock/sessionStorage.mock')), 'default'],

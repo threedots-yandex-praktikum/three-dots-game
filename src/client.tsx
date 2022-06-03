@@ -2,33 +2,45 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import { Root } from 'components/Root/Root';
 import 'babel-polyfill';
-import { Router } from 'react-router';
-import { createBrowserHistory, createMemoryHistory } from 'history';
-import { State } from './store/types/TState';
 import { Provider } from 'react-redux';
-import { store, isServer } from './store/store';
 import { hot } from 'react-hot-loader/root';
+import { ConnectedRouter } from 'connected-react-router';
+import { history, store } from 'store/store';
+import { RootState } from 'store/reducers/rootReducer';
+
+
 // global redeclared types
 declare global {
   interface Window {
-    __INITIAL_STATE__: State;
+    __INITIAL_STATE__: RootState;
   }
 }
 
-const history = !isServer
-? createBrowserHistory()
-: createMemoryHistory({ initialEntries: ['/'] });
-
 const App = hot(() => {
   return (
-    <Root />    
+    <Root />
   );
 });
-hydrate((
+
+hydrate(
   <Provider store={store}>
-    <Router history={history}> <App />  </Router>
-  </Provider>
-  ), document.getElementById('root'));
+    <ConnectedRouter history={history}>
+      <App/>
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('root'),
+);
 
-
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./service-worker.js')
+      .then((reg) => {
+        console.log('СВ зарегистрирован: ', reg);
+      })
+      .catch((err) => {
+        console.error('Регистрация СВ провалилась: ', err);
+      });
+  });
+}
 

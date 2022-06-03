@@ -1,5 +1,5 @@
 import React from 'react';
-import {  useHistory } from 'react-router-dom';
+import { push } from 'connected-react-router';
 import { App } from '../App';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ErrorBoundary } from 'components/ErrorBoundary';
@@ -13,10 +13,9 @@ export const Root = () => {
 };
 
 const ComponentTreeWithRouter = () => {
-  const history = useHistory();
   return (
     <ChakraProvider>
-      <ErrorBoundary onClick={() => history.push(HOME_ROUTE)}>
+      <ErrorBoundary onClick={() => push(HOME_ROUTE)}>
         <App />
         <NotificationSystem />
       </ErrorBoundary>

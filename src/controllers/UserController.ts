@@ -5,8 +5,9 @@ import {
   logoutAC,
   registrationAC,
 } from 'store/reducers/authReducer/authActionCreators';
-import { store } from 'store/store';
 import _identity from 'lodash/identity';
+import { store } from 'store/store';
+
 
 const { dispatch } = store;
 export type TUserControllerClassError = {

@@ -3,6 +3,7 @@ import { TStateFetch } from '../reducers/fetchReducer/types';
 import { TForumState } from '../reducers/forumReducer/types';
 import { TLeaderState } from '../reducers/leaderBoardReducer/types';
 import { TProfileState } from '../reducers/profileReducer/types';
+import { RouterState } from 'connected-react-router';
 
 export type State = {
   authPage: TAuthState,
@@ -10,5 +11,5 @@ export type State = {
   forumPage: TForumState,
   leaderBoardPage: TLeaderState,
   profilePage: TProfileState,
-
+  router: RouterState,
 }
