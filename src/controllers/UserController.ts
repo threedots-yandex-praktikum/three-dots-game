@@ -4,11 +4,13 @@ import {
   loginAC,
   logoutAC,
   registrationAC,
+  setErrorAC,
   loginYaOAuthAC,
   registrationYaOAuthAC,
 } from 'store/reducers/authReducer/authActionCreators';
 import { store } from 'store/store';
 import _identity from 'lodash/identity';
+import { NOTIFICATION_LEVEL, sendNotification } from '../modules/notification';
 
 const { dispatch } = store;
 export type TUserControllerClassError = {
@@ -92,6 +94,11 @@ export class UserControllerClass {
         await this.fetchAndSetSignedUserData(cb);
         return Promise.resolve();
       }
+      setErrorAC(error as Error);
+      sendNotification(
+        (error as { errorText: string })?.errorText,
+        NOTIFICATION_LEVEL.ERROR,
+      );
       return Promise.reject(error);
     }
   }

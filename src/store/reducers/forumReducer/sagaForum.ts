@@ -96,6 +96,8 @@ function* fetchGetCurrentTopic() {
           userName: 'USER_1_LONG_LONG_LONG_LONG_LONG',
           time: new Date().getTime(),
           text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+          country: 'Russia',
+          town: 'Moscow',
         },
         {
           messageId: 2,
@@ -104,6 +106,8 @@ function* fetchGetCurrentTopic() {
           userName: 'USER_2',
           time: new Date().getTime(),
           text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+          country: 'Russia',
+          town: 'Moscow',
         },
         {
           messageId: 3,
@@ -112,6 +116,8 @@ function* fetchGetCurrentTopic() {
           userName: 'USER_3',
           time: new Date().getTime(),
           text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+          country: 'Russia',
+          town: 'Moscow',
         },
         {
           messageId: 4,
@@ -120,6 +126,8 @@ function* fetchGetCurrentTopic() {
           userName: 'USER_1',
           time: new Date().getTime(),
           text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+          country: 'Russia',
+          town: 'Moscow',
         },
         {
           messageId: 5,
@@ -128,6 +136,8 @@ function* fetchGetCurrentTopic() {
 
           time: new Date().getTime(),
           text: 'lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem ',
+          country: 'Russia',
+          town: 'Moscow',
         },
         {
           messageId: 6,

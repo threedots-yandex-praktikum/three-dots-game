@@ -14,7 +14,10 @@ import {
   watchGetTopics,
   watchSendMessage,
 } from './reducers/forumReducer/sagaForum';
-import { watchLeaderBoard } from './reducers/leaderBoardReducer/sagaLeaderBoard';
+import {
+  watchAddUserToLB,
+  watchLeaderBoard,
+} from './reducers/leaderBoardReducer/sagaLeaderBoard';
 import {
   watchChangeAvatar,
   watchChangePassword,
@@ -38,5 +41,6 @@ export default function* rootSaga() {
     watchCreateTopic(),
     watchSendMessage(),
     watchLeaderBoard(),
+    watchAddUserToLB(),
   ]);
 }

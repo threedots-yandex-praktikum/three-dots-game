@@ -1,3 +1,4 @@
+import { gameReducer } from './gameReducer/index';
 import { forumReducer } from './forumReducer/index';
 import { combineReducers } from 'redux';
 import { authReducer } from './authReducer';
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   leaderBoardReducer,
   profileReducer,
   forumReducer,
+  gameReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 export default rootReducer;
