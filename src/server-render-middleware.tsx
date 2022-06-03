@@ -93,4 +93,4 @@ export default (req: Request, res: Response) => {
     .then(() => {
       store.close();
     });
-};
+}; 

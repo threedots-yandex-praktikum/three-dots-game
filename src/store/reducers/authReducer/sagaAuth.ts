@@ -22,6 +22,7 @@ import {
   NOTIFICATION_LEVEL,
   sendNotification,
 } from "../../../modules/notification";
+import { AuthAPIServer } from "../../../modules/api/authAPIServer";
 
 function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
   try {
@@ -114,7 +115,7 @@ export function* watchLogout() {
 function* fetchSignInOnServer({ payload }: ReturnType<typeof loginOnServerAC>) {
   try {
     const response: TProfileState = yield call(
-      AuthAPI.getUserDataSSR.bind(AuthAPI),
+      AuthAPIServer.getUserDataSSR.bind(AuthAPIServer),
       payload.cookie
     );
     yield put(setUserAC(response));
