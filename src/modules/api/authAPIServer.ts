@@ -30,9 +30,7 @@ class AuthAPIServerClass {
         }
       );
       console.log(response.data, "data");
-
       return response.data as unknown as TUserModelResponse;
-      // return "" as unknown as TUserModelResponse;
     } catch (error) {
       console.error(error);
 
