@@ -4,6 +4,8 @@ import compression from "compression";
 import "babel-polyfill";
 import serverRenderMiddleware from "./server-render-middleware";
 import cookieParser from "cookie-parser";
+import https from "https";
+import fs from "fs";
 
 const app = express();
 app.use(cookieParser());
@@ -14,4 +16,12 @@ app
 
 app.get("/*", serverRenderMiddleware);
 
-export { app };
+const secureServer = https.createServer(
+  {
+    key: fs.readFileSync("./server.key"),
+    cert: fs.readFileSync("./server.cert"),
+  },
+  app
+);
+
+export { app, secureServer };
