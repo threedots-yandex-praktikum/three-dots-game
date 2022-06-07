@@ -8,8 +8,8 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
 import rootSaga from 'store/rootSaga';
-import {AuthAPIServer} from "modules/api/authAPIServer";
-import {setUserAC} from "store/reducers/profileReducer/profileActionCreators";
+import { AuthAPIServer } from "modules/api/authAPIServer";
+import { setUserAC } from "store/reducers/profileReducer/profileActionCreators";
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -26,11 +26,12 @@ function getHtml(reactHtml: string, reduxState = {}) {
     </head>
     <body>
         <div id="root">${reactHtml}</div>
+        <script>
+          window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+        </script>
         <script src="/app.js"></script>
         <script src="/vendors.js"></script>
-        <script>
-            window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
-        </script>
+
     </body>
   </html>
   `;
@@ -44,7 +45,7 @@ export default (req: Request, res: Response) => {
   }
 
   const location = req.url;
-  if(location === '/favicon.ico') {
+  if (location === '/favicon.ico') {
     return res
       .status(204)
       .end();
@@ -75,11 +76,10 @@ export default (req: Request, res: Response) => {
     .then(() => {
       store.runSaga(rootSaga);
 
-      console.log('last then', JSON.stringify(store.getState().profileReducer))
-
       store.close();
 
       const reactHtml = renderToString(jsx);
+
       const html = getHtml(reactHtml, store.getState());
       res
         .status(context.statusCode || 200)

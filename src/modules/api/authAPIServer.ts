@@ -20,7 +20,6 @@ export type TSignInData = {
 
 class AuthAPIServerClass {
   async getUserDataSSR(cookie: string): Promise<TUserModelResponse> {
-    console.log("getUserDataSSR");
     try {
       const response = await axios(
         YANDEX_API_HOST + "/" + AUTH_API_ENDPOINTS.USER_DATA,
@@ -30,7 +29,6 @@ class AuthAPIServerClass {
           },
         }
       );
-      console.log(response.data, "data");
       return response.data as unknown as TUserModelResponse;
     } catch (error) {
       console.error(error);
