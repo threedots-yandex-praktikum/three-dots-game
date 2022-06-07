@@ -1,1 +1,1 @@
-export default  window.localStorage; 
+export const localStorage = window.localStorage;

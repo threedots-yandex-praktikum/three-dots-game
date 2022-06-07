@@ -43,7 +43,7 @@ function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtrac
 export default (req: Request, res: Response) => {
   const context: StaticRouterContext = {};
   const statsFile = path.resolve('./dist/loadable-stats.json');
-  const chunkExtractor = new ChunkExtractor({ statsFile });
+  const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: 'app' });
   if (context.url) {
     res.redirect(context.url);
     return;
