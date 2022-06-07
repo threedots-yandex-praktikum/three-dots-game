@@ -37,7 +37,6 @@ export const Home = () => {
   );
   const goToGameStartPage = useCallback(
     () => {
-      console.log('asafdsdf');
       return dispatch(push(GAME_START_ROUTE));
     },
     [dispatch],

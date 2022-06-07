@@ -20,7 +20,6 @@ export const App = () => {
 
   const { id } = useAppSelector(state => state.profileReducer);
 
-
   return (
     <div className="app">
       <div className="app__navigation">

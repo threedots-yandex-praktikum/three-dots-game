@@ -17,6 +17,7 @@ declare global {
 }
 
 const App = hot(() => {
+
   return (
     <Root />
   );
@@ -25,7 +26,7 @@ const App = hot(() => {
 hydrate(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <App/>
+      <App />
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root'),
