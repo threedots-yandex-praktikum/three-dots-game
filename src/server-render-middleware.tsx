@@ -8,12 +8,8 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { getInitialState } from 'store/getInitialState';
 import { configureStore } from 'store/store';
 import rootSaga from 'store/rootSaga';
-import { UserController } from './controllers/UserController';
-import routes from './routes';
-import { isFunction as _isFunction } from 'lodash'
-import _identity from 'lodash/identity';
-
-import { loginOnServerAC } from './store/reducers/authReducer/authActionCreators';
+import {AuthAPIServer} from "modules/api/authAPIServer";
+import {setUserAC} from "store/reducers/profileReducer/profileActionCreators";
 
 
 function getHtml(reactHtml: string, reduxState = {}) {
@@ -24,9 +20,8 @@ function getHtml(reactHtml: string, reduxState = {}) {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="shortcut icon" type="image/png" href="/img/favicon.jpg">
         <link href="/app.css" rel="stylesheet">
-        <title>Threee dots</title>
+        <title>Threee dots ssr</title>
   
     </head>
     <body>
@@ -49,9 +44,13 @@ export default (req: Request, res: Response) => {
   }
 
   const location = req.url;
+  if(location === '/favicon.ico') {
+    return res
+      .status(204)
+      .end();
+  }
 
   const { store } = configureStore(getInitialState(location), location);
-  const reduxState = store.getState();
 
   const jsx = (
     <ReduxProvider store={store}>
@@ -61,36 +60,32 @@ export default (req: Request, res: Response) => {
     </ReduxProvider>
   );
 
-  /*
-  * запускаем сагу и формируем разметку приложения
-  * */
-  store.runSaga(rootSaga);
+  const cookiesString = Object
+    .keys(req.cookies)
+    .map(key => `${key}=${req.cookies[key]}`)
+    .join('; ');
 
-  const reactHtml = renderToString(jsx);
-  const html = getHtml(reactHtml, reduxState);
-  res
-    .status(context.statusCode || 200)
-    .send(html);
+  return AuthAPIServer
+    .getUserDataSSR(cookiesString)
+    .then(response => {
+      store.dispatch(setUserAC(response));
 
-  /*
-  * получаем и выполняем необходимые для текущей страницы приложения асинхронные действия, на этом этапе вызываются
-  * запросы данных и укладываются в стор.
-  * Когда все необходимые запросы выполнены - мидлвар отдает страницу браузеру
-  * */
-  const getUserDataCallback = () => {
-    const cookie = JSON.stringify(req.cookies)
-    console.log(cookie, 'cookies');
-    store.dispatch(loginOnServerAC(cookie, _identity))
-
-  }
-  const asyncActionsPromisesArray = [
-    UserController.fetchAndSetSignedUserData(getUserDataCallback),
-    ...routes
-      .map(({ fetchData }) => _isFunction(fetchData) ? fetchData(store.dispatch) : Promise.resolve())
-  ];
-
-  return Promise.all(asyncActionsPromisesArray)
+      return response;
+    })
     .then(() => {
+      store.runSaga(rootSaga);
+
+      console.log('last then', JSON.stringify(store.getState().profileReducer))
+
       store.close();
+
+      const reactHtml = renderToString(jsx);
+      const html = getHtml(reactHtml, store.getState());
+      res
+        .status(context.statusCode || 200)
+        .send(html);
+
+
+
     });
-}; 
+};

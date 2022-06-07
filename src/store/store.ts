@@ -39,6 +39,9 @@ export function configureStore(initialState: any, url = '/') {
     sagaMiddleware.run(rootSaga);
   }
 
+  console.log('configureStore', initialState, JSON.stringify(store.getState()))
+  console.log(window.__INITIAL_STATE__)
+
   return { store, history };
 }
 
