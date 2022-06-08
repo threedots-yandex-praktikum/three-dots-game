@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Logo } from 'components/Logo';
 import { FormikProvider, useFormik } from 'formik';
 import { Input } from 'components/Input';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { Background } from 'components/Background';
 import { LOGIN_FORM_SCHEMA, INITIAL_STATE } from './constants';
 import { UserController } from 'controllers/UserController';
@@ -45,6 +45,13 @@ export const Login = () => {
     onSubmit,
   });
 
+  const onSignUpYa = useCallback(
+    () => {
+      UserController
+        .signUpYaOAuth();
+    },
+    [],
+  );
   const { errors, touched, handleSubmit, handleChange, values } = formik;
 
   const isSubmitBtnDisabled = useMemo(
@@ -99,9 +106,18 @@ export const Login = () => {
             </FormikProvider>
           </Box>
           <Flex mt={10} align="center" justify="center">
-          <Button colorScheme='purple' variant='link' ml={10} onClick={goPlayGame}>
+          <Button colorScheme='purple' variant='link' onClick={goPlayGame}>
             Играть без регистрация
           </Button>
+          </Flex>
+          <Flex align="center" justify="center" mt={10}>
+            <Button colorScheme='purple' variant='link' onClick={ onSignUpYa }>
+              Войти через
+              <Text
+                color="red"
+              >&nbsp;Y</Text>
+              andex
+            </Button>                  
           </Flex>
         </Box>
       </Background>

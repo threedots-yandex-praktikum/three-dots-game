@@ -1,11 +1,12 @@
-import { HTTPTransport } from "./httpTransport/httpTransport";
+import { HTTPTransport } from './httpTransport/httpTransport';
 import {
   AUTH_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
-} from "./httpTransport/constants";
-import { TUserModelResponse } from "modules/api/profileAPI";
-
+  YANDEX_OAUTH_HOST,
+} from './httpTransport/constants';
+import { TUserModelResponse } from 'modules/api/profileAPI';
+import { getUrlOauth } from './oAuthConfig';
 export type TSignUpData = {
   first_name: string;
   second_name: string;
@@ -26,11 +27,17 @@ type TSignUpResponse = {
   id: number;
 };
 
+export type TDataSignInYa = {
+  code: string;
+  redirect_uri: string
+};
 class AuthAPIClass {
   authHTTPTransportInstance: HTTPTransport;
+  oAuthHTTPTransportInstance: HTTPTransport;
 
   constructor() {
     this.authHTTPTransportInstance = new HTTPTransport(YANDEX_API_HOST);
+    this.oAuthHTTPTransportInstance = new HTTPTransport(YANDEX_OAUTH_HOST);
   }
 
   async signUp(data: TSignUpData): Promise<TSignUpResponse> {
@@ -39,7 +46,7 @@ class AuthAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      }
+      },
     );
 
     return response as TSignUpResponse;
@@ -51,21 +58,43 @@ class AuthAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      }
+      },
+    );
+  }
+
+  async getYaOAuthServiceId() {
+    return await this.authHTTPTransportInstance.get(
+      AUTH_API_ENDPOINTS.OAUTH_SERVICE_ID,
+      {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
+      },
+    );
+  }
+
+  async redirectYaOAuth(serviceId: string) {
+    const urlYa = getUrlOauth(serviceId);
+    window.location.replace(urlYa);
+  }
+
+  async sendCodeAuthYa(data: TDataSignInYa) {
+    return await this.authHTTPTransportInstance.post(
+      AUTH_API_ENDPOINTS.SIGN_IN_YA,
+      {
+        data,
+        headers: DEFAULT_POST_REQUEST_HEADERS,
+      },
     );
   }
 
   async logOut() {
-    console.log("logOut");
-
     return await this.authHTTPTransportInstance.post(
-      AUTH_API_ENDPOINTS.LOG_OUT
+      AUTH_API_ENDPOINTS.LOG_OUT,
     );
   }
 
   async getUserData(): Promise<TUserModelResponse> {
     const response = await this.authHTTPTransportInstance.get(
-      AUTH_API_ENDPOINTS.USER_DATA
+      AUTH_API_ENDPOINTS.USER_DATA,
     );
 
     return response as TUserModelResponse;

@@ -1,3 +1,4 @@
+import { gameReducer } from './gameReducer/index';
 import { forumReducer } from './forumReducer/index';
 import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
@@ -15,5 +16,6 @@ export const createRootReducer = (history: History<LocationState>) => combineRed
   profileReducer,
   forumReducer,
   router: connectRouter(history),
+  gameReducer,
 });
 export type RootState = ReturnType<ReturnType<typeof createRootReducer>>;
