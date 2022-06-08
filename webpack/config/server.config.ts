@@ -1,5 +1,5 @@
 import path from 'path';
-import { ProvidePlugin, Configuration } from 'webpack';
+import {ProvidePlugin, Configuration, WebpackPluginInstance as Plugin} from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
 import fileLoader from '../loaders/file';
@@ -43,11 +43,11 @@ const config: Configuration = {
   optimization: { nodeEnv: false },
   plugins: [
     new ProvidePlugin({
-      window: [path.resolve(path.join(__dirname, '..', '/mock/window.mock')), 'default'],
-      localStorage: [path.resolve(path.join(__dirname, '..', '/mock/localStorage.mock')), 'default'],
-      sessionStorage: [path.resolve(path.join(__dirname, '..', '/mock/sessionStorage.mock')), 'default'],
+      window: [path.resolve(path.join(__dirname, '..', '/mock/window.mock')), 'window'],
+      localStorage: [path.resolve(path.join(__dirname, '..', '/mock/localStorage.mock')), 'localStorage'],
+      sessionStorage: [path.resolve(path.join(__dirname, '..', '/mock/sessionStorage.mock')), 'sessionStorage'],
     }),
-  ],
+  ].filter(Boolean) as Plugin[],
 };
 
 export default config;

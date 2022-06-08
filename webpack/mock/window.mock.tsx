@@ -1,7 +1,7 @@
 let win;
 
 if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'function') {
-  
+
   win = window;
 } else {
   win = {
@@ -30,5 +30,4 @@ if (typeof window !== 'undefined' && typeof window.getComputedStyle === 'functio
   };
 }
 
-
-export default win;
+export const window = win;

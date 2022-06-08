@@ -8,6 +8,7 @@ import tsLoader from '../loaders/ts';
 import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+import LoadablePlugin from '@loadable/webpack-plugin';
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -63,10 +64,10 @@ const config: Config = {
       manifest: path.resolve(path.join(DIST_DIR, 'vendors-manifest.json')),
     }),
 
-    new GenerateSW.GenerateSW({
+    !IS_DEV && new GenerateSW.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 10000000,
+      // maximumFileSizeToCacheInBytes: 10000000,
       runtimeCaching: [
         {
           // кэшируем любой урл приложения
@@ -75,6 +76,7 @@ const config: Config = {
         },
       ],
     }),
+    new LoadablePlugin(),
   ].filter(Boolean) as Plugin[],
 
   performance: {

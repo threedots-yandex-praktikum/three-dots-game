@@ -7,7 +7,7 @@ import { hot } from 'react-hot-loader/root';
 import { ConnectedRouter } from 'connected-react-router';
 import { history, store } from 'store/store';
 import { RootState } from 'store/reducers/rootReducer';
-
+import { loadableReady } from '@loadable/component';
 
 // global redeclared types
 declare global {
@@ -22,15 +22,19 @@ const App = hot(() => {
     <Root />
   );
 });
-
-hydrate(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root'),
+loadableReady (
+  ()=>{
+    hydrate(
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <App/>
+        </ConnectedRouter>
+      </Provider>,
+      document.getElementById('root'),
+    );
+  },
 );
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

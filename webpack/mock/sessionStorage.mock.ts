@@ -1,1 +1,1 @@
-export default  window.sessionStorage; 
+export const sessionStorage = window.sessionStorage;
