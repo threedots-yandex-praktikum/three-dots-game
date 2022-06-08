@@ -7,7 +7,7 @@ import cssLoader from '../loaders/css';
 import tsLoader from '../loaders/ts';
 import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
-import {TsconfigPathsPlugin} from "tsconfig-paths-webpack-plugin";
+import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -36,7 +36,7 @@ const config: Config = {
     compress: false,
     hot: true,
     open: true,
-    port: 4000,
+    port: 5000,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
