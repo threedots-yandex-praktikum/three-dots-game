@@ -1,5 +1,5 @@
 import { TBotSettings } from './types';
-const CANVAS_SIZE_IN_PX = 1500;
+const CANVAS_SIZE_IN_PX = 3000;
 
 const BOTS_TO_RE_INIT_AMOUNT = 10;
 
