@@ -246,12 +246,7 @@ export function* watchCreateTopic() {
 function* fetchSendMessage({ payload }: ReturnType<typeof sendMessageAC>) {
   try {
     yield put(setFetchOnAC());
-    //тут должен быть ForumAPI
-    //  const message = yield call(
-    //   ForumAPI.sendMessage.bind(ForumAPI),
-    //   payload
-    // );
-    console.log('message ok!', payload);
+
     yield put(getCurrentTopicAC(payload.topicId));
     yield put(setFetchOffAC());
   } catch (error) {

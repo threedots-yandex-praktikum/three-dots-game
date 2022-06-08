@@ -8,9 +8,9 @@ import {
   loginYaOAuthAC,
   registrationYaOAuthAC,
 } from 'store/reducers/authReducer/authActionCreators';
-import { store } from 'store/store';
 import _identity from 'lodash/identity';
 import { NOTIFICATION_LEVEL, sendNotification } from '../modules/notification';
+import { isServer, store } from 'store/store';
 
 const { dispatch } = store;
 export type TUserControllerClassError = {
@@ -105,6 +105,9 @@ export class UserControllerClass {
 
   public async fetchAndSetSignedUserData(cb: () => void = _identity) {
     try {
+      if (isServer) {
+        cb();
+      }
       dispatch(loginAC(cb));
 
       UserControllerClass.setError(null);

@@ -1,9 +1,8 @@
 import React from 'react';
-
-import bg from 'static/img/bg.png';
-import bgGrayScale from 'static/img/bgGrayScale.png';
 import { Flex } from '@chakra-ui/react';
 
+const bg = '/img/bg.png';
+const bgGrayScale = '/img/bgGrayScale.png';
 
 export const Background = (props: { children: React.ReactNode, isGreyScale?: boolean }) => {
 

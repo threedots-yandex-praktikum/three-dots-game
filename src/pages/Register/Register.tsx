@@ -73,7 +73,7 @@ export const Register = () => {
                 <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                   {REGISTER_FORM_SCHEMA.map(
                     ({
-                      key,
+                      typeField,
                       label,
                       type,
                       placeholder,
@@ -81,16 +81,16 @@ export const Register = () => {
                       gridProps = {},
                     }) => {
                       return (
-                        <GridItem key={key} {...gridProps}>
+                        <GridItem key={typeField} {...gridProps}>
                           <Input
-                            id={key}
+                            id={typeField}
                             label={label}
                             type={type}
                             validate={validate}
                             placeholder={placeholder}
-                            error={errors[key as keyof typeof errors]}
-                            touched={touched[key as keyof typeof touched]}
-                            value={values[key as keyof typeof values]}
+                            error={errors[typeField as keyof typeof errors]}
+                            touched={touched[typeField as keyof typeof touched]}
+                            value={values[typeField as keyof typeof values]}
                             onChange={handleChange}
                           />
                         </GridItem>

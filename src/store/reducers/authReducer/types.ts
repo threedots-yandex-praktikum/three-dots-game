@@ -2,6 +2,7 @@ import { TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 
 export enum ELoginActions {
   LOGIN = 'LOGIN',
+  LOGIN_ON_SERVER = 'LOGIN_ON_SERVER',
   LOGOUT = 'LOGOUT',
   REGISTER = 'REGISTER',
   SET_ERROR = 'SET_ERROR',
@@ -38,11 +39,19 @@ export interface ISetErrorAction {
   type: ELoginActions.SET_ERROR;
   payload: null | Error;
 }
+export interface ILoginOnServerAction {
+  type: ELoginActions.LOGIN_ON_SERVER;
+  payload: {
+    cookie: string;
+    cb: () => void;
+  };
+}
 
 export type TAuthAction =
   | ILogoutAction
   | ILogintAction
   | IRegisterAction
   | ISetErrorAction
+  | ILoginOnServerAction
   | IRegisterYaOAuthAction
   | ILoginYaOAuthAction;

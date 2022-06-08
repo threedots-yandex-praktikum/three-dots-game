@@ -1,5 +1,6 @@
 import {
   loginAC,
+  loginOnServerAC,
   logoutAC,
   registrationAC,
   setErrorAC,
@@ -14,7 +15,8 @@ import {
 } from '../fetchReducer/fetchActionCreators';
 import { ELoginActions } from './types';
 import { TakeableChannel } from 'redux-saga';
-import { TProfileState, TServiceIdState } from '../profileReducer/types';
+import { TProfileState, TServiceIdState  } from '../profileReducer/types';
+
 import {
   resetUserAC,
   setUserAC,
@@ -23,6 +25,7 @@ import {
   NOTIFICATION_LEVEL,
   sendNotification,
 } from '../../../modules/notification';
+import { AuthAPIServer } from '../../../modules/api/authAPIServer';
 import _identity from 'lodash/identity';
 
 function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {  
@@ -111,6 +114,25 @@ export function* watchLogout() {
   const channel: TakeableChannel<ReturnType<typeof logoutAC>> =
     yield actionChannel(ELoginActions.LOGOUT);
   yield takeEvery(channel, fetchLogout);
+}
+
+function* fetchSignInOnServer({ payload }: ReturnType<typeof loginOnServerAC>) {
+  try {
+    const response: TProfileState = yield call(
+      AuthAPIServer.getUserDataSSR.bind(AuthAPIServer),
+      payload.cookie,
+    );
+    yield put(setUserAC(response));
+    // payload.cb();
+  } catch (error) {
+    yield put(setErrorAC(error as Error));
+  }
+}
+
+export function* watchSignInOnServer() {
+  const channel: TakeableChannel<ReturnType<typeof loginOnServerAC>> =
+    yield actionChannel(ELoginActions.LOGIN_ON_SERVER);
+  yield takeEvery(channel, fetchSignInOnServer);
 }
 
 export function* watchRegisterYa() {

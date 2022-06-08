@@ -31,12 +31,12 @@ type TScoresData = {
 };
 
 type TGame = {
-  ctx: CanvasRenderingContext2D;
-  sizeScreen: TSizeScreen;
-  onGameWin: () => void;
-  onGameOver: () => void;
-  onGamePause: (v1: boolean, v2: () => void) => void;
-  sendScoresData: (scoresData: TScoresData) => void;
+  ctx: CanvasRenderingContext2D,
+  sizeScreen: TSizeScreen,
+  onGameWin: () => void,
+  onGameOver: () => void,
+  onGamePause: (v1: boolean, v2: () => void, v3: () => void) => void,
+  sendScoresData: (scoresData: TScoresData) => void,
 };
 
 export class Game {
@@ -190,11 +190,11 @@ export class Game {
 
     if (this.isGamePaused) {
       unpauseCb();
-      return this.onGamePause(this.isGamePaused, unpauseCb);
+      return this.onGamePause(this.isGamePaused, unpauseCb, this.stop.bind(this));
     }
 
     this.isGamePaused = true;
-    this.onGamePause(this.isGamePaused, unpauseCb);
+    this.onGamePause(this.isGamePaused, unpauseCb, this.stop.bind(this));
   }
 
   private drawGame() {

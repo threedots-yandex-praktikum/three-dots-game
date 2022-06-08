@@ -1,6 +1,7 @@
 import { TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 import {
   ELoginActions,
+  ILoginOnServerAction,
   ILogintAction,
   ILogoutAction,
   IRegisterAction,
@@ -24,6 +25,12 @@ export const registrationAC = (
   return { type: ELoginActions.REGISTER, payload: signUpData, cb };
 };
 
+export const loginOnServerAC = (
+  cookie: string,
+  cb: () => void,
+): ILoginOnServerAction => {
+  return { type: ELoginActions.LOGIN_ON_SERVER, payload: { cb, cookie } };
+};
 export const registrationYaOAuthAC = (
 ): IRegisterYaOAuthAction => {
   return { type: ELoginActions.REGISTER_YA_OAUTH };

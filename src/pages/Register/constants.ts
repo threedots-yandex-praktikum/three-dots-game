@@ -14,7 +14,7 @@ export const REGISTER_INITIAL_STATE = {
 
 export const REGISTER_FORM_SCHEMA = [
   {
-    key: 'login',
+    typeField: 'login',
     label: 'Логин',
     placeholder: EMPTY_STRING,
     gridProps: {
@@ -27,7 +27,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'email',
+    typeField: 'email',
     label: 'Почта',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -37,7 +37,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'first_name',
+    typeField: 'first_name',
     label: 'Имя',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -47,7 +47,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'second_name',
+    typeField: 'second_name',
     label: 'Фамилия',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -57,7 +57,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'phone',
+    typeField: 'phone',
     label: 'Телефон',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -67,7 +67,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'password',
+    typeField: 'password',
     label: 'Пароль',
     type: 'password',
     placeholder: EMPTY_STRING,
@@ -78,7 +78,7 @@ export const REGISTER_FORM_SCHEMA = [
     },
   },
   {
-    key: 'password_repeat',
+    typeField: 'password_repeat',
     label: 'Пароль (ещё раз)',
     type: 'password',
     placeholder: EMPTY_STRING,

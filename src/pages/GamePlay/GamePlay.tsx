@@ -29,6 +29,8 @@ export const GamePlay = () => {
   const dispatch = useAppDispatch();
 
   const unpauseCbRef = useRef<() => void>();
+  const stopGameCbRef = useRef<() => void>();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
@@ -100,12 +102,14 @@ export const GamePlay = () => {
 
             goToGameOverScreen();
           },
-          onGamePause: (isGamePaused, unpauseCb) => {
-            if (!isGamePaused) {
+          onGamePause: (isGamePaused, unpauseCb, stopGameCb) => {
+            if(!isGamePaused) {
               return setIsOpen(false);
             }
 
             unpauseCbRef.current = unpauseCb;
+            stopGameCbRef.current = stopGameCb;
+
             setIsOpen(true);
           },
           sendScoresData: scoresData => {
@@ -129,7 +133,10 @@ export const GamePlay = () => {
       {
         id: 'exitGame',
         title: 'Выход из игры',
-        onClick: goToGameOverScreen,
+        onClick: () => {
+          _isFunction(stopGameCbRef.current) && stopGameCbRef.current();
+          return goToGameOverScreen();
+        },
       },
       {
         id: 'fullScreenMode',

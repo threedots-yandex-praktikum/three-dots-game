@@ -3,7 +3,7 @@ import { VALIDATION } from 'constants/validation';
 
 export const PROFILE_FORM_SCHEMA = [
   {
-    key: 'login',
+    typeField: 'login',
     label: 'Логин',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -13,7 +13,7 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: 'email',
+    typeField: 'email',
     label: 'Почта',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -23,7 +23,7 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: 'first_name',
+    typeField: 'first_name',
     label: 'Имя',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -33,7 +33,7 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: 'second_name',
+    typeField: 'second_name',
     label: 'Фамилия',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
@@ -43,13 +43,13 @@ export const PROFILE_FORM_SCHEMA = [
     },
   },
   {
-    key: 'display_name',
+    typeField: 'display_name',
     label: 'Никнейм',
     placeholder: EMPTY_STRING,
     validate: () => undefined,
   },
   {
-    key: 'phone',
+    typeField: 'phone',
     label: 'Телефон',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {

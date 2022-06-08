@@ -72,17 +72,17 @@ export const Login = () => {
               <SpinnerWrapper loading={isFetch}>
                 <form onSubmit={handleSubmit}>
                   {LOGIN_FORM_SCHEMA.map(
-                    ({ key, label, type, placeholder, validate }) => (
+                    ({ typeField, label, type, placeholder, validate }) => (
                       <Input
-                        id={key}
-                        key={key}
+                        id={typeField}
+                        key={typeField}
                         label={label}
-                        type={type}
+                        type={typeField}
                         validate={validate}
                         placeholder={placeholder}
-                        error={errors[key as keyof typeof errors]}
-                        touched={touched[key as keyof typeof touched]}
-                        value={values[key as keyof typeof values]}
+                        error={errors[typeField as keyof typeof errors]}
+                        touched={touched[typeField as keyof typeof touched]}
+                        value={values[typeField as keyof typeof values]}
                         onChange={handleChange}
                       />
                     ),
