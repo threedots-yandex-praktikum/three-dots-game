@@ -1,5 +1,5 @@
 import { TBotSettings } from './types';
-const CANVAS_SIZE_IN_PX = 3000;
+const CANVAS_SIZE_IN_PX = 1500;
 
 const BOTS_TO_RE_INIT_AMOUNT = 10;
 
@@ -15,7 +15,7 @@ const BOTS: TBotSettings[] = [
     maxRadius: 29,
   },
   {
-    count: 500,
+    count: 200,
     minRadius: 5,
     maxRadius: 14,
   },

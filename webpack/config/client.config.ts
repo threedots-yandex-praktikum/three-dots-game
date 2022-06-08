@@ -64,10 +64,10 @@ const config: Config = {
       manifest: path.resolve(path.join(DIST_DIR, 'vendors-manifest.json')),
     }),
 
-    new GenerateSW.GenerateSW({
+    !IS_DEV && new GenerateSW.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      maximumFileSizeToCacheInBytes: 10000000,
+      // maximumFileSizeToCacheInBytes: 10000000,
       runtimeCaching: [
         {
           // кэшируем любой урл приложения
