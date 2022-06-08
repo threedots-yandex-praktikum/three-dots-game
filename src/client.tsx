@@ -17,6 +17,7 @@ declare global {
 }
 
 const App = hot(() => {
+
   return (
     <Root />
   );

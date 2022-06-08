@@ -35,7 +35,6 @@ export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
   sessionStorage.setItem('userId', String(id));
   const authPath = authRoutesArr.includes(location.pathname);
   useEffect(() => {
-    console.log('useAuth', location.pathname);
     if (sessionStorage.getItem('userId') && authRoutesArr) {
       return;
     }
