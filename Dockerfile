@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm install && npm run build
 
-EXPOSE 4000
+EXPOSE 5000
 
-CMD node server.js
+CMD npm run start

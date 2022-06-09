@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+
+  mongo:
+    image: mongo
+    container_name: mongo
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+    networks:
+      - common-network
+
+  game:
+    build:
+      context: .
+    image: game
+
+    environment:
+      MONGO_HOST: mongo
+
+    env_file: ./.env
+
+    container_name: game
+
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - mongo
+
+    networks:
+      - common-network
+
+
+networks:
+  common-network:
+    driver: bridge
