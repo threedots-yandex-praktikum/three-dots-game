@@ -41,9 +41,6 @@ services:
     ports:
       - "8080:80"
 
-    volumes:
-      - ./services/pgadmin:/var/lib/pgadmin
-
     env_file:
       - ./.env
 
