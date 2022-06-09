@@ -3,6 +3,8 @@ export const YANDEX_OAUTH_HOST = 'https://oauth.yandex.ru';
 
 export const TEAM_NAME = 'three-dots';
 
+export const RATING_FIELD_NAME = 'score';
+
 export const AUTH_API_ENDPOINTS = {
   SIGN_UP: 'auth/signup',
   SIGN_IN: 'auth/signin',

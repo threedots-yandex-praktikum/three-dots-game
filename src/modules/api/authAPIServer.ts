@@ -1,6 +1,6 @@
-import { AUTH_API_ENDPOINTS, YANDEX_API_HOST } from "./httpTransport/constants";
-import { TUserModelResponse } from "modules/api/profileAPI";
-import axios from "axios";
+import { AUTH_API_ENDPOINTS, YANDEX_API_HOST } from './httpTransport/constants';
+import { TUserModelResponse } from 'modules/api/profileAPI';
+import axios from 'axios';
 
 export type TSignUpData = {
   first_name: string;
@@ -22,12 +22,12 @@ class AuthAPIServerClass {
   async getUserDataSSR(cookie: string): Promise<TUserModelResponse> {
     try {
       const response = await axios(
-        YANDEX_API_HOST + "/" + AUTH_API_ENDPOINTS.USER_DATA,
+        YANDEX_API_HOST + '/' + AUTH_API_ENDPOINTS.USER_DATA,
         {
           headers: {
             cookie,
           },
-        }
+        },
       );
       return response.data as unknown as TUserModelResponse;
     } catch (error) {

@@ -45,5 +45,5 @@ export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
     if (!id && authPath) {
       history.push(LOGIN_ROUTE);
     }
-  }, [id, authPath, history, isFetch]);
+  }, [id, authPath, history, isFetch, authRoutesArr]);
 };

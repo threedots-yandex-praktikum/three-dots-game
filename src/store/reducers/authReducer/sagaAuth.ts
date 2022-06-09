@@ -7,7 +7,7 @@ import {
   registrationYaOAuthAC,
   loginYaOAuthAC,
 } from './authActionCreators';
-import { AuthAPI } from '../../../modules/api/authAPI';
+import { AuthAPI } from 'modules/api/authAPI';
 import { actionChannel, call, put, takeEvery } from 'redux-saga/effects';
 import {
   setFetchOffAC,
@@ -24,11 +24,10 @@ import {
 import {
   NOTIFICATION_LEVEL,
   sendNotification,
-} from '../../../modules/notification';
-import { AuthAPIServer } from '../../../modules/api/authAPIServer';
-import _identity from 'lodash/identity';
+} from 'modules/notification';
+import { AuthAPIServer } from 'modules/api/authAPIServer';
 
-function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {  
+function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
   try {
     yield put(setFetchOnAC());
     const response: TProfileState = yield call(
@@ -167,7 +166,7 @@ export function* watchSignInYa() {
 }
 
 
-function* fetchSignInYa({ payload }: ReturnType<typeof loginYaOAuthAC>) {  
+function* fetchSignInYa({ payload }: ReturnType<typeof loginYaOAuthAC>) {
   try {
     yield put(setFetchOnAC());
     yield call(

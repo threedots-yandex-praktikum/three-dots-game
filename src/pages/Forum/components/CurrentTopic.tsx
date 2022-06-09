@@ -10,7 +10,7 @@ import { MessageForm } from './MessageForm';
 import { generateAvatarLink } from 'utils/generateAvatarLink';
 import { getCurrentTopicAC } from 'store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { getGeolocation } from '../../../utils/getGeolocation';
+import { getGeolocation } from 'utils/getGeolocation';
 
 
 export const CurrentTopic = () => {
@@ -24,7 +24,7 @@ export const CurrentTopic = () => {
 
   const dispatch = useAppDispatch();
   const [loc, setLoc] = useState(['', '']);
-  const [userCountry, userTown] = loc
+  const [userCountry, userTown] = loc;
   useEffect(() => {
     getGeolocation(setLoc);
   }, []);

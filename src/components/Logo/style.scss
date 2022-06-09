@@ -14,16 +14,16 @@
     &:not(:first-child) {
       margin-left: 20px;
     }
-    
+
   }
 
   &:hover &__item:nth-child(2) {
     transition: transform 0.4s 0.2s ease;
-    transform: scale(2.5);  
+    transform: scale(2.5);
   }
 
   &:hover &__item:last-child, &:hover &__item:first-child {
-    opacity: 0;  
+    opacity: 0;
   }
 
   &:hover &__item:last-child {
@@ -38,7 +38,7 @@
 
 .dot {
   border-radius: 50%;
-  background: #FF4903;
+  background: $color-dot;
 
   &--m {
     width: 20px;

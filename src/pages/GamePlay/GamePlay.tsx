@@ -8,10 +8,10 @@ import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chak
 import { Button, Flex } from '@chakra-ui/react';
 import _isFunction from 'lodash/isFunction';
 import _identity from 'lodash/identity';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { addUserToTableAC } from '../../store/reducers/leaderBoardReducer/leaderBoardActionCreators';
-import { setScoreAC } from '../../store/reducers/gameReducer/gameActionCreators';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { addUserToTableAC } from 'store/reducers/leaderBoardReducer/leaderBoardActionCreators';
+import { setScoreAC } from 'store/reducers/gameReducer/gameActionCreators';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 export const GamePlay = () => {

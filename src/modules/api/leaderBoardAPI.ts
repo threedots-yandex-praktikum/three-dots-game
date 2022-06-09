@@ -4,6 +4,7 @@ import {
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
   TEAM_NAME,
+  RATING_FIELD_NAME,
 } from './httpTransport/constants';
 
 //LB-LeaderBoard
@@ -29,7 +30,7 @@ class LeaderBoardAPIClass {
   async addUser(playerData: TAddToLBData) {
     const data = {
       data: { ...playerData },
-      ratingFieldName: 'score',
+      ratingFieldName: RATING_FIELD_NAME,
       teamName: TEAM_NAME,
     };
     return await this.authHTTPTransportInstance.post(
@@ -45,7 +46,7 @@ class LeaderBoardAPIClass {
     const data: TGet3DotsLBData = {
       cursor: 0,
       limit: 20,
-      ratingFieldName: 'score',
+      ratingFieldName: RATING_FIELD_NAME,
     };
     const response = await this.authHTTPTransportInstance.post(
       LEADER_BOARD_API_ENDPOINTS.GET_THEE_DOTS_LEADERS,

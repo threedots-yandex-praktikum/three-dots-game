@@ -17,7 +17,6 @@ import { useAppSelector } from 'hooks/useAppSelector';
 import { useAuth } from 'hooks/useAuth';
 
 import { UserController } from 'controllers/UserController';
-import _constant from 'lodash/constant';
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -36,7 +35,7 @@ export const App = () => {
     }
     const params = new URLSearchParams(location.search);
     const code = params.get('code');
-    
+
     if (code) {
       UserController
         .signInYaOAuth({ code, redirect_uri: localUrl });
