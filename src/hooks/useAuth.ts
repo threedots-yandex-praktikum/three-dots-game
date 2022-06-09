@@ -33,10 +33,8 @@ export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
   const location = useLocation();
 
   sessionStorage.setItem('userId', String(id));
-
   const authPath = authRoutesArr.includes(location.pathname);
   useEffect(() => {
-    console.log('useAuth', location.pathname);
     if (sessionStorage.getItem('userId') && authRoutesArr) {
       return;
     }
@@ -47,5 +45,5 @@ export const useAuth = (authRoutesArr: TAuthRoutes = authRoutes) => {
     if (!id && authPath) {
       history.push(LOGIN_ROUTE);
     }
-  }, [id, authPath, history, isFetch]);
+  }, [id, authPath, history, isFetch, authRoutesArr]);
 };

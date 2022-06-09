@@ -15,7 +15,7 @@ const BOTS: TBotSettings[] = [
     maxRadius: 29,
   },
   {
-    count: 500,
+    count: 200,
     minRadius: 5,
     maxRadius: 14,
   },

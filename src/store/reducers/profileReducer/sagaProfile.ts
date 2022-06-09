@@ -39,7 +39,6 @@ function* fetchChangeProfile({
     cb();
   } catch (error) {
     yield put(setFetchOffAC());
-    console.log(error, 'error');
     yield put(setErrorAC(error as Error));
     sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
     cb();

@@ -7,7 +7,6 @@ import {
   Heading,
   Grid,
 } from '@chakra-ui/react';
-import { useHistory } from 'react-router';
 import { GAME_START_ROUTE, LOGIN_ROUTE, PROFILE_ROUTE, REGISTER_ROUTE } from 'constants/routes';
 import { TopPanel } from 'pages/Home/TopPanel';
 import { TitleSection } from 'pages/Home/TitleSection';
@@ -16,27 +15,31 @@ import { INFO_SECTION_SCHEMA, MOCKED_REVIEW_DATA } from './constants';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
 import { useAppSelector } from 'hooks/useAppSelector';
+import { push } from 'connected-react-router';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 
 
 export const Home = () => {
-  const history = useHistory();
+  const dispatch = useAppDispatch();
   const { id } = useAppSelector(state => state.profileReducer);
 
   const goToLoginPage = useCallback(
-    () => history.push(LOGIN_ROUTE),
-    [history],
+    () => dispatch(push(LOGIN_ROUTE)),
+    [dispatch],
   );
   const goToRegisterPage = useCallback(
-    () => history.push(REGISTER_ROUTE),
-    [history],
+    () => dispatch(push(REGISTER_ROUTE)),
+    [dispatch],
   );
   const goToProfilePage = useCallback(
-    () => history.push(PROFILE_ROUTE),
-    [history],
+    () => dispatch(push(PROFILE_ROUTE)),
+    [dispatch],
   );
   const goToGameStartPage = useCallback(
-    () => history.push(GAME_START_ROUTE),
-    [history],
+    () => {
+      return dispatch(push(GAME_START_ROUTE));
+    },
+    [dispatch],
   );
 
   return (

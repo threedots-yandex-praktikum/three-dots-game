@@ -8,6 +8,10 @@ import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay } from '@chak
 import { Button, Flex } from '@chakra-ui/react';
 import _isFunction from 'lodash/isFunction';
 import _identity from 'lodash/identity';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { addUserToTableAC } from 'store/reducers/leaderBoardReducer/leaderBoardActionCreators';
+import { setScoreAC } from 'store/reducers/gameReducer/gameActionCreators';
+import { useAppSelector } from 'hooks/useAppSelector';
 
 
 export const GamePlay = () => {
@@ -21,7 +25,12 @@ export const GamePlay = () => {
   * компонент канваса из-за обновления локального стейта компонента. Вероятно можно использовать какой-то постоянный кей
   * чтобы отключить возможность обновления компонента канваса при обновлшении локального стейта компонента
   * */
+  const { id } = useAppSelector(state => state.profileReducer);
+  const dispatch = useAppDispatch();
+
   const unpauseCbRef = useRef<() => void>();
+  const stopGameCbRef = useRef<() => void>();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const history = useHistory();
@@ -35,7 +44,7 @@ export const GamePlay = () => {
     [history],
   );
 
-  const [ isInFullScreenMode, setIsInFullScreenMode ] = useState(false);
+  const [isInFullScreenMode, setIsInFullScreenMode] = useState(false);
   const toggleFullScreenMode = useCallback(
     () => {
       if (!document.fullscreenElement) {
@@ -80,24 +89,32 @@ export const GamePlay = () => {
           sizeScreen,
           onGameWin: () => {
             console.log('win');
+            if (id) {
+              dispatch(addUserToTableAC());
+            }
             goToLeaderBoardScreen();
           },
           onGameOver: () => {
             console.log('lose');
+            if (id) {
+              dispatch(addUserToTableAC());
+            }
+
             goToGameOverScreen();
           },
-          onGamePause: (isGamePaused, unpauseCb) => {
+          onGamePause: (isGamePaused, unpauseCb, stopGameCb) => {
             if(!isGamePaused) {
               return setIsOpen(false);
             }
 
             unpauseCbRef.current = unpauseCb;
+            stopGameCbRef.current = stopGameCb;
+
             setIsOpen(true);
           },
           sendScoresData: scoresData => {
+            dispatch(setScoreAC(scoresData.player));
 
-            // TODO здесь необходимо будет реализовать запись очков игрового сеанса в редакс
-            console.log(scoresData);
           },
         });
 
@@ -116,7 +133,10 @@ export const GamePlay = () => {
       {
         id: 'exitGame',
         title: 'Выход из игры',
-        onClick: goToGameOverScreen,
+        onClick: () => {
+          _isFunction(stopGameCbRef.current) && stopGameCbRef.current();
+          return goToGameOverScreen();
+        },
       },
       {
         id: 'fullScreenMode',

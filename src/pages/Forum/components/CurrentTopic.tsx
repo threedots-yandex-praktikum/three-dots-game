@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/react';
 import { useAppSelector } from 'hooks/useAppSelector';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDateString } from 'utils/getDateString';
 import { TParams } from '../types';
@@ -10,9 +10,11 @@ import { MessageForm } from './MessageForm';
 import { generateAvatarLink } from 'utils/generateAvatarLink';
 import { getCurrentTopicAC } from 'store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'hooks/useAppDispatch';
+import { getGeolocation } from 'utils/getGeolocation';
 
 
 export const CurrentTopic = () => {
+
 
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
@@ -21,7 +23,11 @@ export const CurrentTopic = () => {
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
 
   const dispatch = useAppDispatch();
-
+  const [loc, setLoc] = useState(['', '']);
+  const [userCountry, userTown] = loc;
+  useEffect(() => {
+    getGeolocation(setLoc);
+  }, []);
   const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
@@ -52,7 +58,7 @@ export const CurrentTopic = () => {
         </Heading>
         <Divider orientation="horizontal" border="2px" />
         {currentTopic?.messages.map(message => {
-          const { avatarLink, messageId, text, time, userName } = message;
+          const { avatarLink, messageId, text, time, userName, country, town } = message;
           const avatar = generateAvatarLink(avatarLink);
           return (
             <Stack
@@ -71,6 +77,9 @@ export const CurrentTopic = () => {
                     size="lg"
                     src={avatar}
                   />
+                  {
+                    country && town ? <Text>  {country} , {town}</Text> : null
+                  }
                 </Box>
                 <Box>
                   <Text>{userName}</Text>
@@ -107,6 +116,7 @@ export const CurrentTopic = () => {
                     size="lg"
                     src={avatarLink}
                   />
+                  <Text>{userCountry}, {userTown}</Text>
                 </Box>
 
               </Stack>

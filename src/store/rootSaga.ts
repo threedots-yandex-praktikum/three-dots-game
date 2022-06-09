@@ -3,6 +3,9 @@ import {
   watchSignIn,
   watchRegister,
   watchLogout,
+  watchSignInOnServer,
+  watchRegisterYa,
+  watchSignInYa,
 } from './reducers/authReducer/sagaAuth';
 import { watchOnFetch } from './reducers/fetchReducer/sagaFetch';
 import {
@@ -12,7 +15,10 @@ import {
   watchGetTopics,
   watchSendMessage,
 } from './reducers/forumReducer/sagaForum';
-import { watchLeaderBoard } from './reducers/leaderBoardReducer/sagaLeaderBoard';
+import {
+  watchAddUserToLB,
+  watchLeaderBoard,
+} from './reducers/leaderBoardReducer/sagaLeaderBoard';
 import {
   watchChangeAvatar,
   watchChangePassword,
@@ -25,6 +31,8 @@ export default function* rootSaga() {
     watchOnFetch(),
     watchRegister(),
     watchLogout(),
+    watchRegisterYa(),
+    watchSignInYa(),
     watchChangeProfile(),
     watchChangeAvatar(),
     watchChangePassword(),
@@ -34,5 +42,7 @@ export default function* rootSaga() {
     watchCreateTopic(),
     watchSendMessage(),
     watchLeaderBoard(),
+    watchSignInOnServer(),
+    watchAddUserToLB(),
   ]);
 }

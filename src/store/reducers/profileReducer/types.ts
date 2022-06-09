@@ -15,6 +15,10 @@ export type TProfileState = Omit<TSignUpData, 'password'> & {
   id?: number | undefined;
 };
 
+export type TServiceIdState = {
+  service_id: string;
+};
+
 interface ISetUserAction {
   type: EProfileActions.SET_USER;
   payload: TProfileState;

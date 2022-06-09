@@ -4,7 +4,7 @@ import { VALIDATION } from 'constants/validation';
 
 export const LOGIN_FORM_SCHEMA = [
   {
-    key: 'login',
+    typeField: 'login',
     label: 'Логин',
     placeholder: EMPTY_STRING,
     gridProps: {
@@ -17,7 +17,7 @@ export const LOGIN_FORM_SCHEMA = [
     },
   },
   {
-    key: 'password',
+    typeField: 'password',
     label: 'Пароль',
     type: 'password',
     placeholder: EMPTY_STRING,

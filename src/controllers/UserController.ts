@@ -1,12 +1,16 @@
-import { AuthAPI, TSignInData, TSignUpData } from 'modules/api/authAPI';
+import { AuthAPI, TSignInData, TSignUpData, TDataSignInYa } from 'modules/api/authAPI';
 import { HTTP_REQUEST_STATUS } from 'modules/api/httpTransport/constants';
 import {
   loginAC,
   logoutAC,
   registrationAC,
+  setErrorAC,
+  loginYaOAuthAC,
+  registrationYaOAuthAC,
 } from 'store/reducers/authReducer/authActionCreators';
-import { store } from 'store/store';
 import _identity from 'lodash/identity';
+import { NOTIFICATION_LEVEL, sendNotification } from '../modules/notification';
+import { isServer, store } from 'store/store';
 
 const { dispatch } = store;
 export type TUserControllerClassError = {
@@ -56,6 +60,28 @@ export class UserControllerClass {
     }
   }
 
+  public async signUpYaOAuth() {
+    try {
+      dispatch(registrationYaOAuthAC());
+
+      UserControllerClass.setError(null);
+      
+    } catch (error) {
+      return Promise.reject();
+    }
+  }
+
+  public async signInYaOAuth(dataSignIn: TDataSignInYa) {
+    try {      
+      dispatch(loginYaOAuthAC(dataSignIn));
+
+      UserControllerClass.setError(null);
+      
+    } catch (error) {
+      return Promise.reject();
+    }
+  }
+
   public async signIn(formData: TSignInData, cb: () => void) {
     try {
       await AuthAPI.signIn(formData);
@@ -68,12 +94,20 @@ export class UserControllerClass {
         await this.fetchAndSetSignedUserData(cb);
         return Promise.resolve();
       }
+      setErrorAC(error as Error);
+      sendNotification(
+        (error as { errorText: string })?.errorText,
+        NOTIFICATION_LEVEL.ERROR,
+      );
       return Promise.reject(error);
     }
   }
 
   public async fetchAndSetSignedUserData(cb: () => void = _identity) {
     try {
+      if (isServer) {
+        cb();
+      }
       dispatch(loginAC(cb));
 
       UserControllerClass.setError(null);

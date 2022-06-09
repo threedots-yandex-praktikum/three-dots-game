@@ -28,12 +28,16 @@ export type TMessage = {
   userName: string;
   time: number;
   text: string;
+  country?: string;
+  town?: string;
 };
 
 export type TSendData = {
   userId: number;
   topicId: number;
   message: string;
+  country?: string;
+  town?: string;
 };
 
 export type TNewTopicData = {

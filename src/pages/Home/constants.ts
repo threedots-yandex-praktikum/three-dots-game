@@ -1,7 +1,7 @@
 import { InfoSectionTextItem } from 'pages/Home/InfoSectionTextItem';
 import { InfoSectionImageItem } from 'pages/Home/InfoSectionImageItem';
-import bg from 'static/img/bg.png';
 
+const bg = '/img/bg.png';
 export const MOCKED_REVIEW_DATA = [
   {
     id: 1,

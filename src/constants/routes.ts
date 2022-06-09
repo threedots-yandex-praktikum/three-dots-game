@@ -9,4 +9,4 @@ const GAME_SUB_ROUTE = '/game';
 export const GAME_START_ROUTE = [GAME_SUB_ROUTE, 'start'].join('/');
 export const GAME_PLAY_ROUTE = [GAME_SUB_ROUTE, 'play'].join('/');
 export const GAME_OVER_ROUTE = [GAME_SUB_ROUTE, 'over'].join('/');
-export const EDIT_PASSWORD_ROUTE = '/profile/edit-password';
+export const EDIT_PASSWORD_ROUTE = [PROFILE_ROUTE, 'edit-password'].join('/');

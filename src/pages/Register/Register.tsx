@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Box, Button, Flex, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { Logo } from 'components/Logo';
 import { Background } from 'components/Background';
 import { HOME_ROUTE, LOGIN_ROUTE } from 'constants/routes';
@@ -25,6 +25,14 @@ export const Register = () => {
         .signUp(values, onSucseccefulRegistration);
     },
     [history],
+  );
+
+  const onSignUpYa = useCallback(
+    () => {
+      UserController
+        .signUpYaOAuth();
+    },
+    [],
   );
 
   const onClose = useCallback(() => history.push(LOGIN_ROUTE), [history]);
@@ -65,7 +73,7 @@ export const Register = () => {
                 <Grid templateColumns="repeat(2, 1fr)" gap={3}>
                   {REGISTER_FORM_SCHEMA.map(
                     ({
-                      key,
+                      typeField,
                       label,
                       type,
                       placeholder,
@@ -73,16 +81,16 @@ export const Register = () => {
                       gridProps = {},
                     }) => {
                       return (
-                        <GridItem key={key} {...gridProps}>
+                        <GridItem key={typeField} {...gridProps}>
                           <Input
-                            id={key}
+                            id={typeField}
                             label={label}
                             type={type}
                             validate={validate}
                             placeholder={placeholder}
-                            error={errors[key as keyof typeof errors]}
-                            touched={touched[key as keyof typeof touched]}
-                            value={values[key as keyof typeof values]}
+                            error={errors[typeField as keyof typeof errors]}
+                            touched={touched[typeField as keyof typeof touched]}
+                            value={values[typeField as keyof typeof values]}
                             onChange={handleChange}
                           />
                         </GridItem>
@@ -103,9 +111,20 @@ export const Register = () => {
                         Зарегистрироваться
                       </Button>
                     </Flex>
-                  </GridItem>
+        
+                  </GridItem>  
                 </Grid>
+
               </form>
+              <Flex align="center" justify="center" mt={10}>
+                <Button colorScheme='purple' variant='link' onClick={ onSignUpYa }>
+                  Зарегистрироваться с помощью 
+                  <Text
+                    color="red"
+                  >&nbsp;Y</Text>
+                  andex
+                </Button>                  
+              </Flex>
             </SpinnerWrapper>
           </FormikProvider>
         </Box>

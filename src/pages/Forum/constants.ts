@@ -4,7 +4,7 @@ import { EMPTY_STRING } from 'constants/generalConst';
 
 export const CREATE_TOPIC_FORM_SCHEMA = [
   {
-    key: 'title',
+    typeField: 'title',
     label: 'Название темы',
     placeholder: EMPTY_STRING,
     type: 'text',
@@ -15,7 +15,7 @@ export const CREATE_TOPIC_FORM_SCHEMA = [
     },
   },
   {
-    key: 'message',
+    typeField: 'message',
     label: 'Сообщение',
     placeholder: EMPTY_STRING,
     as: Textarea,
@@ -28,7 +28,7 @@ export const CREATE_TOPIC_FORM_SCHEMA = [
 ];
 
 export const SEND_MESSAGE_FORM_SCHEMA = {
-  key: 'message',
+  typeField: 'message',
   label: EMPTY_STRING,
   placeholder: EMPTY_STRING,
   as: Textarea,

@@ -1,6 +1,6 @@
 import { EForumActions, TForumAction, TForumState } from './types';
 
-const initialState: TForumState = {
+export const initialState: TForumState = {
   currentTopic: null,
   topics: null,
 };

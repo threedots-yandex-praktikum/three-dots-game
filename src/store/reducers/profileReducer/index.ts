@@ -1,6 +1,6 @@
 import { EProfileActions, TProfileAction, TProfileState } from './types';
 
-const initialState: TProfileState = {
+export const initialState: TProfileState = {
   email: '',
   first_name: '',
   login: '',
