@@ -9,15 +9,14 @@ const babelLoader = {
     ],
   },
 };
+
+const JS_FILES_HANDLING_DEFAULT_SETTINGS = {
+  test: /\.js$/i,
+  exclude: /node_modules/,
+  use: babelLoader,
+};
+
 export default {
-  client: {
-    test: /\.js$/i,
-    exclude: /node_modules/,
-    use: babelLoader,
-  },
-  server: {
-    test: /\.js$/i,
-    exclude: /node_modules/,
-    use: babelLoader,
-  },
+  client: JS_FILES_HANDLING_DEFAULT_SETTINGS,
+  server: JS_FILES_HANDLING_DEFAULT_SETTINGS,
 };
