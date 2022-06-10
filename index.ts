@@ -1,9 +1,11 @@
-const { MongoClient } = require('mongodb');
-const { secureServer } = require('./dist/server.js');
-const { Client } = require('pg');
-const { Sequelize, SequelizeOptions } = require('sequelize-typescript');
-require('dotenv').config();
+import { MongoClient } from 'mongodb';
+import { Client, ClientConfig }  from 'pg';
+import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import { config } from 'dotenv';
 
+const { secureServer } = require('./dist/server.js');
+
+config();
 
 const connectToMongoDb = () => {
   const url = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
@@ -25,7 +27,7 @@ const connectToPostgreSQL = () => {
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-  });
+  } as ClientConfig);
 
   return client
     .connect()
