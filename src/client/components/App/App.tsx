@@ -6,8 +6,10 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import routes from '../../routes';
-import { NAVIGATION_SCHEMA } from './constants';
+import {
+  NAVIGATION_SCHEMA,
+  APP_ROUTES_SCHEMA,
+} from './constants';
 import { localUrl } from 'client/modules/api/oAuthConfig';
 import {
   HOME_ROUTE,
@@ -61,7 +63,7 @@ export const App = () => {
       <div className="app__content">
         <Switch>
           {
-            routes
+            APP_ROUTES_SCHEMA
               .filter(({ needAuth }) => id ? true : !needAuth)
               .map(routeProps => (
                 <Route
