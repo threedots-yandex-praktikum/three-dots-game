@@ -7,11 +7,11 @@
     "node": "16.14.0"
   },
   "scripts": {
-    "start:webpack": "webpack --watch  --mode development",
-    "start:server": "nodemon index.ts --watch dist/server.js",
+    "start:webpack": "webpack --watch --mode=development",
+    "start:server": "nodemon index.ts --watch",
     "start": "SET NODE_ENV=development & npm-run-all --print-label --parallel start:*",
-    "build": "npm run build:dev:vendors && webpack --mode production",
-    "build:dev:vendors": "SET NODE_ENV=development & webpack --mode=development --config webpack/config/vendors.config.ts",
+    "build": "npm run build:dev:vendors && webpack --mode=production",
+    "build:dev:vendors": "SET NODE_ENV=production & webpack --mode=production --config webpack/config/vendors.config.ts",
     "clean": "rimraf dist/*",
     "stylelint": "npx stylelint \"**/*.scss\" --fix",
     "lint": "eslint --fix ./src",
