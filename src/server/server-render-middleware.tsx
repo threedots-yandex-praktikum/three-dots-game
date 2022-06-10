@@ -1,17 +1,17 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Request, Response } from 'express';
-import { Root } from 'components/Root';
+import { Root } from 'client/components/Root';
 import { StaticRouter } from 'react-router-dom';
 import { StaticRouterContext } from 'react-router';
 import { Provider as ReduxProvider } from 'react-redux';
-import { getInitialState } from 'store/getInitialState';
-import { configureStore } from 'store/store';
-import rootSaga from 'store/rootSaga';
+import { getInitialState } from 'client/store/getInitialState';
+import { configureStore } from 'client/store/store';
+import rootSaga from 'client/store/rootSaga';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { AuthAPIServer } from 'modules/api/authAPIServer';
-import { setUserAC } from 'store/reducers/profileReducer/profileActionCreators';
+import { AuthAPIServer } from 'client/modules/api/authAPIServer';
+import { setUserAC } from 'client/store/reducers/profileReducer/profileActionCreators';
 
 function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
   const scriptTags = chunkExtractor.getScriptTags();

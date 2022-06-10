@@ -14,8 +14,8 @@ export default {
         loader: 'sass-resources-loader',
         options: {
           resources: [
-            'src/styles/variables.scss',
-            'src/styles/main.scss',
+            'src/client/styles/variables.scss',
+            'src/client/styles/main.scss',
           ],
         },
       },
