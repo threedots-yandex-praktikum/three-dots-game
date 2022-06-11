@@ -11,6 +11,8 @@ import { Client, ClientConfig }  from 'pg';
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import { config } from 'dotenv';
 import serverRenderMiddleware from "../middlewares/server-render-middleware";
+import { forumRouter, themeRouter } from "server/router";
+import { FORUM_ROUTE, THEME_ROUTE } from "server/router/constants";
 
 
 config();
@@ -77,10 +79,10 @@ const startExpressApp = () => {
     .use(cookieParser())
     .use(compression())
     .use(express.static(path.resolve(__dirname, '../dist')))
-    .use(express.static(path.resolve(__dirname, '../static')));
-
-
-  app.get('/*', serverRenderMiddleware);
+    .use(express.static(path.resolve(__dirname, '../static')))
+    .use(FORUM_ROUTE, forumRouter)
+    .use(THEME_ROUTE, themeRouter)
+    .get('/*', serverRenderMiddleware);
 
 
   const secureServer = https.createServer(

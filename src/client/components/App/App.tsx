@@ -19,6 +19,7 @@ import { useAppSelector } from 'client/hooks/useAppSelector';
 import { useAuth } from 'client/hooks/useAuth';
 
 import { UserController } from 'client/controllers/UserController';
+import {HTTPTransport} from "client/modules/api/httpTransport/httpTransport";
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -33,6 +34,37 @@ export const App = () => {
   const location = useLocation();
   useEffect(() => {
     if(id) {
+
+      /*
+      * TODO убрать тестовую логику запросов на backend
+      * */
+      const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
+
+      /*
+      * тестовый запрос на точку форума
+      * */
+      backend
+        .get('forum')
+        .then(() => console.log('успешно выполнен запрос на точку форума'))
+        .catch(() => console.log('ошибка запроса на точку форума'))
+
+      /*
+      * тестовый запрос на точку конкретного топика
+      * */
+      backend
+        .get('forum/2')
+        .then(() => console.log('успешно выполнен запрос на точку форума c пареметром топика'))
+        .catch(() => console.log('ошибка запроса на точку форума параметром топика'))
+
+      /*
+      * тестовый запрос на точку темизации
+      * */
+      backend
+        .get('theme')
+        .then(() => console.log('успешно выполнен запрос на точку темизации'))
+        .catch(() => console.log('ошибка запроса на точку темизации'))
+
+
       return;
     }
     const params = new URLSearchParams(location.search);
