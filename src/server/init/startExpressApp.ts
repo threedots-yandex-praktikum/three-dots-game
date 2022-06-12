@@ -1,0 +1,45 @@
+import express from 'express';
+import path from 'path';
+import https from 'https';
+import fs from 'fs';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import { config } from 'dotenv';
+import 'babel-polyfill';
+import { FORUM_ROUTE, THEME_ROUTE } from 'server/router/constants';
+import { forumRouter, themeRouter } from 'server/router';
+import serverRenderMiddleware from 'server/middlewares/server-render-middleware';
+import { contextMiddleware, TContext } from 'server/middlewares/connectionsModdleware';
+
+
+
+config();
+
+export const startExpressApp = (context: TContext) => {
+  const port = process.env.PORT || 5000;
+
+  const app = express();
+
+  app
+    .use(cookieParser())
+    .use(compression())
+    .use(express.static(path.resolve(__dirname, '../dist')))
+    .use(express.static(path.resolve(__dirname, '../static')))
+    .use(contextMiddleware(context))
+    .use(FORUM_ROUTE, forumRouter)
+    .use(THEME_ROUTE, themeRouter)
+    .get('/*', serverRenderMiddleware);
+
+
+  const secureServer = https.createServer(
+    {
+      key: fs.readFileSync('./server.key'),
+      cert: fs.readFileSync('./server.cert'),
+    },
+    app,
+  );
+
+  secureServer.listen(
+    port,
+    () => console.log(`Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`));
+};

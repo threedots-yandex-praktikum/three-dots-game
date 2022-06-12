@@ -1,8 +1,8 @@
-import {Request, Response, NextFunction, Router} from 'express';
-import {sendJSONResponse} from "server/router/constants";
+import { Request, Response, NextFunction, Router } from 'express';
+import { sendJSONResponse } from 'server/router/constants';
 
 
-export const forumRouter = new Router();
+export const forumRouter = Router();
 
 /*
 * здесь задаем миддлвары необходимые для роутера форума
@@ -33,12 +33,10 @@ forumRouter.get('/:topic_id', (req: Request, res: Response) => {
     },
   } = req;
 
-  console.log('запрошенный идентификатор топика: ', topic_id);
-
   return sendJSONResponse(
     res,
     {
-      message: 'вы запросили /forum/:topic_id',
+      message: `вы запросили /forum/:${topic_id}`,
     },
   );
 });

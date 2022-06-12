@@ -1,13 +1,13 @@
-import { Router } from 'express';
-import { sendJSONResponse } from "server/router/constants";
+import { NextFunction, Request, Response, Router } from 'express';
+import { sendJSONResponse } from 'server/router/constants';
 
 
-export const themeRouter = new Router();
+export const themeRouter = Router();
 
 /*
 * здесь задаем миддлвары необходимые для роутера форума
 * */
-themeRouter.use((req, res, next) => {
+themeRouter.use((req: Request, res: Response, next: NextFunction) => {
   console.log('тестовый мидлвар для темизации');
   next();
 });
@@ -16,7 +16,7 @@ themeRouter.use((req, res, next) => {
 * далее последовательно описываем все существующие эндпоинты для темизации
 * */
 
-themeRouter.get('/', (req, res) => {
+themeRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
   return sendJSONResponse(
     res,
     {
