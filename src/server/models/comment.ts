@@ -3,7 +3,7 @@ import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 import { Optional } from 'sequelize';
 
 
-interface CommentAttributes {
+export interface CommentAttributes {
   id: number
   message: string
   user_id: number

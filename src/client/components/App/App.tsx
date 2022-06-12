@@ -19,7 +19,8 @@ import { useAppSelector } from 'client/hooks/useAppSelector';
 import { useAuth } from 'client/hooks/useAuth';
 
 import { UserController } from 'client/controllers/UserController';
-import {HTTPTransport} from "client/modules/api/httpTransport/httpTransport";
+import { HTTPTransport } from 'client/modules/api/httpTransport/httpTransport';
+import { DEFAULT_POST_REQUEST_HEADERS } from 'client/modules/api/httpTransport/constants';
 
 /*
 * TODO навигация нужна только на этапе разработки, потом от нее можно будет избавиться, т.к. во всех интерфейсах
@@ -46,15 +47,15 @@ export const App = () => {
       backend
         .get('forum')
         .then(() => console.log('успешно выполнен запрос на точку форума'))
-        .catch(() => console.log('ошибка запроса на точку форума'))
+        .catch(() => console.log('ошибка запроса на точку форума'));
 
       /*
       * тестовый запрос на точку конкретного топика
       * */
       backend
-        .get('forum/2')
+        .get('forum/topic/2')
         .then(() => console.log('успешно выполнен запрос на точку форума c пареметром топика'))
-        .catch(() => console.log('ошибка запроса на точку форума параметром топика'))
+        .catch(() => console.log('ошибка запроса на точку форума параметром топика'));
 
       /*
       * тестовый запрос на точку темизации
@@ -62,7 +63,51 @@ export const App = () => {
       backend
         .get('theme')
         .then(() => console.log('успешно выполнен запрос на точку темизации'))
-        .catch(() => console.log('ошибка запроса на точку темизации'))
+        .catch(() => console.log('ошибка запроса на точку темизации'));
+
+      /*
+      * тестовый запрос на точку создания данных модели comment
+      * */
+      backend.post(
+        'forum/comment',
+        {
+          data: { message: 'allo this is comment', topic_id: 1, user_id: 2 },
+          headers: DEFAULT_POST_REQUEST_HEADERS,
+        })
+        .then(() => console.log('успешно выполнен запрос на точку comment'))
+        .catch(() => console.log('ошибка запроса на точку comment'));
+
+      /*
+      * тестовый запрос на точку получения данных модели comment
+      * */
+      backend
+        .get('forum/comment')
+        .then(() => console.log('успешно выполнен запрос на точку comment'))
+        .catch(() => console.log('ошибка запроса на точку comment'));
+
+      /*
+      * тестовый запрос на точку получения данных модели comment
+      * */
+      backend
+        .get('forum/comment/1')
+        .then(() => console.log('успешно выполнен GET запрос на точку comment'))
+        .catch(() => console.log('ошибка GET запроса на точку comment'));
+
+      /*
+      * тестовый запрос на точку редактирования данных модели comment
+      * */
+      backend
+        .put('forum/comment/1', { data: { message: 'test test' } })
+        .then(() => console.log('успешно выполнен PUT запрос на точку comment'))
+        .catch(() => console.log('ошибка PUT запроса на точку comment'));
+
+      /*
+      * тестовый запрос на точку удаления данных модели comment
+      * */
+      backend
+        .delete('forum/comment/1')
+        .then(() => console.log('успешно выполнен DELETE запрос на точку comment'))
+        .catch(() => console.log('ошибка DELETE запроса на точку comment'));
 
 
       return;

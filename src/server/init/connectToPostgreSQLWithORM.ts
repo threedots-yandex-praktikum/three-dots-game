@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import path from 'path';
+import { Comment } from '../models';
 
 
 export const connectToPostgreSQLWithORM = () => {
@@ -11,10 +11,11 @@ export const connectToPostgreSQLWithORM = () => {
     database: process.env.POSTGRES_DB,
     dialect: 'postgres',
     storage: ':memory:',
-    models: [path.resolve(__dirname, '../models')],
   };
 
   const sequelize = new Sequelize(sequelizeOptions as SequelizeOptions);
+
+  sequelize.addModels([Comment]);
 
   return Promise.resolve()
     .then(() => sequelize.authenticate())
