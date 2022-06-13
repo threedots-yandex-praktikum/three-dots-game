@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { AuthAPIServer } from 'client/modules/api/authAPIServer';
 import { AxiosResponse } from 'axios';
 import { TUserModelResponse } from 'client/modules/api/profileAPI';
+import { HTTP_STATUS } from 'server/types';
 
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,9 +15,9 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
       next();
     })
     .catch((error: AxiosResponse) => {
-      if(error.status === 401) {
+      if(error.status === HTTP_STATUS.UNAUTHORIZED) {
         return res
-          .status(403)
+          .status(HTTP_STATUS.FORBIDDEN)
           .send(null);
       }
     });
