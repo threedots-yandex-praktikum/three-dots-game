@@ -13,17 +13,22 @@ export const connectToPostgreSQLWithORM = () => {
     storage: ':memory:',
   };
 
-  const sequelize = new Sequelize(sequelizeOptions as SequelizeOptions);
+  const client = new Sequelize(sequelizeOptions as SequelizeOptions);
 
-  sequelize.addModels([Comment]);
+  const closeCb = () => {
+    console.log('соединение с postgreSQL с использованием sequelize прекращено');
+    client.close.bind(client);
+  };
+
+  client.addModels([Comment]);
 
   return Promise.resolve()
-    .then(() => sequelize.authenticate())
-    .then(() => sequelize.sync())
+    .then(() => client.authenticate())
+    .then(() => client.sync())
     .then(() => {
       console.log('соединение с postgreSQL с использованием sequelize установлено');
 
-      return sequelize;
+      return { client, closeCb };
     })
     .catch((error: any) => {
       console.log('не удалось установить соединение с postgreSQL с использованием sequelize');

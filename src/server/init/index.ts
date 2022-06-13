@@ -5,11 +5,27 @@ import { startExpressApp } from './startExpressApp';
 import { TContext } from 'server/types';
 
 
+const connectionCloseCbArray: unknown[] = [];
+
 export const startServer = async() => {
   try {
-    const mongoClient = await connectToMongoDb();
-    const pgClient = await connectToPostgreSQL();
-    const sequelize = await connectToPostgreSQLWithORM();
+    const {
+      client: mongoClient,
+      closeCb: mongoCloseCb,
+    } = await connectToMongoDb();
+    connectionCloseCbArray.push(mongoCloseCb);
+
+    const {
+      client: pgClient,
+      closeCb: pgCloseCb,
+    } = await connectToPostgreSQL();
+    connectionCloseCbArray.push(pgCloseCb);
+
+    const {
+      client: sequelize,
+      closeCb: sequelizeCloseCb,
+    } = await connectToPostgreSQLWithORM();
+    connectionCloseCbArray.push(sequelizeCloseCb);
 
     const context = {
       mongoClient,
@@ -24,7 +40,15 @@ export const startServer = async() => {
 };
 
 const handleCommonError = (error: unknown) => {
-  console.log('В процессе запуска приложения возникла критическая ошибка');
+
+  /*
+  * закрываем все установленные соединения
+  * */
+  connectionCloseCbArray.forEach(closeCb => {
+    return (closeCb as () => void)();
+  });
+
+  console.log('В процессе запуска приложения возникла критическая ошибка', error);
 };
 
 

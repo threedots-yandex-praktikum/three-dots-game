@@ -14,7 +14,6 @@ import bodyParser from 'body-parser';
 import { TContext } from 'server/types';
 
 
-
 config();
 
 export const startExpressApp = (context: TContext) => {
@@ -45,5 +44,6 @@ export const startExpressApp = (context: TContext) => {
 
   secureServer.listen(
     port,
-    () => console.log(`Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`));
+    () => console.log(`Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`),
+  );
 };
