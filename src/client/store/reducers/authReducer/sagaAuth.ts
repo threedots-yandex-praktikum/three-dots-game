@@ -1,6 +1,5 @@
 import {
   loginAC,
-  loginOnServerAC,
   logoutAC,
   registrationAC,
   setErrorAC,
@@ -25,7 +24,8 @@ import {
   NOTIFICATION_LEVEL,
   sendNotification,
 } from 'client/modules/notification';
-import { AuthAPIServer } from 'client/modules/api/authAPIServer';
+import _identity from 'lodash/identity';
+
 
 function* fetchSignIn({ cb }: ReturnType<typeof loginAC>) {
   try {
@@ -115,25 +115,6 @@ export function* watchLogout() {
   yield takeEvery(channel, fetchLogout);
 }
 
-function* fetchSignInOnServer({ payload }: ReturnType<typeof loginOnServerAC>) {
-  try {
-    const response: TProfileState = yield call(
-      AuthAPIServer.getUserDataSSR.bind(AuthAPIServer),
-      payload.cookie,
-    );
-    yield put(setUserAC(response));
-    // payload.cb();
-  } catch (error) {
-    yield put(setErrorAC(error as Error));
-  }
-}
-
-export function* watchSignInOnServer() {
-  const channel: TakeableChannel<ReturnType<typeof loginOnServerAC>> =
-    yield actionChannel(ELoginActions.LOGIN_ON_SERVER);
-  yield takeEvery(channel, fetchSignInOnServer);
-}
-
 export function* watchRegisterYa() {
   const channel: TakeableChannel<ReturnType<typeof registrationYaOAuthAC>> =
     yield actionChannel(ELoginActions.REGISTER_YA_OAUTH);
@@ -172,8 +153,8 @@ function* fetchSignInYa({ payload }: ReturnType<typeof loginYaOAuthAC>) {
     yield call(
       AuthAPI.sendCodeAuthYa.bind(AuthAPI, payload ),
     );
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    yield put(loginAC(()=>{}));
+
+    yield put(loginAC(_identity));
   } catch (error) {
     yield put(setFetchOffAC());
     yield put(setErrorAC(error as Error));

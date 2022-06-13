@@ -3,7 +3,6 @@ import {
   watchSignIn,
   watchRegister,
   watchLogout,
-  watchSignInOnServer,
   watchRegisterYa,
   watchSignInYa,
 } from './reducers/authReducer/sagaAuth';
@@ -42,7 +41,6 @@ export default function* rootSaga() {
     watchCreateTopic(),
     watchSendMessage(),
     watchLeaderBoard(),
-    watchSignInOnServer(),
     watchAddUserToLB(),
   ]);
 }
