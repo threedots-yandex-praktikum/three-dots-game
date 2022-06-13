@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, Router } from 'express';
+import { Request, Response, Router } from 'express';
 import {
   COMMENT_SUB_ROUTE,
   COMMENT_WITH_ID_SUB_ROUTE,
@@ -12,17 +12,15 @@ import {
   handleGetAllComments,
   handleGetSingleComment,
 } from './comment';
+import { authMiddleware } from 'server/middlewares/authMiddleware';
 
 
 export const forumRouter = Router();
 
 /*
-* здесь задаем миддлвары необходимые для роутера форума
+* здесь задаем миддлвары необходимые только для роутера форума
 * */
-forumRouter.use((req: Request, res: Response, next: NextFunction) => {
-  console.log('тестовый мидлвар для форума');
-  next();
-});
+forumRouter.use(authMiddleware);
 
 forumRouter.get('/', (req: Request, res: Response) => {
   return sendJSONResponse(

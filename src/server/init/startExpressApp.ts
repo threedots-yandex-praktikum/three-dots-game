@@ -8,9 +8,10 @@ import { config } from 'dotenv';
 import 'babel-polyfill';
 import { FORUM_ROUTE, THEME_ROUTE } from 'server/router/constants';
 import { forumRouter, themeRouter } from 'server/router';
-import serverRenderMiddleware from 'server/middlewares/server-render-middleware';
-import { contextMiddleware, TContext } from 'server/middlewares/connectionsModdleware';
+import { serverRenderMiddleware } from 'server/middlewares/serverRenderMiddleware';
+import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
+import { TContext } from 'server/types';
 
 
 

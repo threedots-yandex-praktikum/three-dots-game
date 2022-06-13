@@ -1,4 +1,4 @@
-import { TContext } from 'server/middlewares/connectionsModdleware';
+import { TContext } from 'server/middlewares/contextMiddleware';
 
 declare global {
   namespace Express {

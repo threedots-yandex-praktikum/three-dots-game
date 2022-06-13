@@ -1,26 +1,16 @@
 import { AUTH_API_ENDPOINTS, YANDEX_API_HOST } from './httpTransport/constants';
 import { TUserModelResponse } from 'client/modules/api/profileAPI';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-export type TSignUpData = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  password: string;
-  phone: string;
-  display_name?: string;
-  avatar?: string;
-};
-
-export type TSignInData = {
-  login: string;
-  password: string;
-};
 
 class AuthAPIServerClass {
-  async getUserDataSSR(cookie: string): Promise<TUserModelResponse> {
+  async getUserDataSSR(cookies: Record<string, string>): Promise<TUserModelResponse | AxiosResponse> {
     try {
+      const cookie = Object
+        .keys(cookies)
+        .map(key => `${key}=${cookies[key]}`)
+        .join('; ');
+
       const response = await axios(
         YANDEX_API_HOST + '/' + AUTH_API_ENDPOINTS.USER_DATA,
         {
@@ -29,11 +19,9 @@ class AuthAPIServerClass {
           },
         },
       );
-      return response.data as unknown as TUserModelResponse;
-    } catch (error) {
-      console.error(error);
-
-      return error as unknown as TUserModelResponse;
+      return response.data as TUserModelResponse;
+    } catch (error: any) {
+      return Promise.reject(error.response);
     }
   }
 }

@@ -12,6 +12,7 @@ import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
 import { AuthAPIServer } from 'client/modules/api/authAPIServer';
 import { setUserAC } from 'client/store/reducers/profileReducer/profileActionCreators';
+import { TProfileState } from 'client/store/reducers/profileReducer/types';
 
 function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
   const scriptTags = chunkExtractor.getScriptTags();
@@ -41,7 +42,7 @@ function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtrac
   </html>
   `;
 }
-export default (req: Request, res: Response) => {
+export const serverRenderMiddleware = (req: Request, res: Response) => {
   const context: StaticRouterContext = {};
   const statsFile = path.resolve('./dist/loadable-stats.json');
   const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: 'app' });
@@ -67,31 +68,26 @@ export default (req: Request, res: Response) => {
     </ReduxProvider>,
   );
 
-  const cookiesString = Object
-    .keys(req.cookies)
-    .map(key => `${key}=${req.cookies[key]}`)
-    .join('; ');
+  const renderPageCallback = () => {
+    store.runSaga(rootSaga);
+
+    store.close();
+
+    const reactHtml = renderToString(jsx);
+
+    const html = getHtml(reactHtml, store.getState(), chunkExtractor);
+    res
+      .status(context.statusCode || 200)
+      .send(html);
+  };
 
   return AuthAPIServer
-    .getUserDataSSR(cookiesString)
+    .getUserDataSSR(req.cookies)
     .then(response => {
-      store.dispatch(setUserAC(response));
+      store.dispatch(setUserAC(response as TProfileState));
 
       return response;
     })
-    .then(() => {
-      store.runSaga(rootSaga);
-
-      store.close();
-
-      const reactHtml = renderToString(jsx);
-
-      const html = getHtml(reactHtml, store.getState(), chunkExtractor);
-      res
-        .status(context.statusCode || 200)
-        .send(html);
-
-
-
-    });
+    .then(renderPageCallback)
+    .catch(renderPageCallback);
 };

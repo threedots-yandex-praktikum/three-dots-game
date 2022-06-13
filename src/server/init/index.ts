@@ -1,8 +1,8 @@
-import { TContext } from 'server/middlewares/connectionsModdleware';
 import { connectToPostgreSQL } from './connectToPostgreSQL';
 import { connectToPostgreSQLWithORM } from './connectToPostgreSQLWithORM';
 import { connectToMongoDb } from './connectToMongoDB';
 import { startExpressApp } from './startExpressApp';
+import { TContext } from 'server/types';
 
 
 export const startServer = async() => {
