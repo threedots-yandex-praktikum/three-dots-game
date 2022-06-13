@@ -11,7 +11,7 @@ export const COMMENT_WITH_ID_SUB_ROUTE = [COMMENT_SUB_ROUTE, ':id'].join('/');
 
 export const TOPIC_SUB_ROUTE = '/topic';
 
-export const sendJSONResponse = (res: Response, data: Record<string, any>) => {
+export const sendJSONResponse = (res: Response, data: Record<string, unknown>) => {
   return res
     .status(200)
     .setHeader('content-type', 'text/plain')

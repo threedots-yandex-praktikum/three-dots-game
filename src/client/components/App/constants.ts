@@ -1,6 +1,6 @@
-import loadable from "@loadable/component";
+import loadable from '@loadable/component';
 import _constant from 'lodash/constant';
-import _identity from "lodash/identity";
+import _identity from 'lodash/identity';
 
 import {
   FORUM_ROUTE,

@@ -69,7 +69,7 @@ export const Login = () => {
               <SpinnerWrapper loading={isFetch}>
                 <form onSubmit={handleSubmit}>
                   {LOGIN_FORM_SCHEMA.map(
-                    ({ typeField, label, type, placeholder, validate }) => (
+                    ({ typeField, label, placeholder, validate }) => (
                       <Input
                         id={typeField}
                         key={typeField}

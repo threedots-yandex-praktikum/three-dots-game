@@ -19,7 +19,6 @@ export const LOGIN_FORM_SCHEMA = [
   {
     typeField: 'password',
     label: 'Пароль',
-    type: 'password',
     placeholder: EMPTY_STRING,
     validate: (value: string) => {
       if (value.match(VALIDATION.PASSWORD.pattern) == null) {
