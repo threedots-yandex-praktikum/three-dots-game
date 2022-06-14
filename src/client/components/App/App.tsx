@@ -31,13 +31,13 @@ import { DEFAULT_POST_REQUEST_HEADERS } from 'client/modules/api/httpTransport/c
 /*
 * TODO убрать тестовую логику запросов на backend
 * */
-const testBackendRequestsCallback = () => {
+const testBackendRequestsCallback = async () => {
   const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
 
   /*
   * тестовый запрос на точку форума
   * */
-  backend
+  await backend
     .get('forum')
     .then(() => console.log('успешно выполнен запрос на точку форума'))
     .catch(() => console.log('ошибка запроса на точку форума'));
@@ -45,7 +45,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку конкретного топика
   * */
-  backend
+  await backend
     .get('forum/topic/2')
     .then(() => console.log('успешно выполнен запрос на точку форума c пареметром топика'))
     .catch(() => console.log('ошибка запроса на точку форума параметром топика'));
@@ -53,7 +53,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку темизации
   * */
-  backend
+  await backend
     .get('theme')
     .then(() => console.log('успешно выполнен запрос на точку темизации'))
     .catch(() => console.log('ошибка запроса на точку темизации'));
@@ -61,7 +61,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку создания данных модели comment
   * */
-  backend.post(
+  await backend.post(
     'forum/comment',
     {
       data: { message: 'allo this is comment', topicId: 1, userId: 2 },
@@ -73,7 +73,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку получения данных модели comment
   * */
-  backend
+  await backend
     .get('forum/comment')
     .then(() => console.log('успешно выполнен запрос на точку comment'))
     .catch(() => console.log('ошибка запроса на точку comment'));
@@ -81,7 +81,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку получения данных модели comment
   * */
-  backend
+  await backend
     .get('forum/comment/1')
     .then(() => console.log('успешно выполнен GET запрос на точку comment'))
     .catch(() => console.log('ошибка GET запроса на точку comment'));
@@ -89,7 +89,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку редактирования данных модели comment
   * */
-  backend
+  await backend
     .put('forum/comment/1', { data: { message: 'test test' } })
     .then(() => console.log('успешно выполнен PUT запрос на точку comment'))
     .catch(() => console.log('ошибка PUT запроса на точку comment'));
@@ -97,7 +97,7 @@ const testBackendRequestsCallback = () => {
   /*
   * тестовый запрос на точку удаления данных модели comment
   * */
-  backend
+  await backend
     .delete('forum/comment/1')
     .then(() => console.log('успешно выполнен DELETE запрос на точку comment'))
     .catch(() => console.log('ошибка DELETE запроса на точку comment'));
