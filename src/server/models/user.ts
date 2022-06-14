@@ -5,9 +5,7 @@ import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 
 interface UserAttributes {
   id: number
-  message: string
-  user_id: number
-  topic_id: number
+  name: string
 }
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>

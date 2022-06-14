@@ -4,11 +4,16 @@ import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 import { User } from 'server/models/user';
 
 
+export enum topicStatus {
+  OPEN = 0,
+  CLOSED = 1,
+}
+
 interface TopicAttributes {
   id: number
-  message: string
-  user_id: number
-  topic_id: number
+  name: string
+  status: number
+  userId: number
 }
 
 type TopicCreationAttributes = Optional<TopicAttributes, 'id'>

@@ -4,11 +4,17 @@ import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 import { User } from 'server/models/user';
 
 
+export enum themeStatus {
+  ACTIVE = 0,
+  AVAILABLE = 1,
+  UNAVAILABLE = 2
+}
+
 interface ThemeAttributes {
   id: number
-  message: string
-  user_id: number
-  topic_id: number
+  name: string
+  status: themeStatus
+  userId: number
 }
 
 type ThemeCreationAttributes = Optional<ThemeAttributes, 'id'>

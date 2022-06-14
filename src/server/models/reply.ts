@@ -7,17 +7,14 @@ import { User, Comment } from 'server/models';
 interface ReplyAttributes {
   id: number
   message: string
-  user_id: number
-  topic_id: number
+  userId: number
+  commentId: number
+  parentId: number
 }
 
 type ReplyCreationAttributes = Optional<ReplyAttributes, 'id'>
 
-@Table({
-  timeStamps: {
-    updatedAt: false,
-  },
-} as TableOptions<Model>)
+@Table({} as TableOptions<Model>)
 export class Reply extends Model<ReplyAttributes, ReplyCreationAttributes> {
 
   @Column({
