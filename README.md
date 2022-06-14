@@ -8,6 +8,8 @@
 - скопировать файл `.env-example` и переименовать его в `.env`
 - выполнить команду установки зависимостей `npm install`
 - выполнить команду сборки `npm run build`
+- запустить контейнеры баз данных, выполнив команду
+  - `docker-compose up yandex-pgadmin yandex-mongo yandex-postgres`
   далее можно:
 - запустить отдельно сервер и клиент:
   - `npm run start:server`
