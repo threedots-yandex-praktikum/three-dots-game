@@ -20,7 +20,8 @@ interface ThemeAttributes {
 type ThemeCreationAttributes = Optional<ThemeAttributes, 'id'>
 
 @Table({
-  timeStamps: false,
+  updatedAt: false,
+  createdAt: false,
 } as TableOptions<Model>)
 export class Theme extends Model<ThemeAttributes, ThemeCreationAttributes> {
 

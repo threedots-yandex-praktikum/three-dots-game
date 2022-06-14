@@ -11,9 +11,7 @@ interface UserAttributes {
 type UserCreationAttributes = Optional<UserAttributes, 'id'>
 
 @Table({
-  timeStamps: {
-    updatedAt: false,
-  },
+  updatedAt: false,
 } as TableOptions<Model>)
 export class User extends Model<UserAttributes, UserCreationAttributes> {
 

@@ -19,9 +19,7 @@ interface TopicAttributes {
 type TopicCreationAttributes = Optional<TopicAttributes, 'id'>
 
 @Table({
-  timeStamps: {
-    updatedAt: false,
-  },
+  updatedAt: false,
 } as TableOptions<Model>)
 export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
 

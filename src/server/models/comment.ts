@@ -15,9 +15,7 @@ interface CommentAttributes {
 type CommentCreationAttributes = Optional<CommentAttributes, 'id'>
 
 @Table({
-  timeStamps: {
-    updatedAt: false,
-  },
+  updatedAt: false,
 } as TableOptions<Model>)
 export class Comment extends Model<CommentAttributes, CommentCreationAttributes> {
 
