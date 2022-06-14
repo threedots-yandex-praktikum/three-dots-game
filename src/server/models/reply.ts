@@ -1,25 +1,24 @@
-import { Model, Table, Column, DataType, TableOptions, ForeignKey } from 'sequelize-typescript';
-import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 import { Optional } from 'sequelize';
-import { User } from 'server/models/user';
-import { Topic } from 'server/models/topic';
+import { Column, DataType, ForeignKey, Model, Table, TableOptions } from 'sequelize-typescript';
+import { ModelAttributeColumnOptions } from 'sequelize/types/model';
+import { User, Comment } from 'server/models';
 
 
-interface CommentAttributes {
+interface ReplyAttributes {
   id: number
   message: string
-  userId: number
-  topicId: number
+  user_id: number
+  topic_id: number
 }
 
-type CommentCreationAttributes = Optional<CommentAttributes, 'id'>
+type ReplyCreationAttributes = Optional<ReplyAttributes, 'id'>
 
 @Table({
   timeStamps: {
     updatedAt: false,
   },
 } as TableOptions<Model>)
-export class Comment extends Model<CommentAttributes, CommentCreationAttributes> {
+export class Reply extends Model<ReplyAttributes, ReplyCreationAttributes> {
 
   @Column({
     type: DataType.INTEGER,
@@ -42,10 +41,17 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   })
   userId!: number;
 
-  @ForeignKey(() => Topic)
+  @ForeignKey(() => Comment)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  topicId!: number;
+  commentId!: number;
+
+  @ForeignKey(() => Reply)
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: true,
+  })
+  parentId!: number;
 }

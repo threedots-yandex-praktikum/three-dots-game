@@ -64,7 +64,7 @@ const testBackendRequestsCallback = () => {
   backend.post(
     'forum/comment',
     {
-      data: { message: 'allo this is comment', topic_id: 1, user_id: 2 },
+      data: { message: 'allo this is comment', topicId: 1, userId: 2 },
       headers: DEFAULT_POST_REQUEST_HEADERS,
     })
     .then(() => console.log('успешно выполнен запрос на точку comment'))

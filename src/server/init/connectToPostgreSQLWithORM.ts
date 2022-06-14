@@ -1,5 +1,5 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import { Comment } from '../models';
+import { Comment, Topic, User, Reply, Theme } from '../models';
 
 
 export const connectToPostgreSQLWithORM = () => {
@@ -11,6 +11,9 @@ export const connectToPostgreSQLWithORM = () => {
     database: process.env.POSTGRES_DB,
     dialect: 'postgres',
     storage: ':memory:',
+    define: {
+      freezeTableName: true,
+    },
   };
 
   const client = new Sequelize(sequelizeOptions as SequelizeOptions);
@@ -20,7 +23,7 @@ export const connectToPostgreSQLWithORM = () => {
     client.close.bind(client);
   };
 
-  client.addModels([Comment]);
+  client.addModels([Comment, User, Topic, Reply, Theme]);
 
   return Promise.resolve()
     .then(() => client.authenticate())
