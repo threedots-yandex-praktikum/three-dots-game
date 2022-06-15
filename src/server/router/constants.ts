@@ -10,6 +10,7 @@ export const COMMENT_SUB_ROUTE = '/comment';
 export const COMMENT_WITH_ID_SUB_ROUTE = [COMMENT_SUB_ROUTE, ':id'].join('/');
 
 export const TOPIC_SUB_ROUTE = '/topic';
+export const TOPIC_WITH_ID_SUB_ROUTE = [TOPIC_SUB_ROUTE, ':id'].join('/');
 
 export const sendJSONResponse = (res: Response, data: Record<string, unknown>) => {
   return res

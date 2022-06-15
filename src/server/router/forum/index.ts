@@ -1,9 +1,9 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import {
   COMMENT_SUB_ROUTE,
   COMMENT_WITH_ID_SUB_ROUTE,
-  sendJSONResponse,
   TOPIC_SUB_ROUTE,
+  TOPIC_WITH_ID_SUB_ROUTE,
 } from 'server/router/constants';
 import {
   handleCommentCreate,
@@ -12,6 +12,14 @@ import {
   handleGetAllComments,
   handleGetSingleComment,
 } from './comment';
+import { 
+  handleGetAllTopics,
+  handleGetSingleTopic,
+  handleTopicCreate,
+  handleTopicDelete,
+  handleTopicUpdate,
+ } 
+from './topic';
 import { authMiddleware } from 'server/middlewares/authMiddleware';
 
 
@@ -22,29 +30,7 @@ export const forumRouter = Router();
 * */
 forumRouter.use(authMiddleware);
 
-forumRouter.get('/', (req: Request, res: Response) => {
-  return sendJSONResponse(
-    res,
-    {
-      message: 'вы запросили /forum',
-    },
-  );
-});
 
-forumRouter.get(`${TOPIC_SUB_ROUTE}/:topic_id`, (req: Request, res: Response) => {
-  const {
-    params: {
-      topic_id,
-    },
-  } = req;
-
-  return sendJSONResponse(
-    res,
-    {
-      message: `вы запросили /forum/:${topic_id}`,
-    },
-  );
-});
 
 /*
 * CRUD API для модели комментария
@@ -54,3 +40,12 @@ forumRouter.get(COMMENT_WITH_ID_SUB_ROUTE, handleGetSingleComment);
 forumRouter.post(COMMENT_SUB_ROUTE, handleCommentCreate);
 forumRouter.put(COMMENT_WITH_ID_SUB_ROUTE, handleCommentUpdate);
 forumRouter.delete(COMMENT_WITH_ID_SUB_ROUTE, handleCommentDelete);
+
+/*
+* CRUD API для модели топиков
+* */
+forumRouter.get(TOPIC_SUB_ROUTE, handleGetAllTopics);
+forumRouter.get(TOPIC_WITH_ID_SUB_ROUTE, handleGetSingleTopic);
+forumRouter.post(TOPIC_SUB_ROUTE, handleTopicCreate);
+forumRouter.put(TOPIC_WITH_ID_SUB_ROUTE, handleTopicUpdate);
+forumRouter.delete(TOPIC_WITH_ID_SUB_ROUTE, handleTopicDelete);

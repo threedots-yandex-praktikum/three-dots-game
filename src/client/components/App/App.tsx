@@ -34,21 +34,6 @@ import { DEFAULT_POST_REQUEST_HEADERS } from 'client/modules/api/httpTransport/c
 const testBackendRequestsCallback = async () => {
   const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
 
-  /*
-  * тестовый запрос на точку форума
-  * */
-  await backend
-    .get('forum')
-    .then(() => console.log('успешно выполнен запрос на точку форума'))
-    .catch(() => console.log('ошибка запроса на точку форума'));
-
-  /*
-  * тестовый запрос на точку конкретного топика
-  * */
-  await backend
-    .get('forum/topic/2')
-    .then(() => console.log('успешно выполнен запрос на точку форума c пареметром топика'))
-    .catch(() => console.log('ошибка запроса на точку форума параметром топика'));
 
   /*
   * тестовый запрос на точку темизации
@@ -101,6 +86,60 @@ const testBackendRequestsCallback = async () => {
     .delete('forum/comment/1')
     .then(() => console.log('успешно выполнен DELETE запрос на точку comment'))
     .catch(() => console.log('ошибка DELETE запроса на точку comment'));
+    
+    /*
+  * тестовый запрос на точку создания данных модели topic
+  * */
+  await backend.post(
+        'forum/topic',
+    {
+      data: { name: 'name', status: 0, userId: 2 },
+      headers: DEFAULT_POST_REQUEST_HEADERS,
+    })
+        .then(() => console.log('успешно выполнен запрос на точку topic'))
+        .catch(() => console.log('ошибка запроса на точку topic'));
+
+
+  /*
+  * тестовый запрос на точку топика
+  * */
+  await backend
+    .get('forum/topic')
+    .then(() => console.log('успешно выполнен GET запрос на точку topic'))
+    .catch(() => console.log('ошибка GET запроса на точку topic'));
+
+      /*
+  * тестовый запрос на точку конкретного topic
+  * */
+  await backend
+    .get('forum/topic/1')
+    .then(() => console.log('успешно выполнен запрос на точку форума c пареметром topic'))
+    .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
+
+  /*
+  * тестовый запрос на точку редактирования данных модели topic
+  * */
+  await backend
+    .put('forum/topic/1', { data: { status: 1 } })
+    .then(() => console.log('успешно выполнен PUT запрос на точку topic'))
+    .catch(() => console.log('ошибка PUT запроса на точку topic'));
+
+    
+      /*
+  * тестовый запрос на точку конкретного topic
+  * */
+  await backend
+  .get('forum/topic/1')
+  .then(() => console.log('успешно выполнен запрос на точку форума c пареметром topic'))
+  .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
+
+  /*
+  * тестовый запрос на точку удаления данных модели topic
+  * */
+  await backend
+    .delete('forum/topic/1')
+    .then(() => console.log('успешно выполнен DELETE запрос на точку topic'))
+    .catch(() => console.log('ошибка DELETE запроса на точку topic'));
 };
 
 export const App = () => {
