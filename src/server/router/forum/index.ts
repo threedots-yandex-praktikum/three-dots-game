@@ -28,15 +28,17 @@ import { authMiddleware } from 'server/middlewares/authMiddleware';
 import {
   handleGetAllReactions,
   handleGetSingleReaction,
-  handleReactionCreate, handleReactionDelete,
-  handleReactionUpdate
-} from "server/router/forum/reaction";
+  handleReactionCreate,
+  handleReactionDelete,
+  handleReactionUpdate,
+} from 'server/router/forum/reaction';
 import {
   handleGetAllReplies,
   handleGetSingleReply,
-  handleReplyCreate, handleReplyDelete,
-  handleReplyUpdate
-} from "server/router/forum/reply";
+  handleReplyCreate,
+  handleReplyDelete,
+  handleReplyUpdate,
+} from 'server/router/forum/reply';
 
 
 export const forumRouter = Router();

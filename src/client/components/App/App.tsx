@@ -39,28 +39,20 @@ const testBackendRequestsCallback = async () => {
   await backend.post(
       'user',
     {
-      data: { name: 'Олег' },
+      data: { name: 'Олег1', theme: 'DARK' },
       headers: DEFAULT_POST_REQUEST_HEADERS,
     })
       .then(() => console.log('успешно выполнен запрос на точку user'))
       .catch(() => console.log('ошибка запроса на точку user'));
 
-  /*
-  * тестовый запрос на точку темизации
-  * */
-  await backend
-    .get('theme')
-    .then(() => console.log('успешно выполнен запрос на точку темизации'))
-    .catch(() => console.log('ошибка запроса на точку темизации'));
 
- 
     /*
   * тестовый запрос на точку создания данных модели topic
   * */
   await backend.post(
         'forum/topic',
     {
-      data: { name: 'name', userId: 1 },
+      data: { name: 'name45', userId: 1 },
       headers: DEFAULT_POST_REQUEST_HEADERS,
     })
         .then(() => console.log('успешно выполнен запрос на точку topic'))
@@ -91,7 +83,7 @@ const testBackendRequestsCallback = async () => {
     .then(() => console.log('успешно выполнен PUT запрос на точку topic'))
     .catch(() => console.log('ошибка PUT запроса на точку topic'));
 
-    
+
       /*
   * тестовый запрос на точку конкретного topic
   * */
@@ -152,7 +144,7 @@ const testBackendRequestsCallback = async () => {
     .delete('forum/comment/1')
     .then(() => console.log('успешно выполнен DELETE запрос на точку comment'))
     .catch(() => console.log('ошибка DELETE запроса на точку comment'));
- 
+
 };
 
 const testBackendRequestsCallback2 = async () => {
