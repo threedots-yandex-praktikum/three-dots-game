@@ -46,7 +46,7 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    onDelete: 'cascade',
+    onDelete: 'CASCADE',
   })
   topicId!: number;
 
