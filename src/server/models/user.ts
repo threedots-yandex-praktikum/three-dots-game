@@ -1,11 +1,18 @@
 import { Optional } from 'sequelize';
-import { Column, DataType, Model, Table, TableOptions, HasMany,  BelongsToMany } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, TableOptions, HasMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { Theme, UserThemes, Topic, Comment, Reply, CommentReactions } from 'server/models/';
+import { Topic, Comment, Reply, CommentReactions } from 'server/models/';
+
+
+export enum userTheme {
+  DARK = 'DARK',
+  LIGHT = 'LIGHT',
+}
 
 interface UserAttributes {
   id: number
   name: string
+  theme: userTheme
 }
 
 type UserCreationAttributes = Optional<UserAttributes, 'id'>
@@ -29,18 +36,19 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
   })
   name!: string;
 
-  @BelongsToMany(() => Theme, { through: () => UserThemes })
-  theme!: Theme;
-  
-  @HasMany(() => UserThemes, { onDelete: 'CASCADE' } )
-  userThemes!: UserThemes[];
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  theme!: userTheme;
+
 
   @HasMany(() => Topic, { onDelete: 'SET NULL' } )
   topics!: Topic[];
 
   @HasMany(() => Comment, { onDelete: 'SET NULL' } )
   comments!: Comment[];
-  
+
   @HasMany(() => Reply, { onDelete: 'SET NULL' } )
   replies!: Reply[];
 

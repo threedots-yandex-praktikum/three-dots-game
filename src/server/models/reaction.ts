@@ -31,5 +31,5 @@ export class Reaction extends Model<ReactionAttributes, ReactionCreationAttribut
   code!: string;
 
   @BelongsToMany(() => Comment, { through: () => CommentReactions })
-  theme!: Comment;
+  comments!: Comment[];
 }

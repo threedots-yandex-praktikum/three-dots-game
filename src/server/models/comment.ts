@@ -35,7 +35,7 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
-    
+
   })
   userId!: number;
 
@@ -46,17 +46,16 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    onDelete: 'cascade',
   })
   topicId!: number;
 
   @BelongsTo(() => Topic)
-  topics!: Topic;
+  topic!: Topic;
 
   @HasMany(() => Reply, { onDelete: 'CASCADE' } )
   replies!: Reply[];
 
-  @BelongsToMany(() => Reaction, { through: () => CommentReactions })
-  theme!: Reaction;
+  @BelongsToMany(() => Reaction, { through: () => CommentReactions, onDelete: 'CASCADE' })
+  reactions!: Reaction[];
 
 }

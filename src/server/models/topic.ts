@@ -53,6 +53,6 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @BelongsTo(() => User)
   user!: User;
 
-  @HasMany(() => Comment, { onDelete: 'CASCADE', foreignKey: 'topicId' } )
+  @HasMany(() => Comment, { onDelete: 'CASCADE' } )
   comments!: Comment[];
 }

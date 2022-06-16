@@ -6,8 +6,8 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import { config } from 'dotenv';
 import 'babel-polyfill';
-import { FORUM_ROUTE, THEME_ROUTE, USER_ROUTE } from 'server/router/constants';
-import { forumRouter, themeRouter, userRouter } from 'server/router';
+import { FORUM_ROUTE, USER_ROUTE } from 'server/router/constants';
+import { forumRouter, userRouter } from 'server/router';
 import { serverRenderMiddleware } from 'server/middlewares/serverRenderMiddleware';
 import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
@@ -30,7 +30,6 @@ export const startExpressApp = (context: TContext) => {
     .use(express.static(path.resolve(__dirname, '../static')))
     .use(contextMiddleware(context))
     .use(FORUM_ROUTE, forumRouter)
-    .use(THEME_ROUTE, themeRouter)
     .use(USER_ROUTE, userRouter)
     .get('/*', serverRenderMiddleware);
 

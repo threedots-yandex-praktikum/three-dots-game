@@ -10,7 +10,7 @@
     "start:webpack": "webpack --watch --mode=development",
     "start:server": "nodemon index.ts --watch",
     "start": "SET NODE_ENV=development & npm-run-all --print-label --parallel start:*",
-    "seed": "sequelize-cli db:seed:all --debug",
+    "seed": "sequelize-cli db:seed --seed test-data-seed --debug",
     "migrate": "sequelize-cli db:migrate --debug",
     "drop": "sequelize-cli db:drop --debug",
     "build": "npm run clean && npm run build:dev:vendors && webpack --mode=production",
