@@ -1,7 +1,7 @@
 import { Optional } from 'sequelize';
-import { Column, DataType, Model, Table, TableOptions } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, TableOptions, HasMany,  BelongsToMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-
+import { Theme, UserThemes, Topic, Comment, Reply, CommentReactions } from 'server/models/';
 
 interface UserAttributes {
   id: number
@@ -28,4 +28,22 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
     allowNull: false,
   })
   name!: string;
+
+  @BelongsToMany(() => Theme, { through: () => UserThemes })
+  theme!: Theme;
+  
+  @HasMany(() => UserThemes, { onDelete: 'CASCADE' } )
+  userThemes!: UserThemes[];
+
+  @HasMany(() => Topic, { onDelete: 'SET NULL' } )
+  topics!: Topic[];
+
+  @HasMany(() => Comment, { onDelete: 'SET NULL' } )
+  comments!: Comment[];
+  
+  @HasMany(() => Reply, { onDelete: 'SET NULL' } )
+  replies!: Reply[];
+
+  @HasMany(() => CommentReactions, { onDelete: 'SET NULL' } )
+  commentReactions!: CommentReactions[];
 }

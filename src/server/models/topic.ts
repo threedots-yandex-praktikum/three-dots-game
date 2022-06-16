@@ -1,7 +1,7 @@
 import { Optional } from 'sequelize';
-import { Column, DataType, ForeignKey, Model, Table, TableOptions } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, Model, Table, TableOptions, BelongsTo, HasMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { User } from 'server/models/user';
+import { User, Comment } from 'server/models/';
 
 
 export enum topicStatus {
@@ -46,7 +46,13 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
   userId!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
+
+  @HasMany(() => Comment, { onDelete: 'CASCADE', foreignKey: 'topicId' } )
+  comments!: Comment[];
 }

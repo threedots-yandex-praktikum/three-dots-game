@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { sendJSONResponse } from 'server/router/constants';
+import { Theme } from 'server/models/';
 
 
 export const themeRouter = Router();
@@ -23,4 +24,22 @@ themeRouter.get('/', (req: Request, res: Response, next: NextFunction) => {
       message: 'вы запросили /theme',
     },
   );
+});
+
+
+themeRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const theme: Theme | null = await Theme.create({
+      ...req.body,
+    });
+    
+    return sendJSONResponse(
+      res,
+      {
+        data: theme,
+      },
+    );
+  } catch (e) {
+    next(e);
+  }
 });

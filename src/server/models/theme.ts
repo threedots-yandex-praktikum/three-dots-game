@@ -1,20 +1,11 @@
 import { Optional } from 'sequelize';
-import { Column, DataType, ForeignKey, Model, Table, TableOptions } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, TableOptions, BelongsToMany, HasMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { User } from 'server/models/user';
-
-
-export enum themeStatus {
-  ACTIVE = 0,
-  AVAILABLE = 1,
-  UNAVAILABLE = 2
-}
+import { User, UserThemes } from './';
 
 interface ThemeAttributes {
   id: number
   name: string
-  status: themeStatus
-  userId: number
 }
 
 type ThemeCreationAttributes = Optional<ThemeAttributes, 'id'>
@@ -39,16 +30,11 @@ export class Theme extends Model<ThemeAttributes, ThemeCreationAttributes> {
   })
   name!: string;
 
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  status!: number;
+  @BelongsToMany(() => User, { through: () => UserThemes })
+  theme!: Theme;
+  
+  //если темы в таблице нет, то использовать тему по умолчанию
+  @HasMany(() => UserThemes, { onDelete: 'CASCADE' } )
+  userThemes!: UserThemes[];
 
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-  })
-  userId!: number;
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { Topic } from 'server/models';
 import { sendJSONResponse } from 'server/router/constants';
-
+import { topicStatus } from 'server/models/topic';
+import { Comment, User, Topic } from 'server/models/';
 
 export const handleGetAllTopics = async(req: Request, res: Response, next: NextFunction) => {
   try {
@@ -27,10 +27,23 @@ export const handleGetSingleTopic = async(req: Request, res: Response, next: Nex
     } = req;
 
     const topic: Topic | null = await Topic.findOne({
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'message'],
+          include: [
+            {
+              model: User,
+              attributes: ['name'],
+            },
+          ],
+        },
+      ],
       where: {
         id,
       },
     });
+    
     return sendJSONResponse(
       res,
       {
@@ -44,7 +57,10 @@ export const handleGetSingleTopic = async(req: Request, res: Response, next: Nex
 
 export const handleTopicCreate = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic: Topic | null = await Topic.create(req.body);
+    const topic: Topic | null = await Topic.create({
+      ...req.body,
+      status: topicStatus.OPEN,
+    });
     
     return sendJSONResponse(
       res,

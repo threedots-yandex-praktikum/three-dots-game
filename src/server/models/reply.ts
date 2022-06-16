@@ -1,5 +1,5 @@
 import { Optional } from 'sequelize';
-import { Column, DataType, ForeignKey, Model, Table, TableOptions } from 'sequelize-typescript';
+import { Column, DataType, ForeignKey, Model, Table, TableOptions, BelongsTo, HasMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
 import { User, Comment } from 'server/models';
 
@@ -34,9 +34,12 @@ export class Reply extends Model<ReplyAttributes, ReplyCreationAttributes> {
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
+    allowNull: true,
   })
   userId!: number;
+
+  @BelongsTo(() => User)
+  user!: User;
 
   @ForeignKey(() => Comment)
   @Column({
@@ -45,10 +48,16 @@ export class Reply extends Model<ReplyAttributes, ReplyCreationAttributes> {
   })
   commentId!: number;
 
+  @BelongsTo(() => Comment)
+  comment!: Comment;
+
   @ForeignKey(() => Reply)
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
   })
   parentId!: number;
+
+  @HasMany(() => Reply, { onDelete: 'CASCADE' } )
+  replies!: Reply[];
 }
