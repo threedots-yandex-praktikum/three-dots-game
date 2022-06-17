@@ -71,7 +71,7 @@ export class DotBot extends Dot {
   }
 
   move() {
-    super.move('');
+    super.move();
     const isBorderCanvasX =
       this.x >= CANVAS_SIZE_IN_PX - this.radius || this.x <= 0 + this.radius;
     const isBorderCanvasY =
@@ -82,8 +82,8 @@ export class DotBot extends Dot {
     if (isBorderCanvasY) {
       this.directionY *= -1;
     }
-    this.x += this.directionX / DIRECTION / this.getSpeedFactor();
-    this.y += this.directionY / DIRECTION / this.getSpeedFactor();
+    this.x += +(this.directionX / DIRECTION / this.getSpeedFactor()).toFixed(2);
+    this.y += +(this.directionY / DIRECTION / this.getSpeedFactor()).toFixed(2);
   }
 
 

@@ -4,6 +4,7 @@ import { BOTS_TO_RE_INIT_AMOUNT,
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
 import { OBSTACLES_DATA } from 'client/pages/GamePlay/Game/Game';
+import { Dot } from '../Dot/Dot';
 
 const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 60;
 
@@ -45,51 +46,73 @@ export class InteractionDots {
     }
   }
 
-
-  handleIntersection(dot: TDot) {
-    const dotIntersection = this.getIntersectionDot(dot);
-    if (dotIntersection) {
-      return this.handleInteractionPhase(dot, dotIntersection);
-    }
-
-    const obstacleIntersection = this.getIntersectionObstacle(dot);
-    if (obstacleIntersection) {
-      return this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
-    }
-  }
-
-  handleDanger(dot: TDotBot) {
-    const dangerousDot = this.getDangerousDot(dot);
-
-    const dangerousObstacle = this.getDangerousObstacle(dot);
-
-    if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot)) {
-      dot.runAway();
-    }
-  }
-
-  private getDangerousDot(dot: TDotBot) {
-    const dotIntersection = this.dots.find((dot2) => {
-      if (dot2 === dot || !dot2.isActive) {
-        return false;
+  handleIntersection() {
+    for (let i = 0; i < this.dots.length; i++) {
+      const dot = this.dots[i];
+      if (!dot.isActive) {
+        continue;
       }
-      return dot.isDotWarning(dot2);
+      const dotIntersection = this.getIntersectionDot(dot, i);
+      if (dotIntersection) {
+        this.handleInteractionPhase(dot, dotIntersection);
+        continue;
+      }
+
+      
+      const obstacleIntersection = this.getIntersectionObstacle(dot);
+      if (obstacleIntersection) {
+        this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
+        continue;
+      }
+    }
+  }
+
+  handleDanger() {
+    this.dots.forEach((dot, i) => {
+      if (!dot.isActive || dot instanceof DotPlayer) {
+        return;
+      }
+      const dangerousDot = this.getDangerousDot(dot, i);
+      const dangerousObstacle = this.getDangerousObstacle(dot);
+
+      if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot as Dot)) {
+        dot.runAway();
+      }
     });
-    return dotIntersection;
+    
+
+
+  }
+
+  private getDangerousDot(dot: TDotBot, splitIndex: number) {
+    for (let j = splitIndex+1; j < this.dots.length; j++) {
+      const dotOther = this.dots[j];
+      if (!dotOther.isActive) {
+        continue;
+      }
+      const isDotIntersection = dot.isDotWarning(dotOther);
+      if (isDotIntersection) {
+        return dotOther;
+      }
+    }
   }
 
   private getDangerousObstacle(dot: TDotBot) {
     return OBSTACLES_DATA.find(obstacle => dot.isDotWarning(obstacle));
   }
 
-  private getIntersectionDot(dot: TDot) {
-    const dotIntersection = this.dots.find((dot2) => {
-      if (dot2 === dot || !dot2.isActive) {
-        return false;
+
+  private getIntersectionDot(dot: TDot, splitIndex: number) {
+    for (let j = splitIndex+1; j < this.dots.length; j++) {
+      const dotOther = this.dots[j];
+      if (!dotOther.isActive) {
+        continue;
       }
-      return dot.isDotIntersection(dot2);
-    });
-    return dotIntersection;
+      const isDotIntersection = dot.isDotIntersection(dotOther);
+      if (isDotIntersection) {
+        return dotOther;
+      }
+    }
   }
 
   private getIntersectionObstacle(dot: TDot) {
@@ -130,16 +153,16 @@ export class InteractionDots {
   }
 
   handleMovePhase() {
+    this.handleIntersection();
+    this.handleDanger();
+    
     this.dots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }
       if (dot instanceof DotBot) {
         dot.move();
-        this.handleDanger(dot);
       }
-
-      this.handleIntersection(dot as TDot);
     });
   }
 }

@@ -45,7 +45,7 @@ export abstract class Dot {
 
   }
 
-  move(keyDirection: string) {
+  move() {
     if (!this.transitionRadius) {
       return;
     }
@@ -62,13 +62,13 @@ export abstract class Dot {
 
   correctCenterPositionAccordingNewDotRadius() {
     if (this.x + this.radius > CANVAS_SIZE_IN_PX) {
-      this.x = CANVAS_SIZE_IN_PX - this.radius;
+      this.x = Math.floor(CANVAS_SIZE_IN_PX - this.radius);
     }
     if (this.x - this.radius < 0) {
       this.x = 0 + this.radius;
     }
     if (this.y + this.radius > CANVAS_SIZE_IN_PX) {
-      this.y = CANVAS_SIZE_IN_PX - this.radius;
+      this.y = Math.floor(CANVAS_SIZE_IN_PX - this.radius);
     }
     if (this.y - this.radius < 0) {
       this.y = 0 + this.radius;

@@ -49,6 +49,8 @@ export class Game {
 
   sizeScreen: TSizeScreen;
 
+  idRequestFrame = 0;
+
   onGameWin;
   onGameOver;
   onGamePause;
@@ -74,15 +76,15 @@ export class Game {
     this.sendScoresData = sendScoresData;
   }
 
-  start() {
-    this.drawGame();
+  start() {    
+    this.setAnimation();
     this.initGamePlayEventHandlers();
     this.reInitDotsBots();
   }
 
   stop() {
     this.isGameFinished = true;
-
+    cancelAnimationFrame(this.idRequestFrame);
     /*
      * формируем данные по очкам для игрока и 20 ботов с лучшими результатами, и отправляем эти данные в sendScoresData
      * */
@@ -96,22 +98,26 @@ export class Game {
     this.sendScoresData(scoresData);
     // collect users scores and kills data
 
-    // TODO Сделать отдельный класс по управлению. Сейчас пока вот так убого вышло
+    // TODO Сделать отдельный класс по управлению. 
     document.removeEventListener('keydown', this.callbackEvents.keydown);
     document.removeEventListener('keyup', this.callbackEvents.keyup);
   }
 
   private reInitDotsBots() {
-    setTimeout(() => {
+    
+    const timerId = setTimeout(() => {
       this.interactionDots.reInitDotsBots();
       if (!this.isGameFinished) {
         this.reInitDotsBots();
+      } else {
+        clearTimeout(timerId);
       }
     }, 5000);
   }
 
   private initGamePlayEventHandlers() {
     this.callbackEvents.keydown = (event: KeyboardEvent) => {
+      
       if (event.key === 'p') {
         this.handleGamePause();
       }
@@ -185,7 +191,7 @@ export class Game {
   private handleGamePause() {
     const unpauseCb = () => {
       this.isGamePaused = false;
-      requestAnimationFrame(this.drawGame.bind(this));
+      requestAnimationFrame(this.setAnimation.bind(this));
     };
 
     if (this.isGamePaused) {
@@ -209,12 +215,28 @@ export class Game {
     if (this.isGameOver()) {
       return this.handleGameOver();
     }
-
     this.prepareCanvas();
     this.drawDots();
     this.drawObstacles();
     this.drawScore();
-    requestAnimationFrame(this.drawGame.bind(this));
+  }
+
+  setAnimation() {
+    const fps = 30;
+    const interval = 1000 / fps;
+    let lastTimeFrame = performance.now();
+    const animationFrame = (currentTime: number) => {
+      this.idRequestFrame = requestAnimationFrame(animationFrame);
+      
+      const delta = currentTime - lastTimeFrame;
+      
+      if (delta > interval) {
+        this.drawGame();
+        lastTimeFrame += delta;
+      }
+    };
+
+    animationFrame(lastTimeFrame);
   }
 
   private isVictory() {
