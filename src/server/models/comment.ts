@@ -40,9 +40,9 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
 
   })
   userId!: number;
-
-  @BelongsTo(() => User)
-  user!: User;
+  //
+  // @BelongsTo(() => User)
+  // user!: User;
 
   @ForeignKey(() => Topic)
   @Column({
@@ -67,4 +67,6 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @BelongsToMany(() => Reaction, { through: () => CommentReactions, onDelete: 'CASCADE' })
   reactions!: Reaction[];
 
+  @BelongsToMany(() => User, { through: () => CommentReactions, onDelete: 'CASCADE' })
+  reactionUsers!: User[];
 }
