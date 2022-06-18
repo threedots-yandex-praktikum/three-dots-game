@@ -15,6 +15,7 @@ import { SpinnerWrapper } from 'client/components/Spinner';
 export const Login = () => {
   const history = useHistory();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { secondColorText, mainColor, bgColor } = useAppSelector(state => state.themeReducer);
 
   const onSubmit = useCallback(
     (values: TSignInData) => {
@@ -29,11 +30,11 @@ export const Login = () => {
 
 
 
-  const goSignup = useCallback(()=> {
+  const goSignup = useCallback(() => {
     history.push(REGISTER_ROUTE);
   }, [history]);
 
-  const goPlayGame = useCallback(()=> {
+  const goPlayGame = useCallback(() => {
     history.push(GAME_START_ROUTE);
   }, [history]);
 
@@ -64,7 +65,7 @@ export const Login = () => {
           <Flex align="center" justify="center">
             <Logo />
           </Flex>
-          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg="white" pos='relative'>
+          <Box w={600} mt={8} p={6} rounded="lg" boxShadow="lg" bg={secondColorText} pos='relative'>
             <FormikProvider value={formik}>
               <SpinnerWrapper loading={isFetch}>
                 <form onSubmit={handleSubmit}>
@@ -85,30 +86,31 @@ export const Login = () => {
                     ),
                   )}
 
-                <Flex align="center" justify="space-between">
-                <Button colorScheme='purple' variant='link' ml={10} onClick={goSignup}>
-                  Зарегистрироваться
-                </Button>
-                  <Button
-                    w="50%"
-                    type="submit"
-                    colorScheme="purple"
-                    isDisabled={isSubmitBtnDisabled}
-                  >
-                    Войти
-                  </Button>
-                </Flex>
-              </form>
-            </SpinnerWrapper>
+                  <Flex align="center" justify="space-between">
+                    <Button color={mainColor} bgColor={secondColorText} variant='link' ml={10} onClick={goSignup}>
+                      Зарегистрироваться
+                    </Button>
+                    <Button
+                      w="50%"
+                      type="submit"
+                      bgColor={mainColor}
+                      color={secondColorText}
+                      isDisabled={isSubmitBtnDisabled}
+                    >
+                      Войти
+                    </Button>
+                  </Flex>
+                </form>
+              </SpinnerWrapper>
             </FormikProvider>
           </Box>
           <Flex mt={10} align="center" justify="center">
-          <Button colorScheme='purple' variant='link' onClick={goPlayGame}>
-            Играть без регистрация
-          </Button>
+            <Button color={mainColor} bgColor={bgColor} variant='link' onClick={goPlayGame}>
+              Играть без регистрация
+            </Button>
           </Flex>
           <Flex align="center" justify="center" mt={10}>
-            <Button colorScheme='purple' variant='link' onClick={ onSignUpYa }>
+            <Button color={mainColor} bgColor={bgColor} variant='link' onClick={onSignUpYa}>
               Войти через
               <Text
                 color="red"

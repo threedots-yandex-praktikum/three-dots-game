@@ -9,6 +9,7 @@ import { EDIT_PASSWORD_FORM_SCHEMA, EDIT_PASSWORD_INITIAL_STATE } from './consta
 import { Input } from 'client/components/Input/Input';
 import { ProfileController } from 'client/controllers/ProfileController';
 import { TChangePasswordData } from 'client/modules/api/profileAPI';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const EditPassword = () => {
@@ -41,14 +42,14 @@ export const EditPassword = () => {
       values.new_password.trim() !== values.password_repeat.trim(),
     [values, errors],
   );
-
+  const { mainColorText, bgColorSecond, secondColorText, mainColor } = useAppSelector(state => state.themeReducer)
   return (
     <Background>
       <Box>
         <Flex align="center" justify="center">
           <Logo />
         </Flex>
-        <Box w={600} mt={8} p={6} rounded="lg" bg="white">
+        <Box w={600} mt={8} p={6} rounded="lg" bg={secondColorText}>
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit}>
 
@@ -79,13 +80,20 @@ export const EditPassword = () => {
               )}
 
               <Flex align="center" justify="center">
-                <Button w="50%" mr={3} onClick={onClose}>
+                <Button
+                  w="50%"
+                  mr={3}
+                  onClick={onClose}
+                  color={mainColorText}
+                  bg={bgColorSecond}
+                >
                   Назад
                 </Button>
                 <Button
                   w="50%"
                   type="submit"
-                  colorScheme="purple"
+                  color={secondColorText}
+                  bg={mainColor}
                   isDisabled={isSubmitBtnDisabled}
                 >
                   Сохранить

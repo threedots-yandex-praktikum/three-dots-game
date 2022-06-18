@@ -21,6 +21,8 @@ export const CurrentTopic = () => {
 
   const { avatar } = useAppSelector(state => state.profileReducer);
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
+  const { secondColorText, bgColorSecond, mainColorText, mainColor
+  } = useAppSelector(state => state.themeReducer);
 
   const dispatch = useAppDispatch();
   const [loc, setLoc] = useState(['', '']);
@@ -50,10 +52,10 @@ export const CurrentTopic = () => {
         m="0"
         w="100%"
         justifyContent="center"
-        bg="#ffffff"
+        bg={secondColorText}
         p="10px"
       >
-        <Heading textAlign="center" p="6px">
+        <Heading textAlign="center" p="6px" color={mainColorText}>
           {currentTopicTitle}
         </Heading>
         <Divider orientation="horizontal" border="2px" />
@@ -62,7 +64,7 @@ export const CurrentTopic = () => {
           const avatar = generateAvatarLink(avatarLink);
           return (
             <Stack
-              divider={<StackDivider borderColor='gray.200' />}
+              divider={<StackDivider borderColor={bgColorSecond} />}
               direction="row"
               className="message"
               key={messageId}
@@ -73,24 +75,26 @@ export const CurrentTopic = () => {
               >
                 <Box>
                   <Avatar
-                    bg={avatar ? 'transparent' : 'purple.500'}
+                    bg={avatar ? 'transparent' : mainColor}
                     size="lg"
                     src={avatar}
+                    color={secondColorText}
                   />
                   {
-                    country && town ? <Text>  {country} , {town}</Text> : null
+                    country && town ? <Text color={mainColorText} >  {country} , {town}</Text> : null
                   }
                 </Box>
                 <Box>
-                  <Text>{userName}</Text>
+                  <Text color={mainColorText}>{userName}</Text>
                 </Box>
                 <Box>
-                  <Text textAlign="end" fontSize="13px">{getDateString(time)}</Text>
+                  <Text color={mainColorText} textAlign="end" fontSize="13px">{getDateString(time)}</Text>
                 </Box>
               </Stack>
               <Box
                 flexGrow={1}
                 maxW="70%"
+                color={mainColorText}
               >
                 {text}
               </Box>
@@ -101,7 +105,7 @@ export const CurrentTopic = () => {
           currentTopic?.isDisabled
             ? null
             : <Stack
-              divider={<StackDivider borderColor='gray.200' />}
+              divider={<StackDivider borderColor={bgColorSecond} />}
               direction="row"
               className="message"
               height="168px"
@@ -112,11 +116,11 @@ export const CurrentTopic = () => {
               >
                 <Box>
                   <Avatar
-                    bg={avatarLink ? 'transparent' : 'purple.500'}
+                    bg={avatarLink ? 'transparent' : mainColor}
                     size="lg"
                     src={avatarLink}
                   />
-                  <Text>{userCountry}, {userTown}</Text>
+                  <Text color={mainColorText}>{userCountry}, {userTown}</Text>
                 </Box>
 
               </Stack>

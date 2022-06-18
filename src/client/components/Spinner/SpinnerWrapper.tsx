@@ -1,5 +1,6 @@
 import { Spinner } from '@chakra-ui/react';
-import React  from 'react';
+import React from 'react';
+import { useAppSelector } from '../../hooks/useAppSelector';
 import './styles.scss';
 
 
@@ -10,6 +11,7 @@ interface SpinnerProps {
 
 
 export const SpinnerWrapper = (props: SpinnerProps) => {
+  const { mainColor, bgColorSecond } = useAppSelector(state => state.themeReducer)
   return (
     <>
       {
@@ -17,8 +19,8 @@ export const SpinnerWrapper = (props: SpinnerProps) => {
           <Spinner
             thickness='4px'
             speed='0.65s'
-            emptyColor='gray.200'
-            color='purple.500'
+            emptyColor={bgColorSecond}
+            color={mainColor}
             size='xl'
           />
         </div>

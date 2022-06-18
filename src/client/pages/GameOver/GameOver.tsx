@@ -4,6 +4,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FORUM_ROUTE, GAME_START_ROUTE, LEADERBOARD_ROUTE, PROFILE_ROUTE } from 'client/constants/routes';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const GameOver = () => {
@@ -25,6 +26,7 @@ export const GameOver = () => {
     () => history.push(FORUM_ROUTE),
     [history],
   );
+  const { mainColor, secondColorText, mainColorText } = useAppSelector(state => state.themeReducer);
 
   const buttonSchema = useMemo(
     () => [
@@ -55,14 +57,15 @@ export const GameOver = () => {
           top={6}
           right={6}
           aria-label="profile-icon"
-          colorScheme="purple"
+          bg={mainColor}
+          color={secondColorText}
           mr={4}
-          icon={<Icon as={FaRegUserCircle}/>}
+          icon={<Icon as={FaRegUserCircle} />}
           onClick={goToProfilePage}
           boxShadow="dark-lg"
         />
         <div>
-          <Heading size="4xl" mb={16}>
+          <Heading size="4xl" mb={16} color={mainColorText}>
             Игра окончена
           </Heading>
           <Flex
@@ -76,7 +79,8 @@ export const GameOver = () => {
                   <Button
                     key={id}
                     w={300}
-                    colorScheme="purple"
+                    bg={mainColor}
+                    color={secondColorText}
                     mb={3}
                     boxShadow="dark-lg"
                     onClick={onClick}

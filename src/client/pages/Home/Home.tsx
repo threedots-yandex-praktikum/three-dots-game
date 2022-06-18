@@ -41,9 +41,9 @@ export const Home = () => {
     },
     [dispatch],
   );
-
+  const { secondBgColor, mainColor, bgColorSecond, mainColorText } = useAppSelector(state => state.themeReducer)
   return (
-    <Container maxW="100%" p="0" bg="gray.200">
+    <Container maxW="100%" p="0" bgColor={bgColorSecond}>
       <TopPanel
         isUserAuthenticated={!!id}
         goToLoginPage={goToLoginPage}
@@ -81,9 +81,10 @@ export const Home = () => {
         boxShadow="inner"
       >
         <Button
-          colorScheme="purple"
+          bgColor={mainColor}
           size="lg"
           onClick={goToGameStartPage}
+          color={secondBgColor}
         >
           Начать игру !!!
         </Button>
@@ -108,9 +109,9 @@ export const Home = () => {
             ))
         }
       </Grid>
-      <Flex alignItems="center" py={3} boxShadow="dark-lg">
+      <Flex alignItems="center" py={3} boxShadow="dark-lg" bgColor={bgColorSecond}>
         <Box p={6}>
-          <Heading size='md'>
+          <Heading size='md' color={mainColorText}>
             <a
               href="https://github.com/threedots-yandex-praktikum/three-dots-game"
               target="blank"

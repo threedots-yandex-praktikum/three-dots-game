@@ -15,6 +15,7 @@ import { getTopicsAC } from 'client/store/reducers/forumReducer/forumActionCreat
 export const ListOfThems = () => {
   const history = useHistory();
   const { topics } = useAppSelector(state => state.forumReducer);
+  const { mainColorText, secondColorText } = useAppSelector(state => state.themeReducer);
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,27 +30,41 @@ export const ListOfThems = () => {
 
   return (
     <>
-
       <InteractivePanel topicName={null} onOpen={onOpenMemoized} />
-
       <Flex
         boxShadow="dark-lg"
         direction="column"
         m="0"
         w="100%"
         justifyContent="center"
-        bg="#ffffff"
+        bg={secondColorText}
         p="10px"
       >
         <Flex justifyContent="start" p="6px">
           <Box w="60%" >
-            <Text fontSize="larger" align="center">Тема</Text>
+            <Text
+              fontSize="larger"
+              align="center"
+              color={mainColorText}
+            >
+              Тема
+            </Text>
           </Box>
           <Box w="20%">
-            <Text fontSize="larger">Дата обновления</Text>
+            <Text
+              fontSize="larger"
+              color={mainColorText}
+            >
+              Дата обновления
+            </Text>
           </Box>
           <Box w="20%">
-            <Text fontSize="larger">Последнее сообщение </Text>
+            <Text
+              fontSize="larger"
+              color={mainColorText}
+            >
+              Последнее сообщение
+            </Text>
           </Box>
         </Flex>
         <Divider orientation="horizontal" border="2px" />

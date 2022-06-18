@@ -18,6 +18,8 @@ export const MessageForm = ({ topicId }: TMessageFormProps) => {
 
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.profileReducer);
+  const { secondColorText, mainColor } = useAppSelector(state => state.themeReducer);
+
   const onSubmit = useCallback(
     (values, { resetForm }) => {
       dispatch(sendMessageAC({ ...values, userId: id as number, topicId }));
@@ -72,7 +74,8 @@ export const MessageForm = ({ topicId }: TMessageFormProps) => {
         <Button
           disabled={isSubmitBtnDisabled}
           type="submit"
-          colorScheme="purple"
+          bg={mainColor}
+          color={secondColorText}
         >
           Отправить
         </Button>
