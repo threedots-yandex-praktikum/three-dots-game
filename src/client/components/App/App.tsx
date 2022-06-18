@@ -188,6 +188,15 @@ const testBackendRequestsCallback2 = async () => {
     .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
 };
 
+const testBackendRequestsCallback3 = async () => {
+  const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
+
+  await backend
+    .get('forum/comment?topicId=1')
+    .then(() => console.log('успешно выполнен GET запрос на точку comment'))
+    .catch(() => console.log('ошибка GET запроса на точку topic'));
+};
+
 export const App = () => {
   useAuth();
 
@@ -195,7 +204,7 @@ export const App = () => {
   const location = useLocation();
   useEffect(() => {
     //testBackendRequestsCallback();
-    testBackendRequestsCallback2();
+    testBackendRequestsCallback3();
 
     if(id) {
       return;
