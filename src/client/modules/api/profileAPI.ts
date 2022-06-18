@@ -1,9 +1,9 @@
-import { HTTPTransport } from './httpTransport/httpTransport';
+import { HTTPTransport } from "./httpTransport/httpTransport";
 import {
   USER_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
-} from './httpTransport/constants';
+} from "./httpTransport/constants";
 
 export type TChangeProfileData = {
   first_name: string;
@@ -28,6 +28,7 @@ export type TUserModelResponse = {
   email: string;
   phone: string;
   avatar: string;
+  theme?: string;
 };
 
 class ProfileAPIClass {
@@ -43,7 +44,7 @@ class ProfileAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
     return response as TUserModelResponse;
   }
@@ -54,7 +55,7 @@ class ProfileAPIClass {
       {
         data,
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
   }
 
@@ -64,7 +65,7 @@ class ProfileAPIClass {
       {
         data,
         isFile: true,
-      },
+      }
     );
 
     return response as TUserModelResponse;
@@ -76,7 +77,7 @@ class ProfileAPIClass {
       {
         data: { login },
         headers: DEFAULT_POST_REQUEST_HEADERS,
-      },
+      }
     );
 
     return response as TUserModelResponse[];
@@ -84,7 +85,7 @@ class ProfileAPIClass {
 
   async getUserById(userId: number): Promise<TUserModelResponse> {
     const response = await this.userHTTPTransportInstance.get(
-      [USER_API_ENDPOINTS.GET_USER_BY_ID, userId].join('/'),
+      [USER_API_ENDPOINTS.GET_USER_BY_ID, userId].join("/")
     );
 
     return response as TUserModelResponse;

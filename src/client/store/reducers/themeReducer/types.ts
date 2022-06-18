@@ -13,6 +13,8 @@ export type TThemeState = {
 export enum EThemesActions {
   SET_LIGHT_THEME = "SET_LIGHT_THEME",
   SET_DARK_THEME = "SET_DARK_THEME",
+  CHANGE_THEME = "CHANGE_THEME",
+  GET_THEME = "GET_THEME",
 }
 export interface TSetLightAction {
   type: EThemesActions.SET_LIGHT_THEME;
@@ -20,5 +22,15 @@ export interface TSetLightAction {
 export interface TSetDarkAction {
   type: EThemesActions.SET_DARK_THEME;
 }
-
-export type TThemesAction = TSetLightAction | TSetDarkAction;
+export interface TGetThemeAction {
+  type: EThemesActions.GET_THEME;
+}
+export interface TChangeThemeAction {
+  type: EThemesActions.CHANGE_THEME;
+  payload: boolean;
+}
+export type TThemesAction =
+  | TSetLightAction
+  | TSetDarkAction
+  | TGetThemeAction
+  | TChangeThemeAction;

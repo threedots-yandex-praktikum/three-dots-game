@@ -30,7 +30,7 @@ import { useAppSelector } from 'client/hooks/useAppSelector';
 import { generateAvatarLink } from 'client/utils/generateAvatarLink';
 import { SpinnerWrapper } from '../../components/Spinner';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { setDarkAC, setLightAC } from '../../store/reducers/themeReducer/themeActionCreators';
+import { changeThemeAC } from '../../store/reducers/themeReducer/themeActionCreators';
 
 
 export const Profile = () => {
@@ -53,11 +53,8 @@ export const Profile = () => {
     [setIsEdit],
   );
   const handleChangeTheme = (e: ChangeEvent<HTMLInputElement>) => {
-    if (theme) {
-      dispatch(setLightAC())
-      return
-    }
-    dispatch(setDarkAC())
+
+    dispatch(changeThemeAC(!theme))
 
 
   }
@@ -248,6 +245,7 @@ export const Profile = () => {
                     colorScheme='gray'
                     onChange={handleChangeTheme}
                     isChecked={theme ? true : false}
+                    isDisabled={isFetch}
                   />
                 </Box>
               </Flex>

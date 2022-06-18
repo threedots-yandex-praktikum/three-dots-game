@@ -15,6 +15,7 @@ export const getActiveTheme = async (
         id,
       },
     });
+    console.log(user, "------user");
 
     return sendJSONResponse(res, {
       data: user?.theme,
@@ -32,13 +33,16 @@ export const changeActiveTheme = async (
   try {
     const { id } = req.context.user;
     const { theme } = req.body;
+    console.log(req.body, " req.body;");
+    console.log(id, " id;");
 
-    await User.update(
+    const response = await User.update(
       { theme },
       {
         where: { id },
       }
     );
+    console.log(response, "await User.update");
 
     return sendJSONResponse(res, {
       data: theme,
