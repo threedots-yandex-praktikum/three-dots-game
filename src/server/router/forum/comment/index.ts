@@ -81,6 +81,10 @@ export const handleGetSingleComment = async(req: Request, res: Response, next: N
       where: {
         id,
       },
+      include: [
+        Reaction,
+        User,
+      ],
     });
     return sendJSONResponse(
       res,
