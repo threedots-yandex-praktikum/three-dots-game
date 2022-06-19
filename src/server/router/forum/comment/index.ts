@@ -43,7 +43,7 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
     } = req;
 
     /*
-    * TODO включить в запрос данные модели пользователя связанной с реакциями на комментарии
+    * TODO включить в запрос данные модели пользователя связанной с комментариями через алиас
     * */
     const comments: Comment[] = await Comment.findAll({
       where: {
