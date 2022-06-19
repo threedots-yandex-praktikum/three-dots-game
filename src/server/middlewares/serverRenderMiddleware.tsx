@@ -13,7 +13,7 @@ import { ChunkExtractor } from '@loadable/server';
 import { AuthAPIServer } from 'client/modules/api/authAPIServer';
 import { setUserAC } from 'client/store/reducers/profileReducer/profileActionCreators';
 import { TProfileState } from 'client/store/reducers/profileReducer/types';
-import { getThemeAC, setDarkAC, setLightAC } from '../../client/store/reducers/themeReducer/themeActionCreators';
+import { setDarkAC, setLightAC } from '../../client/store/reducers/themeReducer/themeActionCreators';
 import { userTheme } from '../models/user';
 
 function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
@@ -86,8 +86,8 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
   return AuthAPIServer
     .getUserDataSSR(req.cookies)
     .then(response => {
-      console.log(response, 'setUserAC response in ssr middleW');
-      console.log(req.context, 'req.context');
+      // console.log(response, 'setUserAC response in ssr middleW');
+      // console.log(req.context, 'req.context');
       if (req.context.theme === userTheme.DARK) {
         store.dispatch(setDarkAC());
       }

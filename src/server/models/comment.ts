@@ -1,24 +1,35 @@
-import { Model, Table, Column, DataType, TableOptions, ForeignKey, BelongsTo, HasMany, BelongsToMany } from 'sequelize-typescript';
-import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { Optional } from 'sequelize';
-import { User, Topic, Reaction, CommentReactions } from 'server/models/';
-
+import {
+  Model,
+  Table,
+  Column,
+  DataType,
+  TableOptions,
+  ForeignKey,
+  BelongsTo,
+  HasMany,
+  BelongsToMany,
+} from "sequelize-typescript";
+import { ModelAttributeColumnOptions } from "sequelize/types/model";
+import { Optional } from "sequelize";
+import { User, Topic, Reaction, CommentReactions } from "server/models/";
 
 interface CommentAttributes {
-  id: number
-  message: string
-  userId: number
-  topicId: number
-  parentId: number
+  id: number;
+  message: string;
+  userId: number;
+  topicId: number;
+  parentId: number;
 }
 
-type CommentCreationAttributes = Optional<CommentAttributes, 'id'>
+type CommentCreationAttributes = Optional<CommentAttributes, "id">;
 
 @Table({
   updatedAt: false,
 } as TableOptions<Model>)
-export class Comment extends Model<CommentAttributes, CommentCreationAttributes> {
-
+export class Comment extends Model<
+  CommentAttributes,
+  CommentCreationAttributes
+> {
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -37,7 +48,6 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
-
   })
   userId!: number;
 
@@ -61,10 +71,12 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   })
   parentId!: number;
 
-  @HasMany(() => Comment, { onDelete: 'CASCADE' } )
+  @HasMany(() => Comment, { onDelete: "CASCADE" })
   replies!: Comment[];
 
-  @BelongsToMany(() => Reaction, { through: () => CommentReactions, onDelete: 'CASCADE' })
+  @BelongsToMany(() => Reaction, {
+    through: () => CommentReactions,
+    onDelete: "CASCADE",
+  })
   reactions!: Reaction[];
-
 }

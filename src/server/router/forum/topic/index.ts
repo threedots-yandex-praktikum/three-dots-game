@@ -10,6 +10,7 @@ export const handleGetAllTopics = async (
 ) => {
   try {
     const topic: Topic[] = await Topic.findAll();
+    console.log(topic, "4444444444444444444444444");
 
     return sendJSONResponse(res, {
       data: topic,
@@ -46,7 +47,6 @@ export const handleGetSingleTopic = async (
         id,
       },
     });
-    console.log(topic, "-----------topic topic topic topic topic");
 
     return sendJSONResponse(res, {
       data: topic,
@@ -62,10 +62,13 @@ export const handleTopicCreate = async (
   next: NextFunction
 ) => {
   try {
+    console.log("handleTopicCreate");
+
     const topic: Topic | null = await Topic.create({
       ...req.body,
       status: topicStatus.OPEN,
     });
+    console.log(topic, "handleTopicCreate");
 
     return sendJSONResponse(res, {
       data: topic,

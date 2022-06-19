@@ -47,6 +47,7 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    defaultValue: topicStatus.OPEN,
   })
   status!: topicStatus;
 

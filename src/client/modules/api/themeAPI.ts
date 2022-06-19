@@ -2,8 +2,7 @@ import { HTTPTransport } from "./httpTransport/httpTransport";
 import { userTheme } from "../../../server/models/user";
 import { THEME_ROUTE, USER_ROUTE } from "../../../server/router/constants";
 import axios from "axios";
-
-const BACKEND_PATH = "https://local.ya-praktikum.tech:5000";
+import { BACKEND_PATH } from "./httpTransport/constants";
 
 class ThemeAPIClass {
   userHTTPTransportInstance: HTTPTransport;
