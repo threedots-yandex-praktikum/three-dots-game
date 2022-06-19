@@ -203,7 +203,7 @@ export const App = () => {
   const { id } = useAppSelector(state => state.profileReducer);
   const location = useLocation();
   useEffect(() => {
-    // testBackendRequestsCallback3();
+    testBackendRequestsCallback3();
 
     if(id) {
       return;

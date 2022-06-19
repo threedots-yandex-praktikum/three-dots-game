@@ -52,6 +52,7 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
       include: [
         Reaction,
         User,
+        'author',
         Topic,
       ],
       order: [
