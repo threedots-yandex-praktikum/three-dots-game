@@ -12,6 +12,8 @@ import { serverRenderMiddleware } from "server/middlewares/serverRenderMiddlewar
 import { contextMiddleware } from "server/middlewares/contextMiddleware";
 import bodyParser from "body-parser";
 import { TContext } from "server/types";
+import { authMiddleware } from "../middlewares/authMiddleware";
+import { syncronizeDBMiddleware } from "../middlewares/syncronizeDBMiddleware";
 
 config();
 
@@ -28,9 +30,9 @@ export const startExpressApp = (context: TContext) => {
     .use(express.static(path.resolve(__dirname, "../dist")))
     .use(express.static(path.resolve(__dirname, "../static")))
     .use(contextMiddleware(context))
-    .use(FORUM_ROUTE, forumRouter)
-    .use(USER_ROUTE, userRouter)
-    .get("/*", serverRenderMiddleware);
+    .use(FORUM_ROUTE, authMiddleware, forumRouter)
+    .use(USER_ROUTE, authMiddleware, userRouter)
+    .get("/*", authMiddleware, syncronizeDBMiddleware, serverRenderMiddleware);
 
   const secureServer = https.createServer(
     {

@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { sendJSONResponse, THEME_ROUTE } from "server/router/constants";
 import { User } from "server/models/";
-import { authMiddleware } from "../../middlewares/authMiddleware";
-import { changeActiveTheme, getActiveTheme } from "./theme";
+// import { authMiddleware } from "../../middlewares/authMiddleware";
+import { changeActiveTheme } from "./theme";
 // import { syncronizeDBMiddleware } from "../../middlewares/syncronizeDBMiddleware";
 
 export const userRouter = Router();
-userRouter.use(authMiddleware);
+// userRouter.use(authMiddleware);
 // userRouter.use(syncronizeDBMiddleware);
 
-userRouter.get(THEME_ROUTE, getActiveTheme);
+// userRouter.get(THEME_ROUTE, getActiveTheme);
 userRouter.put(THEME_ROUTE, changeActiveTheme);
 
 userRouter.post(

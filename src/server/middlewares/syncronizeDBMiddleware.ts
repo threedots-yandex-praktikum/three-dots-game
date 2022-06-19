@@ -9,7 +9,7 @@ export async function getCandidate(id: number, first_name: string) {
     "-------------candidate    2--------------",
     candidate?.id
   );
-
+  console.log(candidate instanceof User);
   if (!candidate) {
     // console.log(candidate, "-------------candidate 123 123 123--------------");
 
@@ -31,14 +31,16 @@ export const syncronizeDBMiddleware = async (
 ) => {
   try {
     console.log(
+      req.context.user,
       "syncronizeDBMiddleware syncronizeDBMiddleware syncronizeDBMiddleware"
     );
 
     const { id, first_name } = req.context.user;
-    await getCandidate(id, first_name);
-
+    const candidate = await getCandidate(id, first_name);
+    req.context.theme = candidate.theme;
     next();
   } catch (error) {
     console.log(error, "syncronizeDBMiddleware");
+    next();
   }
 };

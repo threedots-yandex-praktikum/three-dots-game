@@ -11,6 +11,8 @@ export const authMiddleware = async (
 ) => {
   await AuthAPIServer.getUserDataSSR(req.cookies)
     .then((response) => {
+      console.log(req.baseUrl, req.path, "///////////////////");
+
       req.context.user = response as TUserModelResponse;
       next();
     })

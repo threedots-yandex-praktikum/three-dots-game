@@ -1,8 +1,16 @@
-import { Optional } from 'sequelize';
-import { Column, DataType, ForeignKey, Model, Table, TableOptions, BelongsTo, HasMany } from 'sequelize-typescript';
-import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { User, Comment } from 'server/models/';
-
+import { Optional } from "sequelize";
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+  TableOptions,
+  BelongsTo,
+  HasMany,
+} from "sequelize-typescript";
+import { ModelAttributeColumnOptions } from "sequelize/types/model";
+import { User, Comment } from "server/models/";
 
 export enum topicStatus {
   OPEN = 0,
@@ -10,19 +18,18 @@ export enum topicStatus {
 }
 
 interface TopicAttributes {
-  id: number
-  name: string
-  status: number
-  userId: number
+  id: number;
+  name: string;
+  status: number;
+  userId: number;
 }
 
-type TopicCreationAttributes = Optional<TopicAttributes, 'id'>
+type TopicCreationAttributes = Optional<TopicAttributes, "id">;
 
 @Table({
   updatedAt: false,
 } as TableOptions<Model>)
 export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
-
   @Column({
     type: DataType.INTEGER,
     primaryKey: true,
@@ -41,7 +48,7 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  status!: number;
+  status!: topicStatus;
 
   @ForeignKey(() => User)
   @Column({
@@ -53,6 +60,6 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @BelongsTo(() => User)
   user!: User;
 
-  @HasMany(() => Comment, { onDelete: 'CASCADE' } )
+  @HasMany(() => Comment, { onDelete: "CASCADE" })
   comments!: Comment[];
 }

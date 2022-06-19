@@ -21,7 +21,7 @@ import {
   handleTopicDelete,
   handleTopicUpdate,
 } from "./topic";
-import { authMiddleware } from "server/middlewares/authMiddleware";
+// import { authMiddleware } from "server/middlewares/authMiddleware";
 import {
   handleGetAllReactions,
   handleGetSingleReaction,
@@ -36,7 +36,7 @@ export const forumRouter = Router();
 /*
  * здесь задаем миддлвары необходимые только для роутера форума
  * */
-forumRouter.use(authMiddleware);
+// forumRouter.use(authMiddleware);
 // forumRouter.use(syncronizeDBMiddleware);
 
 /*

@@ -46,6 +46,7 @@ export const handleGetSingleTopic = async (
         id,
       },
     });
+    console.log(topic, "-----------topic topic topic topic topic");
 
     return sendJSONResponse(res, {
       data: topic,
