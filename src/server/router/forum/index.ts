@@ -29,7 +29,7 @@ import {
   handleReactionDelete,
   handleReactionUpdate,
 } from "server/router/forum/reaction";
-import { syncronizeDBMiddleware } from "../../middlewares/syncronizeDBMiddleware";
+// import { syncronizeDBMiddleware } from "../../middlewares/syncronizeDBMiddleware";
 
 export const forumRouter = Router();
 
@@ -37,7 +37,7 @@ export const forumRouter = Router();
  * здесь задаем миддлвары необходимые только для роутера форума
  * */
 forumRouter.use(authMiddleware);
-forumRouter.use(syncronizeDBMiddleware);
+// forumRouter.use(syncronizeDBMiddleware);
 
 /*
  * CRUD API для модели комментария

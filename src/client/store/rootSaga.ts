@@ -46,7 +46,7 @@ export default function* rootSaga() {
     watchSendMessage(),
     watchLeaderBoard(),
     watchAddUserToLB(),
-    watchChangeTheme(),
     watchGetTheme(),
+    watchChangeTheme(),
   ]);
 }

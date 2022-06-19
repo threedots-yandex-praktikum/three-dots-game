@@ -14,21 +14,22 @@ class ThemeAPIClass {
     );
   }
 
-  async getTheme(): Promise<userTheme> {
-    const response = await this.userHTTPTransportInstance.get(THEME_ROUTE);
-    console.log("getTheme ThemeAPI", response);
-
-    return response as userTheme;
+  async getTheme(id: number, first_name: string): Promise<userTheme> {
+    const response = await axios.get(BACKEND_PATH + USER_ROUTE + THEME_ROUTE, {
+      params: {
+        id,
+        first_name,
+      },
+    });
+    return response.data.data as userTheme;
   }
 
   async changeTheme(theme: userTheme): Promise<userTheme> {
-    console.log(theme, "changeTheme ThemeAPI");
-
     const response = await axios.put(BACKEND_PATH + USER_ROUTE + THEME_ROUTE, {
       theme,
     });
 
-    return response.data as userTheme;
+    return response.data.data as userTheme;
   }
 }
 

@@ -15,6 +15,7 @@ export enum EThemesActions {
   SET_DARK_THEME = "SET_DARK_THEME",
   CHANGE_THEME = "CHANGE_THEME",
   GET_THEME = "GET_THEME",
+  PUT_THEME = "PUT_THEME",
 }
 export interface TSetLightAction {
   type: EThemesActions.SET_LIGHT_THEME;
@@ -29,8 +30,13 @@ export interface TChangeThemeAction {
   type: EThemesActions.CHANGE_THEME;
   payload: boolean;
 }
+export interface TPutThemeAction {
+  type: EThemesActions.PUT_THEME;
+  payload: boolean;
+}
 export type TThemesAction =
   | TSetLightAction
   | TSetDarkAction
   | TGetThemeAction
-  | TChangeThemeAction;
+  | TChangeThemeAction
+  | TPutThemeAction;

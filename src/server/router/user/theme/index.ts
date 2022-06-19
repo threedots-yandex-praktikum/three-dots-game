@@ -1,6 +1,7 @@
 import { sendJSONResponse } from "../../constants";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../../../models";
+import { getCandidate } from "../../../middlewares/syncronizeDBMiddleware";
 
 export const getActiveTheme = async (
   req: Request,
@@ -8,17 +9,13 @@ export const getActiveTheme = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.context.user;
+    const { id, first_name } = req.params;
+    const candidate = await getCandidate(parseInt(id), first_name);
 
-    const user: User | null = await User.findOne({
-      where: {
-        id,
-      },
-    });
-    console.log(user, "------user");
+    console.log(candidate, "------user");
 
     return sendJSONResponse(res, {
-      data: user?.theme,
+      data: candidate?.theme,
     });
   } catch (e) {
     next(e);
@@ -36,13 +33,12 @@ export const changeActiveTheme = async (
     console.log(req.body, " req.body;");
     console.log(id, " id;");
 
-    const response = await User.update(
+    await User.update(
       { theme },
       {
         where: { id },
       }
     );
-    console.log(response, "await User.update");
 
     return sendJSONResponse(res, {
       data: theme,

@@ -12,7 +12,6 @@ export const authMiddleware = async (
   await AuthAPIServer.getUserDataSSR(req.cookies)
     .then((response) => {
       req.context.user = response as TUserModelResponse;
-
       next();
     })
     .catch((error: AxiosResponse) => {

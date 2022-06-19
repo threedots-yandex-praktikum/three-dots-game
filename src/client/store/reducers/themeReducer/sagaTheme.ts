@@ -1,11 +1,6 @@
 import { TakeableChannel } from "redux-saga";
-import {
-  actionChannel,
-  call,
-  CallEffect,
-  put,
-  takeEvery,
-} from "redux-saga/effects";
+import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
+import { getCandidate } from "../../../../server/middlewares/syncronizeDBMiddleware";
 import { userTheme } from "../../../../server/models/user";
 import { ThemeAPI } from "../../../modules/api/themeAPI";
 import {
@@ -17,7 +12,12 @@ import {
   setFetchOffAC,
   setFetchOnAC,
 } from "../fetchReducer/fetchActionCreators";
-import { changeThemeAC, getThemeAC } from "./themeActionCreators";
+import {
+  changeThemeAC,
+  getThemeAC,
+  setDarkAC,
+  setLightAC,
+} from "./themeActionCreators";
 import { EThemesActions } from "./types";
 
 function* fetchChangeTheme({
@@ -27,11 +27,16 @@ function* fetchChangeTheme({
     yield put(setFetchOnAC());
 
     const theme = themeAsBoolean ? userTheme.DARK : userTheme.LIGHT;
-    const response: CallEffect<userTheme> = yield call(
+    const response: userTheme = yield call(
       ThemeAPI.changeTheme.bind(ThemeAPI),
       theme
     );
-    console.log(response, "fetchChangeTheme");
+    if (response === userTheme.DARK) {
+      yield put(setDarkAC());
+    }
+    if (response === userTheme.LIGHT) {
+      yield put(setLightAC());
+    }
     yield put(setFetchOffAC());
     sendNotification(
       "Тема пользователя успешно изменена",
@@ -50,15 +55,24 @@ export function* watchChangeTheme() {
   yield takeEvery(channel, fetchChangeTheme);
 }
 
-function* fetchGetTheme() {
+function* fetchGetTheme({ payload }: ReturnType<typeof getThemeAC>) {
   try {
+    console.log("fetchGetTheme ");
     yield put(setFetchOnAC());
-
+    const { id, first_name } = payload;
     const response: Generator<userTheme> = yield call(
-      ThemeAPI.getTheme.bind(ThemeAPI)
+      getCandidate,
+      id,
+      first_name
     );
-    console.log(response, "fetchGetTheme");
 
+    if ((response as unknown as userTheme) === userTheme.DARK) {
+      yield put(setDarkAC());
+    }
+    if ((response as unknown as userTheme) === userTheme.LIGHT) {
+      yield put(setLightAC());
+    }
+    console.log(response, "fetchGetTheme");
     yield put(setFetchOffAC());
   } catch (error) {
     yield put(setFetchOffAC());

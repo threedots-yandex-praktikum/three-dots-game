@@ -13,6 +13,7 @@ import { ChunkExtractor } from '@loadable/server';
 import { AuthAPIServer } from 'client/modules/api/authAPIServer';
 import { setUserAC } from 'client/store/reducers/profileReducer/profileActionCreators';
 import { TProfileState } from 'client/store/reducers/profileReducer/types';
+import { getThemeAC } from '../../client/store/reducers/themeReducer/themeActionCreators';
 
 function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
   const scriptTags = chunkExtractor.getScriptTags();
@@ -84,8 +85,14 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
   return AuthAPIServer
     .getUserDataSSR(req.cookies)
     .then(response => {
+      console.log(response, 'response in ssr middleW 1');
+      store.dispatch(getThemeAC(response.id, response.first_name));
+      console.log('response in ssr middleW 2');
+      return response;
+    })
+    .then(response => {
+      console.log(response, 'setUserAC response in ssr middleW 3');
       store.dispatch(setUserAC(response as TProfileState));
-
       return response;
     })
     .then(renderPageCallback)
