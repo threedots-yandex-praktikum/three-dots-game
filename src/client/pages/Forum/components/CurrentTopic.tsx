@@ -31,9 +31,6 @@ export const CurrentTopic = () => {
   const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
-    const isInThemList = topics?.find(i => i.topicId === topicId);
-    if (!isInThemList) throw new Error('Темы с таким ID нет');
-
     dispatch(getCurrentTopicAC(topicId));
   }, [topics, topicId, dispatch]);
 
@@ -85,7 +82,7 @@ export const CurrentTopic = () => {
                   <Text>{userName}</Text>
                 </Box>
                 <Box>
-                  <Text textAlign="end" fontSize="13px">{getDateString(time)}</Text>
+                  <Text textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
                 </Box>
               </Stack>
               <Box

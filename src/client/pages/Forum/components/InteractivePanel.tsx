@@ -44,7 +44,6 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
           ? <Button
             colorScheme="red"
             onClick={makeTopicDisabled}
-            disabled={currentTopic?.userOwenerId !== id}
           >
             Закрыть тему &times;
           </Button>

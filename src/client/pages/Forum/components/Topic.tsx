@@ -18,7 +18,7 @@ export const Topic = ({ topic }: TTopicProps) => {
         <Text >{title}</Text>
       </Box>
       <Box w="20%">
-        <Text>{getDateString(date)}</Text>
+        <Text>{getDateString(new Date(date).getTime())}</Text>
       </Box >
       <Box w="20%">
         <Text>{lastMessage && lastMessageString}</Text>

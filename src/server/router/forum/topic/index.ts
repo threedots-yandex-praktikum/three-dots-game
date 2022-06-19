@@ -3,10 +3,33 @@ import { sendJSONResponse } from 'server/router/constants';
 import { topicStatus } from 'server/models/topic';
 import { Comment, User, Topic } from 'server/models/';
 
+
 export const handleGetAllTopics = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic: Topic[] = await Topic.findAll();
-    
+    const topic: Topic[] = await Topic
+      .findAll({
+        where: {
+          status: topicStatus.OPEN,
+        },
+        include: [
+          User,
+          {
+            model: Comment,
+            where: {
+              parentId: null,
+            },
+            order: [['createdAt', 'DESC']],
+            limit: 1,
+            include: [
+              {
+                model: User,
+                attributes: ['name'],
+              },
+            ],
+          },
+        ],
+      });
+
     return sendJSONResponse(
       res,
       {
@@ -43,7 +66,7 @@ export const handleGetSingleTopic = async(req: Request, res: Response, next: Nex
         id,
       },
     });
-    
+
     return sendJSONResponse(
       res,
       {
@@ -61,7 +84,7 @@ export const handleTopicCreate = async(req: Request, res: Response, next: NextFu
       ...req.body,
       status: topicStatus.OPEN,
     });
-    
+
     return sendJSONResponse(
       res,
       {
@@ -76,22 +99,24 @@ export const handleTopicCreate = async(req: Request, res: Response, next: NextFu
 export const handleTopicUpdate = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const {
-      params: {
-        id,
+      body: {
+        topicId,
       },
     } = req;
 
     await Topic.update(
-      req.body,
       {
-        where: { id },
+        status: topicStatus.CLOSED,
+      },
+      {
+        where: { id: topicId },
       },
     );
 
     return sendJSONResponse(
       res,
       {
-        data: id,
+        data: topicId,
       },
     );
   } catch (e) {
@@ -110,7 +135,7 @@ export const handleTopicDelete = async(req: Request, res: Response, next: NextFu
     await Topic.destroy({
       where: { id },
     });
-    
+
     return sendJSONResponse(
       res,
       {

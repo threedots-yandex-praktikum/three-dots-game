@@ -65,5 +65,5 @@ forumRouter.delete(REACTION_WITH_ID_SUB_ROUTE, handleReactionDelete);
 forumRouter.get(TOPIC_SUB_ROUTE, handleGetAllTopics);
 forumRouter.get(TOPIC_WITH_ID_SUB_ROUTE, handleGetSingleTopic);
 forumRouter.post(TOPIC_SUB_ROUTE, handleTopicCreate);
-forumRouter.put(TOPIC_WITH_ID_SUB_ROUTE, handleTopicUpdate);
+forumRouter.put(TOPIC_SUB_ROUTE, handleTopicUpdate);
 forumRouter.delete(TOPIC_WITH_ID_SUB_ROUTE, handleTopicDelete);

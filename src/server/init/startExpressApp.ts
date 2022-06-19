@@ -23,7 +23,7 @@ export const startExpressApp = (context: TContext) => {
 
   app
     .use(bodyParser.urlencoded({ extended: true }))
-    .use(bodyParser.json({ limit: '5mb' }))
+    .use(bodyParser.json())
     .use(cookieParser())
     .use(compression())
     .use(express.static(path.resolve(__dirname, '../dist')))
