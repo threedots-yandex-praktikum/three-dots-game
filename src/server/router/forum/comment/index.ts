@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Comment, Reaction, Topic, User } from 'server/models';
+import { Comment, CommentReactions, Reaction, Topic, User } from 'server/models';
 import { sendJSONResponse } from 'server/router/constants';
 
 
@@ -42,9 +42,6 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
       },
     } = req;
 
-    /*
-    * TODO включить в запрос данные модели пользователя связанной с комментариями через алиас
-    * */
     const comments: Comment[] = await Comment.findAll({
       where: {
         topicId: Number(topicId),
@@ -52,7 +49,10 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
       include: [
         Reaction,
         User,
-        'author',
+        {
+          model: CommentReactions,
+          include: [User],
+        },
         Topic,
       ],
       order: [
