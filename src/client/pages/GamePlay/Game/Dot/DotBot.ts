@@ -49,7 +49,7 @@ export class DotBot extends Dot {
     this.x = random(this.xyMin, this.xyMax);
     this.y = random(this.xyMin, this.xyMax);
 
-    if (this.isDotWarning(this.coordPlayerDot)) {
+    if (this.calcDotInteraction(this.coordPlayerDot).isDotWarning) {
       this.x += random(this.xyMin, this.xyMax);
       this.y += random(this.xyMin, this.xyMax);
     }

@@ -48,77 +48,62 @@ export class InteractionDots {
     }
   }
 
-  handleIntersection() {
+  handleInterection() {
     for (let i = 0; i < this.dots.length; i++) {
-      const dot = this.dots[i] as Dot;
+      const dot = this.dots[i];
       if (!dot.isActive) {
         continue;
       }
-      const dotIntersection = this.getIntersectionDot(dot, i);
-      if (dotIntersection) {
-        this.handleInteractionPhase(dot, dotIntersection);
-        continue;
-      }
-
+      const dotIntersection = this.getInterectionDot(dot as Dot, i);
       
-      const obstacleIntersection = this.getIntersectionObstacle(dot);
-      if (obstacleIntersection) {
-        this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
+      if (dotIntersection?.isDotIntersection) {
+        this.handleInteractionPhase(dot as Dot, dotIntersection.dot as Dot);
         continue;
       }
-    }
-  }
-
-  handleDanger() {
-    this.dots.forEach((dot, i) => {
-      if (!dot.isActive || dot instanceof DotPlayer) {
-        return;
-      }
-      const dangerousDot = this.getDangerousDot(dot, i);
-      const dangerousObstacle = this.getDangerousObstacle(dot);
-
-      if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot as Dot)) {
+      if (!(dot instanceof DotPlayer) && dotIntersection?.isDotWarning) {
         dot.runAway();
       }
-    });
-    
-
-
-  }
-
-  private getDangerousDot(dot: TDotBot, splitIndex: number) {
-    for (let j = splitIndex+1; j < this.dots.length; j++) {
-      const dotOther = this.dots[j];
-      if (!dotOther.isActive) {
+       
+      const obstacleIntersection = this.getIntersectionObstacle(dot as Dot);
+      if (obstacleIntersection) {
+        this.handleObstaclesInteractionPhase(dot as Dot, obstacleIntersection);
         continue;
       }
-      const isDotIntersection = dot.isDotWarning(dotOther);
-      if (isDotIntersection) {
-        return dotOther;
+
+      const dangerousObstacle = this.getDangerousObstacle(dot);
+
+      if (!(dot instanceof DotPlayer) && dangerousObstacle) {
+        dot.runAway();
       }
+
     }
   }
 
+
   private getDangerousObstacle(dot: TDotBot) {
-    return OBSTACLES_DATA.find(obstacle => dot.isDotWarning(obstacle));
+    return OBSTACLES_DATA.find(obstacle => dot.calcDotInteraction(obstacle).isDotWarning);
   }
 
 
-  private getIntersectionDot(dot: TDot, splitIndex: number) {
-    for (let j = splitIndex+1; j < this.dots.length; j++) {
+  private getInterectionDot(dot: TDot, splitIndex: number) {
+    for (let j = splitIndex + 1; j < this.dots.length; j++) {
       const dotOther = this.dots[j];
       if (!dotOther.isActive) {
         continue;
       }
-      const isDotIntersection = dot.isDotIntersection(dotOther);
-      if (isDotIntersection) {
-        return dotOther;
+      const dotInteraction = dot.calcDotInteraction(dotOther);
+      if (dotInteraction.isDotIntersection || dotInteraction.isDotWarning) {
+        return {
+          dot: dotOther,
+          ...dotInteraction,
+        };
       }
+
     }
   }
 
   private getIntersectionObstacle(dot: TDot) {
-    return OBSTACLES_DATA.find(obstacle => dot.isDotIntersection(obstacle));
+    return OBSTACLES_DATA.find(obstacle => dot.calcDotInteraction(obstacle).isDotIntersection);
   }
 
   private handleInteractionPhase(dot: TDot, dotIntersection: TDot) {
@@ -155,8 +140,7 @@ export class InteractionDots {
   }
 
   handleMovePhase() {
-    this.handleIntersection();
-    // this.handleDanger();
+    this.handleInterection();
     
     this.dots.forEach((dot) => {
       if (!dot.isActive) {

@@ -85,15 +85,12 @@ export abstract class Dot {
     return Math.sqrt(x ** 2 + y ** 2);
   }
 
-  isDotIntersection(dot: TDotCoordinate) {
-    const distance = this.getDistanceToOtherDot(dot);
-    return distance < this.radius + dot.radius;
-  }
-
-  isDotWarning(dot: TDotCoordinate) {
+  calcDotInteraction(dot: TDotCoordinate) {
     const radiusDanger = 20;
     const distance = this.getDistanceToOtherDot(dot);
-    return distance < this.radius + dot.radius  + radiusDanger;
+    return {
+      isDotIntersection: distance < this.radius + dot.radius,
+      isDotWarning: distance < this.radius + dot.radius  + radiusDanger,
+    };
   }
-
 }

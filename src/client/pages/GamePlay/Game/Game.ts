@@ -68,7 +68,7 @@ export class Game {
   }: TGame) {
     this.ctx = ctx;
     this.dotPlayer = new DotPlayer();
-    this.interactionDots = new InteractionDots(this.dotPlayer);
+    this.interactionDots = new InteractionDots(this.dotPlayer);    
     this.sizeScreen = sizeScreen;
     this.onGameWin = onGameWin;
     this.onGameOver = onGameOver;
@@ -76,7 +76,7 @@ export class Game {
     this.sendScoresData = sendScoresData;
   }
 
-  start() {    
+  start() {
     this.setAnimation();
     this.initGamePlayEventHandlers();
     this.reInitDotsBots();
@@ -225,7 +225,7 @@ export class Game {
     const fps = 30;
     const interval = 1000 / fps;
     let lastTimeFrame = performance.now();
-    const animationFrame = (currentTime: number) => {     
+    const animationFrame = (currentTime: number) => {
       this.idRequestFrame = requestAnimationFrame(animationFrame);
       
       const delta = currentTime - lastTimeFrame;
