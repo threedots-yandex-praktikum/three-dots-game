@@ -232,7 +232,7 @@ export class Game {
       
       if (delta > interval) {
         this.drawGame();
-        lastTimeFrame += delta;
+        lastTimeFrame = lastTimeFrame + delta - delta%lastTimeFrame;
       }
     };
 
