@@ -31,10 +31,12 @@ export class InteractionDots {
     let countInitBots = 0;
 
     for (let i = 0; i < this.dots.length; i++) {
+      if (countInitBots === BOTS_TO_RE_INIT_AMOUNT) {
+        return;
+      }
       const dot = this.dots[i];
 
       if (
-        countInitBots === BOTS_TO_RE_INIT_AMOUNT ||
         dot instanceof DotPlayer ||
         dot.isActive
       ) {
@@ -48,7 +50,7 @@ export class InteractionDots {
 
   handleIntersection() {
     for (let i = 0; i < this.dots.length; i++) {
-      const dot = this.dots[i];
+      const dot = this.dots[i] as Dot;
       if (!dot.isActive) {
         continue;
       }
@@ -154,7 +156,7 @@ export class InteractionDots {
 
   handleMovePhase() {
     this.handleIntersection();
-    this.handleDanger();
+    // this.handleDanger();
     
     this.dots.forEach((dot) => {
       if (!dot.isActive) {

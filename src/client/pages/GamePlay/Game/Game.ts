@@ -189,7 +189,7 @@ export class Game {
     await this.onGameOver();
   }
   private handleGamePause() {
-    const unpauseCb = () => {
+    const unpauseCb = () => {      
       this.isGamePaused = false;
       requestAnimationFrame(this.setAnimation.bind(this));
     };
@@ -225,7 +225,7 @@ export class Game {
     const fps = 30;
     const interval = 1000 / fps;
     let lastTimeFrame = performance.now();
-    const animationFrame = (currentTime: number) => {
+    const animationFrame = (currentTime: number) => {     
       this.idRequestFrame = requestAnimationFrame(animationFrame);
       
       const delta = currentTime - lastTimeFrame;

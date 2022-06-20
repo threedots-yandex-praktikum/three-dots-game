@@ -68,7 +68,7 @@ export const GamePlay = () => {
     [],
   );
 
-  useEffect(() => {
+  useEffect(() => {    
     let sizeScreen = {
       w: 0,
       h: 0,

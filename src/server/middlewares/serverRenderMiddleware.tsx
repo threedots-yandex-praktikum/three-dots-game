@@ -74,7 +74,7 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
     store.close();
 
     const reactHtml = renderToString(jsx);
-
+    
     const html = getHtml(reactHtml, store.getState(), chunkExtractor);
     res
       .status(context.statusCode || 200)

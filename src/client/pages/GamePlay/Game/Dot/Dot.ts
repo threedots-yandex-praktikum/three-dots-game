@@ -82,7 +82,7 @@ export abstract class Dot {
   getDistanceToOtherDot (dot: TDotCoordinate) {
     const x = this.x - dot.x;
     const y = this.y - dot.y;
-    return Math.sqrt(x * x + y * y);
+    return Math.sqrt(x ** 2 + y ** 2);
   }
 
   isDotIntersection(dot: TDotCoordinate) {
