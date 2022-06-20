@@ -2,7 +2,7 @@ import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
 import { TDot, TDotCoordinate } from '../types';
 
-const speedFactor = 10;
+const speedFactor = 15;
 const OBSTACLE_INTERSECTION_ROLLBACK_IN_PX = 80;
 
 
