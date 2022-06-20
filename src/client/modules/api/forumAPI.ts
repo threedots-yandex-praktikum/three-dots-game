@@ -1,5 +1,6 @@
 import { HTTPTransport } from './httpTransport/httpTransport';
 import {
+  DEFAULT_POST_REQUEST_HEADERS,
   LOCAL_API_HOST,
 } from './httpTransport/constants';
 import {TCurrentTopic, TNewTopicData, TTopic} from 'client/store/reducers/forumReducer/types';
@@ -96,6 +97,7 @@ class ForumAPIClass {
     const response: any = await this.forumHTTPTransportInstance.post(
       FORUM_API_ENDPOINTS.TOPICS,
       {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
         data: {
           userId: data.userId,
           name: data.title,
@@ -121,6 +123,7 @@ class ForumAPIClass {
     const response: any = await this.forumHTTPTransportInstance.put(
       FORUM_API_ENDPOINTS.TOPICS,
       {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
         data: {
           topicId,
           status: 1,
