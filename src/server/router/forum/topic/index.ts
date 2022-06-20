@@ -117,7 +117,7 @@ export const handleTopicCreate = async(req: Request, res: Response, next: NextFu
       * TODO тоже здесь нужно достать айдишник пользователя из мидлвара
       * */
       userId: 1,
-      topicId: Number(topic.id),
+      topicId: Number(topic.getDataValue('id')),
       parentId: null,
       message: req.body.message,
     });
