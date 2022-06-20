@@ -9,7 +9,7 @@ interface CommentAttributes {
   message: string
   userId: number
   topicId: number
-  parentId: number
+  parentId: number | null
 }
 
 type CommentCreationAttributes = Optional<CommentAttributes, 'id'>

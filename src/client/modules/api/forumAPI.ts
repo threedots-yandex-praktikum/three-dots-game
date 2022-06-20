@@ -28,13 +28,27 @@ class ForumAPIClass {
       },
     );
 
-    const topic = response.data[0].topic;
+    const {
+      topic,
+      comments,
+    } = response.data;
+
+    const topicData = {
+      title: topic.name,
+      isDisabled: topic.status === 1,
+      userOwenerId: topic.userId,
+    };
+
+    if(response.data.length === 0) {
+      return {
+        ...topicData,
+        messages: [],
+      };
+    }
 
     const responseData = {
-      title: topic.name,
-      isDisabled: topic.status === 0,
-      userOwenerId: topic.userId,
-      messages: response.data
+      ...topicData,
+      messages: comments
         .map(item => {
           const {
             id: messageId,
@@ -70,6 +84,15 @@ class ForumAPIClass {
           comments,
         } = item;
 
+        if(comments.length === 0) {
+          return {
+            topicId: id,
+            title: name,
+            date: null,
+            lastMessage: null,
+          };
+        }
+
         const {
           message,
           createdAt,
@@ -85,6 +108,7 @@ class ForumAPIClass {
           lastMessage: {
             userName,
             message,
+            date: createdAt,
           },
         };
       });
@@ -101,6 +125,7 @@ class ForumAPIClass {
         data: {
           userId: data.userId,
           name: data.title,
+          message: data.message,
         },
       },
     );

@@ -42,6 +42,12 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
       },
     } = req;
 
+    const topic: Topic | null = await Topic.findOne({
+      where: {
+        id: Number(topicId),
+      },
+    });
+
     const comments: Comment[] = await Comment.findAll({
       where: {
         topicId: Number(topicId),
@@ -53,7 +59,6 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
           model: CommentReactions,
           include: [User],
         },
-        Topic,
       ],
       order: [
         ['createdAt', 'ASC'],
@@ -63,7 +68,10 @@ const handleGetAllCommentsByTopicId = async(req: Request, res: Response, next: N
     return sendJSONResponse(
       res,
       {
-        data: comments,
+        data: {
+          topic,
+          comments,
+        },
       },
     );
   } catch (e) {

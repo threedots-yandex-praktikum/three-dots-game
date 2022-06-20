@@ -12,7 +12,7 @@ import {
 import {
   closeTopicAC,
   createNewTopicAC,
-  getCurrentTopicAC,
+  getCurrentTopicAC, getTopicsAC,
   sendMessageAC,
   setCurrentTopicAC,
   setTopicsAC,
@@ -76,7 +76,8 @@ function* fetchCloseTopic({ payload }: ReturnType<typeof closeTopicAC>) {
       ForumAPI.closeTopic.bind(ForumAPI),
       payload,
     );
-    console.log('topic disabled');
+
+    yield put(getTopicsAC());
 
     yield put(getCurrentTopicAC(payload));
     yield put(setFetchOffAC());
@@ -102,7 +103,10 @@ function* fetchCreateTopic({ payload }: ReturnType<typeof createNewTopicAC>) {
       ForumAPI.createTopic.bind(ForumAPI, payload),
     );
 
+    yield put(getTopicsAC());
+
     yield put(getCurrentTopicAC(newTopic.topicId));
+
     yield put(setFetchOffAC());
   } catch (error) {
     yield put(setFetchOffAC());

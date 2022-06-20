@@ -15,7 +15,7 @@ import {
   handleGetSingleComment,
 } from './comment';
 import {
-  handleGetAllTopics,
+  handleTopicGetRequests,
   handleGetSingleTopic,
   handleTopicCreate,
   handleTopicDelete,
@@ -62,7 +62,7 @@ forumRouter.delete(REACTION_WITH_ID_SUB_ROUTE, handleReactionDelete);
 /*
 * CRUD API для модели топиков
 * */
-forumRouter.get(TOPIC_SUB_ROUTE, handleGetAllTopics);
+forumRouter.get(TOPIC_SUB_ROUTE, handleTopicGetRequests);
 forumRouter.get(TOPIC_WITH_ID_SUB_ROUTE, handleGetSingleTopic);
 forumRouter.post(TOPIC_SUB_ROUTE, handleTopicCreate);
 forumRouter.put(TOPIC_SUB_ROUTE, handleTopicUpdate);

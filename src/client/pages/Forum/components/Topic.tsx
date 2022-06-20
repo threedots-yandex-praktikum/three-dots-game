@@ -4,6 +4,8 @@ import { getDateString } from 'client/utils/getDateString';
 import { TTopicProps } from '../types';
 
 
+const NO_MESSAGES_LABEL = 'нет сообщений';
+
 export const Topic = ({ topic }: TTopicProps) => {
 
   const lastMessageString = useMemo(() => {
@@ -18,10 +20,10 @@ export const Topic = ({ topic }: TTopicProps) => {
         <Text >{title}</Text>
       </Box>
       <Box w="20%">
-        <Text>{getDateString(new Date(date).getTime())}</Text>
+        <Text>{date ? getDateString(new Date(date).getTime()) : NO_MESSAGES_LABEL}</Text>
       </Box >
       <Box w="20%">
-        <Text>{lastMessage && lastMessageString}</Text>
+        <Text>{lastMessage ? lastMessageString : NO_MESSAGES_LABEL}</Text>
       </Box>
     </Flex>
   );
