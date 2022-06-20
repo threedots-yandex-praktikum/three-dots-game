@@ -44,6 +44,7 @@ module.exports = {
         {
           id: 1,
           message: 'comment 1',
+          parentId: null,
           userId: 1,
           topicId: 1,
           createdAt: new Date().toISOString(),
@@ -51,6 +52,7 @@ module.exports = {
         {
           id: 2,
           message: 'comment 2',
+          parentId: null,
           userId: 2,
           topicId: 1,
           createdAt: new Date().toISOString(),
@@ -58,6 +60,31 @@ module.exports = {
         {
           id: 3,
           message: 'comment 3',
+          parentId: null,
+          userId: 2,
+          topicId: 2,
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 4,
+          message: 'comment 4 to 1',
+          parentId: 1,
+          userId: 1,
+          topicId: 1,
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 5,
+          message: 'comment 5 to 1',
+          parentId: 1,
+          userId: 2,
+          topicId: 1,
+          createdAt: new Date().toISOString(),
+        },
+        {
+          id: 6,
+          message: 'comment 6 to 4',
+          parentId: 4,
           userId: 2,
           topicId: 2,
           createdAt: new Date().toISOString(),
@@ -110,48 +137,6 @@ module.exports = {
       ],
     );
 
-    await queryInterface.bulkInsert(
-      'Reply',
-      [
-        {
-          id: 1,
-          message: 'reply 1',
-          userId: 1,
-          commentId: 1,
-          parentId: null,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: 2,
-          message: 'reply 2',
-          userId: 2,
-          commentId: 2,
-          parentId: null,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: 3,
-          message: 'reply 3 (to reply 2)',
-          userId: 1,
-          commentId: 2,
-          parentId: 2,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: 4,
-          message: 'reply 4 (to reply 3)',
-          userId: 2,
-          commentId: 2,
-          parentId: 3,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ],
-    );
-
   },
 
   async down (queryInterface, Sequelize) {
@@ -159,7 +144,6 @@ module.exports = {
     await queryInterface.bulkDelete('CommentReactions', null, {});
     await queryInterface.bulkDelete('Comment', null, {});
     await queryInterface.bulkDelete('Topic', null, {});
-    await queryInterface.bulkDelete('Reply', null, {});
     await queryInterface.bulkDelete('Reaction', null, {});
   },
 };

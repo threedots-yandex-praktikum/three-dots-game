@@ -1,7 +1,7 @@
 import { Optional } from 'sequelize';
 import { Column, DataType, Model, Table, TableOptions, HasMany } from 'sequelize-typescript';
 import { ModelAttributeColumnOptions } from 'sequelize/types/model';
-import { Topic, Comment, Reply, CommentReactions } from 'server/models/';
+import { Topic, Comment, CommentReactions } from 'server/models/';
 
 
 export enum userTheme {
@@ -48,9 +48,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> {
 
   @HasMany(() => Comment, { onDelete: 'SET NULL' } )
   comments!: Comment[];
-
-  @HasMany(() => Reply, { onDelete: 'SET NULL' } )
-  replies!: Reply[];
 
   @HasMany(() => CommentReactions, { onDelete: 'SET NULL' } )
   commentReactions!: CommentReactions[];

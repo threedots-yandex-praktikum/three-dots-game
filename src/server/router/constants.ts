@@ -17,9 +17,6 @@ export const TOPIC_WITH_ID_SUB_ROUTE = [TOPIC_SUB_ROUTE, ID_PARAM_SUB_ROUTE].joi
 export const REACTION_SUB_ROUTE = '/reaction';
 export const REACTION_WITH_ID_SUB_ROUTE = [REACTION_SUB_ROUTE, ID_PARAM_SUB_ROUTE].join('/');
 
-export const REPLY_SUB_ROUTE = '/reply';
-export const REPLY_WITH_ID_SUB_ROUTE = [REPLY_SUB_ROUTE, ID_PARAM_SUB_ROUTE].join('/');
-
 export const sendJSONResponse = (res: Response, data: Record<string, unknown>) => {
   return res
     .status(200)

@@ -4,8 +4,6 @@ import {
   COMMENT_WITH_ID_SUB_ROUTE,
    REACTION_SUB_ROUTE,
    REACTION_WITH_ID_SUB_ROUTE,
-   REPLY_SUB_ROUTE,
-   REPLY_WITH_ID_SUB_ROUTE,
   TOPIC_SUB_ROUTE,
   TOPIC_WITH_ID_SUB_ROUTE,
 } from 'server/router/constants';
@@ -32,13 +30,6 @@ import {
   handleReactionDelete,
   handleReactionUpdate,
 } from 'server/router/forum/reaction';
-import {
-  handleGetAllReplies,
-  handleGetSingleReply,
-  handleReplyCreate,
-  handleReplyDelete,
-  handleReplyUpdate,
-} from 'server/router/forum/reply';
 
 
 export const forumRouter = Router();
@@ -67,15 +58,6 @@ forumRouter.get(REACTION_WITH_ID_SUB_ROUTE, handleGetSingleReaction);
 forumRouter.post(REACTION_SUB_ROUTE, handleReactionCreate);
 forumRouter.put(REACTION_WITH_ID_SUB_ROUTE, handleReactionUpdate);
 forumRouter.delete(REACTION_WITH_ID_SUB_ROUTE, handleReactionDelete);
-
-/*
-* CRUD API для модели ответа на комментарий
-* */
-forumRouter.get(REPLY_SUB_ROUTE, handleGetAllReplies);
-forumRouter.get(REPLY_WITH_ID_SUB_ROUTE, handleGetSingleReply);
-forumRouter.post(REPLY_SUB_ROUTE, handleReplyCreate);
-forumRouter.put(REPLY_WITH_ID_SUB_ROUTE, handleReplyUpdate);
-forumRouter.delete(REPLY_WITH_ID_SUB_ROUTE, handleReplyDelete);
 
 /*
 * CRUD API для модели топиков
