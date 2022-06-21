@@ -11,11 +11,8 @@ export const getActiveTheme = async (
   try {
     const { id, first_name } = req.params;
     const candidate = await getCandidate(parseInt(id), first_name);
-
-    console.log(candidate, "------user");
-
     return sendJSONResponse(res, {
-      data: candidate?.theme,
+      data: candidate?.getDataValue("theme"),
     });
   } catch (e) {
     next(e);
@@ -30,9 +27,6 @@ export const changeActiveTheme = async (
   try {
     const { id } = req.context.user;
     const { theme } = req.body;
-    console.log(req.body, " req.body;");
-    console.log(id, " id;");
-
     await User.update(
       { theme },
       {

@@ -10,8 +10,6 @@ export const handleGetAllTopics = async (
 ) => {
   try {
     const topic: Topic[] = await Topic.findAll();
-    console.log(topic, "4444444444444444444444444");
-
     return sendJSONResponse(res, {
       data: topic,
     });
