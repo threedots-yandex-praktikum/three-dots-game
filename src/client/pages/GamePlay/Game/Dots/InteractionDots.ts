@@ -48,19 +48,19 @@ export class InteractionDots {
     }
   }
 
-  handleInterection() {
+  handleInteraction() {
     for (let i = 0; i < this.dots.length; i++) {
       const dot = this.dots[i];
       if (!dot.isActive) {
         continue;
       }
-      const dotIntersection = this.getInterectionDot(dot as Dot, i);
+      const dotInteraction = this.getInteractionDot(dot as Dot, i);
       
-      if (dotIntersection?.isDotIntersection) {
-        this.handleInteractionPhase(dot as Dot, dotIntersection.dot as Dot);
+      if (dotInteraction?.isDotIntersection) {
+        this.handleInteractionPhase(dot as Dot, dotInteraction.dot as Dot);
         continue;
       }
-      if (!(dot instanceof DotPlayer) && dotIntersection?.isDotWarning) {
+      if (!(dot instanceof DotPlayer) && dotInteraction?.isDotWarning) {
         dot.runAway();
       }
        
@@ -70,12 +70,13 @@ export class InteractionDots {
         continue;
       }
 
-      const dangerousObstacle = this.getDangerousObstacle(dot);
+      if (!dot instanceof DotPlayer) {
+        const dangerousObstacle = this.getDangerousObstacle(dot);
 
-      if (!(dot instanceof DotPlayer) && dangerousObstacle) {
-        dot.runAway();
+        if (dangerousObstacle) {
+          dot.runAway();
+        }
       }
-
     }
   }
 
@@ -85,7 +86,7 @@ export class InteractionDots {
   }
 
 
-  private getInterectionDot(dot: TDot, splitIndex: number) {
+  private getInteractionDot(dot: TDot, splitIndex: number) {
     for (let j = splitIndex + 1; j < this.dots.length; j++) {
       const dotOther = this.dots[j];
       if (!dotOther.isActive) {
@@ -140,7 +141,7 @@ export class InteractionDots {
   }
 
   handleMovePhase() {
-    this.handleInterection();
+    this.handleInteraction();
     
     this.dots.forEach((dot) => {
       if (!dot.isActive) {
