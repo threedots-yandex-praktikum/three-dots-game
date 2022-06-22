@@ -17,6 +17,7 @@ import {
   sendMessageAC,
   setCurrentTopicAC,
   setTopicsAC,
+  deleteMessageAC,
 } from './forumActionCreators';
 import { EForumActions, TCurrentTopic, TTopic } from './types';
 import { ForumAPI } from 'client/modules/api/forumAPI';
@@ -151,5 +152,28 @@ export function* watchSendMessage() {
     yield actionChannel(EForumActions.SEND_MESSAGE);
   while (true) {
     yield takeEvery(channel, fetchSendMessage);
+  }
+}
+
+function* fetchDeleteMessage({ payload }: ReturnType<typeof deleteMessageAC>) {
+  try {
+    yield put(setFetchOnAC());
+
+    yield call(ForumAPI.deleteComment.bind(ForumAPI, payload.commentId));
+
+    yield put(getCurrentTopicAC(payload.topicId));
+    yield put(setFetchOffAC());
+  } catch (error) {
+    yield put(setFetchOffAC());
+    yield put(setErrorAC(error as Error));
+    sendNotification((error as Error)?.message, NOTIFICATION_LEVEL.ERROR);
+  }
+}
+
+export function* watchDeleteMessage() {
+  const channel: TakeableChannel<ReturnType<typeof deleteMessageAC>> =
+    yield actionChannel(EForumActions.DELETE_MESSAGE);
+  while (true) {
+    yield takeEvery(channel, fetchDeleteMessage);
   }
 }

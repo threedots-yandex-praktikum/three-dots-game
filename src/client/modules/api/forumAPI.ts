@@ -182,6 +182,14 @@ class ForumAPIClass {
 
     return response.data;
   }
+
+  async deleteComment(id: number) {
+    const response: any = await this.forumHTTPTransportInstance.delete(
+      [FORUM_API_ENDPOINTS.COMMENTS, id].join('/'),
+    );
+
+    return response;
+  }
 }
 
 export const ForumAPI = new ForumAPIClass();

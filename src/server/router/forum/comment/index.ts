@@ -159,9 +159,12 @@ export const handleCommentDelete = async(req: Request, res: Response, next: Next
       where: { id },
     });
 
-    return res
-      .status(200)
-      .send();
+    return sendJSONResponse(
+      res,
+      {
+        data: id,
+      },
+    );
   } catch (e) {
     next(e);
   }

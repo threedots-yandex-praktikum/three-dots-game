@@ -10,6 +10,7 @@ import { watchOnFetch } from './reducers/fetchReducer/sagaFetch';
 import {
   watchCloseTopic,
   watchCreateTopic,
+  watchDeleteMessage,
   watchGetCurrentTopic,
   watchGetTopics,
   watchSendMessage,
@@ -44,6 +45,7 @@ export default function* rootSaga() {
     watchCloseTopic(),
     watchCreateTopic(),
     watchSendMessage(),
+    watchDeleteMessage(),
     watchLeaderBoard(),
     watchAddUserToLB(),
     watchGetTheme(),

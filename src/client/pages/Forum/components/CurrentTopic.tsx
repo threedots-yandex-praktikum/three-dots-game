@@ -8,7 +8,7 @@ import { TParams } from '../types';
 import { InteractivePanel } from './InteractivePanel';
 import { MessageForm } from './MessageForm';
 import { generateAvatarLink } from 'client/utils/generateAvatarLink';
-import { getCurrentTopicAC } from 'client/store/reducers/forumReducer/forumActionCreators';
+import {deleteMessageAC, getCurrentTopicAC} from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
 
@@ -109,10 +109,10 @@ export const CurrentTopic = () => {
                   <Button onClick={() => setCommentIdToReply(messageId)}>Ответить</Button>
                   {
                     userName === login ?
-                      <div>
+                      <React.Fragment>
                         <Button onClick={() => setCommentToEdit(message)}>Отредактировать</Button>
-                        <Button onClick={() => console.log('delete comment', messageId)}>Удалить</Button>
-                      </div> :
+                        <Button onClick={() => dispatch(deleteMessageAC(messageId, topicId))}>Удалить</Button>
+                      </React.Fragment> :
                       null
                   }
                 </Box>
