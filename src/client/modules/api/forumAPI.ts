@@ -67,6 +67,7 @@ class ForumAPIClass {
         },
         reactions,
         commentReactions,
+        parentId,
       } = item;
 
       return {
@@ -76,6 +77,7 @@ class ForumAPIClass {
         text,
         reactions,
         commentReactions,
+        parentId,
       };
     };
 

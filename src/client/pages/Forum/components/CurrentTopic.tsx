@@ -235,6 +235,7 @@ const _renderMessage = ({
           <Box pl={40}>
             <MessageForm
               topicId={topicId}
+              parentId={commentToEdit.parentId}
               commentId={commentToEdit.messageId}
               value={commentToEdit.text}
               closeReplyForm={clearReply}
