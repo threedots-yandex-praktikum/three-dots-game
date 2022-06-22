@@ -65,6 +65,8 @@ class ForumAPIClass {
         user: {
           name: userName,
         },
+        reactions,
+        commentReactions,
       } = item;
 
       return {
@@ -72,6 +74,8 @@ class ForumAPIClass {
         userName,
         time,
         text,
+        reactions,
+        commentReactions,
       };
     };
 
