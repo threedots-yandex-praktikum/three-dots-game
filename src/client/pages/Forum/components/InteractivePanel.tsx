@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { closeTopicAC } from 'client/store/reducers/forumReducer/forumActionCreators';
 import { TInteractivePanelProps, TParams } from '../types';
+import { push } from 'connected-react-router';
 
 
 
@@ -19,22 +20,24 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
 
   const makeTopicDisabled = () => {
     dispatch(closeTopicAC(topicId));
+    dispatch(push(FORUM_ROUTE));
   };
 
   const { id } = useAppSelector(state => state.profileReducer);
   const { currentTopic } = useAppSelector(state => state.forumReducer);
+  const { mainColorText, secondColorText, mainColor } = useAppSelector(state => state.themeReducer);
 
   return (
-    <Flex p="10px" my="15px" boxShadow="dark-lg" bg="#ffffff" w="100%">
+    <Flex p="10px" my="15px" boxShadow="dark-lg" bg={secondColorText} w="100%">
       <Box flexGrow={1}>
-        <Text as="span">
+        <Text as="span" color={mainColorText}>
           <span>{' > '} </span>
-          <Link className="nav-link" to={FORUM_ROUTE} >
+          <Link className="nav-link" to={FORUM_ROUTE} color={mainColorText}>
             Форум
           </Link>
         </Text>
         {topicName &&
-          <Text display="inline">
+          <Text display="inline" color={mainColorText}>
             {' > '}{topicName}
           </Text>
         }
@@ -42,15 +45,17 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
       <Box w="25%" ml="5px">
         {topicName
           ? <Button
-            colorScheme="red"
+            bg='#E53E3E'
+            color={secondColorText}
             onClick={makeTopicDisabled}
-            disabled={currentTopic?.userOwenerId !== id}
           >
             Закрыть тему &times;
           </Button>
           : <Button
             onClick={onOpen}
             colorScheme="purple"
+            bg={mainColor}
+            color={secondColorText}
           >
             Создать тему +
           </Button>

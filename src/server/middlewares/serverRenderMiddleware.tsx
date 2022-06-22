@@ -13,6 +13,8 @@ import { ChunkExtractor } from '@loadable/server';
 import { AuthAPIServer } from 'client/modules/api/authAPIServer';
 import { setUserAC } from 'client/store/reducers/profileReducer/profileActionCreators';
 import { TProfileState } from 'client/store/reducers/profileReducer/types';
+import { setDarkAC, setLightAC } from '../../client/store/reducers/themeReducer/themeActionCreators';
+import { userTheme } from '../models/user';
 
 function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
   const scriptTags = chunkExtractor.getScriptTags();
@@ -74,7 +76,7 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
     store.close();
 
     const reactHtml = renderToString(jsx);
-
+    
     const html = getHtml(reactHtml, store.getState(), chunkExtractor);
     res
       .status(context.statusCode || 200)
@@ -84,8 +86,15 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
   return AuthAPIServer
     .getUserDataSSR(req.cookies)
     .then(response => {
+      // console.log(response, 'setUserAC response in ssr middleW');
+      // console.log(req.context, 'req.context');
+      if (req.context.theme === userTheme.DARK) {
+        store.dispatch(setDarkAC());
+      }
+      if (req.context.theme === userTheme.LIGHT) {
+        store.dispatch(setLightAC());
+      }
       store.dispatch(setUserAC(response as TProfileState));
-
       return response;
     })
     .then(renderPageCallback)

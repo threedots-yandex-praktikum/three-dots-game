@@ -23,6 +23,10 @@ import {
   watchChangePassword,
   watchChangeProfile,
 } from './reducers/profileReducer/sagaProfile';
+import {
+  watchChangeTheme,
+  watchGetTheme,
+} from './reducers/themeReducer/sagaTheme';
 
 export default function* rootSaga() {
   yield all([
@@ -42,5 +46,7 @@ export default function* rootSaga() {
     watchSendMessage(),
     watchLeaderBoard(),
     watchAddUserToLB(),
+    watchGetTheme(),
+    watchChangeTheme(),
   ]);
 }

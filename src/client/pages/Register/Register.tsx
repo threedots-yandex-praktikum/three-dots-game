@@ -15,6 +15,7 @@ import { SpinnerWrapper } from 'client/components/Spinner';
 export const Register = () => {
   const history = useHistory();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { secondColorText, mainColor, mainColorText, bgColorSecond } = useAppSelector(state => state.themeReducer);
 
   const onSubmit = useCallback(
     values => {
@@ -64,7 +65,7 @@ export const Register = () => {
           p={6}
           rounded="lg"
           boxShadow="lg"
-          bg="white"
+          bg={secondColorText}
           pos="relative"
         >
           <FormikProvider value={formik}>
@@ -99,14 +100,21 @@ export const Register = () => {
                   )}
                   <GridItem colStart={2}>
                     <Flex align="center" justify="center">
-                      <Button w="50%" mr={3} onClick={onClose}>
+                      <Button
+                        w="50%"
+                        mr={3}
+                        onClick={onClose}
+                        color={mainColorText}
+                        bg={bgColorSecond}
+                      >
                         Назад
                       </Button>
                       <Button
                         w="50%"
                         type="submit"
-                        colorScheme="purple"
+                        backgroundColor={mainColor}
                         isDisabled={isSubmitBtnDisabled || isFetch}
+                        color={secondColorText}
                       >
                         Зарегистрироваться
                       </Button>
@@ -117,7 +125,7 @@ export const Register = () => {
 
               </form>
               <Flex align="center" justify="center" mt={10}>
-                <Button colorScheme='purple' variant='link' onClick={ onSignUpYa }>
+                <Button bg={secondColorText} color={mainColorText} variant='link' onClick={onSignUpYa}>
                   Зарегистрироваться с помощью
                   <Text
                     color="red"

@@ -2,7 +2,7 @@ import { CANVAS_SIZE_IN_PX } from '../settingsGame';
 import { getRadiusFromArea } from '../utils';
 import { TDot, TDotCoordinate } from '../types';
 
-const speedFactor = 10;
+const speedFactor = 15;
 const OBSTACLE_INTERSECTION_ROLLBACK_IN_PX = 80;
 
 
@@ -45,7 +45,7 @@ export abstract class Dot {
 
   }
 
-  move(keyDirection: string) {
+  move() {
     if (!this.transitionRadius) {
       return;
     }
@@ -62,13 +62,13 @@ export abstract class Dot {
 
   correctCenterPositionAccordingNewDotRadius() {
     if (this.x + this.radius > CANVAS_SIZE_IN_PX) {
-      this.x = CANVAS_SIZE_IN_PX - this.radius;
+      this.x = Math.floor(CANVAS_SIZE_IN_PX - this.radius);
     }
     if (this.x - this.radius < 0) {
       this.x = 0 + this.radius;
     }
     if (this.y + this.radius > CANVAS_SIZE_IN_PX) {
-      this.y = CANVAS_SIZE_IN_PX - this.radius;
+      this.y = Math.floor(CANVAS_SIZE_IN_PX - this.radius);
     }
     if (this.y - this.radius < 0) {
       this.y = 0 + this.radius;
@@ -82,18 +82,15 @@ export abstract class Dot {
   getDistanceToOtherDot (dot: TDotCoordinate) {
     const x = this.x - dot.x;
     const y = this.y - dot.y;
-    return Math.sqrt(x * x + y * y);
+    return Math.sqrt(x ** 2 + y ** 2);
   }
 
-  isDotIntersection(dot: TDotCoordinate) {
-    const distance = this.getDistanceToOtherDot(dot);
-    return distance < this.radius + dot.radius;
-  }
-
-  isDotWarning(dot: TDotCoordinate) {
+  calcDotInteraction(dot: TDotCoordinate) {
     const radiusDanger = 20;
     const distance = this.getDistanceToOtherDot(dot);
-    return distance < this.radius + dot.radius  + radiusDanger;
+    return {
+      isDotIntersection: distance < this.radius + dot.radius,
+      isDotWarning: distance < this.radius + dot.radius  + radiusDanger,
+    };
   }
-
 }

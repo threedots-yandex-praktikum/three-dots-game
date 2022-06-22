@@ -4,6 +4,7 @@ import { BOTS_TO_RE_INIT_AMOUNT,
 import { DotBot } from '../Dot/DotBot';
 import { DotPlayer } from '../Dot/DotPlayer';
 import { OBSTACLES_DATA } from 'client/pages/GamePlay/Game/Game';
+import { Dot } from '../Dot/Dot';
 
 const MIN_DOT_AREA_SIZE_TO_INTERACT_WITH_OBSTACLE_IN_PX = 60;
 
@@ -30,10 +31,12 @@ export class InteractionDots {
     let countInitBots = 0;
 
     for (let i = 0; i < this.dots.length; i++) {
+      if (countInitBots === BOTS_TO_RE_INIT_AMOUNT) {
+        return;
+      }
       const dot = this.dots[i];
 
       if (
-        countInitBots === BOTS_TO_RE_INIT_AMOUNT ||
         dot instanceof DotPlayer ||
         dot.isActive
       ) {
@@ -45,55 +48,63 @@ export class InteractionDots {
     }
   }
 
-
-  handleIntersection(dot: TDot) {
-    const dotIntersection = this.getIntersectionDot(dot);
-    if (dotIntersection) {
-      return this.handleInteractionPhase(dot, dotIntersection);
-    }
-
-    const obstacleIntersection = this.getIntersectionObstacle(dot);
-    if (obstacleIntersection) {
-      return this.handleObstaclesInteractionPhase(dot, obstacleIntersection);
-    }
-  }
-
-  handleDanger(dot: TDotBot) {
-    const dangerousDot = this.getDangerousDot(dot);
-
-    const dangerousObstacle = this.getDangerousObstacle(dot);
-
-    if (dangerousObstacle || dangerousDot && dot.isDanger(dangerousDot)) {
-      dot.runAway();
-    }
-  }
-
-  private getDangerousDot(dot: TDotBot) {
-    const dotIntersection = this.dots.find((dot2) => {
-      if (dot2 === dot || !dot2.isActive) {
-        return false;
+  handleInteraction() {
+    for (let i = 0; i < this.dots.length; i++) {
+      const dot = this.dots[i];
+      if (!dot.isActive) {
+        continue;
       }
-      return dot.isDotWarning(dot2);
-    });
-    return dotIntersection;
+      const dotInteraction = this.getInteractionDot(dot as Dot, i);
+      
+      if (dotInteraction?.isDotIntersection) {
+        this.handleInteractionPhase(dot as Dot, dotInteraction.dot as Dot);
+        continue;
+      }
+      if (!(dot instanceof DotPlayer) && dotInteraction?.isDotWarning) {
+        dot.runAway();
+      }
+       
+      const obstacleIntersection = this.getIntersectionObstacle(dot as Dot);
+      if (obstacleIntersection) {
+        this.handleObstaclesInteractionPhase(dot as Dot, obstacleIntersection);
+        continue;
+      }
+
+      if (!dot instanceof DotPlayer) {
+        const dangerousObstacle = this.getDangerousObstacle(dot);
+
+        if (dangerousObstacle) {
+          dot.runAway();
+        }
+      }
+    }
   }
+
 
   private getDangerousObstacle(dot: TDotBot) {
-    return OBSTACLES_DATA.find(obstacle => dot.isDotWarning(obstacle));
+    return OBSTACLES_DATA.find(obstacle => dot.calcDotInteraction(obstacle).isDotWarning);
   }
 
-  private getIntersectionDot(dot: TDot) {
-    const dotIntersection = this.dots.find((dot2) => {
-      if (dot2 === dot || !dot2.isActive) {
-        return false;
+
+  private getInteractionDot(dot: TDot, splitIndex: number) {
+    for (let j = splitIndex + 1; j < this.dots.length; j++) {
+      const dotOther = this.dots[j];
+      if (!dotOther.isActive) {
+        continue;
       }
-      return dot.isDotIntersection(dot2);
-    });
-    return dotIntersection;
+      const dotInteraction = dot.calcDotInteraction(dotOther);
+      if (dotInteraction.isDotIntersection || dotInteraction.isDotWarning) {
+        return {
+          dot: dotOther,
+          ...dotInteraction,
+        };
+      }
+
+    }
   }
 
   private getIntersectionObstacle(dot: TDot) {
-    return OBSTACLES_DATA.find(obstacle => dot.isDotIntersection(obstacle));
+    return OBSTACLES_DATA.find(obstacle => dot.calcDotInteraction(obstacle).isDotIntersection);
   }
 
   private handleInteractionPhase(dot: TDot, dotIntersection: TDot) {
@@ -130,16 +141,15 @@ export class InteractionDots {
   }
 
   handleMovePhase() {
+    this.handleInteraction();
+    
     this.dots.forEach((dot) => {
       if (!dot.isActive) {
         return;
       }
       if (dot instanceof DotBot) {
         dot.move();
-        this.handleDanger(dot);
       }
-
-      this.handleIntersection(dot as TDot);
     });
   }
 }

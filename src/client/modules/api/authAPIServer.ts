@@ -1,14 +1,14 @@
 import { AUTH_API_ENDPOINTS, YANDEX_API_HOST } from './httpTransport/constants';
 import { TUserModelResponse } from 'client/modules/api/profileAPI';
-import axios, { AxiosResponse } from 'axios';
-
+import axios from 'axios';
 
 class AuthAPIServerClass {
-  async getUserDataSSR(cookies: Record<string, string>): Promise<TUserModelResponse | AxiosResponse> {
+  async getUserDataSSR(
+    cookies: Record<string, string>,
+  ): Promise<TUserModelResponse> {
     try {
-      const cookie = Object
-        .keys(cookies)
-        .map(key => `${key}=${cookies[key]}`)
+      const cookie = Object.keys(cookies)
+        .map((key) => `${key}=${cookies[key]}`)
         .join('; ');
 
       const response = await axios(

@@ -1,5 +1,5 @@
 import path from 'path';
-import {ProvidePlugin, Configuration, WebpackPluginInstance as Plugin} from 'webpack';
+import { ProvidePlugin, Configuration, WebpackPluginInstance as Plugin } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
 import fileLoader from '../loaders/file';

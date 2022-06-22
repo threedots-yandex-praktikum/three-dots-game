@@ -25,7 +25,7 @@ export class DotPlayer extends Dot {
   }
 
   move (keyDirection: string) {
-    super.move(keyDirection);
+    super.move();
     const control = Object.values(controlSettings).find((control) => {
       return control.value === keyDirection;
     });
@@ -36,10 +36,12 @@ export class DotPlayer extends Dot {
     control.isMoved = true;
 
     const _moveDot = function (this: DotPlayer) {
-      setTimeout(() => {
+      const timerId = setTimeout(() => {
         this.editDirection(control.codeDirection);
         if (control.isMoved) {
           _moveDot();
+        } else {
+          clearTimeout(timerId);
         }
       }, 25);
     }.bind(this);
