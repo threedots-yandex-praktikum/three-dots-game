@@ -3,7 +3,7 @@ import {
   DEFAULT_POST_REQUEST_HEADERS,
   LOCAL_API_HOST,
 } from './httpTransport/constants';
-import {TCurrentTopic, TNewTopicData, TSendData, TTopic} from 'client/store/reducers/forumReducer/types';
+import { TCurrentTopic, TNewTopicData, TSendData, TTopic } from 'client/store/reducers/forumReducer/types';
 
 
 export const FORUM_API_ENDPOINTS = {

@@ -8,13 +8,14 @@ import { useDispatch } from 'react-redux';
 import { sendMessageAC } from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppSelector } from 'client/hooks/useAppSelector';
 import { TMessageFormProps } from '../types';
+import _isFunction from 'lodash/isFunction';
 
 
 const INITIAL_STATE = {
   message: EMPTY_STRING,
 };
 
-export const MessageForm = ({ topicId }: TMessageFormProps) => {
+export const MessageForm = ({ topicId, commentId = null, closeReplyForm, canBeClosed }: TMessageFormProps) => {
 
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.profileReducer);
@@ -22,10 +23,12 @@ export const MessageForm = ({ topicId }: TMessageFormProps) => {
 
   const onSubmit = useCallback(
     (values, { resetForm }) => {
-      dispatch(sendMessageAC({ ...values, userId: id as number, topicId }));
+      dispatch(sendMessageAC({ ...values, userId: id as number, topicId, parentId: commentId }));
+
+      _isFunction(closeReplyForm) && closeReplyForm();
       resetForm({ values: '' });
     },
-    [dispatch, id, topicId],
+    [dispatch, id, topicId, commentId, closeReplyForm],
   );
 
   const formik = useFormik({
@@ -79,6 +82,17 @@ export const MessageForm = ({ topicId }: TMessageFormProps) => {
         >
           Отправить
         </Button>
+        {
+          canBeClosed ?
+            <Button
+              bg={mainColor}
+              color={secondColorText}
+              onClick={closeReplyForm}
+            >
+              Отмена
+            </Button> :
+            null
+        }
       </form>
     </FormikProvider>
   );

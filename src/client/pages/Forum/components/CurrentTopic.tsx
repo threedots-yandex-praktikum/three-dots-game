@@ -1,5 +1,5 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
-import { Avatar } from '@chakra-ui/react';
+import { Avatar, Button } from '@chakra-ui/react';
 import { useAppSelector } from 'client/hooks/useAppSelector';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -23,6 +23,8 @@ export const CurrentTopic = () => {
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = useAppSelector(state => state.themeReducer);
+
+  const [commentIdToReply, setCommentIdToReply] = useState(null);
 
   const dispatch = useAppDispatch();
   const [loc, setLoc] = useState(['', '']);
@@ -55,45 +57,70 @@ export const CurrentTopic = () => {
         </Heading>
         <Divider orientation="horizontal" border="2px" />
         {currentTopic?.messages.map(message => {
-          const { avatarLink, messageId, text, time, userName, country, town } = message;
+          const {
+            avatarLink,
+            messageId,
+            text,
+            time,
+            userName,
+            country,
+            town,
+          } = message;
           const avatar = generateAvatarLink(avatarLink);
           return (
-            <Stack
-              divider={<StackDivider borderColor={bgColorSecond} />}
-              direction="row"
-              className="message"
-              key={messageId}
-            >
+            <div>
               <Stack
-                direction="column"
-                w="240px"
+                divider={<StackDivider borderColor={bgColorSecond} />}
+                direction="row"
+                className="message"
+                key={messageId}
               >
-                <Box>
-                  <Avatar
-                    bg={avatar ? 'transparent' : mainColor}
-                    size="lg"
-                    src={avatar}
-                    color={secondColorText}
-                  />
-                  {
-                    country && town ? <Text color={mainColorText} >  {country} , {town}</Text> : null
-                  }
+                <Stack
+                  direction="column"
+                  w="240px"
+                >
+                  <Box>
+                    <Avatar
+                      bg={avatar ? 'transparent' : mainColor}
+                      size="lg"
+                      src={avatar}
+                      color={secondColorText}
+                    />
+                    {
+                      country && town ? <Text color={mainColorText} >  {country} , {town}</Text> : null
+                    }
+                  </Box>
+                  <Box>
+                    <Text color={mainColorText}>{userName}</Text>
+                  </Box>
+                  <Box>
+                    <Text color={mainColorText} textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
+                  </Box>
+                </Stack>
+                <Box
+                  flexGrow={1}
+                  maxW="70%"
+                  color={mainColorText}
+                >
+                  {text}
                 </Box>
                 <Box>
-                  <Text color={mainColorText}>{userName}</Text>
-                </Box>
-                <Box>
-                  <Text color={mainColorText} textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
+                  <Button onClick={() => setCommentIdToReply(messageId)}>Ответить</Button>
                 </Box>
               </Stack>
-              <Box
-                flexGrow={1}
-                maxW="70%"
-                color={mainColorText}
-              >
-                {text}
-              </Box>
-            </Stack>
+              {
+                commentIdToReply === messageId ?
+                  <Box pl={40}>
+                    <MessageForm
+                      topicId={topicId}
+                      commentId={commentIdToReply}
+                      closeReplyForm={() => setCommentIdToReply(null)}
+                      canBeClosed
+                    />
+                  </Box> :
+                  null
+              }
+            </div>
           );
         })}
         {
