@@ -2,8 +2,13 @@ import { NextFunction, Request, Response, Router } from 'express';
 import { sendJSONResponse, THEME_ROUTE } from 'server/router/constants';
 import { User } from 'server/models/';
 import { changeActiveTheme } from './theme';
+import { authMiddleware } from 'server/middlewares/authMiddleware';
+import { syncronizeDBMiddleware } from 'server/middlewares/syncronizeDBMiddleware';
 
 export const userRouter = Router();
+
+userRouter.use([authMiddleware, syncronizeDBMiddleware]);
+
 userRouter.put(THEME_ROUTE, changeActiveTheme);
 
 userRouter.post(

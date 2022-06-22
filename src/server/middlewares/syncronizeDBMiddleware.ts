@@ -24,6 +24,10 @@ export const syncronizeDBMiddleware = async (
     const { id, first_name } = req.context.user;
     const candidate = await getCandidate(id, first_name);
     req.context.theme = candidate?.getDataValue('theme');
+    req.context.user = {
+      id: candidate?.getDataValue('id'),
+      name: candidate?.getDataValue('name'),
+    };
     next();
   } catch (error) {
     console.log(error, 'syncronizeDBMiddleware');

@@ -12,7 +12,8 @@ import {
 import {
   closeTopicAC,
   createNewTopicAC,
-  getCurrentTopicAC, getTopicsAC,
+  getCurrentTopicAC,
+  getTopicsAC,
   sendMessageAC,
   setCurrentTopicAC,
   setTopicsAC,

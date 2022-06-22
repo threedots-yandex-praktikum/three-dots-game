@@ -21,7 +21,6 @@ import {
   handleTopicDelete,
   handleTopicUpdate,
 } from './topic';
-// import { authMiddleware } from "server/middlewares/authMiddleware";
 import {
   handleGetAllReactions,
   handleGetSingleReaction,
@@ -29,15 +28,15 @@ import {
   handleReactionDelete,
   handleReactionUpdate,
 } from 'server/router/forum/reaction';
-// import { syncronizeDBMiddleware } from "../../middlewares/syncronizeDBMiddleware";
+import { authMiddleware } from 'server/middlewares/authMiddleware';
+import { syncronizeDBMiddleware } from 'server/middlewares/syncronizeDBMiddleware';
 
 export const forumRouter = Router();
 
 /*
  * здесь задаем миддлвары необходимые только для роутера форума
  * */
-// forumRouter.use(authMiddleware);
-// forumRouter.use(syncronizeDBMiddleware);
+forumRouter.use([authMiddleware, syncronizeDBMiddleware]);
 
 /*
 * CRUD API для модели комментария

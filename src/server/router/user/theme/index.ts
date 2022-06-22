@@ -1,7 +1,7 @@
 import { sendJSONResponse } from '../../constants';
 import { NextFunction, Request, Response } from 'express';
-import { User } from '../../../models';
-import { getCandidate } from '../../../middlewares/syncronizeDBMiddleware';
+import { User } from 'server/models';
+import { getCandidate } from 'server/middlewares/syncronizeDBMiddleware';
 
 export const getActiveTheme = async (
   req: Request,

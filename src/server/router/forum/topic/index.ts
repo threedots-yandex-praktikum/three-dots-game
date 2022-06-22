@@ -106,23 +106,14 @@ export const handleTopicCreate = async (
 ) => {
   try {
 
-    console.log('request', req.context.user);
-
     const topic: Topic | null = await Topic.create({
-
-      /*
-      * TODO здесь нужно достать айдишник пользователя из мидлвара
-      * */
-      userId: 1,
+      userId: req.context.user.id,
       name: req.body.name,
       status: topicStatus.OPEN,
     });
 
     await Comment.create({
-      /*
-      * TODO тоже здесь нужно достать айдишник пользователя из мидлвара
-      * */
-      userId: 1,
+      userId: req.context.user.id,
       topicId: Number(topic.getDataValue('id')),
       parentId: null,
       message: req.body.message,
