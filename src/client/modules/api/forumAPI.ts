@@ -3,7 +3,7 @@ import {
   DEFAULT_POST_REQUEST_HEADERS,
   LOCAL_API_HOST,
 } from './httpTransport/constants';
-import { TCurrentTopic, TNewTopicData, TTopic } from 'client/store/reducers/forumReducer/types';
+import {TCurrentTopic, TNewTopicData, TSendData, TTopic} from 'client/store/reducers/forumReducer/types';
 
 
 export const FORUM_API_ENDPOINTS = {
@@ -153,6 +153,18 @@ class ForumAPIClass {
           topicId,
           status: 1,
         },
+      },
+    );
+
+    return response.data;
+  }
+
+  async createComment(data: TSendData) {
+    const response: any = await this.forumHTTPTransportInstance.post(
+      FORUM_API_ENDPOINTS.COMMENTS,
+      {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
+        data,
       },
     );
 

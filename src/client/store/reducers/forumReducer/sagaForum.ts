@@ -128,6 +128,8 @@ function* fetchSendMessage({ payload }: ReturnType<typeof sendMessageAC>) {
   try {
     yield put(setFetchOnAC());
 
+    yield call(ForumAPI.createComment.bind(ForumAPI, payload));
+
     yield put(getCurrentTopicAC(payload.topicId));
     yield put(setFetchOffAC());
   } catch (error) {
