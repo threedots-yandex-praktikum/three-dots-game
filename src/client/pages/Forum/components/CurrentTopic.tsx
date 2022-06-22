@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar, Button } from '@chakra-ui/react';
 import { useAppSelector } from 'client/hooks/useAppSelector';
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDateString } from 'client/utils/getDateString';
 import { TParams } from '../types';
@@ -11,7 +11,6 @@ import { generateAvatarLink } from 'client/utils/generateAvatarLink';
 import {deleteMessageAC, getCurrentTopicAC} from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
-import _groupBy from "lodash/groupBy";
 
 
 export const CurrentTopic = () => {
@@ -22,8 +21,10 @@ export const CurrentTopic = () => {
 
   const { avatar, login } = useAppSelector(state => state.profileReducer);
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
+  const theme = useAppSelector(state => state.themeReducer);
+
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
-  } = useAppSelector(state => state.themeReducer);
+  } = theme;
 
   const [commentIdToReply, setCommentIdToReply] = useState(null);
   const [commentToEdit, setCommentToEdit] = useState(null);
@@ -42,6 +43,31 @@ export const CurrentTopic = () => {
 
   const currentTopicTitle = currentTopic ? currentTopic.title : 'нет данных';
 
+
+  const onReply = useCallback(
+    messageId => setCommentIdToReply(messageId),
+    [setCommentIdToReply],
+  );
+
+  const onEdit = useCallback(
+    message => setCommentToEdit(message),
+    [setCommentToEdit],
+  );
+
+  const onDelete = useCallback(
+    messageId => dispatch(deleteMessageAC(messageId, topicId)),
+    [topicId, dispatch],
+  );
+
+  const clearReply = useCallback(
+    () => {
+      setCommentIdToReply(null);
+      setCommentToEdit(null);
+    },
+    [setCommentIdToReply, setCommentToEdit],
+  );
+
+
   return (
     <>
       <InteractivePanel topicName={currentTopicTitle} />
@@ -58,93 +84,21 @@ export const CurrentTopic = () => {
           {currentTopicTitle}
         </Heading>
         <Divider orientation="horizontal" border="2px" />
-        {currentTopic?.messages.map(message => {
-          const {
-            avatarLink,
-            messageId,
-            text,
-            time,
-            userName,
-            country,
-            town,
-          } = message;
-          const avatar = generateAvatarLink(avatarLink);
-          return (
-            <div key={messageId}>
-              <Stack
-                divider={<StackDivider borderColor={bgColorSecond} />}
-                direction="row"
-                className="message"
-              >
-                <Stack
-                  direction="column"
-                  w="240px"
-                >
-                  <Box>
-                    <Avatar
-                      bg={avatar ? 'transparent' : mainColor}
-                      size="lg"
-                      src={avatar}
-                      color={secondColorText}
-                    />
-                    {
-                      country && town ? <Text color={mainColorText} >  {country} , {town}</Text> : null
-                    }
-                  </Box>
-                  <Box>
-                    <Text color={mainColorText}>{userName}</Text>
-                  </Box>
-                  <Box>
-                    <Text color={mainColorText} textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
-                  </Box>
-                </Stack>
-                <Box
-                  flexGrow={1}
-                  maxW="70%"
-                  color={mainColorText}
-                >
-                  {text}
-                </Box>
-                <Box>
-                  <Button onClick={() => setCommentIdToReply(messageId)}>Ответить</Button>
-                  {
-                    userName === login ?
-                      <React.Fragment>
-                        <Button onClick={() => setCommentToEdit(message)}>Отредактировать</Button>
-                        <Button onClick={() => dispatch(deleteMessageAC(messageId, topicId))}>Удалить</Button>
-                      </React.Fragment> :
-                      null
-                  }
-                </Box>
-              </Stack>
-              {
-                commentIdToReply === messageId ?
-                  <Box pl={40}>
-                    <MessageForm
-                      topicId={topicId}
-                      parentId={commentIdToReply}
-                      closeReplyForm={() => setCommentIdToReply(null)}
-                      canBeClosed
-                    />
-                  </Box> :
-                  null
-              }
-              {
-                !!commentToEdit && commentToEdit.messageId === messageId ?
-                  <Box pl={40}>
-                    <MessageForm
-                      topicId={topicId}
-                      commentId={commentToEdit.messageId}
-                      value={commentToEdit.text}
-                      closeReplyForm={() => setCommentToEdit(null)}
-                      canBeClosed
-                    />
-                  </Box> :
-                  null
-              }
-            </div>
-          );
-        })}
+        {
+          currentTopic?.messages
+          .map(message => _renderMessage({
+            message,
+            login,
+            theme,
+            onReply,
+            onEdit,
+            onDelete,
+            clearReply,
+            topicId,
+            commentIdToReply,
+            commentToEdit,
+          }))
+        }
         {
           currentTopic?.isDisabled
             ? null
@@ -181,3 +135,108 @@ export const CurrentTopic = () => {
 
   );
 };
+
+
+
+const _renderMessage = ({
+  message,
+  login,
+  theme,
+  onReply,
+  onEdit,
+  onDelete,
+  clearReply,
+  topicId,
+  commentIdToReply,
+  commentToEdit,
+}) =>  {
+  const {
+    avatarLink,
+    messageId,
+    text,
+    time,
+    userName,
+    country,
+    town,
+  } = message;
+
+  const { secondColorText, bgColorSecond, mainColorText, mainColor,
+  } = theme;
+
+  const avatar = generateAvatarLink(avatarLink);
+  return (
+    <div key={messageId}>
+      <Stack
+        divider={<StackDivider borderColor={bgColorSecond} />}
+        direction="row"
+        className="message"
+      >
+        <Stack
+          direction="column"
+          w="240px"
+        >
+          <Box>
+            <Avatar
+              bg={avatar ? 'transparent' : mainColor}
+              size="lg"
+              src={avatar}
+              color={secondColorText}
+            />
+            {
+              country && town ? <Text color={mainColorText} >  {country} , {town}</Text> : null
+            }
+          </Box>
+          <Box>
+            <Text color={mainColorText}>{userName}</Text>
+          </Box>
+          <Box>
+            <Text color={mainColorText} textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
+          </Box>
+        </Stack>
+        <Box
+          flexGrow={1}
+          maxW="70%"
+          color={mainColorText}
+        >
+          {text}
+        </Box>
+        <Box>
+          <Button onClick={() => onReply(messageId)}>Ответить</Button>
+          {
+            userName === login ?
+              <React.Fragment>
+                <Button onClick={() => onEdit(message)}>Отредактировать</Button>
+                <Button onClick={() => onDelete(messageId)}>Удалить</Button>
+              </React.Fragment> :
+              null
+          }
+        </Box>
+      </Stack>
+      {
+        commentIdToReply === messageId ?
+          <Box pl={40}>
+            <MessageForm
+              topicId={topicId}
+              parentId={commentIdToReply}
+              closeReplyForm={clearReply}
+              canBeClosed
+            />
+          </Box> :
+          null
+      }
+      {
+        !!commentToEdit && commentToEdit.messageId === messageId ?
+          <Box pl={40}>
+            <MessageForm
+              topicId={topicId}
+              commentId={commentToEdit.messageId}
+              value={commentToEdit.text}
+              closeReplyForm={clearReply}
+              canBeClosed
+            />
+          </Box> :
+          null
+      }
+    </div>
+  );
+}
