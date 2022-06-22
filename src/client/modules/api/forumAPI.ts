@@ -56,29 +56,46 @@ class ForumAPIClass {
       comments,
       ({ parentId }) => parentId,
     );
-    console.log(commentsGroupedByParent)
 
+    const transformSingleCommentData = item => {
+      const {
+        id: messageId,
+        message: text,
+        createdAt: time,
+        user: {
+          name: userName,
+        },
+      } = item;
+
+      return {
+        messageId,
+        userName,
+        time,
+        text,
+      };
+    };
+
+    const getRepliesDataFromCommentsGroupedByParent = data => {
+      const transformedSingleCommentData = transformSingleCommentData(data);
+
+      if(!commentsGroupedByParent[data.id]) {
+        return {
+          ...transformedSingleCommentData,
+          replies: [],
+        };
+      }
+
+      return {
+        ...transformedSingleCommentData,
+        replies: commentsGroupedByParent[data.id]
+          .map(getRepliesDataFromCommentsGroupedByParent),
+      };
+    };
 
     const responseData = {
       ...topicData,
-      messages: comments
-        .map(item => {
-          const {
-            id: messageId,
-            message: text,
-            createdAt: time,
-            user: {
-              name: userName,
-            },
-          } = item;
-
-          return {
-            messageId,
-            userName,
-            time,
-            text,
-          };
-        }),
+      messages: commentsGroupedByParent['null']
+        .map(data => getRepliesDataFromCommentsGroupedByParent(data)),
     };
 
     return responseData as TCurrentTopic;
