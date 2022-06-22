@@ -11,6 +11,7 @@ import { generateAvatarLink } from 'client/utils/generateAvatarLink';
 import {deleteMessageAC, getCurrentTopicAC} from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
+import _groupBy from "lodash/groupBy";
 
 
 export const CurrentTopic = () => {
@@ -69,12 +70,11 @@ export const CurrentTopic = () => {
           } = message;
           const avatar = generateAvatarLink(avatarLink);
           return (
-            <div>
+            <div key={messageId}>
               <Stack
                 divider={<StackDivider borderColor={bgColorSecond} />}
                 direction="row"
                 className="message"
-                key={messageId}
               >
                 <Stack
                   direction="column"

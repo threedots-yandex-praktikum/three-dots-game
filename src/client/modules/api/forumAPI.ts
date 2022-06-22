@@ -4,6 +4,7 @@ import {
   LOCAL_API_HOST,
 } from './httpTransport/constants';
 import { TCurrentTopic, TNewTopicData, TSendData, TTopic } from 'client/store/reducers/forumReducer/types';
+import _groupBy from 'lodash/groupBy';
 
 
 export const FORUM_API_ENDPOINTS = {
@@ -45,6 +46,18 @@ class ForumAPIClass {
         messages: [],
       };
     }
+
+    /*
+  * TODO необходимо на основе этой структуры оформить массив комметов и по нему пробегаться, вместо comments
+  *  также необходимо проверить, что последовательность комментариев сохранена, т.е. они по дате должны нормально распологаться
+  *  друг за другом
+  * */
+    const commentsGroupedByParent = _groupBy(
+      comments,
+      ({ parentId }) => parentId,
+    );
+    console.log(commentsGroupedByParent)
+
 
     const responseData = {
       ...topicData,
