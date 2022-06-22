@@ -60,12 +60,14 @@ export const handleGetAllTopics = async(req: Request, res: Response, next: NextF
   }
 };
 
-export const handleGetSingleTopic = async(req: Request, res: Response, next: NextFunction) => {
+export const handleGetSingleTopic = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const {
-      params: {
-        id,
-      },
+      params: { id },
     } = req;
 
     const topic: Topic | null = await Topic.findOne({
@@ -97,26 +99,21 @@ export const handleGetSingleTopic = async(req: Request, res: Response, next: Nex
   }
 };
 
-export const handleTopicCreate = async(req: Request, res: Response, next: NextFunction) => {
+export const handleTopicCreate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
 
-    console.log('request', req.context.user)
-
     const topic: Topic | null = await Topic.create({
-
-      /*
-      * TODO здесь нужно достать айдишник пользователя из мидлвара
-      * */
-      userId: 1,
+      userId: req.context.user.id,
       name: req.body.name,
       status: topicStatus.OPEN,
     });
 
     await Comment.create({
-      /*
-      * TODO тоже здесь нужно достать айдишник пользователя из мидлвара
-      * */
-      userId: 1,
+      userId: req.context.user.id,
       topicId: Number(topic.getDataValue('id')),
       parentId: null,
       message: req.body.message,
@@ -133,7 +130,11 @@ export const handleTopicCreate = async(req: Request, res: Response, next: NextFu
   }
 };
 
-export const handleTopicUpdate = async(req: Request, res: Response, next: NextFunction) => {
+export const handleTopicUpdate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const {
       body: {
@@ -161,12 +162,14 @@ export const handleTopicUpdate = async(req: Request, res: Response, next: NextFu
   }
 };
 
-export const handleTopicDelete = async(req: Request, res: Response, next: NextFunction) => {
+export const handleTopicDelete = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const {
-      params: {
-        id,
-      },
+      params: { id },
     } = req;
 
     await Topic.destroy({

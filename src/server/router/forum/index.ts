@@ -20,9 +20,7 @@ import {
   handleTopicCreate,
   handleTopicDelete,
   handleTopicUpdate,
- }
-from './topic';
-import { authMiddleware } from 'server/middlewares/authMiddleware';
+} from './topic';
 import {
   handleGetAllReactions,
   handleGetSingleReaction,
@@ -30,16 +28,15 @@ import {
   handleReactionDelete,
   handleReactionUpdate,
 } from 'server/router/forum/reaction';
-
+import { authMiddleware } from 'server/middlewares/authMiddleware';
+import { syncronizeDBMiddleware } from 'server/middlewares/syncronizeDBMiddleware';
 
 export const forumRouter = Router();
 
 /*
-* здесь задаем миддлвары необходимые только для роутера форума
-* */
-forumRouter.use(authMiddleware);
-
-
+ * здесь задаем миддлвары необходимые только для роутера форума
+ * */
+forumRouter.use([authMiddleware, syncronizeDBMiddleware]);
 
 /*
 * CRUD API для модели комментария
@@ -51,8 +48,8 @@ forumRouter.put(COMMENT_WITH_ID_SUB_ROUTE, handleCommentUpdate);
 forumRouter.delete(COMMENT_WITH_ID_SUB_ROUTE, handleCommentDelete);
 
 /*
-* CRUD API для модели реакции
-* */
+ * CRUD API для модели реакции
+ * */
 forumRouter.get(REACTION_SUB_ROUTE, handleGetAllReactions);
 forumRouter.get(REACTION_WITH_ID_SUB_ROUTE, handleGetSingleReaction);
 forumRouter.post(REACTION_SUB_ROUTE, handleReactionCreate);

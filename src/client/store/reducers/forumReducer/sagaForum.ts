@@ -8,11 +8,12 @@ import { setErrorAC } from '../authReducer/authActionCreators';
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from '../fetchReducer/fetchActionCreators';
+} from 'client/store/reducers/fetchReducer/fetchActionCreators';
 import {
   closeTopicAC,
   createNewTopicAC,
-  getCurrentTopicAC, getTopicsAC,
+  getCurrentTopicAC,
+  getTopicsAC,
   sendMessageAC,
   setCurrentTopicAC,
   setTopicsAC,

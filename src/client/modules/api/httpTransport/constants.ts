@@ -6,6 +6,8 @@ export const TEAM_NAME = 'three-dots';
 
 export const RATING_FIELD_NAME = 'score';
 
+export const BACKEND_PATH = 'https://local.ya-praktikum.tech:5000';
+
 export const AUTH_API_ENDPOINTS = {
   SIGN_UP: 'auth/signup',
   SIGN_IN: 'auth/signin',

@@ -20,6 +20,7 @@ import { FORUM_ROUTE, GAME_PLAY_ROUTE, PROFILE_ROUTE } from 'client/constants/ro
 import React, { useCallback, useMemo } from 'react';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const GameStart = () => {
@@ -39,6 +40,7 @@ export const GameStart = () => {
     [history],
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { mainColor, secondColorText, mainColorText } = useAppSelector(state => state.themeReducer);
 
   const buttonSchema = useMemo(
     () => [
@@ -76,7 +78,7 @@ export const GameStart = () => {
           boxShadow="dark-lg"
         />
         <div>
-          <Heading size="4xl" mb={16}>
+          <Heading size="4xl" mb={16} color={mainColorText}>
             Начать игру
           </Heading>
           <Flex
@@ -90,7 +92,8 @@ export const GameStart = () => {
                   <Button
                     key={id}
                     w={300}
-                    colorScheme="purple"
+                    color={secondColorText}
+                    bg={mainColor}
                     mb={3}
                     boxShadow="dark-lg"
                     onClick={onClick}
@@ -102,15 +105,15 @@ export const GameStart = () => {
           </Flex>
         </div>
         <Modal isOpen={isOpen} onClose={onClose} size="6xl">
-          <ModalOverlay/>
-          <ModalContent>
-            <ModalHeader>Как играть</ModalHeader>
-            <ModalCloseButton />
+          <ModalOverlay />
+          <ModalContent bg={secondColorText}>
+            <ModalHeader color={mainColorText}>Как играть</ModalHeader>
+            <ModalCloseButton color={mainColorText} />
             <ModalBody>
-              <HowToPlay/>
+              <HowToPlay />
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme='purple' mr={3} onClick={onClose}>
+              <Button color={secondColorText} bg={mainColor} mr={3} onClick={onClose}>
                 OK
               </Button>
             </ModalFooter>

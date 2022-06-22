@@ -21,6 +21,7 @@ const INITIAL_STATE = {
 export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
   const dispatch = useAppDispatch();
   const { id } = useAppSelector(state => state.profileReducer);
+  const { mainColor, mainColorText, secondColorText, bgColorSecond } = useAppSelector(state => state.themeReducer);
   const onSubmit = useCallback(
     values => {
       dispatch(createNewTopicAC({ message: values.message, title: values.title, userId: id as number }));
@@ -51,9 +52,9 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="lg">
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Создание обсуждения</ModalHeader>
-        <ModalCloseButton />
+      <ModalContent bg={bgColorSecond}>
+        <ModalHeader color={mainColorText}>Создание обсуждения</ModalHeader>
+        <ModalCloseButton color={mainColorText} />
         <ModalBody>
           <FormikProvider value={formik}>
             <form onSubmit={handleSubmit} id="create-topick">
@@ -96,12 +97,19 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={onClose}>
+          <Button
+            colorScheme='blue'
+            mr={3}
+            onClick={onClose}
+            color={secondColorText}
+
+          >
             Закрыть
           </Button>
           <Button
             variant='ghost'
-            colorScheme="purple"
+            color={secondColorText}
+            bg={mainColor}
             isDisabled={isSubmitBtnDisabled}
             type="submit"
             form="create-topick"

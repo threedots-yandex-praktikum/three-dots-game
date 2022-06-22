@@ -13,7 +13,6 @@ import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
 import { TContext } from 'server/types';
 
-
 config();
 
 export const startExpressApp = (context: TContext) => {
@@ -33,7 +32,6 @@ export const startExpressApp = (context: TContext) => {
     .use(USER_ROUTE, userRouter)
     .get('/*', serverRenderMiddleware);
 
-
   const secureServer = https.createServer(
     {
       key: fs.readFileSync('./server.key'),
@@ -42,8 +40,9 @@ export const startExpressApp = (context: TContext) => {
     app,
   );
 
-  secureServer.listen(
-    port,
-    () => console.log(`Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`),
+  secureServer.listen(port, () =>
+    console.log(
+      `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
+    ),
   );
 };

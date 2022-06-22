@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, MouseEvent } from 'react';
+import React, { useCallback, useMemo, useState, MouseEvent, ChangeEvent } from 'react';
 import './style.scss';
 import { Background } from 'client/components/Background';
 import {
@@ -9,6 +9,8 @@ import {
   Grid,
   GridItem,
   Icon,
+  Switch,
+  Text,
 } from '@chakra-ui/react';
 import { FormikProvider, useFormik } from 'formik';
 import { Input } from 'client/components/Input';
@@ -27,13 +29,16 @@ import _isEqual from 'lodash/isEqual';
 import { useAppSelector } from 'client/hooks/useAppSelector';
 import { generateAvatarLink } from 'client/utils/generateAvatarLink';
 import { SpinnerWrapper } from '../../components/Spinner';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { changeThemeAC } from '../../store/reducers/themeReducer/themeActionCreators';
 
 
 export const Profile = () => {
   const history = useHistory();
-
+  const dispatch = useAppDispatch();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
   const { profileReducer: userData } = useAppSelector(state => state);
+  const { mainColorText, secondColorText, bgColorSecond, theme } = useAppSelector(state => state.themeReducer);
   const [isEdit, setIsEdit] = useState(false);
 
   const onSubmit = useCallback(
@@ -47,7 +52,12 @@ export const Profile = () => {
     },
     [setIsEdit],
   );
+  const handleChangeTheme = (e: ChangeEvent<HTMLInputElement>) => {
 
+    dispatch(changeThemeAC(!theme));
+
+
+  };
   const logout = useCallback(
     () => {
       const onSuccesfulLogout = () => {
@@ -140,11 +150,12 @@ export const Profile = () => {
           </Box>
           <div className="dot-avatar"></div>
         </Flex>
-        <Box w={1000} mt={8} p={6} rounded="lg" bg="white" pos='relative'>
+        <Box w={1000} mt={8} p={6} rounded="lg" bg={secondColorText} pos='relative'>
           <FormikProvider value={formik}>
             <SpinnerWrapper loading={isFetch}>
               <form onSubmit={handleSubmit}>
                 <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+
                   {PROFILE_FORM_SCHEMA.map(
                     ({ typeField, label, placeholder, validate }) => (
                       <GridItem key={typeField}>
@@ -203,6 +214,8 @@ export const Profile = () => {
                               w="50%"
                               mr={3}
                               onClick={logout}
+                              bg={bgColorSecond}
+                              color={mainColorText}
                             >
                               Выйти
                             </Button>
@@ -210,6 +223,9 @@ export const Profile = () => {
                               variant="outline"
                               w="50%"
                               onClick={startEditing}
+                              bgColor={secondColorText}
+                              color={mainColorText}
+
                             >
                               Редактировать
                             </Button>
@@ -219,6 +235,20 @@ export const Profile = () => {
                   </GridItem>
                 </Grid>
               </form>
+              <Flex marginTop={10} flexBasis='300px' maxW='180px' justifyContent='space-between'>
+                <Box>
+                  <Text color={mainColorText}>Изменение темы:</Text>
+                </Box>
+                <Box>
+                  <Switch
+                    id='email-alerts'
+                    colorScheme='gray'
+                    onChange={handleChangeTheme}
+                    isChecked={theme ? true : false}
+                    isDisabled={isFetch}
+                  />
+                </Box>
+              </Flex>
             </SpinnerWrapper>
           </FormikProvider>
         </Box>

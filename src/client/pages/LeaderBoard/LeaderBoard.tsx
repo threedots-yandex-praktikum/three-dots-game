@@ -15,6 +15,7 @@ export const LeaderBoard = () => {
 
   const { leaders } = useAppSelector(state => state.leaderBoardReducer);
   const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { mainColor, secondColorText, mainColorText } = useAppSelector(state => state.themeReducer);
 
   useEffect(() => {
     dispatch(getTableAC());
@@ -32,11 +33,11 @@ export const LeaderBoard = () => {
         centerContent={true}
         maxW="100%"
       >
-        <Heading>
+        <Heading color={mainColorText}>
           Таблица рекордов
         </Heading>
         <Flex
-          bg="white"
+          bg={secondColorText}
           margin={50}
           maxW="500px"
           alignItems="center"
@@ -51,10 +52,10 @@ export const LeaderBoard = () => {
               <Box w="40px">
               </Box>
               <Box flexGrow={1} ml="10px">
-                <Text fontSize="lg" fontWeight="bold">Игрок</Text>
+                <Text fontSize="lg" fontWeight="bold" color={mainColorText}>Игрок</Text>
               </Box>
               <Box >
-                <Text fontSize="lg" fontWeight="bold"> Очки</Text>
+                <Text fontSize="lg" fontWeight="bold" color={mainColorText}>Очки</Text>
               </Box>
             </Flex>
             <Divider
@@ -71,7 +72,6 @@ export const LeaderBoard = () => {
                 return (
                   <React.Fragment key={row.id}>
                     <Flex w="100%" h="40px" px="10px" alignItems="center">
-
                       <Flex w="40px" alignItems="center" justifyContent="center">
                         <Box
                           borderRadius="50%"
@@ -80,13 +80,12 @@ export const LeaderBoard = () => {
                           h={size}
                         />
                       </Flex>
-                      <Box flexGrow={1} ml="10px">
+                      <Box flexGrow={1} ml="10px" color={mainColorText}>
                         {row.userName}
                       </Box>
-                      <Box >
+                      <Box color={mainColorText}>
                         {row.score}
                       </Box>
-
                     </Flex>
                     {index === leaders.length - 1
                       ? null
@@ -105,7 +104,9 @@ export const LeaderBoard = () => {
         </Flex>
         <Button
           onClick={goToGameStatrPage}
-          colorScheme="purple"
+          // colorScheme="purple"
+          color={secondColorText}
+          bg={mainColor}
           boxShadow="dark-lg"
         >
           Вернуться к игре
