@@ -97,6 +97,7 @@ export const CurrentTopic = () => {
             topicId,
             commentIdToReply,
             commentToEdit,
+            initialPadding: 0,
           }))
         }
         {
@@ -149,6 +150,7 @@ const _renderMessage = ({
   topicId,
   commentIdToReply,
   commentToEdit,
+  initialPadding,
 }) =>  {
   const {
     avatarLink,
@@ -158,14 +160,18 @@ const _renderMessage = ({
     userName,
     country,
     town,
+    replies,
   } = message;
 
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = theme;
 
   const avatar = generateAvatarLink(avatarLink);
+
+  const padding = initialPadding + 10;
+
   return (
-    <div key={messageId}>
+    <Box key={messageId} pl={padding}>
       <Stack
         divider={<StackDivider borderColor={bgColorSecond} />}
         direction="row"
@@ -237,6 +243,23 @@ const _renderMessage = ({
           </Box> :
           null
       }
-    </div>
+      <div className="replies">
+        {
+          replies.map(data => _renderMessage({
+            message: data,
+            login,
+            theme,
+            onReply,
+            onEdit,
+            onDelete,
+            clearReply,
+            topicId,
+            commentIdToReply,
+            commentToEdit,
+            initialPadding: padding,
+          }))
+        }
+      </div>
+    </Box>
   );
 }
