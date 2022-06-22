@@ -9,6 +9,9 @@ import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import CompressionPlugin from 'compression-webpack-plugin';
+
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -77,6 +80,10 @@ const config: Config = {
       ],
     }),
     new LoadablePlugin(),
+    IS_DEV && new BundleAnalyzerPlugin(),
+    !IS_DEV && new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+    }),
   ].filter(Boolean) as Plugin[],
 
   performance: {
