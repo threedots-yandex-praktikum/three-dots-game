@@ -25,8 +25,9 @@ export const CreateTopic = ({ isOpen, onClose }: TCreateTopicProps) => {
   const onSubmit = useCallback(
     values => {
       dispatch(createNewTopicAC({ message: values.message, title: values.title, userId: id as number }));
+      onClose();
     },
-    [id, dispatch],
+    [id, dispatch, onClose],
   );
 
   const formik = useFormik({

@@ -14,11 +14,11 @@ import { Optional } from "sequelize";
 import { User, Topic, Reaction, CommentReactions } from "server/models/";
 
 interface CommentAttributes {
-  id: number;
-  message: string;
-  userId: number;
-  topicId: number;
-  parentId: number;
+  id: number
+  message: string
+  userId: number
+  topicId: number
+  parentId: number | null
 }
 
 type CommentCreationAttributes = Optional<CommentAttributes, "id">;
@@ -79,4 +79,7 @@ export class Comment extends Model<
     onDelete: "CASCADE",
   })
   reactions!: Reaction[];
+
+  @HasMany(() => CommentReactions, { onDelete: 'SET NULL' } )
+  commentReactions!: CommentReactions[];
 }

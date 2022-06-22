@@ -5,6 +5,8 @@ import { TTopicProps } from '../types';
 import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
+const NO_MESSAGES_LABEL = 'нет сообщений';
+
 export const Topic = ({ topic }: TTopicProps) => {
 
   const lastMessageString = useMemo(() => {
@@ -20,10 +22,10 @@ export const Topic = ({ topic }: TTopicProps) => {
         <Text color={mainColorText}>{title}</Text>
       </Box>
       <Box w="20%">
-        <Text color={mainColorText}>{getDateString(date)}</Text>
+        <Text color={mainColorText}>{date ? getDateString(new Date(date).getTime()) : NO_MESSAGES_LABEL}</Text>
       </Box >
       <Box w="20%">
-        <Text color={mainColorText}>{lastMessage && lastMessageString}</Text>
+        <Text color={mainColorText}>{lastMessage ? lastMessageString : NO_MESSAGES_LABEL}</Text>
       </Box>
     </Flex>
   );

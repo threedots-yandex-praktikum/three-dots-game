@@ -3,16 +3,58 @@ import { sendJSONResponse } from "server/router/constants";
 import { topicStatus } from "server/models/topic";
 import { Comment, User, Topic } from "server/models/";
 
-export const handleGetAllTopics = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+
+export const handleTopicGetRequests = async(req: Request, res: Response, next: NextFunction) => {
   try {
-    const topic: Topic[] = await Topic.findAll();
-    return sendJSONResponse(res, {
-      data: topic,
-    });
+    const {
+      query: {
+        topicId,
+      },
+    } = req;
+
+    if(topicId) {
+      return handleGetSingleTopic(req, res, next);
+    }
+
+    return handleGetAllTopics(req, res, next);
+
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const handleGetAllTopics = async(req: Request, res: Response, next: NextFunction) => {
+  try {
+    const topic: Topic[] = await Topic
+      .findAll({
+        where: {
+          status: topicStatus.OPEN,
+        },
+        include: [
+          User,
+          {
+            model: Comment,
+            where: {
+              parentId: null,
+            },
+            order: [['createdAt', 'DESC']],
+            limit: 1,
+            include: [
+              {
+                model: User,
+                attributes: ['name'],
+              },
+            ],
+          },
+        ],
+      });
+
+    return sendJSONResponse(
+      res,
+      {
+        data: topic,
+      },
+    );
   } catch (e) {
     next(e);
   }
@@ -46,9 +88,12 @@ export const handleGetSingleTopic = async (
       },
     });
 
-    return sendJSONResponse(res, {
-      data: topic,
-    });
+    return sendJSONResponse(
+      res,
+      {
+        data: topic,
+      },
+    );
   } catch (e) {
     next(e);
   }
@@ -60,17 +105,35 @@ export const handleTopicCreate = async (
   next: NextFunction
 ) => {
   try {
-    console.log("handleTopicCreate");
+
+    console.log('request', req.context.user)
 
     const topic: Topic | null = await Topic.create({
-      ...req.body,
+
+      /*
+      * TODO здесь нужно достать айдишник пользователя из мидлвара
+      * */
+      userId: 1,
+      name: req.body.name,
       status: topicStatus.OPEN,
     });
-    console.log(topic, "handleTopicCreate");
 
-    return sendJSONResponse(res, {
-      data: topic,
+    await Comment.create({
+      /*
+      * TODO тоже здесь нужно достать айдишник пользователя из мидлвара
+      * */
+      userId: 1,
+      topicId: Number(topic.getDataValue('id')),
+      parentId: null,
+      message: req.body.message,
     });
+
+    return sendJSONResponse(
+      res,
+      {
+        data: topic,
+      },
+    );
   } catch (e) {
     next(e);
   }
@@ -83,16 +146,26 @@ export const handleTopicUpdate = async (
 ) => {
   try {
     const {
-      params: { id },
+      body: {
+        topicId,
+      },
     } = req;
 
-    await Topic.update(req.body, {
-      where: { id },
-    });
+    await Topic.update(
+      {
+        status: topicStatus.CLOSED,
+      },
+      {
+        where: { id: topicId },
+      },
+    );
 
-    return sendJSONResponse(res, {
-      data: id,
-    });
+    return sendJSONResponse(
+      res,
+      {
+        data: topicId,
+      },
+    );
   } catch (e) {
     next(e);
   }
@@ -112,9 +185,12 @@ export const handleTopicDelete = async (
       where: { id },
     });
 
-    return sendJSONResponse(res, {
-      data: "ok",
-    });
+    return sendJSONResponse(
+      res,
+      {
+        data: 'ok',
+      },
+    );
   } catch (e) {
     next(e);
   }

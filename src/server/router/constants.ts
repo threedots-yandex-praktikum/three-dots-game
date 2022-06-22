@@ -28,9 +28,9 @@ export const REACTION_WITH_ID_SUB_ROUTE = [
   ID_PARAM_SUB_ROUTE,
 ].join("/");
 
-export const sendJSONResponse = (
-  res: Response,
-  data: Record<string, unknown>
-) => {
-  return res.status(200).setHeader("content-type", "text/plain").json(data);
+export const sendJSONResponse = (res: Response, data: Record<string, unknown>) => {
+  return res
+    .status(200)
+    .setHeader('content-type', 'application/json')
+    .json(data);
 };

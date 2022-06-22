@@ -11,11 +11,11 @@ import {
   handleCommentCreate,
   handleCommentDelete,
   handleCommentUpdate,
-  handleGetAllComments,
+  handleGetRequest,
   handleGetSingleComment,
 } from "./comment";
 import {
-  handleGetAllTopics,
+  handleTopicGetRequests,
   handleGetSingleTopic,
   handleTopicCreate,
   handleTopicDelete,
@@ -40,9 +40,9 @@ export const forumRouter = Router();
 // forumRouter.use(syncronizeDBMiddleware);
 
 /*
- * CRUD API для модели комментария
- * */
-forumRouter.get(COMMENT_SUB_ROUTE, handleGetAllComments);
+* CRUD API для модели комментария
+* */
+forumRouter.get(COMMENT_SUB_ROUTE, handleGetRequest);
 forumRouter.get(COMMENT_WITH_ID_SUB_ROUTE, handleGetSingleComment);
 forumRouter.post(COMMENT_SUB_ROUTE, handleCommentCreate);
 forumRouter.put(COMMENT_WITH_ID_SUB_ROUTE, handleCommentUpdate);
@@ -58,10 +58,10 @@ forumRouter.put(REACTION_WITH_ID_SUB_ROUTE, handleReactionUpdate);
 forumRouter.delete(REACTION_WITH_ID_SUB_ROUTE, handleReactionDelete);
 
 /*
- * CRUD API для модели топиков
- * */
-forumRouter.get(TOPIC_SUB_ROUTE, handleGetAllTopics);
+* CRUD API для модели топиков
+* */
+forumRouter.get(TOPIC_SUB_ROUTE, handleTopicGetRequests);
 forumRouter.get(TOPIC_WITH_ID_SUB_ROUTE, handleGetSingleTopic);
 forumRouter.post(TOPIC_SUB_ROUTE, handleTopicCreate);
-forumRouter.put(TOPIC_WITH_ID_SUB_ROUTE, handleTopicUpdate);
+forumRouter.put(TOPIC_SUB_ROUTE, handleTopicUpdate);
 forumRouter.delete(TOPIC_WITH_ID_SUB_ROUTE, handleTopicDelete);

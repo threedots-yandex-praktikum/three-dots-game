@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { closeTopicAC } from 'client/store/reducers/forumReducer/forumActionCreators';
 import { TInteractivePanelProps, TParams } from '../types';
+import { push } from 'connected-react-router';
 
 
 
@@ -19,6 +20,7 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
 
   const makeTopicDisabled = () => {
     dispatch(closeTopicAC(topicId));
+    dispatch(push(FORUM_ROUTE));
   };
 
   const { id } = useAppSelector(state => state.profileReducer);
@@ -46,7 +48,6 @@ export const InteractivePanel = ({ topicName, onOpen }: TInteractivePanelProps) 
             bg='#E53E3E'
             color={secondColorText}
             onClick={makeTopicDisabled}
-            disabled={currentTopic?.userOwenerId !== id}
           >
             Закрыть тему &times;
           </Button>
