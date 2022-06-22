@@ -27,7 +27,7 @@ const CONTROLS_SCHEME = [
 ];
 
 export const HowToPlay = () => {
-  const { mainColorText, bgColorSecond } = useAppSelector(state => state.themeReducer)
+  const { mainColorText, bgColorSecond } = useAppSelector(state => state.themeReducer);
   return (
     <Stack
       direction='row'

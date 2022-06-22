@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { sendJSONResponse } from "server/router/constants";
-import { topicStatus } from "server/models/topic";
-import { Comment, User, Topic } from "server/models/";
+import { NextFunction, Request, Response } from 'express';
+import { sendJSONResponse } from 'server/router/constants';
+import { topicStatus } from 'server/models/topic';
+import { Comment, User, Topic } from 'server/models/';
 
 
 export const handleTopicGetRequests = async(req: Request, res: Response, next: NextFunction) => {
@@ -63,7 +63,7 @@ export const handleGetAllTopics = async(req: Request, res: Response, next: NextF
 export const handleGetSingleTopic = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {
@@ -74,11 +74,11 @@ export const handleGetSingleTopic = async (
       include: [
         {
           model: Comment,
-          attributes: ["id", "message"],
+          attributes: ['id', 'message'],
           include: [
             {
               model: User,
-              attributes: ["name"],
+              attributes: ['name'],
             },
           ],
         },
@@ -102,11 +102,11 @@ export const handleGetSingleTopic = async (
 export const handleTopicCreate = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
 
-    console.log('request', req.context.user)
+    console.log('request', req.context.user);
 
     const topic: Topic | null = await Topic.create({
 
@@ -142,7 +142,7 @@ export const handleTopicCreate = async (
 export const handleTopicUpdate = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {
@@ -174,7 +174,7 @@ export const handleTopicUpdate = async (
 export const handleTopicDelete = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const {

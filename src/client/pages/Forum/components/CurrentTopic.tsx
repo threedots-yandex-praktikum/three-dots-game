@@ -21,7 +21,7 @@ export const CurrentTopic = () => {
 
   const { avatar } = useAppSelector(state => state.profileReducer);
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
-  const { secondColorText, bgColorSecond, mainColorText, mainColor
+  const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = useAppSelector(state => state.themeReducer);
 
   const dispatch = useAppDispatch();

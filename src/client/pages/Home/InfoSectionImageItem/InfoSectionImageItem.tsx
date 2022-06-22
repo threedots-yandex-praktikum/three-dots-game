@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
 export const InfoSectionImageItem = ({ src }: { src: string }) => {
-  const { bgColorThird } = useAppSelector(state => state.themeReducer)
+  const { bgColorThird } = useAppSelector(state => state.themeReducer);
   return (
     <GridItem
       p={6}
@@ -16,5 +16,5 @@ export const InfoSectionImageItem = ({ src }: { src: string }) => {
       bgRepeat="no-repeat"
       bgSize="cover"
     />
-  )
+  );
 };

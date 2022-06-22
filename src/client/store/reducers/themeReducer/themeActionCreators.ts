@@ -1,4 +1,4 @@
-import { EThemesActions, TChangeThemeAction } from "./types";
+import { EThemesActions, TChangeThemeAction } from './types';
 
 export const setLightAC = () => {
   return { type: EThemesActions.SET_LIGHT_THEME };

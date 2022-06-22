@@ -8,7 +8,7 @@ import { setErrorAC } from '../authReducer/authActionCreators';
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from "../fetchReducer/fetchActionCreators";
+} from 'client/store/reducers/fetchReducer/fetchActionCreators';
 import {
   closeTopicAC,
   createNewTopicAC,
@@ -41,7 +41,7 @@ function* fetchGetTopics() {
 
 export function* watchGetTopics() {
   const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
-    EForumActions.GET_TOPICS
+    EForumActions.GET_TOPICS,
   );
   yield takeEvery(channel, fetchGetTopics);
 }
@@ -64,7 +64,7 @@ function* fetchGetCurrentTopic(args) {
 
 export function* watchGetCurrentTopic() {
   const channel: TakeableChannel<Record<string, never>> = yield actionChannel(
-    EForumActions.GET_CURRENT_TOPIC
+    EForumActions.GET_CURRENT_TOPIC,
   );
   yield takeEvery(channel, fetchGetCurrentTopic);
 }

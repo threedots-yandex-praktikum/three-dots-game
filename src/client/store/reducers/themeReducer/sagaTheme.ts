@@ -1,24 +1,24 @@
-import { TakeableChannel } from "redux-saga";
-import { actionChannel, call, put, takeEvery } from "redux-saga/effects";
-import { getCandidate } from "../../../../server/middlewares/syncronizeDBMiddleware";
-import { userTheme } from "../../../../server/models/user";
-import { ThemeAPI } from "../../../modules/api/themeAPI";
+import { TakeableChannel } from 'redux-saga';
+import { actionChannel, call, put, takeEvery } from 'redux-saga/effects';
+import { getCandidate } from '../../../../server/middlewares/syncronizeDBMiddleware';
+import { userTheme } from '../../../../server/models/user';
+import { ThemeAPI } from '../../../modules/api/themeAPI';
 import {
   NOTIFICATION_LEVEL,
   sendNotification,
-} from "../../../modules/notification";
-import { setErrorAC } from "../authReducer/authActionCreators";
+} from '../../../modules/notification';
+import { setErrorAC } from '../authReducer/authActionCreators';
 import {
   setFetchOffAC,
   setFetchOnAC,
-} from "../fetchReducer/fetchActionCreators";
+} from '../fetchReducer/fetchActionCreators';
 import {
   changeThemeAC,
   getThemeAC,
   setDarkAC,
   setLightAC,
-} from "./themeActionCreators";
-import { EThemesActions } from "./types";
+} from './themeActionCreators';
+import { EThemesActions } from './types';
 
 function* fetchChangeTheme({
   payload: themeAsBoolean,
@@ -29,7 +29,7 @@ function* fetchChangeTheme({
     const theme = themeAsBoolean ? userTheme.DARK : userTheme.LIGHT;
     const response: userTheme = yield call(
       ThemeAPI.changeTheme.bind(ThemeAPI),
-      theme
+      theme,
     );
     if (response === userTheme.DARK) {
       yield put(setDarkAC());
@@ -39,8 +39,8 @@ function* fetchChangeTheme({
     }
     yield put(setFetchOffAC());
     sendNotification(
-      "Тема пользователя успешно изменена",
-      NOTIFICATION_LEVEL.SUCCESS
+      'Тема пользователя успешно изменена',
+      NOTIFICATION_LEVEL.SUCCESS,
     );
   } catch (error) {
     yield put(setFetchOffAC());
@@ -57,13 +57,13 @@ export function* watchChangeTheme() {
 
 function* fetchGetTheme({ payload }: ReturnType<typeof getThemeAC>) {
   try {
-    console.log("fetchGetTheme ");
+    console.log('fetchGetTheme ');
     yield put(setFetchOnAC());
     const { id, first_name } = payload;
     const response: Generator<userTheme> = yield call(
       getCandidate,
       id,
-      first_name
+      first_name,
     );
 
     if ((response as unknown as userTheme) === userTheme.DARK) {
@@ -72,7 +72,7 @@ function* fetchGetTheme({ payload }: ReturnType<typeof getThemeAC>) {
     if ((response as unknown as userTheme) === userTheme.LIGHT) {
       yield put(setLightAC());
     }
-    console.log(response, "fetchGetTheme");
+    console.log(response, 'fetchGetTheme');
     yield put(setFetchOffAC());
   } catch (error) {
     yield put(setFetchOffAC());

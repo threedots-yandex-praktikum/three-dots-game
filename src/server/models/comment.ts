@@ -8,10 +8,10 @@ import {
   BelongsTo,
   HasMany,
   BelongsToMany,
-} from "sequelize-typescript";
-import { ModelAttributeColumnOptions } from "sequelize/types/model";
-import { Optional } from "sequelize";
-import { User, Topic, Reaction, CommentReactions } from "server/models/";
+} from 'sequelize-typescript';
+import { ModelAttributeColumnOptions } from 'sequelize/types/model';
+import { Optional } from 'sequelize';
+import { User, Topic, Reaction, CommentReactions } from 'server/models/';
 
 interface CommentAttributes {
   id: number
@@ -21,7 +21,7 @@ interface CommentAttributes {
   parentId: number | null
 }
 
-type CommentCreationAttributes = Optional<CommentAttributes, "id">;
+type CommentCreationAttributes = Optional<CommentAttributes, 'id'>;
 
 @Table({
   updatedAt: false,
@@ -71,12 +71,12 @@ export class Comment extends Model<
   })
   parentId!: number;
 
-  @HasMany(() => Comment, { onDelete: "CASCADE" })
+  @HasMany(() => Comment, { onDelete: 'CASCADE' })
   replies!: Comment[];
 
   @BelongsToMany(() => Reaction, {
     through: () => CommentReactions,
-    onDelete: "CASCADE",
+    onDelete: 'CASCADE',
   })
   reactions!: Reaction[];
 

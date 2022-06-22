@@ -4,7 +4,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
 export const InfoSectionTextItem = ({ title, text }: { title: string, text: string }) => {
-  const { secondColorText, mainColor, greenColorText } = useAppSelector(state => state.themeReducer)
+  const { secondColorText, mainColor, greenColorText } = useAppSelector(state => state.themeReducer);
   return (
     <GridItem
       bg={secondColorText}
@@ -22,5 +22,5 @@ export const InfoSectionTextItem = ({ title, text }: { title: string, text: stri
         {text}
       </Text>
     </GridItem>
-  )
+  );
 };

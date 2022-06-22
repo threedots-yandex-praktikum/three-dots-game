@@ -1,4 +1,4 @@
-import { Optional } from "sequelize";
+import { Optional } from 'sequelize';
 import {
   Column,
   DataType,
@@ -8,9 +8,9 @@ import {
   TableOptions,
   BelongsTo,
   HasMany,
-} from "sequelize-typescript";
-import { ModelAttributeColumnOptions } from "sequelize/types/model";
-import { User, Comment } from "server/models/";
+} from 'sequelize-typescript';
+import { ModelAttributeColumnOptions } from 'sequelize/types/model';
+import { User, Comment } from 'server/models/';
 
 export enum topicStatus {
   OPEN = 0,
@@ -24,7 +24,7 @@ interface TopicAttributes {
   userId: number;
 }
 
-type TopicCreationAttributes = Optional<TopicAttributes, "id">;
+type TopicCreationAttributes = Optional<TopicAttributes, 'id'>;
 
 @Table({
   updatedAt: false,
@@ -61,6 +61,6 @@ export class Topic extends Model<TopicAttributes, TopicCreationAttributes> {
   @BelongsTo(() => User)
   user!: User;
 
-  @HasMany(() => Comment, { onDelete: "CASCADE" })
+  @HasMany(() => Comment, { onDelete: 'CASCADE' })
   comments!: Comment[];
 }

@@ -41,7 +41,7 @@ export const Home = () => {
     },
     [dispatch],
   );
-  const { secondBgColor, mainColor, bgColorSecond, mainColorText } = useAppSelector(state => state.themeReducer)
+  const { secondBgColor, mainColor, bgColorSecond, mainColorText } = useAppSelector(state => state.themeReducer);
   return (
     <Container maxW="100%" p="0" bgColor={bgColorSecond}>
       <TopPanel

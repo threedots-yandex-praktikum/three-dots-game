@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
 export const TitleSection = ({ goToGameStartPage }: { goToGameStartPage: TRouteChangeCallback }) => {
-  const { secondColorText, mainColor, mainColorText } = useAppSelector(state => state.themeReducer)
+  const { secondColorText, mainColor, mainColorText } = useAppSelector(state => state.themeReducer);
 
   return (
     <Background>

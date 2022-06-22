@@ -35,7 +35,7 @@ import { changeThemeAC } from '../../store/reducers/themeReducer/themeActionCrea
 
 export const Profile = () => {
   const history = useHistory();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const { isFetch } = useAppSelector(state => state.fetchReducer);
   const { profileReducer: userData } = useAppSelector(state => state);
   const { mainColorText, secondColorText, bgColorSecond, theme } = useAppSelector(state => state.themeReducer);
@@ -54,10 +54,10 @@ export const Profile = () => {
   );
   const handleChangeTheme = (e: ChangeEvent<HTMLInputElement>) => {
 
-    dispatch(changeThemeAC(!theme))
+    dispatch(changeThemeAC(!theme));
 
 
-  }
+  };
   const logout = useCallback(
     () => {
       const onSuccesfulLogout = () => {

@@ -1,13 +1,13 @@
-import { themeReducer } from "./themeReducer/index";
-import { gameReducer } from "./gameReducer";
-import { forumReducer } from "./forumReducer";
-import { connectRouter } from "connected-react-router";
-import { combineReducers } from "redux";
-import { authReducer } from "./authReducer";
-import { fetchReducer } from "./fetchReducer";
-import { leaderBoardReducer } from "./leaderBoardReducer";
-import { profileReducer } from "./profileReducer";
-import { History, LocationState } from "history";
+import { themeReducer } from './themeReducer/index';
+import { gameReducer } from './gameReducer';
+import { forumReducer } from './forumReducer';
+import { connectRouter } from 'connected-react-router';
+import { combineReducers } from 'redux';
+import { authReducer } from './authReducer';
+import { fetchReducer } from './fetchReducer';
+import { leaderBoardReducer } from './leaderBoardReducer';
+import { profileReducer } from './profileReducer';
+import { History, LocationState } from 'history';
 
 export const createRootReducer = (history: History<LocationState>) =>
   combineReducers({

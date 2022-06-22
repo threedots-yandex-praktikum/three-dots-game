@@ -8,7 +8,7 @@ const bgGrayScale = '/img/bgGrayScale.png';
 export const Background = (props: { children: React.ReactNode, isGreyScale?: boolean }) => {
 
   const image = props.isGreyScale ? bgGrayScale : bg;
-  const { bgColor } = useAppSelector(state => state.themeReducer)
+  const { bgColor } = useAppSelector(state => state.themeReducer);
 
   return (
     <Flex

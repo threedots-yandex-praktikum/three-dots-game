@@ -11,11 +11,11 @@ export type TThemeState = {
 };
 
 export enum EThemesActions {
-  SET_LIGHT_THEME = "SET_LIGHT_THEME",
-  SET_DARK_THEME = "SET_DARK_THEME",
-  CHANGE_THEME = "CHANGE_THEME",
-  GET_THEME = "GET_THEME",
-  PUT_THEME = "PUT_THEME",
+  SET_LIGHT_THEME = 'SET_LIGHT_THEME',
+  SET_DARK_THEME = 'SET_DARK_THEME',
+  CHANGE_THEME = 'CHANGE_THEME',
+  GET_THEME = 'GET_THEME',
+  PUT_THEME = 'PUT_THEME',
 }
 export interface TSetLightAction {
   type: EThemesActions.SET_LIGHT_THEME;

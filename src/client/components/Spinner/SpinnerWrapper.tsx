@@ -11,7 +11,7 @@ interface SpinnerProps {
 
 
 export const SpinnerWrapper = (props: SpinnerProps) => {
-  const { mainColor, bgColorSecond } = useAppSelector(state => state.themeReducer)
+  const { mainColor, bgColorSecond } = useAppSelector(state => state.themeReducer);
   return (
     <>
       {

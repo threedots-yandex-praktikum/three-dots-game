@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { User } from "../models";
-import { userTheme } from "../models/user";
+import { NextFunction, Request, Response } from 'express';
+import { User } from '../models';
+import { userTheme } from '../models/user';
 
 export async function getCandidate(id: number, first_name: string) {
   let candidate = await User.findByPk(id);
@@ -18,15 +18,15 @@ export async function getCandidate(id: number, first_name: string) {
 export const syncronizeDBMiddleware = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const { id, first_name } = req.context.user;
     const candidate = await getCandidate(id, first_name);
-    req.context.theme = candidate?.getDataValue("theme");
+    req.context.theme = candidate?.getDataValue('theme');
     next();
   } catch (error) {
-    console.log(error, "syncronizeDBMiddleware");
+    console.log(error, 'syncronizeDBMiddleware');
     next();
   }
 };

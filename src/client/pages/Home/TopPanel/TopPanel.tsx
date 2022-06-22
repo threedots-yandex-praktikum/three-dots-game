@@ -6,7 +6,7 @@ import { useAppSelector } from '../../../hooks/useAppSelector';
 
 
 export const TopPanel = ({ isUserAuthenticated, goToProfilePage, goToRegisterPage, goToLoginPage }: TTopPanelProps) => {
-  const { mainColorText, secondColorText, mainColor } = useAppSelector(state => state.themeReducer)
+  const { mainColorText, secondColorText, mainColor } = useAppSelector(state => state.themeReducer);
 
   return (
     <Flex

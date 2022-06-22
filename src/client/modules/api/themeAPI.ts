@@ -1,15 +1,15 @@
-import { HTTPTransport } from "./httpTransport/httpTransport";
-import { userTheme } from "../../../server/models/user";
-import { THEME_ROUTE, USER_ROUTE } from "../../../server/router/constants";
-import axios from "axios";
-import { BACKEND_PATH } from "./httpTransport/constants";
+import { HTTPTransport } from './httpTransport/httpTransport';
+import { userTheme } from '../../../server/models/user';
+import { THEME_ROUTE, USER_ROUTE } from '../../../server/router/constants';
+import axios from 'axios';
+import { BACKEND_PATH } from './httpTransport/constants';
 
 class ThemeAPIClass {
   userHTTPTransportInstance: HTTPTransport;
 
   constructor() {
     this.userHTTPTransportInstance = new HTTPTransport(
-      BACKEND_PATH + USER_ROUTE
+      BACKEND_PATH + USER_ROUTE,
     );
   }
 

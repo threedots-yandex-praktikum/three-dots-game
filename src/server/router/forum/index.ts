@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   COMMENT_SUB_ROUTE,
   COMMENT_WITH_ID_SUB_ROUTE,
@@ -6,21 +6,21 @@ import {
   REACTION_WITH_ID_SUB_ROUTE,
   TOPIC_SUB_ROUTE,
   TOPIC_WITH_ID_SUB_ROUTE,
-} from "server/router/constants";
+} from 'server/router/constants';
 import {
   handleCommentCreate,
   handleCommentDelete,
   handleCommentUpdate,
   handleGetRequest,
   handleGetSingleComment,
-} from "./comment";
+} from './comment';
 import {
   handleTopicGetRequests,
   handleGetSingleTopic,
   handleTopicCreate,
   handleTopicDelete,
   handleTopicUpdate,
-} from "./topic";
+} from './topic';
 // import { authMiddleware } from "server/middlewares/authMiddleware";
 import {
   handleGetAllReactions,
@@ -28,7 +28,7 @@ import {
   handleReactionCreate,
   handleReactionDelete,
   handleReactionUpdate,
-} from "server/router/forum/reaction";
+} from 'server/router/forum/reaction';
 // import { syncronizeDBMiddleware } from "../../middlewares/syncronizeDBMiddleware";
 
 export const forumRouter = Router();

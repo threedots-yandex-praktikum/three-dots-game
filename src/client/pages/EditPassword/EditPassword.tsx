@@ -42,7 +42,7 @@ export const EditPassword = () => {
       values.new_password.trim() !== values.password_repeat.trim(),
     [values, errors],
   );
-  const { mainColorText, bgColorSecond, secondColorText, mainColor } = useAppSelector(state => state.themeReducer)
+  const { mainColorText, bgColorSecond, secondColorText, mainColor } = useAppSelector(state => state.themeReducer);
   return (
     <Background>
       <Box>
