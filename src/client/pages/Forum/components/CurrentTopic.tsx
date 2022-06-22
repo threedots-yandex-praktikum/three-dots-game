@@ -1,7 +1,7 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
 import { Avatar } from '@chakra-ui/react';
 import { useAppSelector } from 'client/hooks/useAppSelector';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDateString } from 'client/utils/getDateString';
 import { TParams } from '../types';
@@ -31,15 +31,10 @@ export const CurrentTopic = () => {
   const avatarLink = generateAvatarLink(avatar);
 
   useEffect(() => {
-    const isInThemList = topics?.find(i => i.topicId === topicId);
-    if (!isInThemList) throw new Error('Темы с таким ID нет');
-
     dispatch(getCurrentTopicAC(topicId));
   }, [topics, topicId, dispatch]);
 
-  const currentTopicTitle = useMemo(() => {
-    return topics?.find(i => i.topicId === topicId)?.title;
-  }, [topicId, topics]);
+  const currentTopicTitle = currentTopic ? currentTopic.title : 'нет данных';
 
   return (
     <>
@@ -85,7 +80,7 @@ export const CurrentTopic = () => {
                   <Text>{userName}</Text>
                 </Box>
                 <Box>
-                  <Text textAlign="end" fontSize="13px">{getDateString(time)}</Text>
+                  <Text textAlign="end" fontSize="13px">{getDateString(new Date(time).getTime())}</Text>
                 </Box>
               </Stack>
               <Box

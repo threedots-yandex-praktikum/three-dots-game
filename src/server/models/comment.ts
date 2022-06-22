@@ -9,7 +9,7 @@ interface CommentAttributes {
   message: string
   userId: number
   topicId: number
-  parentId: number
+  parentId: number | null
 }
 
 type CommentCreationAttributes = Optional<CommentAttributes, 'id'>
@@ -67,4 +67,6 @@ export class Comment extends Model<CommentAttributes, CommentCreationAttributes>
   @BelongsToMany(() => Reaction, { through: () => CommentReactions, onDelete: 'CASCADE' })
   reactions!: Reaction[];
 
+  @HasMany(() => CommentReactions, { onDelete: 'SET NULL' } )
+  commentReactions!: CommentReactions[];
 }

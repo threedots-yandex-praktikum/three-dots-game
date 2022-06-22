@@ -1,4 +1,13 @@
-import { Model, Table, Column, DataType, TableOptions, ForeignKey, BelongsTo, PrimaryKey } from 'sequelize-typescript';
+import {
+  Model,
+  Table,
+  Column,
+  DataType,
+  TableOptions,
+  ForeignKey,
+  BelongsTo,
+  PrimaryKey,
+} from 'sequelize-typescript';
 import { User, Reaction, Comment  } from 'server/models/';
 
 interface CommentReactionsAttributes {
@@ -44,7 +53,5 @@ export class CommentReactions extends Model<CommentReactionsAttributes> {
   userId!: number;
 
   @BelongsTo(() => User)
-  user!: User;
-
-
+  reactionUser!: User[];
 }
