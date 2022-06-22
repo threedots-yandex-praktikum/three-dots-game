@@ -20,6 +20,7 @@ import {
 } from './forumActionCreators';
 import { EForumActions, TCurrentTopic, TTopic } from './types';
 import { ForumAPI } from 'client/modules/api/forumAPI';
+import _omit from 'lodash/omit';
 
 
 function* fetchGetTopics() {
@@ -128,9 +129,15 @@ function* fetchSendMessage({ payload }: ReturnType<typeof sendMessageAC>) {
   try {
     yield put(setFetchOnAC());
 
-    yield call(ForumAPI.createComment.bind(ForumAPI, payload));
+    const commentData = _omit(payload, 'commentId');
 
-    yield put(getCurrentTopicAC(payload.topicId));
+    yield call(
+      payload.commentId ?
+        ForumAPI.editComment.bind(ForumAPI, commentData, payload.commentId) :
+        ForumAPI.createComment.bind(ForumAPI, commentData),
+    );
+
+    yield put(getCurrentTopicAC(commentData.topicId));
     yield put(setFetchOffAC());
   } catch (error) {
     yield put(setFetchOffAC());

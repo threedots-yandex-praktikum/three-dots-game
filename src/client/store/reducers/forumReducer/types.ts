@@ -36,7 +36,8 @@ export type TSendData = {
   userId: number;
   topicId: number;
   message: string;
-  parentId: string,
+  parentId?: string | null,
+  commentId?: string | null,
   country?: string;
   town?: string;
 };

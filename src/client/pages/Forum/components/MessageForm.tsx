@@ -11,11 +11,14 @@ import { TMessageFormProps } from '../types';
 import _isFunction from 'lodash/isFunction';
 
 
-const INITIAL_STATE = {
-  message: EMPTY_STRING,
-};
-
-export const MessageForm = ({ topicId, commentId = null, closeReplyForm, canBeClosed }: TMessageFormProps) => {
+export const MessageForm = ({
+                              topicId,
+                              commentId = null,
+                              parentId = null,
+                              closeReplyForm,
+                              canBeClosed,
+                              value,
+}: TMessageFormProps) => {
 
   const dispatch = useDispatch();
   const { id } = useAppSelector(state => state.profileReducer);
@@ -23,16 +26,20 @@ export const MessageForm = ({ topicId, commentId = null, closeReplyForm, canBeCl
 
   const onSubmit = useCallback(
     (values, { resetForm }) => {
-      dispatch(sendMessageAC({ ...values, userId: id as number, topicId, parentId: commentId }));
+      dispatch(sendMessageAC({ ...values, userId: id as number, topicId, parentId, commentId }));
 
       _isFunction(closeReplyForm) && closeReplyForm();
       resetForm({ values: '' });
     },
-    [dispatch, id, topicId, commentId, closeReplyForm],
+    [dispatch, id, topicId, commentId, closeReplyForm, parentId],
   );
 
+  const initialValues = {
+    message: value || EMPTY_STRING,
+  };
+
   const formik = useFormik({
-    initialValues: INITIAL_STATE,
+    initialValues,
     onSubmit,
 
   });
@@ -48,9 +55,9 @@ export const MessageForm = ({ topicId, commentId = null, closeReplyForm, canBeCl
   const { typeField, as, label, className, placeholder, validate } = SEND_MESSAGE_FORM_SCHEMA;
 
   const isSubmitBtnDisabled = useMemo(
-    () => values === INITIAL_STATE ||
+    () => values === initialValues ||
       Object.values(errors).some(item => !!item),
-    [values, errors],
+    [values, errors, initialValues],
   );
 
   return (

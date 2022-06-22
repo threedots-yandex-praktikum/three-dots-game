@@ -25,6 +25,8 @@ export type TParams = {
 export type TMessageFormProps = {
   topicId: number;
   commentId?: number | null;
+  parentId?: number | null;
   closeReplyForm?: () => void,
   canBeClosed?: boolean,
+  value?: string,
 };

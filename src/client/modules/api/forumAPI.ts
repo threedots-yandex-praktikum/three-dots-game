@@ -170,6 +170,18 @@ class ForumAPIClass {
 
     return response.data;
   }
+
+  async editComment(data: TSendData, commentToEditId: number) {
+    const response: any = await this.forumHTTPTransportInstance.put(
+      [FORUM_API_ENDPOINTS.COMMENTS, commentToEditId].join('/'),
+      {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
+        data,
+      },
+    );
+
+    return response.data;
+  }
 }
 
 export const ForumAPI = new ForumAPIClass();

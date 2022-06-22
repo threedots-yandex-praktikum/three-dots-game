@@ -19,12 +19,13 @@ export const CurrentTopic = () => {
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
 
-  const { avatar } = useAppSelector(state => state.profileReducer);
+  const { avatar, login } = useAppSelector(state => state.profileReducer);
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = useAppSelector(state => state.themeReducer);
 
   const [commentIdToReply, setCommentIdToReply] = useState(null);
+  const [commentToEdit, setCommentToEdit] = useState(null);
 
   const dispatch = useAppDispatch();
   const [loc, setLoc] = useState(['', '']);
@@ -106,6 +107,14 @@ export const CurrentTopic = () => {
                 </Box>
                 <Box>
                   <Button onClick={() => setCommentIdToReply(messageId)}>Ответить</Button>
+                  {
+                    userName === login ?
+                      <div>
+                        <Button onClick={() => setCommentToEdit(message)}>Отредактировать</Button>
+                        <Button onClick={() => console.log('delete comment', messageId)}>Удалить</Button>
+                      </div> :
+                      null
+                  }
                 </Box>
               </Stack>
               {
@@ -113,8 +122,21 @@ export const CurrentTopic = () => {
                   <Box pl={40}>
                     <MessageForm
                       topicId={topicId}
-                      commentId={commentIdToReply}
+                      parentId={commentIdToReply}
                       closeReplyForm={() => setCommentIdToReply(null)}
+                      canBeClosed
+                    />
+                  </Box> :
+                  null
+              }
+              {
+                !!commentToEdit && commentToEdit.messageId === messageId ?
+                  <Box pl={40}>
+                    <MessageForm
+                      topicId={topicId}
+                      commentId={commentToEdit.messageId}
+                      value={commentToEdit.text}
+                      closeReplyForm={() => setCommentToEdit(null)}
                       canBeClosed
                     />
                   </Box> :
