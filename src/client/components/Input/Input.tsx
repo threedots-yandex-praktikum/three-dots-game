@@ -10,6 +10,7 @@ import {
 import {
   TInputProps,
 } from './types';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 
 export const Input = ({
@@ -24,9 +25,10 @@ export const Input = ({
   as,
   type = 'text',
   className,
-  variant='filled',
-  isReadOnly=false,
+  variant = 'filled',
+  isReadOnly = false,
 }: TInputProps) => {
+  const { mainColorText } = useAppSelector(state => state.themeReducer);
 
   return (
     <FormControl
@@ -35,7 +37,7 @@ export const Input = ({
       key={id}
       pb={touched && error ? 0 : 6}
     >
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+      <FormLabel color={mainColorText} htmlFor={id}>{label}</FormLabel>
       <Field
         as={as || ChakraInput}
         key={id}
@@ -48,6 +50,8 @@ export const Input = ({
         variant={variant}
         isReadOnly={isReadOnly}
         className={className}
+        color={mainColorText}
+        bgColor='inherit'
       />
       {
         error ?

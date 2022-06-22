@@ -28,6 +28,7 @@ export type TUserModelResponse = {
   email: string;
   phone: string;
   avatar: string;
+  theme?: string;
 };
 
 class ProfileAPIClass {

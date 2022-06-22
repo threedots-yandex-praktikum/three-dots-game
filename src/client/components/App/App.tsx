@@ -33,30 +33,30 @@ import { DEFAULT_POST_REQUEST_HEADERS } from 'client/modules/api/httpTransport/c
 * */
 const testBackendRequestsCallback = async () => {
   const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
-    /*
-  * тестовый запрос на точку создания данных модели user
-  * */
+  /*
+* тестовый запрос на точку создания данных модели user
+* */
   await backend.post(
-      'user',
+    'user',
     {
       data: { name: 'Олег1', theme: 'DARK' },
       headers: DEFAULT_POST_REQUEST_HEADERS,
     })
-      .then(() => console.log('успешно выполнен запрос на точку user'))
-      .catch(() => console.log('ошибка запроса на точку user'));
+    .then(() => console.log('успешно выполнен запрос на точку user'))
+    .catch(() => console.log('ошибка запроса на точку user'));
 
 
-    /*
-  * тестовый запрос на точку создания данных модели topic
-  * */
+  /*
+* тестовый запрос на точку создания данных модели topic
+* */
   await backend.post(
-        'forum/topic',
+    'forum/topic',
     {
       data: { name: 'name45', userId: 1 },
       headers: DEFAULT_POST_REQUEST_HEADERS,
     })
-        .then(() => console.log('успешно выполнен запрос на точку topic'))
-        .catch(() => console.log('ошибка запроса на точку topic'));
+    .then(() => console.log('успешно выполнен запрос на точку topic'))
+    .catch(() => console.log('ошибка запроса на точку topic'));
 
 
   /*
@@ -67,9 +67,9 @@ const testBackendRequestsCallback = async () => {
     .then(() => console.log('успешно выполнен GET запрос на точку topic'))
     .catch(() => console.log('ошибка GET запроса на точку topic'));
 
-      /*
-  * тестовый запрос на точку конкретного topic
-  * */
+  /*
+* тестовый запрос на точку конкретного topic
+* */
   await backend
     .get('forum/topic/3')
     .then(() => console.log('успешно выполнен запрос на точку форума c пареметром topic'))
@@ -84,19 +84,19 @@ const testBackendRequestsCallback = async () => {
     .catch(() => console.log('ошибка PUT запроса на точку topic'));
 
 
-      /*
-  * тестовый запрос на точку конкретного topic
-  * */
+  /*
+* тестовый запрос на точку конкретного topic
+* */
   await backend
-  .get('forum/topic/3')
-  .then(() => console.log('успешно выполнен запрос на точку форума c пареметром topic'))
-  .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
+    .get('forum/topic/3')
+    .then(() => console.log('успешно выполнен запрос на точку форума c пареметром topic'))
+    .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
 
 
 
-   /*
-  * тестовый запрос на точку создания данных модели comment
-  * */
+  /*
+ * тестовый запрос на точку создания данных модели comment
+ * */
   await backend.post(
     'forum/comment',
     {
@@ -125,9 +125,9 @@ const testBackendRequestsCallback = async () => {
     .catch(() => console.log('ошибка GET запроса на точку comment'));
 
 
-          /*
-  * тестовый запрос на точку конкретного topic
-  * */
+  /*
+* тестовый запрос на точку конкретного topic
+* */
 
   /*
   * тестовый запрос на точку редактирования данных модели comment
@@ -160,9 +160,9 @@ const testBackendRequestsCallback2 = async () => {
     .catch(() => console.log('ошибка GET запроса на точку topic'));
 
 
-   /*
-  * тестовый запрос на точку создания данных модели comment
-  * */
+  /*
+ * тестовый запрос на точку создания данных модели comment
+ * */
   await backend.post(
     'forum/comment',
     {
@@ -174,9 +174,9 @@ const testBackendRequestsCallback2 = async () => {
 
 
 
-        /*
-    * тестовый запрос на точку удаления данных модели topic
-    * */
+  /*
+* тестовый запрос на точку удаления данных модели topic
+* */
   await backend
     .delete('forum/topic/11')
     .then(() => console.log('успешно выполнен DELETE запрос на точку topic'))
@@ -188,16 +188,24 @@ const testBackendRequestsCallback2 = async () => {
     .catch(() => console.log('ошибка запроса на точку форума параметром topic'));
 };
 
+const testBackendRequestsCallback3 = async () => {
+  const backend = new HTTPTransport('https://local.ya-praktikum.tech:5000/api');
+
+  await backend
+    .get('forum/comment?topicId=1')
+    .then(() => console.log('успешно выполнен GET запрос на точку comment'))
+    .catch(() => console.log('ошибка GET запроса на точку topic'));
+};
+
 export const App = () => {
   useAuth();
 
   const { id } = useAppSelector(state => state.profileReducer);
   const location = useLocation();
   useEffect(() => {
-    //testBackendRequestsCallback();
-    testBackendRequestsCallback2();
+    // testBackendRequestsCallback3();
 
-    if(id) {
+    if (id) {
       return;
     }
     const params = new URLSearchParams(location.search);

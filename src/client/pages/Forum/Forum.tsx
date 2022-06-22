@@ -11,11 +11,12 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const Forum = () => {
   const { isFetch } = useAppSelector(state => state.fetchReducer);
+  const { bgColorSecond } = useAppSelector(state => state.themeReducer);
 
   return (
     <Container
       w="100%"
-      bg="gray.200"
+      bg={bgColorSecond}
       m="0"
       p="10px"
       centerContent
