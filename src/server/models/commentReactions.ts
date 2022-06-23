@@ -53,7 +53,7 @@ export class CommentReactions extends Model<CommentReactionsAttributes> {
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
-    allowNull: true,
+    allowNull: false,
   })
   userId!: number;
 
