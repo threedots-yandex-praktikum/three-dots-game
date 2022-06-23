@@ -1,5 +1,5 @@
 import { Box, Divider, Flex, Heading, Stack, StackDivider, Text } from '@chakra-ui/layout';
-import { Avatar, Button } from '@chakra-ui/react';
+import { Avatar, Button, Popover, PopoverContent, PopoverTrigger } from '@chakra-ui/react';
 import { useAppSelector } from 'client/hooks/useAppSelector';
 import React, {useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -16,6 +16,26 @@ import {
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
 
+
+
+const AVAILABLE_REACTION_CODES = [
+  {
+    reactionCode: 'LAUGHING_WITH_TEARS',
+    markup: <span>&#129315;</span>,
+  },
+  {
+    reactionCode: 'CRYING_FACE',
+    markup: <span>&#128549;</span>,
+  },
+  {
+    reactionCode: 'SCREAMING_FACE',
+    markup: <span>&#128561;</span>,
+  },
+  {
+    reactionCode: 'FIRE',
+    markup: <span>&#128293;</span>,
+  },
+];
 
 export const CurrentTopic = () => {
 
@@ -218,8 +238,34 @@ const _renderMessage = ({
           {text}
         </Box>
         <Box>
+          <Popover>
+            {({ onClose }) => (
+              <React.Fragment>
+                <PopoverTrigger>
+                  <Button>Реакция</Button>
+                </PopoverTrigger>
+                <PopoverContent w="25px">
+                  <Box>
+                    {
+                      AVAILABLE_REACTION_CODES
+                        .map(({ reactionCode, markup }) => (
+                          <span style={{ cursor: 'pointer' }}
+                            key={reactionCode}
+                            onClick={() => {
+                              onSendReaction(messageId, reactionCode);
+                              onClose();
+                            }}
+                          >
+                        {markup}
+                      </span>
+                        ))
+                    }
+                  </Box>
+                </PopoverContent>
+              </React.Fragment>
+            )}
+          </Popover>
           <Button onClick={() => onReply(messageId)}>Ответить</Button>
-          <Button onClick={() => onSendReaction(messageId, 'SLIGHTLY_SMILING_FACE')}>Реакция</Button>
           {
             userName === login ?
               <React.Fragment>
