@@ -57,6 +57,7 @@ export enum EForumActions {
   CLOSE_CURRENT_TOPIC = 'CLOSE_CURRENT_TOPIC',
   SEND_MESSAGE = 'SEND_MESSAGE',
   DELETE_MESSAGE = 'DELETE_MESSAGE',
+  SEND_REACTION = 'SEND_REACTION',
 }
 interface IGetTopicsAction {
   type: EForumActions.GET_TOPICS;
@@ -93,6 +94,15 @@ interface IDeleteMessageAction {
   };
 }
 
+interface ISendReactionAction {
+  type: EForumActions.SEND_REACTION;
+  payload: {
+    topicId: number,
+    commentId: number,
+    reactionCode: string,
+  };
+}
+
 export type TForumAction =
   | ISetTopicsAction
   | IGetTopicsAction
@@ -101,4 +111,5 @@ export type TForumAction =
   | ICreateNewTopicAction
   | ICloseTopicAction
   | ISendMessageAction
-  | IDeleteMessageAction;
+  | IDeleteMessageAction
+  | ISendReactionAction;

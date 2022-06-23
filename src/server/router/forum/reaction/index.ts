@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { Reaction } from 'server/models';
+import {CommentReactions, Reaction} from 'server/models';
 import { sendJSONResponse } from 'server/router/constants';
 
 
@@ -41,6 +41,23 @@ export const handleGetSingleReaction = async(req: Request, res: Response, next: 
   }
 };
 
+export const handlePostRequests = async(req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {
+      body: {
+        commentId,
+      },
+    } = req;
+
+    return commentId ?
+      handleCommentReactionCreate(req, res, next) :
+      handleReactionCreate(req, res, next);
+
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const handleReactionCreate = async(req: Request, res: Response, next: NextFunction) => {
   try {
     const reaction: Reaction | null = await Reaction.create(req.body);
@@ -48,6 +65,57 @@ export const handleReactionCreate = async(req: Request, res: Response, next: Nex
       res,
       {
         data: reaction,
+      },
+    );
+  } catch (e) {
+    next(e);
+  }
+};
+
+
+export const handleCommentReactionCreate = async(req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {
+      body: {
+        commentId,
+        reactionCode,
+      },
+    } = req;
+
+    const reaction: Reaction | null = await Reaction.findOne({
+      where: {
+        code: reactionCode,
+      },
+    });
+
+    if(!reaction) {
+      return sendJSONResponse(
+        res,
+        {
+          data: {},
+        },
+      );
+    }
+
+    const {
+      context: {
+        user: {
+          id,
+        },
+      },
+    } = req;
+
+    const commentReactionToCreateData = {
+      userId: id,
+      commentId,
+      reactionId: reaction.getDataValue('id'),
+    };
+
+    const commentReaction: CommentReactions | null = await CommentReactions.create(commentReactionToCreateData);
+    return sendJSONResponse(
+      res,
+      {
+        data: commentReaction,
       },
     );
   } catch (e) {

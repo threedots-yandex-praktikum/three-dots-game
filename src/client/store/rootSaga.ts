@@ -14,6 +14,7 @@ import {
   watchGetCurrentTopic,
   watchGetTopics,
   watchSendMessage,
+  watchSendReaction,
 } from './reducers/forumReducer/sagaForum';
 import {
   watchAddUserToLB,
@@ -46,6 +47,7 @@ export default function* rootSaga() {
     watchCreateTopic(),
     watchSendMessage(),
     watchDeleteMessage(),
+    watchSendReaction(),
     watchLeaderBoard(),
     watchAddUserToLB(),
     watchGetTheme(),

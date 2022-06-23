@@ -10,6 +10,7 @@ import _groupBy from 'lodash/groupBy';
 export const FORUM_API_ENDPOINTS = {
   TOPICS: 'forum/topic',
   COMMENTS: 'forum/comment',
+  REACTIONS: 'forum/reaction',
 };
 
 class ForumAPIClass {
@@ -222,6 +223,21 @@ class ForumAPIClass {
   async deleteComment(id: number) {
     const response: any = await this.forumHTTPTransportInstance.delete(
       [FORUM_API_ENDPOINTS.COMMENTS, id].join('/'),
+    );
+
+    return response;
+  }
+
+  async sendReaction(commentId: number, reactionCode: number) {
+    const response: any = await this.forumHTTPTransportInstance.post(
+      FORUM_API_ENDPOINTS.REACTIONS,
+      {
+        headers: DEFAULT_POST_REQUEST_HEADERS,
+        data: {
+          commentId,
+          reactionCode,
+        },
+      },
     );
 
     return response;

@@ -41,3 +41,7 @@ export const sendMessageAC = (messageData: TSendData) => {
 export const deleteMessageAC = (commentId: number, topicId: number) => {
   return { type: EForumActions.DELETE_MESSAGE, payload: { topicId, commentId } };
 };
+
+export const sendReactionAC = (topicId: number, commentId: number, reactionCode: string) => {
+  return { type: EForumActions.SEND_REACTION, payload: { topicId, reactionCode, commentId } };
+};

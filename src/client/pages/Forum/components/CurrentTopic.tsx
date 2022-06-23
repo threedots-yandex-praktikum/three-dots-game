@@ -8,7 +8,11 @@ import { TParams } from '../types';
 import { InteractivePanel } from './InteractivePanel';
 import { MessageForm } from './MessageForm';
 import { generateAvatarLink } from 'client/utils/generateAvatarLink';
-import {deleteMessageAC, getCurrentTopicAC} from 'client/store/reducers/forumReducer/forumActionCreators';
+import {
+  deleteMessageAC,
+  getCurrentTopicAC,
+  sendReactionAC,
+} from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
 
@@ -59,6 +63,11 @@ export const CurrentTopic = () => {
     [topicId, dispatch],
   );
 
+  const onSendReaction = useCallback(
+    (messageId, reactionCode) => dispatch(sendReactionAC(topicId, messageId, reactionCode)),
+    [topicId, dispatch],
+  );
+
   const clearReply = useCallback(
     () => {
       setCommentIdToReply(null);
@@ -93,6 +102,7 @@ export const CurrentTopic = () => {
             onReply,
             onEdit,
             onDelete,
+            onSendReaction,
             clearReply,
             topicId,
             commentIdToReply,
@@ -146,6 +156,7 @@ const _renderMessage = ({
   onReply,
   onEdit,
   onDelete,
+  onSendReaction,
   clearReply,
   topicId,
   commentIdToReply,
@@ -208,6 +219,7 @@ const _renderMessage = ({
         </Box>
         <Box>
           <Button onClick={() => onReply(messageId)}>Ответить</Button>
+          <Button onClick={() => onSendReaction(messageId, 'SLIGHTLY_SMILING_FACE')}>Реакция</Button>
           {
             userName === login ?
               <React.Fragment>
@@ -253,6 +265,7 @@ const _renderMessage = ({
             onReply,
             onEdit,
             onDelete,
+            onSendReaction,
             clearReply,
             topicId,
             commentIdToReply,

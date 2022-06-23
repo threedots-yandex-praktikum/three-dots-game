@@ -24,7 +24,7 @@ import {
 import {
   handleGetAllReactions,
   handleGetSingleReaction,
-  handleReactionCreate,
+  handlePostRequests,
   handleReactionDelete,
   handleReactionUpdate,
 } from 'server/router/forum/reaction';
@@ -52,7 +52,7 @@ forumRouter.delete(COMMENT_WITH_ID_SUB_ROUTE, handleCommentDelete);
  * */
 forumRouter.get(REACTION_SUB_ROUTE, handleGetAllReactions);
 forumRouter.get(REACTION_WITH_ID_SUB_ROUTE, handleGetSingleReaction);
-forumRouter.post(REACTION_SUB_ROUTE, handleReactionCreate);
+forumRouter.post(REACTION_SUB_ROUTE, handlePostRequests);
 forumRouter.put(REACTION_WITH_ID_SUB_ROUTE, handleReactionUpdate);
 forumRouter.delete(REACTION_WITH_ID_SUB_ROUTE, handleReactionDelete);
 
