@@ -15,6 +15,7 @@ import {
 } from 'client/store/reducers/forumReducer/forumActionCreators';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
 import { getGeolocation } from 'client/utils/getGeolocation';
+import _groupBy from 'lodash/groupBy';
 
 
 
@@ -192,7 +193,10 @@ const _renderMessage = ({
     country,
     town,
     replies,
+    reactions,
   } = message;
+
+  const reactionsByReactionCode = _groupBy(reactions, 'code');
 
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = theme;
@@ -237,43 +241,64 @@ const _renderMessage = ({
         >
           {text}
         </Box>
-        <Box>
-          <Popover>
-            {({ onClose }) => (
-              <React.Fragment>
-                <PopoverTrigger>
-                  <Button>Реакция</Button>
-                </PopoverTrigger>
-                <PopoverContent w="25px">
-                  <Box>
-                    {
-                      AVAILABLE_REACTION_CODES
-                        .map(({ reactionCode, markup }) => (
-                          <span style={{ cursor: 'pointer' }}
-                            key={reactionCode}
-                            onClick={() => {
-                              onSendReaction(messageId, reactionCode);
-                              onClose();
-                            }}
-                          >
+        <Box flexDirection="column">
+          <Box mb={15}>
+            <Popover>
+              {({ onClose }) => (
+                <React.Fragment>
+                  <PopoverTrigger>
+                    <Button>Реакция</Button>
+                  </PopoverTrigger>
+                  <PopoverContent w="25px">
+                    <Box>
+                      {
+                        AVAILABLE_REACTION_CODES
+                          .map(({ reactionCode, markup }) => (
+                            <span style={{ cursor: 'pointer' }}
+                                  key={reactionCode}
+                                  onClick={() => {
+                                    onSendReaction(messageId, reactionCode);
+                                    onClose();
+                                  }}
+                            >
                         {markup}
                       </span>
-                        ))
-                    }
-                  </Box>
-                </PopoverContent>
-              </React.Fragment>
-            )}
-          </Popover>
-          <Button onClick={() => onReply(messageId)}>Ответить</Button>
-          {
-            userName === login ?
-              <React.Fragment>
-                <Button onClick={() => onEdit(message)}>Отредактировать</Button>
-                <Button onClick={() => onDelete(messageId)}>Удалить</Button>
-              </React.Fragment> :
-              null
-          }
+                          ))
+                      }
+                    </Box>
+                  </PopoverContent>
+                </React.Fragment>
+              )}
+            </Popover>
+            <Button onClick={() => onReply(messageId)}>Ответить</Button>
+            {
+              userName === login ?
+                <React.Fragment>
+                  <Button onClick={() => onEdit(message)}>Отредактировать</Button>
+                  <Button onClick={() => onDelete(messageId)}>Удалить</Button>
+                </React.Fragment> :
+                null
+            }
+          </Box>
+          <Box>
+            {
+              AVAILABLE_REACTION_CODES
+                .map(({ reactionCode, markup }) => {
+
+                  const reactionsForCodeAmount = reactionsByReactionCode[reactionCode] ?
+                    reactionsByReactionCode[reactionCode].length :
+                    0;
+
+                  return (
+                    <span key={reactionCode}>
+                      {markup}
+                      " - "
+                      {reactionsForCodeAmount}
+                    </span>
+                  );
+                })
+            }
+          </Box>
         </Box>
       </Stack>
       {
