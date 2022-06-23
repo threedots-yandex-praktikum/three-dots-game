@@ -193,10 +193,25 @@ const _renderMessage = ({
     country,
     town,
     replies,
+    commentReactions,
     reactions,
   } = message;
 
-  const reactionsByReactionCode = _groupBy(reactions, 'code');
+  const preparedReactionsData = commentReactions
+    .map(commentReaction => {
+
+      const reaction = reactions.find(({ id }) => commentReaction.reactionId === id);
+
+      return {
+        ...commentReaction,
+        code: reaction ? reaction.code : null,
+      };
+    });
+
+  const reactionsByReactionCode = _groupBy(
+    preparedReactionsData,
+    'code',
+  );
 
   const { secondColorText, bgColorSecond, mainColorText, mainColor,
   } = theme;

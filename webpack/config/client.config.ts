@@ -80,7 +80,10 @@ const config: Config = {
       ],
     }),
     new LoadablePlugin(),
-    IS_DEV && new BundleAnalyzerPlugin(),
+    IS_DEV && new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerPort: 9000,
+    }),
     !IS_DEV && new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
     }),
