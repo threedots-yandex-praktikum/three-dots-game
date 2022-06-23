@@ -66,6 +66,7 @@ class ForumAPIClass {
         user: {
           name: userName,
         },
+        userId,
         reactions,
         commentReactions,
         parentId,
@@ -73,6 +74,7 @@ class ForumAPIClass {
 
       return {
         messageId,
+        userId,
         userName,
         time,
         text,

@@ -44,7 +44,7 @@ export const CurrentTopic = () => {
   const params = useParams<TParams>();
   const topicId = parseInt(params.topicId);
 
-  const { avatar, login } = useAppSelector(state => state.profileReducer);
+  const { avatar, id: currentUserId } = useAppSelector(state => state.profileReducer);
   const { topics, currentTopic } = useAppSelector(state => state.forumReducer);
   const theme = useAppSelector(state => state.themeReducer);
 
@@ -118,7 +118,7 @@ export const CurrentTopic = () => {
           currentTopic?.messages
           .map(message => _renderMessage({
             message,
-            login,
+            currentUserId,
             theme,
             onReply,
             onEdit,
@@ -172,7 +172,7 @@ export const CurrentTopic = () => {
 
 const _renderMessage = ({
   message,
-  login,
+  currentUserId,
   theme,
   onReply,
   onEdit,
@@ -190,6 +190,7 @@ const _renderMessage = ({
     text,
     time,
     userName,
+    userId,
     country,
     town,
     replies,
@@ -287,7 +288,7 @@ const _renderMessage = ({
             </Popover>
             <Button onClick={() => onReply(messageId)}>Ответить</Button>
             {
-              userName === login ?
+              userId === currentUserId ?
                 <React.Fragment>
                   <Button onClick={() => onEdit(message)}>Отредактировать</Button>
                   <Button onClick={() => onDelete(messageId)}>Удалить</Button>
@@ -295,7 +296,7 @@ const _renderMessage = ({
                 null
             }
           </Box>
-          <Box>
+          <Box display="flex">
             {
               AVAILABLE_REACTION_CODES
                 .map(({ reactionCode, markup }) => {
@@ -304,12 +305,26 @@ const _renderMessage = ({
                     reactionsByReactionCode[reactionCode].length :
                     0;
 
+                  if(reactionsForCodeAmount === 0) {
+                    return null;
+                  }
+
                   return (
-                    <span key={reactionCode}>
+                    <Box
+                      display="flex"
+                      key={reactionCode}
+                      w="25px"
+                      h="25px"
+                      borderRadius="5px"
+                      backgroundColor="#eee"
+                      mr="5px"
+                      cursor="pointer"
+                    >
                       {markup}
-                      " - "
-                      {reactionsForCodeAmount}
-                    </span>
+                      <Text alignSelf="flex-end" fontSize="10px">
+                        {reactionsForCodeAmount}
+                      </Text>
+                    </Box>
                   );
                 })
             }
@@ -346,7 +361,7 @@ const _renderMessage = ({
         {
           replies.map(data => _renderMessage({
             message: data,
-            login,
+            currentUserId,
             theme,
             onReply,
             onEdit,
