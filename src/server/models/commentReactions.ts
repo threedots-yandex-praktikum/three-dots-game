@@ -23,13 +23,6 @@ interface CommentReactionsAttributes {
 export class CommentReactions extends Model<CommentReactionsAttributes> {
 
   @PrimaryKey
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-  })
-  id!: number;
-
   @ForeignKey(() => Reaction)
   @Column({
     type: DataType.INTEGER,
@@ -40,6 +33,7 @@ export class CommentReactions extends Model<CommentReactionsAttributes> {
   @BelongsTo(() => Reaction)
   reaction!: Reaction;
 
+  @PrimaryKey
   @ForeignKey(() => Comment)
   @Column({
     type: DataType.INTEGER,
@@ -50,6 +44,7 @@ export class CommentReactions extends Model<CommentReactionsAttributes> {
   @BelongsTo(() => Comment)
   comment!: Comment;
 
+  @PrimaryKey
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,
