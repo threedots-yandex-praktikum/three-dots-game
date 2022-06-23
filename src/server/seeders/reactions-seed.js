@@ -1,5 +1,7 @@
 module.exports = {
   up: async(queryInterface, Sequelize) => {
+    await queryInterface.removeConstraint('CommentReactions', 'CommentReactions_reactionId_commentId_key');
+
     await queryInterface.bulkInsert(
       'Reaction',
       [
