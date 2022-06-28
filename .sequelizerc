@@ -1,0 +1,16 @@
+const path = require('path');
+
+
+/*
+* В этом файле описывается изначальная настройка файловой структуры для работы с БД с использованием Sequelize
+* указываются пути до файла конфигурации и директорий для хранения файлов моделей, файлов для наполнения БД и миграций
+*
+* все директории и файлы будут сгенерированы автоматически после выполнения в терминале команды npx sequelize init
+* эта команда найдет данный файл и создаст все необходимое
+* */
+module.exports = {
+  "config": path.resolve('./src/server', 'config.js'),
+  "models-path": path.resolve('./src/server/models'),
+  "seeders-path": path.resolve('./src/server/seeders'),
+  "migrations-path": path.resolve('./src/server/migrations')
+};

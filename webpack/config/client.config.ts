@@ -9,6 +9,9 @@ import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import CompressionPlugin from 'compression-webpack-plugin';
+
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
@@ -16,7 +19,7 @@ type Config = Configuration & {
 const config: Config = {
   target: 'web',
   entry: {
-    app: path.join(SRC_DIR, 'client.tsx'),
+    app: path.join(SRC_DIR, 'client/index.tsx'),
   },
   mode: IS_DEV ? 'development': 'production',
   output: {
@@ -43,15 +46,15 @@ const config: Config = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       static: STATIC_DIR,
-      components: path.join(SRC_DIR, '/components/'),
-      constants: path.join(SRC_DIR, '/constants/'),
-      controllers: path.join(SRC_DIR, '/controllers/'),
-      modules: path.join(SRC_DIR, '/modules/'),
-      pages: path.join(SRC_DIR, '/pages/'),
-      styles: path.join(SRC_DIR, '/styles/'),
-      store: path.join(SRC_DIR, '/store/'),
-      hooks: path.join(SRC_DIR, '/hooks/'),
-      utils: path.join(SRC_DIR, '/utils/'),
+      components: path.join(SRC_DIR, '/client/components/'),
+      constants: path.join(SRC_DIR, '/client/constants/'),
+      controllers: path.join(SRC_DIR, '/client/controllers/'),
+      modules: path.join(SRC_DIR, '/client/modules/'),
+      pages: path.join(SRC_DIR, '/client/pages/'),
+      styles: path.join(SRC_DIR, '/client/styles/'),
+      store: path.join(SRC_DIR, '/client/store/'),
+      hooks: path.join(SRC_DIR, '/client/hooks/'),
+      utils: path.join(SRC_DIR, '/client/utils/'),
     },
     plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
@@ -77,6 +80,13 @@ const config: Config = {
       ],
     }),
     new LoadablePlugin(),
+    IS_DEV && new BundleAnalyzerPlugin({
+      openAnalyzer: false,
+      analyzerPort: 9000,
+    }),
+    !IS_DEV && new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+    }),
   ].filter(Boolean) as Plugin[],
 
   performance: {

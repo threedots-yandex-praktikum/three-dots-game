@@ -1,5 +1,5 @@
 import path from 'path';
-import {ProvidePlugin, Configuration, WebpackPluginInstance as Plugin} from 'webpack';
+import { ProvidePlugin, Configuration, WebpackPluginInstance as Plugin } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import { IS_DEV, DIST_DIR, SRC_DIR } from '../assets/dir';
 import fileLoader from '../loaders/file';
@@ -12,7 +12,7 @@ const config: Configuration = {
   name: 'server',
   target: 'node',
   node: { __dirname: false },
-  entry: path.join(SRC_DIR, 'server'),
+  entry: path.join(SRC_DIR, 'server/index.ts'),
   module: {
     rules: [
       tsLoader.server,
