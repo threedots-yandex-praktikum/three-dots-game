@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
       - name: instal deps
-        run: npm ci
+        run: npm ci --legacy-peer-deps
       - name: test
         run: npm run test
   build:
