@@ -10,12 +10,15 @@ import { serverRenderMiddleware } from 'server/middlewares/serverRenderMiddlewar
 import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
 import { TContext } from 'server/types';
-
+import helmet from 'helmet';
+import { nonce } from '../../server/middlewares/nonce';
 config();
+
+
 
 export const startExpressApp = (context: TContext) => {
   const port = process.env.PORT || 5000;
-
+  const isProduction = process.env.NODE_ENV === 'production';
   const app = express();
 
   app
@@ -28,6 +31,23 @@ export const startExpressApp = (context: TContext) => {
     .use(contextMiddleware(context))
     .use(FORUM_ROUTE, forumRouter)
     .use(USER_ROUTE, userRouter)
+    .use(nonce)
+    .use((req, res, next) => {
+      const { nonce } = res.locals;  
+      
+      helmet({
+        contentSecurityPolicy: {
+          useDefaults: true,
+          directives: {
+            'script-src': ["'self'", `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
+            'style-src': ["'self'", "'unsafe-inline'"],
+            'connect-src': ["'self'", 'ya-praktikum.tech'],
+            'img-src': ["'self'", 'data:', 'ya-praktikum.tech'],
+            'object-src': ["'self'"],
+          },
+        },
+      })(req, res, next);
+    })
     .get('/*', serverRenderMiddleware);
 
   app.listen(port, () =>
