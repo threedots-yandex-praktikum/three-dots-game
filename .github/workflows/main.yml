@@ -38,7 +38,7 @@ jobs:
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@v2.1.5
         env: echo "this is a line" >> file.txt
-          SSH_PRIVATE_KEY: ${{secrets/SERVER_SSH_KEY}}
+          SSH_PRIVATE_KEY: ${{secrets.SERVER_SSH_KEY}}
           ARGS: "-rltgoDzv0 --delete"
           SOURCE: "dist/"
           REMOTE_HOST: ${{secrets.REMOTE_HOST}}
