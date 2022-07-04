@@ -40,7 +40,13 @@ jobs:
       - name: Install npm dependencies
         run: npm ci --legacy-peer-deps
       - name: Run build task
-        run: npm run build
+        #run: npm run build
+        
+        run: cp .env-example .env
+      - name: Run build task
+        #run: npm run build
+        
+        run: docker-compose up -d
       - name: test comand
         run: echo "this is a line" >> file.txt
       - name: Deploy to server
