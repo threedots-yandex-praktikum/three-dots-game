@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   push:
-    branches: ["main", "sprint_9", "git-hub-actions"]
+    branches: ["main", "sprint_9", "git-hub-actions, git-hub-actions-2"]
   pull_request:
-    branches: ["main", "sprint_9", "git-hub-actions"]
+    branches: ["main", "sprint_9", "git-hub-actions, git-hub-actions-2"]
 
   workflow_dispatch:
 
