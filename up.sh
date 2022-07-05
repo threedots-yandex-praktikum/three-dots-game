@@ -2,8 +2,8 @@
 docker-compose stop
 docker-compose rm -f
 
-# запускаем все необходимые контейнеры
-docker-compose up -d --force-recreate
+# запускаем все необходимые контейнеры (закомментировано, т.к. не завершается выполнение, даже с -d флагом)
+#docker-compose up -d
 
 # завершаем выполнение скрипта
 exit 1
