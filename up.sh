@@ -8,6 +8,9 @@ docker-compose stop
 docker-compose rm -f
 
 # запускаем все необходимые контейнеры
-docker-compose up
+docker-compose up -d
+
+# завершаем выполнение скрипта
+exit 1
 
 
