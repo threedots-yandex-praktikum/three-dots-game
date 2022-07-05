@@ -8,6 +8,20 @@ on:
 
   workflow_dispatch:
 
+env:
+  MONGO_HOST: yandex-mongo
+  MONGO_PORT: 27017
+  MONGO_INITDB_ROOT_USERNAME: user
+  MONGO_INITDB_ROOT_PASSWORD: password
+  MONGO_DB_NAME: game
+  POSTGRESQL_HOST: yandex-postgres
+  POSTGRESQL_PORT: 5432
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: game
+  PGADMIN_DEFAULT_EMAIL: postgres@postgres.com
+  PGADMIN_DEFAULT_PASSWORD: postgres
+
 jobs:
   build:
     runs-on: self-hosted
@@ -24,11 +38,28 @@ jobs:
       - name: Install npm dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Prepare .env file
-        run: cp .env-example .env
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_MONGO_HOST: ${{ env.MONGO_HOST }}
+          envkey_MONGO_PORT: ${{ env.MONGO_PORT }}
+          envkey_MONGO_INITDB_ROOT_USERNAME: ${{ env.MONGO_INITDB_ROOT_USERNAME }}
+          envkey_MONGO_INITDB_ROOT_PASSWORD: ${{ env.MONGO_INITDB_ROOT_PASSWORD }}
+          envkey_MONGO_DB_NAME: ${{ env.MONGO_DB_NAME }}
+          envkey_POSTGRESQL_HOST: ${{ env.POSTGRESQL_HOST }}
+          envkey_POSTGRESQL_PORT: ${{ env.POSTGRESQL_PORT }}
+          envkey_POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          envkey_POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          envkey_POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          envkey_PGADMIN_DEFAULT_EMAIL: ${{ env.PGADMIN_DEFAULT_EMAIL }}
+          envkey_PGADMIN_DEFAULT_PASSWORD: ${{ env.PGADMIN_DEFAULT_PASSWORD }}
 
-      - name: Run build task
-        run: npm run build
+          directory: .
+          file_name: .env
+          fail_on_empty: false
+
+#      - name: Run build task
+#        run: npm run build
 
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
