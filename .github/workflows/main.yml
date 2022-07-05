@@ -76,5 +76,6 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            cd /home/deploy/three-dots-game
             docker-compose ps
             docker-compose up yandex-postgres yandex-mongo yandex-pgadmin
