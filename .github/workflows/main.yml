@@ -8,6 +8,7 @@ on:
 
   workflow_dispatch:
 
+# переменные для записи в .env
 env:
   MONGO_HOST: yandex-mongo
   MONGO_PORT: 27017
@@ -36,7 +37,7 @@ jobs:
           node-version: "16.x"
 
       - name: Install npm dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
@@ -69,7 +70,7 @@ jobs:
           TARGET: ${{ secrets.REMOTE_TARGET }}
           EXCLUDE: "/dist/, /node_modules/"
 
-      - name: executing remote ssh commands using ssh key
+      - name: execute remote script
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_HOST }}
