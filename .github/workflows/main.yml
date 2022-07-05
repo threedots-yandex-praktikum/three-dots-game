@@ -76,5 +76,5 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /home/deploy/three-dots-game
+            cd ${{ secrets.REMOTE_TARGET }}
             bash up.sh
