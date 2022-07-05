@@ -31,7 +31,7 @@ export const GamePlay = () => {
   const unpauseCbRef = useRef<() => void>();
   const stopGameCbRef = useRef<() => void>();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModalPause, setIsOpenModalPause] = useState(false);
 
   const history = useHistory();
   const goToGameOverScreen = useCallback(
@@ -63,7 +63,7 @@ export const GamePlay = () => {
   const continueGame = useCallback(
     () => {
       _isFunction(unpauseCbRef.current) && unpauseCbRef.current();
-      setIsOpen(false);
+      setIsOpenModalPause(false);
     },
     [],
   );
@@ -104,13 +104,13 @@ export const GamePlay = () => {
           },
           onGamePause: (isGamePaused, unpauseCb, stopGameCb) => {
             if(!isGamePaused) {
-              return setIsOpen(false);
+              return setIsOpenModalPause(false);
             }
 
             unpauseCbRef.current = unpauseCb;
             stopGameCbRef.current = stopGameCb;
 
-            setIsOpen(true);
+            setIsOpenModalPause(true);
           },
           sendScoresData: scoresData => {
             dispatch(setScoreAC(scoresData.player));
@@ -122,6 +122,14 @@ export const GamePlay = () => {
       }
     }
   }, []);
+
+  useEffect(() => { 
+    if (isInFullScreenMode && !isOpenModalPause) {
+      document.documentElement.requestPointerLock();
+    } else {
+      document.exitPointerLock();
+    }
+  }, [isInFullScreenMode, isOpenModalPause]);
 
   const PAUSE_MODAL_WINDOW_BTN_SCHEMA = useMemo(
     () => [
@@ -149,7 +157,7 @@ export const GamePlay = () => {
 
   return (
     <div ref={refScreen} className="playing-field">
-      <Modal isOpen={isOpen} onClose={_identity} size="xl">
+      <Modal isOpen={isOpenModalPause} onClose={_identity} size="xl">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader mb={3}>Пауза</ModalHeader>
