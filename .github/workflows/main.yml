@@ -27,9 +27,6 @@ jobs:
       - name: Prepare .env file
         run: cp .env-example .env
 
-      - name: Run tests
-        run: npm run test
-
       - name: Run build task
         run: npm run build
 
