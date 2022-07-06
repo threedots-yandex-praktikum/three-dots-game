@@ -59,7 +59,7 @@ jobs:
           file_name: .env
           fail_on_empty: false
 
-        - name: execute remote script
+        - name: remove dir files
             uses: appleboy/ssh-action@master
             with:
               host: ${{ secrets.REMOTE_HOST }}
