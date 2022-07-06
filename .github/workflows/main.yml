@@ -34,7 +34,7 @@ jobs:
           node-version: "16.x"
 
       - name: Install npm dependencies
-        run: npm ci --force
+        run: npm ci --legacy-peer-deps
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
