@@ -66,7 +66,7 @@ const config: Config = {
       manifest: path.resolve(path.join(DIST_DIR, 'vendors-manifest.json')),
     }),
 
-    !IS_DEV && new GenerateSW.GenerateSW({
+    new GenerateSW.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
       // maximumFileSizeToCacheInBytes: 10000000,
