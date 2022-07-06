@@ -27,4 +27,9 @@ export const VALIDATION = {
     pattern: /(?=.*[A-ZА-Яа-яa-z])(?=.*[0-9]).{8,40}/,
     message: 'только кириллица, латиница, цифры, от 8 до 40 символов',
   },
+  REPEAT_PASSWORD: {
+    message: 'пароли не совпадают',
+  },
 };
+
+export const MESSAGE_REQUIRED = 'Поле не должно быть пустым';
