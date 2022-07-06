@@ -1,12 +1,11 @@
 name: CI/CD
 
-
 on:
   push:
     branches: ["main", "sprint_9", "git-hub-actions"]
 
   workflow_dispatch:
-  
+
 env:
   MONGO_HOST: yandex-mongo
   MONGO_PORT: 27017
