@@ -2,7 +2,7 @@
 docker-compose stop
 docker-compose rm -f
 
-# запускаем все необходимые контейнеры (закомментировано, т.к. не завершается выполнение, даже с -d флагом)
-#docker-compose up -d
+# запускаем все необходимые контейнеры
+docker-compose up -d
 
 
