@@ -9,7 +9,6 @@ import fileLoader from '../loaders/file';
 import { IS_DEV, DIST_DIR, SRC_DIR, STATIC_DIR, ROOT_DIR } from '../assets/dir';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import CompressionPlugin from 'compression-webpack-plugin';
 import DotenvPlugin from 'dotenv-webpack';
 type Config = Configuration & {
@@ -70,10 +69,10 @@ const config: Config = {
       manifest: path.resolve(path.join(DIST_DIR, 'vendors-manifest.json')),
     }),
 
-    !IS_DEV && new GenerateSW.GenerateSW({
+    new GenerateSW.GenerateSW({
       clientsClaim: true,
       skipWaiting: true,
-      // maximumFileSizeToCacheInBytes: 10000000,
+      maximumFileSizeToCacheInBytes: 10000000,
       runtimeCaching: [
         {
           // кэшируем любой урл приложения
@@ -83,14 +82,10 @@ const config: Config = {
       ],
     }),
     new LoadablePlugin(),
-    IS_DEV && new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-      analyzerPort: 9000,
-    }),
     !IS_DEV && new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
     }),
-    new DotenvPlugin({ 
+    new DotenvPlugin({
       path: './.env',
       safe: true,
       //sample: './.env-example',
