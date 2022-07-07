@@ -1,6 +1,6 @@
 import path from 'path';
 import { Configuration as WebpackDevSeverConfig } from 'webpack-dev-server';
-import { Configuration, WebpackPluginInstance as Plugin, DllReferencePlugin } from 'webpack';
+import { Configuration, WebpackPluginInstance as Plugin, DllReferencePlugin  } from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import GenerateSW from 'workbox-webpack-plugin';
 import cssLoader from '../loaders/css';
@@ -11,15 +11,18 @@ import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
 import LoadablePlugin from '@loadable/webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import CompressionPlugin from 'compression-webpack-plugin';
-
+import DotenvPlugin from 'dotenv-webpack';
 type Config = Configuration & {
   devServer: WebpackDevSeverConfig;
 };
+
+
 
 const config: Config = {
   target: 'web',
   entry: {
     app: path.join(SRC_DIR, 'client/index.tsx'),
+    serviceWorker: path.join(SRC_DIR, '/service-worker.js'),
   },
   mode: IS_DEV ? 'development': 'production',
   output: {
@@ -86,6 +89,11 @@ const config: Config = {
     }),
     !IS_DEV && new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
+    }),
+    new DotenvPlugin({ 
+      path: './.env',
+      safe: true,
+      //sample: './.env-example',
     }),
   ].filter(Boolean) as Plugin[],
 
