@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import {
   Switch,
   Route,
@@ -21,6 +21,7 @@ import { useAuth } from 'client/hooks/useAuth';
 import { UserController } from 'client/controllers/UserController';
 
 
+const isProduction = process.env.NODE_ENV === 'production';
 
 export const App = () => {
   useAuth();
@@ -42,9 +43,7 @@ export const App = () => {
     }
   }, [id, location.search]);
 
-  const isProduction = useMemo(
-    () => process.env.NODE_ENV === 'production', [],
-  );
+ 
   
   return (
     <div className="app">
