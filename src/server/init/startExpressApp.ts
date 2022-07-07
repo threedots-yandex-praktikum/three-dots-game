@@ -28,6 +28,7 @@ export const startExpressApp = (context: TContext) => {
 
   app.use(cors({
     origin: YANDEX_CLOUD_HOST,
+    credentials: true,
   }));
 
   app
