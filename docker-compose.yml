@@ -9,9 +9,6 @@ services:
     ports:
       - "27017:27017"
 
-    volumes:
-      - ./services/mongo:/data/db
-
     env_file:
       - ./.env
 
@@ -24,9 +21,6 @@ services:
 
     ports:
       - "5432:5432"
-
-    volumes:
-      - ./services/postgres:/var/lib/postgresql/data
 
     env_file:
       - ./.env
