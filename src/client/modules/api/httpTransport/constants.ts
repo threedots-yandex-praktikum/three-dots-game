@@ -1,6 +1,6 @@
 export const YANDEX_API_HOST = 'https://ya-praktikum.tech/api/v2';
 export const YANDEX_OAUTH_HOST = 'https://oauth.yandex.ru';
-export const LOCAL_API_HOST = 'https://local.ya-praktikum.tech:5000/api';
+export const LOCAL_API_HOST = 'https://localhost:5000/api';
 
 export const TEAM_NAME = 'three-dots';
 
