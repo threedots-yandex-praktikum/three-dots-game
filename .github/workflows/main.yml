@@ -1,6 +1,5 @@
 name: CI/CD
 
-
 on:
   push:
     branches: ["main", "sprint_9", "git-hub-actions"]
