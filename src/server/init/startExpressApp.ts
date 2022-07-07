@@ -34,16 +34,16 @@ export const startExpressApp = (context: TContext) => {
     .use(nonce)
     .use((req, res, next) => {
       const { nonce } = res.locals;  
-      
       helmet({
         contentSecurityPolicy: {
-          useDefaults: true,
           directives: {
+            defaultSrc: ["'none'"],
             'script-src': ["'self'", `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
             'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-            'connect-src': ["'self'", 'ya-praktikum.tech', 'localhost'],
+            fontSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com'],
+            'connect-src': ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com', 'ya-praktikum.tech'],
             'img-src': ["'self'", 'data:', 'ya-praktikum.tech'],
-            'object-src': ["'self'"],
+            'worker-src': ["'self'"],
           },
         },
       })(req, res, next);

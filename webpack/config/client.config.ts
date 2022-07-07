@@ -90,8 +90,8 @@ const config: Config = {
     !IS_DEV && new CompressionPlugin({
       test: /\.js(\?.*)?$/i,
     }),
-    new DotenvPlugin({ // makes vars available to the application js code
-      path: './.env', // Path to .env file (this is the default)
+    new DotenvPlugin({ 
+      path: './.env',
       safe: true,
       //sample: './.env-example',
     }),
