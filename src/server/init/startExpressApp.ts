@@ -12,10 +12,12 @@ import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
 import { TContext } from 'server/types';
 import helmet from 'helmet';
-import { nonce } from '../../server/middlewares/nonce';
-config();
+import { nonce } from 'server/middlewares/nonce';
 import https from 'https';
 import fs from 'fs';
+
+
+config();
 
 
 export const startExpressApp = (context: TContext) => {
@@ -39,7 +41,7 @@ export const startExpressApp = (context: TContext) => {
     .use(USER_ROUTE, userRouter)
     .use(nonce)
     .use((req, res, next) => {
-      const { nonce } = res.locals;  
+      const { nonce } = res.locals;
       helmet({
         contentSecurityPolicy: {
           directives: {
@@ -64,15 +66,13 @@ export const startExpressApp = (context: TContext) => {
     },
       app,
     ) : app;
-  
+
   server.listen(port, () => {
     if (!isProduction) {
       console.log(
         `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
       );
     }
-    //TODO добавить лог для прода?
-
   },
 
   );
