@@ -1,7 +1,5 @@
 import express from 'express';
 import path from 'path';
-import https from 'https';
-import fs from 'fs';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import { config } from 'dotenv';
@@ -32,17 +30,9 @@ export const startExpressApp = (context: TContext) => {
     .use(USER_ROUTE, userRouter)
     .get('/*', serverRenderMiddleware);
 
-  const secureServer = https.createServer(
-    {
-      key: fs.readFileSync('./server.key'),
-      cert: fs.readFileSync('./server.cert'),
-    },
-    app,
-  );
-
-  secureServer.listen(port, () =>
+  app.listen(port, () =>
     console.log(
-      `Приложение запущено по адресу: https://localhost:${port}`,
+      `Приложение запущено по адресу: http://localhost:${port}`,
     ),
   );
 };
