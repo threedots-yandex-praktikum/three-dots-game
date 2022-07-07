@@ -36,7 +36,7 @@ jobs:
           check-latest: true
 
       - name: Install npm dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm install
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
