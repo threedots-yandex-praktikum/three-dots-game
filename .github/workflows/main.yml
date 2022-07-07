@@ -22,7 +22,7 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Set up GitHub Actions
@@ -35,7 +35,7 @@ jobs:
           check-latest: true
 
       - name: Install npm dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
