@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import compression from 'compression';
 import { config } from 'dotenv';
 import 'babel-polyfill';
@@ -17,6 +18,10 @@ export const startExpressApp = (context: TContext) => {
   const port = process.env.PORT || 5000;
 
   const app = express();
+
+  app.use(cors({
+    credentials: true,
+  }));
 
   app
     .use(bodyParser.urlencoded({ extended: true }))
