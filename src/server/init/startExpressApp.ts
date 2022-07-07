@@ -42,7 +42,7 @@ export const startExpressApp = (context: TContext) => {
 
   secureServer.listen(port, () =>
     console.log(
-      `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
+      `Приложение запущено по адресу: https://localhost:${port}`,
     ),
   );
 };
