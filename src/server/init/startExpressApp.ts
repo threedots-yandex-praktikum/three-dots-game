@@ -13,7 +13,8 @@ import { TContext } from 'server/types';
 import helmet from 'helmet';
 import { nonce } from '../../server/middlewares/nonce';
 config();
-
+import https from 'https';
+import fs from 'fs';
 
 
 export const startExpressApp = (context: TContext) => {
@@ -50,9 +51,24 @@ export const startExpressApp = (context: TContext) => {
     })
     .get('/*', serverRenderMiddleware);
 
-  app.listen(port, () =>
-    console.log(
-      `Приложение запущено по адресу: http://localhost:${port}`,
-    ),
+
+  const server = !isProduction ? https.createServer(
+    {
+      key: fs.readFileSync('./server.key'),
+      cert: fs.readFileSync('./server.cert'),
+    },
+      app,
+    ) : app;
+  
+  server.listen(port, () => {
+    if (!isProduction) {
+      console.log(
+        `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
+      );
+    }
+    //TODO добавить лог для прода?
+
+  },
+
   );
 };
