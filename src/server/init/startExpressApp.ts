@@ -61,7 +61,7 @@ export const startExpressApp = (context: TContext) => {
     .get('/*', serverRenderMiddleware);
 
 
-  const server = !isProduction ? https.createServer(
+  const server = isProduction ? https.createServer(
     {
       key: fs.readFileSync('./server.key'),
       cert: fs.readFileSync('./server.cert'),
