@@ -15,6 +15,7 @@ import helmet from 'helmet';
 import { nonce } from 'server/middlewares/nonce';
 import https from 'https';
 import fs from 'fs';
+import { YANDEX_CLOUD_HOST } from "client/modules/api/httpTransport/constants";
 
 
 config();
@@ -26,6 +27,7 @@ export const startExpressApp = (context: TContext) => {
   const app = express();
 
   app.use(cors({
+    origin: YANDEX_CLOUD_HOST,
     credentials: true,
   }));
 
