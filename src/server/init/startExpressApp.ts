@@ -40,7 +40,7 @@ export const startExpressApp = (context: TContext) => {
           useDefaults: true,
           directives: {
             'script-src': ["'self'", `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
-            'style-src': ["'self'", "'unsafe-inline'"],
+            'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
             'connect-src': ["'self'", 'ya-praktikum.tech'],
             'img-src': ["'self'", 'data:', 'ya-praktikum.tech'],
             'object-src': ["'self'"],
