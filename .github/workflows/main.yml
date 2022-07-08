@@ -67,7 +67,6 @@ jobs:
           script: |
             cd /home/deploy/
             rm -rf three-dots-game
-            mkdir three-dots-game
 
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
