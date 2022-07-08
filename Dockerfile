@@ -8,6 +8,8 @@ RUN npm install && npm run build
 
 EXPOSE 5000
 
+CMD npm run start:server
+
 CMD npm run seed
 
-CMD npm run start
+CMD npm run start:webpack
