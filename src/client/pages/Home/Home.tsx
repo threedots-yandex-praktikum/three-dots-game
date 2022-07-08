@@ -17,6 +17,7 @@ import { InfoSectionTextItem } from 'client/pages/Home/InfoSectionTextItem';
 import { useAppSelector } from 'client/hooks/useAppSelector';
 import { push } from 'connected-react-router';
 import { useAppDispatch } from 'client/hooks/useAppDispatch';
+import {GITHUB_REPO_URL} from "client/modules/api/httpTransport/constants";
 
 
 export const Home = () => {
@@ -113,7 +114,7 @@ export const Home = () => {
         <Box p={6}>
           <Heading size='md' color={mainColorText}>
             <a
-              href="https://github.com/threedots-yandex-praktikum/three-dots-game"
+              href={GITHUB_REPO_URL}
               target="blank"
             >
               github

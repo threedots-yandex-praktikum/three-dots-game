@@ -15,11 +15,18 @@ import helmet from 'helmet';
 import { nonce } from 'server/middlewares/nonce';
 import https from 'https';
 import fs from 'fs';
-import { YANDEX_CLOUD_HOST } from "client/modules/api/httpTransport/constants";
+import {
+  GEOAPIFY_HOST,
+  GOOGLE_APIS_FONTS_HOST,
+  GSTATIC_FONTS_HOST,
+  YANDEX_CLOUD_HOST,
+  YANDEX_PRAKTIKUM_TECH_HOST
+} from "client/modules/api/httpTransport/constants";
 
 
 config();
 
+const CSP_RELATED_SELF_STRING = "'self'";
 
 export const startExpressApp = (context: TContext) => {
   const port = process.env.PORT || 5000;
@@ -48,12 +55,12 @@ export const startExpressApp = (context: TContext) => {
         contentSecurityPolicy: {
           directives: {
             defaultSrc: ["'none'"],
-            'script-src': ["'self'", `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
-            'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-            fontSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com'],
-            'connect-src': ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com', 'ya-praktikum.tech'],
-            'img-src': ["'self'", 'data:', 'ya-praktikum.tech'],
-            'worker-src': ["'self'"],
+            'script-src': [CSP_RELATED_SELF_STRING, `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
+            'style-src': [CSP_RELATED_SELF_STRING, "'unsafe-inline'", GOOGLE_APIS_FONTS_HOST],
+            fontSrc: [CSP_RELATED_SELF_STRING, GSTATIC_FONTS_HOST, GOOGLE_APIS_FONTS_HOST],
+            'connect-src': [CSP_RELATED_SELF_STRING, GOOGLE_APIS_FONTS_HOST, GSTATIC_FONTS_HOST, YANDEX_PRAKTIKUM_TECH_HOST, GEOAPIFY_HOST],
+            'img-src': [CSP_RELATED_SELF_STRING, 'data:', YANDEX_PRAKTIKUM_TECH_HOST],
+            'worker-src': [CSP_RELATED_SELF_STRING],
           },
         },
       })(req, res, next);
@@ -72,7 +79,7 @@ export const startExpressApp = (context: TContext) => {
   server.listen(port, () => {
     if (!isProduction) {
       console.log(
-        `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
+        `Приложение запущено по адресу: https://local.${YANDEX_PRAKTIKUM_TECH_HOST}:${port}`,
       );
     }
   },
