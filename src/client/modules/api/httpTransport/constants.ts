@@ -4,7 +4,6 @@ export const YANDEX_CLOUD_HOST = 'https://three-dots-13.ya-praktikum.tech';
 export const LOCAL_API_HOST = `${YANDEX_CLOUD_HOST}/api`;
 
 export const TEAM_NAME = 'three-dots';
-
 export const RATING_FIELD_NAME = 'score';
 
 export const AUTH_API_ENDPOINTS = {
