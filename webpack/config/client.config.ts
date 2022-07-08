@@ -21,7 +21,7 @@ const config: Config = {
   target: 'web',
   entry: {
     app: path.join(SRC_DIR, 'client/index.tsx'),
-    serviceWorker: path.join(SRC_DIR, '/service-worker.js'),
+    serviceWorker: path.join(SRC_DIR, '/serviceWorker.js'),
   },
   mode: IS_DEV ? 'development': 'production',
   output: {
