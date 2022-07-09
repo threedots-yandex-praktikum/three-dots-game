@@ -10,7 +10,6 @@ import {
   NAVIGATION_SCHEMA,
   APP_ROUTES_SCHEMA,
 } from './constants';
-import { localUrl } from 'client/modules/api/oAuthConfig';
 import {
   HOME_ROUTE,
   LOGIN_ROUTE,
@@ -19,6 +18,7 @@ import { useAppSelector } from 'client/hooks/useAppSelector';
 import { useAuth } from 'client/hooks/useAuth';
 
 import { UserController } from 'client/controllers/UserController';
+import {YANDEX_CLOUD_HOST} from "client/modules/api/httpTransport/constants";
 
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -37,14 +37,14 @@ export const App = () => {
     const code = params.get('code');
 
     if (code) {
-      UserController.signInYaOAuth({ code, redirect_uri: localUrl });
+      UserController.signInYaOAuth({ code, redirect_uri: YANDEX_CLOUD_HOST });
     } else {
       UserController.fetchAndSetSignedUserData();
     }
   }, [id, location.search]);
 
- 
-  
+
+
   return (
     <div className="app">
       {
