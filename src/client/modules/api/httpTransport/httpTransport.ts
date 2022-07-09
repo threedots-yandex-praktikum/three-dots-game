@@ -102,13 +102,9 @@ export class HTTPTransport {
 
     const urlWithHost = [this.host, url].join('/');
 
-    console.log('data', data)
-
     const urlToRequest = method === HTTP_METHOD.GET ?
       [urlWithHost, this.queryStringify(data as Record<string, unknown>)].join('') :
       urlWithHost;
-
-    console.log('urlToRequest', urlToRequest)
 
     const fetchParams: RequestInit = method === HTTP_METHOD.GET || !data ?
       ({
@@ -123,12 +119,8 @@ export class HTTPTransport {
         body: isFile ? data as XMLHttpRequestBodyInit : JSON.stringify(data as Record<string, unknown>),
       });
 
-    console.log('fetchParams', fetchParams)
-
     return fetch(urlToRequest, fetchParams)
       .then(response => {
-        console.log('response', response)
-
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('text/plain') && response.status === 200) {
           return ({
@@ -136,8 +128,6 @@ export class HTTPTransport {
             response: null,
           });
         }
-
-        console.log('responsejson', response.json())
 
         return Promise.all([response.json(), response.status])
           .then(([jsonResponse, status]) => ({
