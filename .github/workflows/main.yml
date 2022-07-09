@@ -65,8 +65,8 @@ jobs:
           username: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /home/deploy/
-            rm -rf three-dots-game
+            cd ${{ secrets.REMOTE_TARGET }}
+            rm -rf .
 
       - name: Deploy to server
         uses: easingthemes/ssh-deploy@main
