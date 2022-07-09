@@ -128,9 +128,9 @@ function* fetchSignUpYa() {
       AuthAPI.getYaOAuthServiceId.bind(AuthAPI),
     );
     const serviceId = response.service_id;
-    // yield call(
-    //   AuthAPI.redirectYaOAuth.bind(AuthAPI, serviceId),
-    // );
+    yield call(
+      AuthAPI.redirectYaOAuth.bind(AuthAPI, serviceId),
+    );
 
   } catch (error) {
     yield put(setFetchOffAC());
