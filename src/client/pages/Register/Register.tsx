@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Box, Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import { Logo } from 'client/components/Logo';
 import { Background } from 'client/components/Background';
