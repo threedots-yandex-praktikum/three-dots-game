@@ -22,8 +22,6 @@ module.exports = {
     "^client/store(.*)$": "<rootDir>/src/client/store/$1",
     "^client/hooks(.*)$": "<rootDir>/src/client/hooks/$1",
     "^client/utils(.*)$": "<rootDir>/src/client/utils/$1",
+    "^server/models(.*)$": "<rootDir>/src/server/models/$1",
   },
-  "transformIgnorePatterns": [
-    "node_modules/sequelize/node_modules/uuid/dist/esm-browser/index.js"
-  ],
 };
