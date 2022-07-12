@@ -15,4 +15,4 @@
 Итог оптимизаций: время обработки одного кадра уменьшено. Торможений в игре не наблюдается.
 
 На ниже скриншоте видно, что обработчик мусора отрабатывает. Скачки памяти - частый рендеринг canvas.
-<img src="static/img/gameMemoryAfter.png" alt="gameMemoryAfter" width="1000">
+<img src="static/img/gameMemoryAfter.PNG" alt="gameMemoryAfter" width="1000">
