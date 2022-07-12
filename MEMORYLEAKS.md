@@ -2,7 +2,7 @@
 <img src="static/img/appMemory.png" alt="appMemory" width="1000">
 
 После внедрения SSR заметно для глаза провисла производительность игры. На скриншоте также видна утечка памяти.
-<img src="static/img/gameMemoryBefore.png" alt="appMemory" width="1000">
+<img src="static/img/gameMemoryBefore.png" alt="gameMemoryBefore" width="1000">
 
 Проделанные оптимизации:
 
@@ -15,4 +15,4 @@
 Итог оптимизаций: время обработки одного кадра уменьшено. Торможений в игре не наблюдается.
 
 На ниже скриншоте видно, что обработчик мусора отрабатывает. Скачки памяти - частый рендеринг canvas.
-<img src="static/img/gameMemoryAfter.png" alt="appMemory" width="1000">
+<img src="static/img/gameMemoryAfter.png" alt="gameMemoryAfter" width="1000">
