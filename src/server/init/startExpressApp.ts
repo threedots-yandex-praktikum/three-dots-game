@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import compression from 'compression';
 import { config } from 'dotenv';
 import 'babel-polyfill';
@@ -11,16 +12,31 @@ import { contextMiddleware } from 'server/middlewares/contextMiddleware';
 import bodyParser from 'body-parser';
 import { TContext } from 'server/types';
 import helmet from 'helmet';
-import { nonce } from '../../server/middlewares/nonce';
-config();
+import { nonce } from 'server/middlewares/nonce';
 import https from 'https';
 import fs from 'fs';
+import {
+  GEOAPIFY_HOST,
+  GOOGLE_APIS_FONTS_HOST,
+  GSTATIC_FONTS_HOST,
+  YANDEX_CLOUD_HOST,
+  YANDEX_PRAKTIKUM_TECH_HOST
+} from "client/modules/api/httpTransport/constants";
 
+
+config();
+
+const CSP_RELATED_SELF_STRING = "'self'";
 
 export const startExpressApp = (context: TContext) => {
   const port = process.env.PORT || 5000;
   const isProduction = process.env.NODE_ENV === 'production';
   const app = express();
+
+  app.use(cors({
+    origin: YANDEX_CLOUD_HOST,
+    credentials: true,
+  }));
 
   app
     .use(bodyParser.urlencoded({ extended: true }))
@@ -34,17 +50,17 @@ export const startExpressApp = (context: TContext) => {
     .use(USER_ROUTE, userRouter)
     .use(nonce)
     .use((req, res, next) => {
-      const { nonce } = res.locals;  
+      const { nonce } = res.locals;
       helmet({
         contentSecurityPolicy: {
           directives: {
             defaultSrc: ["'none'"],
-            'script-src': ["'self'", `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
-            'style-src': ["'self'", "'unsafe-inline'", 'fonts.googleapis.com'],
-            fontSrc: ["'self'", 'fonts.gstatic.com', 'fonts.googleapis.com'],
-            'connect-src': ["'self'", 'fonts.googleapis.com', 'fonts.gstatic.com', 'ya-praktikum.tech'],
-            'img-src': ["'self'", 'data:', 'ya-praktikum.tech'],
-            'worker-src': ["'self'"],
+            'script-src': [CSP_RELATED_SELF_STRING, `'nonce-${nonce}'`, !isProduction ? "'unsafe-eval'" : ''],
+            'style-src': [CSP_RELATED_SELF_STRING, "'unsafe-inline'", GOOGLE_APIS_FONTS_HOST],
+            fontSrc: [CSP_RELATED_SELF_STRING, GSTATIC_FONTS_HOST, GOOGLE_APIS_FONTS_HOST],
+            'connect-src': [CSP_RELATED_SELF_STRING, GOOGLE_APIS_FONTS_HOST, GSTATIC_FONTS_HOST, YANDEX_PRAKTIKUM_TECH_HOST, GEOAPIFY_HOST],
+            'img-src': [CSP_RELATED_SELF_STRING, 'data:', YANDEX_PRAKTIKUM_TECH_HOST],
+            'worker-src': [CSP_RELATED_SELF_STRING],
           },
         },
       })(req, res, next);
@@ -52,22 +68,20 @@ export const startExpressApp = (context: TContext) => {
     .get('/*', serverRenderMiddleware);
 
 
-  const server = !isProduction ? https.createServer(
+  const server = isProduction ? https.createServer(
     {
       key: fs.readFileSync('./server.key'),
       cert: fs.readFileSync('./server.cert'),
     },
       app,
     ) : app;
-  
+
   server.listen(port, () => {
     if (!isProduction) {
       console.log(
-        `Приложение запущено по адресу: https://local.ya-praktikum.tech:${port}`,
+        `Приложение запущено по адресу: https://local.${YANDEX_PRAKTIKUM_TECH_HOST}:${port}`,
       );
     }
-    //TODO добавить лог для прода?
-
   },
 
   );

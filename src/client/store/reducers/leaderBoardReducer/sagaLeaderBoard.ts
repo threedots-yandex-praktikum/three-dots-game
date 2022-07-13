@@ -48,14 +48,14 @@ export function* watchLeaderBoard() {
 function* fetchAddUserToLB() {
   try {
     yield put(setFetchOnAC());
-    const { id, display_name } = yield select(
+    const { id, login } = yield select(
       (state: RootState) => state.profileReducer,
     );
     const { player } = yield select((state: RootState) => state.gameReducer);
     const data: TAddToLBData = {
       score: player.scores,
       id,
-      userName: display_name,
+      userName: login,
     };
     yield call(LeaderAPI.addUser.bind(LeaderAPI), { ...data });
 

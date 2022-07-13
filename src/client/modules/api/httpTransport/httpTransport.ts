@@ -118,7 +118,7 @@ export class HTTPTransport {
         credentials: 'include',
         body: isFile ? data as XMLHttpRequestBodyInit : JSON.stringify(data as Record<string, unknown>),
       });
-      
+
     return fetch(urlToRequest, fetchParams)
       .then(response => {
         const contentType = response.headers.get('content-type');

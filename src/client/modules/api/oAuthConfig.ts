@@ -1,4 +1,4 @@
-//вот здесь не работает
-export const localUrl = `${process.env.HOST}/`;
-export const getUrlOauth = (clientId:string, redirectUrl = localUrl) => 
-`https://oauth.yandex.ru/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUrl}`;
+import {YANDEX_CLOUD_HOST, YANDEX_OAUTH_HOST} from "client/modules/api/httpTransport/constants";
+
+export const getUrlOauth = (clientId:string, redirectUrl = YANDEX_CLOUD_HOST) =>
+`${YANDEX_OAUTH_HOST}/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUrl}`;

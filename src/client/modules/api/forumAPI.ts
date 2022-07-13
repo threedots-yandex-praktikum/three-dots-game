@@ -53,7 +53,7 @@ class ForumAPIClass {
       ({ parentId }) => parentId,
     );
 
-    const transformSingleCommentData = item => {
+    const transformSingleCommentData = (item: any) => {
       const {
         id: messageId,
         message: text,
@@ -79,7 +79,7 @@ class ForumAPIClass {
       };
     };
 
-    const getRepliesDataFromCommentsGroupedByParent = data => {
+    const getRepliesDataFromCommentsGroupedByParent = (data: any): any => {
       const transformedSingleCommentData = transformSingleCommentData(data);
 
       if(!commentsGroupedByParent[data.id]) {
@@ -106,12 +106,12 @@ class ForumAPIClass {
   }
 
   async getTopics(): Promise<TTopic[]> {
-    const response = await this.forumHTTPTransportInstance.get(
+    const response: any = await this.forumHTTPTransportInstance.get(
       FORUM_API_ENDPOINTS.TOPICS,
     );
 
     const responseData = response.data
-      .map(item => {
+      .map((item: any) => {
         const {
           id,
           name,

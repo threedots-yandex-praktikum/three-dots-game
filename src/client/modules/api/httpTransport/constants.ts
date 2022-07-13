@@ -1,12 +1,19 @@
-export const YANDEX_API_HOST = 'https://ya-praktikum.tech/api/v2';
+export const YANDEX_PRAKTIKUM_TECH_HOST = 'ya-praktikum.tech';
+
+export const YANDEX_API_HOST = `https://${YANDEX_PRAKTIKUM_TECH_HOST}/api/v2`;
+export const RESOURCES_URL = [YANDEX_API_HOST, 'resources'].join('/');
 export const YANDEX_OAUTH_HOST = 'https://oauth.yandex.ru';
-export const LOCAL_API_HOST = `/api`;
+export const GEOAPIFY_HOST = 'https://api.geoapify.com';
+export const GEOAPIFY_URL = `https://${GEOAPIFY_HOST}/v1/ipinfo?apiKey=0016d9a8eeab4591849154961e4e7fd3`;
+export const YANDEX_CLOUD_HOST = `https://three-dots-13.${YANDEX_PRAKTIKUM_TECH_HOST}`;
+export const LOCAL_API_HOST = [YANDEX_CLOUD_HOST, 'api'].join('/');
+export const GITHUB_REPO_URL = 'https://github.com/threedots-yandex-praktikum/three-dots-game';
+
+export const GOOGLE_APIS_FONTS_HOST = 'https://fonts.googleapis.com';
+export const GSTATIC_FONTS_HOST = 'https://fonts.gstatic.com';
 
 export const TEAM_NAME = 'three-dots';
-
 export const RATING_FIELD_NAME = 'score';
-
-export const BACKEND_PATH = '';
 
 export const AUTH_API_ENDPOINTS = {
   SIGN_UP: 'auth/signup',
