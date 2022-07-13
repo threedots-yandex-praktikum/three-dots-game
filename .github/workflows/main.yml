@@ -3,7 +3,7 @@ name: CI/CD
 
 on:
   push:
-    branches: ["main", "sprint_9", "git-hub-actions"]
+    branches: ["main", "sprint_9"]
 
   workflow_dispatch:
 
