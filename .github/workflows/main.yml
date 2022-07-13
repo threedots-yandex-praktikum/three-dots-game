@@ -38,6 +38,9 @@ jobs:
       - name: Install npm dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: run tests
+        run: npm run test
+
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
         with:
