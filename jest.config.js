@@ -2,6 +2,12 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'jest-environment-jsdom',
+  moduleDirectories: ["<rootDir>/node_modules", "<rootDir>/src"],
+  globals: {
+    "ts-jest": {
+      isolatedModules: true,
+    },
+  },
   moduleNameMapper: {
 
     /*
@@ -13,14 +19,15 @@ module.exports = {
     '^.+\\.(png|jpg)$': '<rootDir>/.jest/identity-obj-proxy-esm.js',
     "^.+\\.(css|scss)$": "identity-obj-proxy",
     "^static(.*)$": "<rootDir>/static/$1",
-    "^components(.*)$": "<rootDir>/src/client/components/$1",
-    "^constants/(.*)$": "<rootDir>/src/client/constants/$1",
-    "^controllers(.*)$": "<rootDir>/src/client/controllers/$1",
-    "^modules(.*)$": "<rootDir>/src/client/modules/$1",
-    "^pages(.*)$": "<rootDir>/src/client/pages/$1",
-    "^styles(.*)$": "<rootDir>/src/client/styles/$1",
-    "^store(.*)$": "<rootDir>/src/client/store/$1",
-    "^hooks(.*)$": "<rootDir>/src/client/hooks/$1",
-    "^utils(.*)$": "<rootDir>/src/client/utils/$1",
+    "^client/components(.*)$": "<rootDir>/src/client/components/$1",
+    "^client/constants(.*)$": "<rootDir>/src/client/constants/$1",
+    "^client/controllers(.*)$": "<rootDir>/src/client/controllers/$1",
+    "^client/modules(.*)$": "<rootDir>/src/client/modules/$1",
+    "^client/pages(.*)$": "<rootDir>/src/client/pages/$1",
+    "^client/styles(.*)$": "<rootDir>/src/client/styles/$1",
+    "^client/store(.*)$": "<rootDir>/src/client/store/$1",
+    "^client/hooks(.*)$": "<rootDir>/src/client/hooks/$1",
+    "^client/utils(.*)$": "<rootDir>/src/client/utils/$1",
+    "^server/models(.*)$": "<rootDir>/src/server/models/$1",
   },
 };

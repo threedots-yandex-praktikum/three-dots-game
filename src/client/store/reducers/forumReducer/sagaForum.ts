@@ -50,11 +50,11 @@ export function* watchGetTopics() {
   yield takeEvery(channel, fetchGetTopics);
 }
 
-function* fetchGetCurrentTopic(args) {
+function* fetchGetCurrentTopic(args: any) {
   try {
     yield put(setFetchOnAC());
     const response: TCurrentTopic = yield call(
-      ForumAPI.getCurrentTopic.bind(ForumAPI, args.payload),
+      ForumAPI.getCurrentTopic.bind(ForumAPI, Number(args.payload)),
     );
 
     yield put(setCurrentTopicAC(response));
@@ -135,7 +135,7 @@ function* fetchSendMessage({ payload }: ReturnType<typeof sendMessageAC>) {
 
     yield call(
       payload.commentId ?
-        ForumAPI.editComment.bind(ForumAPI, commentData, payload.commentId) :
+        ForumAPI.editComment.bind(ForumAPI, commentData, Number(payload.commentId)) :
         ForumAPI.createComment.bind(ForumAPI, commentData),
     );
 
@@ -184,7 +184,7 @@ function* fetchSendReaction({ payload }: ReturnType<typeof sendReactionAC>) {
   try {
     yield put(setFetchOnAC());
 
-    yield call(ForumAPI.sendReaction.bind(ForumAPI, payload.commentId, payload.reactionCode));
+    yield call(ForumAPI.sendReaction.bind(ForumAPI, Number(payload.commentId), Number(payload.reactionCode)));
 
     yield put(getCurrentTopicAC(payload.topicId));
     yield put(setFetchOffAC());

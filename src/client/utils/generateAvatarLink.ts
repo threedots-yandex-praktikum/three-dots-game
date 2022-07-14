@@ -1,6 +1,7 @@
-const _RESOURCES_URL = 'https://ya-praktikum.tech/api/v2/resources/';
+import {RESOURCES_URL} from "client/modules/api/httpTransport/constants";
+
 
 export function generateAvatarLink(avatar: unknown) {
-  const avatarLink = avatar ? `${_RESOURCES_URL}${avatar}` : undefined;
+  const avatarLink = avatar ? `${RESOURCES_URL}${avatar}` : undefined;
   return avatarLink;
 }

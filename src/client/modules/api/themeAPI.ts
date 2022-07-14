@@ -1,20 +1,21 @@
 import { HTTPTransport } from './httpTransport/httpTransport';
-import { userTheme } from '../../../server/models/user';
-import { THEME_ROUTE, USER_ROUTE } from '../../../server/router/constants';
+import { userTheme } from 'server/models/user';
 import axios from 'axios';
-import { BACKEND_PATH } from './httpTransport/constants';
+import {LOCAL_API_HOST} from "client/modules/api/httpTransport/constants";
+
+
+const USER_ROUTE = [LOCAL_API_HOST, 'user'].join('/');
+const THEME_ROUTE = [USER_ROUTE, 'theme'].join('/');
 
 class ThemeAPIClass {
   userHTTPTransportInstance: HTTPTransport;
 
   constructor() {
-    this.userHTTPTransportInstance = new HTTPTransport(
-      BACKEND_PATH + USER_ROUTE,
-    );
+    this.userHTTPTransportInstance = new HTTPTransport(USER_ROUTE);
   }
 
   async getTheme(id: number, first_name: string): Promise<userTheme> {
-    const response = await axios.get(BACKEND_PATH + USER_ROUTE + THEME_ROUTE, {
+    const response = await axios.get(THEME_ROUTE, {
       params: {
         id,
         first_name,
@@ -24,7 +25,7 @@ class ThemeAPIClass {
   }
 
   async changeTheme(theme: userTheme): Promise<userTheme> {
-    const response = await axios.put(BACKEND_PATH + USER_ROUTE + THEME_ROUTE, {
+    const response = await axios.put(THEME_ROUTE, {
       theme,
     });
 

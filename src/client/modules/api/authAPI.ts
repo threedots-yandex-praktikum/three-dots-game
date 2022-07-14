@@ -3,6 +3,7 @@ import {
   AUTH_API_ENDPOINTS,
   DEFAULT_POST_REQUEST_HEADERS,
   YANDEX_API_HOST,
+  YANDEX_CLOUD_HOST,
   YANDEX_OAUTH_HOST,
 } from './httpTransport/constants';
 import { TUserModelResponse } from 'client/modules/api/profileAPI';
@@ -66,7 +67,9 @@ class AuthAPIClass {
     return await this.authHTTPTransportInstance.get(
       AUTH_API_ENDPOINTS.OAUTH_SERVICE_ID,
       {
-        headers: DEFAULT_POST_REQUEST_HEADERS,
+        data: {
+          redirect_uri: YANDEX_CLOUD_HOST,
+        },
       },
     );
   }

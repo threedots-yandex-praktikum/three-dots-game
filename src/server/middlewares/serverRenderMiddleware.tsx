@@ -16,8 +16,9 @@ import { TProfileState } from 'client/store/reducers/profileReducer/types';
 import { setDarkAC, setLightAC } from '../../client/store/reducers/themeReducer/themeActionCreators';
 import { userTheme } from '../models/user';
 
-function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor) {
-  const scriptTags = chunkExtractor.getScriptTags();
+function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtractor, nonce: string) {
+  const scriptTags = chunkExtractor.getScriptTags({ nonce });
+  
   const linkTags = chunkExtractor.getLinkTags();
   const styleTags = chunkExtractor.getStyleTags();
   return `
@@ -36,7 +37,7 @@ function getHtml(reactHtml: string, reduxState = {}, chunkExtractor: ChunkExtrac
         <div id="root">${reactHtml}</div>
         ${scriptTags}
         
-        <script>
+        <script  nonce="${nonce}">
           window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
         </script>
 
@@ -48,6 +49,8 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
   const context: StaticRouterContext = {};
   const statsFile = path.resolve('./dist/loadable-stats.json');
   const chunkExtractor = new ChunkExtractor({ statsFile, entrypoints: 'app' });
+  const { nonce } = res.locals;
+  
   if (context.url) {
     res.redirect(context.url);
     return;
@@ -77,7 +80,7 @@ export const serverRenderMiddleware = (req: Request, res: Response) => {
 
     const reactHtml = renderToString(jsx);
     
-    const html = getHtml(reactHtml, store.getState(), chunkExtractor);
+    const html = getHtml(reactHtml, store.getState(), chunkExtractor, nonce);
     res
       .status(context.statusCode || 200)
       .send(html);

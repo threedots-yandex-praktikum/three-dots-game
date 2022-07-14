@@ -5,7 +5,7 @@ import { Background } from 'client/components/Background';
 import { HOME_ROUTE, LOGIN_ROUTE } from 'client/constants/routes';
 import { useHistory } from 'react-router';
 import { FormikProvider, useFormik } from 'formik';
-import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE } from './constants';
+import { REGISTER_FORM_SCHEMA, REGISTER_INITIAL_STATE,  validationSchema } from './constants';
 import { UserController } from 'client/controllers/UserController';
 import { Input } from 'client/components/Input';
 import { useAppSelector } from 'client/hooks/useAppSelector';
@@ -41,6 +41,7 @@ export const Register = () => {
   const formik = useFormik({
     initialValues: REGISTER_INITIAL_STATE,
     onSubmit,
+    validationSchema,
   });
 
   const { errors, touched, handleSubmit, handleChange, values } = formik;
@@ -78,7 +79,6 @@ export const Register = () => {
                       label,
                       type,
                       placeholder,
-                      validate,
                       gridProps = {},
                     }) => {
                       return (
@@ -87,7 +87,6 @@ export const Register = () => {
                             id={typeField}
                             label={label}
                             type={type}
-                            validate={validate}
                             placeholder={placeholder}
                             error={errors[typeField as keyof typeof errors]}
                             touched={touched[typeField as keyof typeof touched]}

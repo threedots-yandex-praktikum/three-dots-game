@@ -17,7 +17,7 @@ export const Input = ({
   id,
   label,
   error,
-  validate,
+  validate = ()=> undefined,
   touched,
   placeholder,
   value,
